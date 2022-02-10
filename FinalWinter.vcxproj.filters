@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="surface.cpp">
+      <Filter>template code</Filter>
+    </ClCompile>
+    <ClCompile Include="template.cpp">
+      <Filter>template code</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\newmath.cpp" />
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Room.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Spritesheet.cpp">
+      <Filter>Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Arrow.cpp">
+      <Filter>Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Projectile.cpp">
+      <Filter>Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\WeaponBase.cpp">
+      <Filter>Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\EnemyBase.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CollisionComponent.cpp" />
+    <ClCompile Include="Classes\Other.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game.h" />
+    <ClInclude Include="surface.h">
+      <Filter>template code</Filter>
+    </ClInclude>
+    <ClInclude Include="template.h">
+      <Filter>template code</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\newmath.h" />
+    <ClInclude Include="MapManager.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Room.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Spritesheet.h">
+      <Filter>Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Arrow.h">
+      <Filter>Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Projectile.h">
+      <Filter>Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\WeaponBase.h">
+      <Filter>Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\EnemyBase.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\CollisionComponent.h" />
+    <ClInclude Include="Classes\Other.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="template code">
+      <UniqueIdentifier>{bf32dd6e-4be7-4889-8ac6-49e7ee163c40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{68ad750f-b0f9-4d83-97d8-e0b71780217a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{a8b934d4-f46d-4a94-b26d-3326e51902ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RoomLayouts">
+      <UniqueIdentifier>{ad54ab90-8407-49cd-a5ef-801090cd26c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sprites">
+      <UniqueIdentifier>{042912ca-d03c-4085-821c-880c1ca6c011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapons">
+      <UniqueIdentifier>{940f772a-9083-4f71-8d37-19c6a104fe9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies">
+      <UniqueIdentifier>{3aef3a39-134f-4df0-8eb0-94a2b235a6a1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="_readme.txt">
+      <Filter>template code</Filter>
+    </Text>
+    <Text Include="Classes\RoomLayout\Room2.txt">
+      <Filter>RoomLayouts</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
