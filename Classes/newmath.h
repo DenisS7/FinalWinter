@@ -26,6 +26,16 @@ public:
 	static bool isIncluded(int n, int v[], int vsize);
 	static void clamp(int& n, int min, int max);
 	static int getIndex(int n, int v[], int vsize);
-	static void setRect(Rect& box, int nx, int ny, int nheight, int nwidth);
+	static Rect make_Rect(int nx, int ny, int nheight, int nwidth) 
+	{
+		Rect newRect;
+
+		newRect.x = nx;
+		newRect.y = ny;
+		newRect.height = nheight;
+		newRect.width = nwidth;
+		
+		return newRect;
+	}
 };
 

@@ -7,6 +7,7 @@
 
 #include "Classes/Spritesheet.h"
 #include "Classes/Other.h"
+#include "../Classes/CollisionCheck.h"
 
 
 
@@ -16,9 +17,11 @@ namespace GameSpace
 	// Initialize the application
 	// -----------------------------------------------------------
 
+
 	Map::MapManager manager;
 	Character::Player player;
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
+	CollisionCheck collisionManager;
 	//Spritesheet test("assets/Player/player_run.png", 4, 8);
 	//Sprite test(new Surface("assets/Player/player_run.png"), 8);
 
@@ -33,9 +36,8 @@ namespace GameSpace
 		srand((unsigned)time(&t));
 		manager.Initiate();
 		manager.GenerateFirstRoom();
-
 		player.Init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager);
-
+		
 		manager.setPlayer(&player);
 		
 		/*std::cout << "PR " << "GO " << "D " << "L " << "U " << "R " << std::endl;

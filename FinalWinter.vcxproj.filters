@@ -33,8 +33,13 @@
     <ClCompile Include="Classes\EnemyBase.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\CollisionComponent.cpp" />
     <ClCompile Include="Classes\Other.cpp" />
+    <ClCompile Include="Classes\CollisionCheck.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CollisionComponent.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -69,8 +74,13 @@
     <ClInclude Include="Classes\EnemyBase.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\CollisionComponent.h" />
     <ClInclude Include="Classes\Other.h" />
+    <ClInclude Include="Classes\CollisionCheck.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\CollisionComponent.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template code">
@@ -94,12 +104,21 @@
     <Filter Include="Enemies">
       <UniqueIdentifier>{3aef3a39-134f-4df0-8eb0-94a2b235a6a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{a160f1bd-d116-4c60-bcf7-4d7cfcc6379b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt">
       <Filter>template code</Filter>
     </Text>
     <Text Include="Classes\RoomLayout\Room2.txt">
+      <Filter>RoomLayouts</Filter>
+    </Text>
+    <Text Include="Classes\RoomLayout\Collisions.txt">
+      <Filter>RoomLayouts</Filter>
+    </Text>
+    <Text Include="Classes\RoomLayout\Portals.txt">
       <Filter>RoomLayouts</Filter>
     </Text>
   </ItemGroup>

@@ -29,24 +29,14 @@ void Room::InitiateRoom(int number, const std::vector <int> collisionTiles, cons
 	{
 		int x;
 		fin >> x;
-		layout[i] = x;
 		if (std::find(collisionTiles.begin(), collisionTiles.end(), x) != collisionTiles.end())
 			tiles.push_back(makeTile(x, collide, 0, true));
-		else if (std::find(portalTiles.begin(), portalTiles.end(), x) != portalTiles.end())
-			tiles.push_back(makeTile(x, portalInactive, 0, true));
 		else tiles.push_back(makeTile(x, nonCollide, 0, false));
 	}
 
 	fin.close();
 
 	tilesPerRow = tilemap.GetPitch() / tilesize;
-}
-
-void Room::addToRotatedTiles(int x, int rotation)
-{
-	rotatedTiles[rTilesNr] = x;
-	tileRotation[rTilesNr] = rotation;
-	rTilesNr++;
 }
 
 void Room::moveMap(int x, int y)
@@ -62,15 +52,8 @@ void Room::moveMap(int x, int y)
 
 void Room::ChangeDoorLayout()
 {
-	
-
-	//std::cout << roomNumber << std::endl;
 	if (doors[0]) //down
 	{	
-			//std::cout << roomNumber << " " << "DOWN" << std::endl;
-		layout[size.x / 2 - 1 + (size.y - 1) * size.x] = 164; // Replace 164 with const portal
-		layout[size.x / 2 - 1 + (size.y - 2) * size.x] = 191;
-
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].drawIndex = 164;
 		tiles[size.x / 2 - 1 + (size.y - 2) * size.x].drawIndex = 191;
 
@@ -78,17 +61,9 @@ void Room::ChangeDoorLayout()
 		tiles[size.x / 2 - 1 + (size.y - 2) * size.x].type = portalInactive;
 
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].rotate = tiles[size.x / 2 - 1 + (size.y - 2) * size.x].rotate = 2;
-
-
-
 	}
 	if (doors[2]) // up
 	{
-		
-			//std::cout << roomNumber << " " << "UP" << std::endl;
-		layout[size.x / 2 - 1 + size.x] = 164;
-		layout[size.x / 2 - 1 + 2 * size.x] = 191;
-
 		tiles[size.x / 2 - 1 + size.x].drawIndex = 164;
 		tiles[size.x / 2 - 1 + 2 * size.x].drawIndex = 191;
 
@@ -97,10 +72,6 @@ void Room::ChangeDoorLayout()
 	}
 	if (doors[1]) //left
 	{
-		
-			//std::cout << roomNumber << " " << "LEFT" << std::endl;
-	
-
 		tiles[(size.y / 2) * size.x].drawIndex = 164;
 		tiles[(size.y / 2) * size.x + 1].drawIndex = 191;
 
@@ -108,15 +79,9 @@ void Room::ChangeDoorLayout()
 		tiles[(size.y / 2) * size.x + 1].type = portalInactive;
 
 		tiles[(size.y / 2) * size.x].rotate = tiles[(size.y / 2) * size.x + 1].rotate = 1;
-
-
 	}
 	if (doors[3]) //right
 	{
-		
-			//std::cout << roomNumber << " " << "RIGHT" << std::endl;
-	
-
 		tiles[(size.y / 2) * size.x + size.x - 1].drawIndex = 164;
 		tiles[(size.y / 2) * size.x + size.x - 2].drawIndex = 191;
 
@@ -124,12 +89,7 @@ void Room::ChangeDoorLayout()
 		tiles[(size.y / 2) * size.x + size.x - 2].type = portalInactive;
 
 		tiles[(size.y / 2) * size.x + size.x - 1].rotate = tiles[(size.y / 2) * size.x + size.x - 2].rotate = 3;
-		
-		
 	}
-	
-	//for (int i = 0; i < 4; i++)
-		//std::cout << roomNumber << " " << doors[0] << " " << doors[1] << " " << doors[2] << " " << doors[3] << std::endl;
 }	
 
 void Room::CalculateDoors(int startDoor, bool CanClose, int beforeRoom)
@@ -175,7 +135,7 @@ int Room::CheckCollision(int x, int y)
 	int yTile = y;
 	if (tiles[xTile + yTile * size.x].type == collide)
 		return collide;
-	else if (tiles[xTile + yTile * size.x].type == portalInactive) //n
+	else if (tiles[xTile + yTile * size.x].type == portalInactive) 
 		return portalInactive;
 	return 0;
 }

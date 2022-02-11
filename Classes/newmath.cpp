@@ -33,10 +33,4 @@ int newmath::getIndex(int n, int v[], int vsize)
 	return -1;
 }
 
-void newmath::setRect(Rect& box, int nx, int ny, int nheight, int nwidth)
-{
-	box.x = nx;
-	box.y = ny;
-	box.height = nheight;
-	box.width = nwidth;
-}
+

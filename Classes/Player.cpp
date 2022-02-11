@@ -4,6 +4,8 @@
 #include <SDL.h>
 #include "../template.h"
 #include "newmath.h"
+#include "CollisionCheck.h"
+
 
 namespace Character
 {
@@ -13,7 +15,7 @@ namespace Character
 		sspaths[1].path = "assets/Player/player_idle.png";
 		sspaths[1].columns = 6;
 		sspaths[1].frameTime = 100.0f;
-		
+
 		sspaths[2].path = "assets/Player/player_run.png";
 		sspaths[2].columns = 8;
 		sspaths[2].frameTime = 100.0f;
@@ -26,18 +28,14 @@ namespace Character
 		sspaths[4].columns = 8;
 		sspaths[4].frameTime = 100.0f;
 
-	
-		
-
-		
-
-
 		sspaths[1].rows = sspaths[2].rows = sspaths[3].rows = sspaths[4].rows = sspaths[5].rows = 4;
 		currentSs.setDirection(0);
 		currentSs.setFrameTime(sspaths[1].frameTime);
 		updateScreen(newScreen);
 		updateRoom(newRoom);
 		updateMapManager(newMapManager);
+
+		collisionBox.setCollisionBox(loc.x + 14, loc.y + 14, 36, 36);
 	
 		weapon.Init(drawloc);
 	}
@@ -124,14 +122,6 @@ namespace Character
 		}
 	}
 
-	bool Player::canMove(int x, int y)
-	{
-		int xTile = (loc.x + x * currentRoom->tilesize);
-		int yTile = (loc.y + y * currentRoom->tilesize);
-		if(currentRoom->CheckCollision(xTile, yTile))
-			return false;
-		return true;
-	}
 
 	void Player::updateMapManager(Map::MapManager* newMapManager)
 	{
@@ -142,10 +132,14 @@ namespace Character
 	void Player::updateScreen(GameSpace::Surface* newScreen)
 	{
 		screen = newScreen;
-		middleScreen.x = (screen->GetWidth() - sprite.GetWidth()) / 2;
-		middleScreen.y = (screen->GetHeight() - sprite.GetWidth()) / 2;
-		loc.x = drawloc.x = middleScreen.x;
-		loc.y = drawloc.y = middleScreen.y;
+		middleScreen.x = screen->GetWidth() / 2 - sprite.GetWidth() / 2;
+		middleScreen.y = screen->GetHeight() / 2 - sprite.GetHeight() / 2;
+
+		loc.x =  middleScreen.x;
+		loc.y =  middleScreen.y;
+
+		drawloc.x = middleScreen.x ;
+		drawloc.y = middleScreen.y ;
 	}
 
 
@@ -233,13 +227,11 @@ namespace Character
 		
 	}
 
-	
-
 	void Player::addMovement(int x, int y)
 	{
 		int xMap = 0, yMap = 0;
 		
-		if (x > 0)
+		/*if (x > 0)
 		{
 			sign.x = 48;
 			if (loc.y % 32 < 16)
@@ -277,8 +269,16 @@ namespace Character
 
 		xMap = (loc.x + x + sign.x) / currentRoom->tilesize;
 		yMap = (loc.y + y + sign.y) / currentRoom->tilesize;
+		*/
 
-		int nextTile = currentRoom->CheckCollision(xMap, yMap);
+
+		loc.x += x;
+		loc.y += y;
+
+		collisionBox.collisionBox.x += x;
+		collisionBox.collisionBox.y += y;
+
+		int nextTile = CollisionCheck::isPlayerOverlapping(this, currentRoom);
 
 		if (nextTile == 0) //no collision
 		{
@@ -286,12 +286,19 @@ namespace Character
 				currentRoom->moveMap(x, y);
 			
 			
-			loc.x += x;
-			loc.y += y;
+
 			drawloc.x = loc.x - currentRoom->loc.x;
 			drawloc.y = loc.y - currentRoom->loc.y;
 		}
-		else if (nextTile == 2)
+		else if (nextTile == 1)
+		{
+			loc.x -= x;
+			loc.y -= y;
+
+			collisionBox.collisionBox.x -= x;
+			collisionBox.collisionBox.y -= y;
+		}
+		else if (nextTile == 3)
 		{
 			std::cout << "PORTAL" << std::endl;
 			if (x > 0 && loc.x > (currentRoom->size.x - 4) * currentRoom->tilesize)

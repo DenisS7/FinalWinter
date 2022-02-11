@@ -23,7 +23,7 @@ private:
 public:
 
 	newmath::ivec2 loc, drawloc, sign, middleScreen;
-	
+	CollisionComponent collisionBox;
 
 	int health;
 	const int run = 2, idle = 1, dead = 3, runWithGun = 4;
@@ -56,7 +56,6 @@ public:
 	void Init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager);
 	void checkIdle();
 	void checkDirection(int n);
-	bool canMove(int x, int y);
 	void updateMapManager(Map::MapManager* newMapManager);
 	void updateScreen(GameSpace::Surface* newScreen);
 	void updateRoom(Map::Room* newRoom);

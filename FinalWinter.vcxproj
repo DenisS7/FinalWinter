@@ -223,6 +223,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Classes\Arrow.cpp" />
+    <ClCompile Include="Classes\CollisionCheck.cpp" />
     <ClCompile Include="Classes\CollisionComponent.cpp" />
     <ClCompile Include="Classes\EnemyBase.cpp" />
     <ClCompile Include="Classes\newmath.cpp" />
@@ -239,6 +240,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Arrow.h" />
+    <ClInclude Include="Classes\CollisionCheck.h" />
     <ClInclude Include="Classes\CollisionComponent.h" />
     <ClInclude Include="Classes\EnemyBase.h" />
     <ClInclude Include="Classes\newmath.h" />
@@ -254,6 +256,8 @@
     <ClInclude Include="template.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Classes\RoomLayout\Collisions.txt" />
+    <Text Include="Classes\RoomLayout\Portals.txt" />
     <Text Include="Classes\RoomLayout\Room2.txt" />
     <Text Include="_readme.txt" />
   </ItemGroup>
