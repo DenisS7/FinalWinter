@@ -46,8 +46,8 @@ void Room::moveMap(int x, int y)
 	if (!newmath::inRange(loc.x, 0, size.x * tilesize - 800) || !newmath::inRange(loc.y, 0, size.y * tilesize * 512))
 		moved = false;
 	else moved = true;
-	newmath::clamp(loc.x, 0, size.x * tilesize - 800);
-	newmath::clamp(loc.y, 0, size.y * tilesize - 512);
+	loc.x = newmath::clamp(loc.x, 0, size.x * tilesize - 800);
+	loc.y = newmath::clamp(loc.y, 0, size.y * tilesize - 512);
 }
 
 void Room::ChangeDoorLayout()
@@ -57,8 +57,9 @@ void Room::ChangeDoorLayout()
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].drawIndex = 164;
 		tiles[size.x / 2 - 1 + (size.y - 2) * size.x].drawIndex = 191;
 
-		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = portalInactive;
-		tiles[size.x / 2 - 1 + (size.y - 2) * size.x].type = portalInactive;
+		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = portalActive;
+		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].colidable = true;
+		//tiles[size.x / 2 - 1 + (size.y - 2) * size.x].type = portalActive;
 
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].rotate = tiles[size.x / 2 - 1 + (size.y - 2) * size.x].rotate = 2;
 	}
@@ -67,16 +68,18 @@ void Room::ChangeDoorLayout()
 		tiles[size.x / 2 - 1 + size.x].drawIndex = 164;
 		tiles[size.x / 2 - 1 + 2 * size.x].drawIndex = 191;
 
-		tiles[size.x / 2 - 1 + size.x].type = portalInactive;
-		tiles[size.x / 2 - 1 + 2 * size.x].type = portalInactive;
+		tiles[size.x / 2 - 1 + size.x].type = portalActive;
+		tiles[size.x / 2 - 1 + size.x].colidable = true;
+		//tiles[size.x / 2 - 1 + 2 * size.x].type = portalActive;
 	}
 	if (doors[1]) //left
 	{
 		tiles[(size.y / 2) * size.x].drawIndex = 164;
 		tiles[(size.y / 2) * size.x + 1].drawIndex = 191;
 
-		tiles[(size.y / 2) * size.x].type = portalInactive;
-		tiles[(size.y / 2) * size.x + 1].type = portalInactive;
+		tiles[(size.y / 2) * size.x].type = portalActive;
+		tiles[(size.y / 2) * size.x].colidable = true;
+		//tiles[(size.y / 2) * size.x + 1].type = portalActive;
 
 		tiles[(size.y / 2) * size.x].rotate = tiles[(size.y / 2) * size.x + 1].rotate = 1;
 	}
@@ -85,8 +88,9 @@ void Room::ChangeDoorLayout()
 		tiles[(size.y / 2) * size.x + size.x - 1].drawIndex = 164;
 		tiles[(size.y / 2) * size.x + size.x - 2].drawIndex = 191;
 
-		tiles[(size.y / 2) * size.x + size.x - 1].type = portalInactive;
-		tiles[(size.y / 2) * size.x + size.x - 2].type = portalInactive;
+		tiles[(size.y / 2) * size.x + size.x - 1].type = portalActive;
+		tiles[(size.y / 2) * size.x + size.x - 1].colidable = true;
+		//tiles[(size.y / 2) * size.x + size.x - 2].type = portalActive;
 
 		tiles[(size.y / 2) * size.x + size.x - 1].rotate = tiles[(size.y / 2) * size.x + size.x - 2].rotate = 3;
 	}
@@ -135,8 +139,8 @@ int Room::CheckCollision(int x, int y)
 	int yTile = y;
 	if (tiles[xTile + yTile * size.x].type == collide)
 		return collide;
-	else if (tiles[xTile + yTile * size.x].type == portalInactive) 
-		return portalInactive;
+	else if (tiles[xTile + yTile * size.x].type == portalActive) 
+		return portalActive;
 	return 0;
 }
 
@@ -276,8 +280,10 @@ void Room::DrawMap(GameSpace::Surface* GameScreen)
 			int yDrawLoc = (y - start.y) * tilesize;
 
 			if (!tiles[y * 44 + x].rotate)
-				DrawTile(tx, ty, GameScreen, xDrawLoc, yDrawLoc);
-			else
+			{
+					DrawTile(tx, ty, GameScreen, xDrawLoc, yDrawLoc);
+			}
+			else 
 			{
 				DrawRotatedTile(tx, ty, GameScreen, xDrawLoc, yDrawLoc, tiles[y * 44 + x].rotate);
 			}

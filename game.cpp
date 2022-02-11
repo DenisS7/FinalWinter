@@ -106,10 +106,11 @@ namespace GameSpace
 		//keystate = SDL_GetKeyboardState(NULL);
 		Input();
 
-
+		
 
 		
 		manager.rooms[player.currentRoom->roomNumber].DrawMap(screen);
 		player.Update(deltaTime);
+
 	}
 };

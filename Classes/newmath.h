@@ -24,7 +24,7 @@ public:
 
 	static bool inRange(int n, int min, int max);
 	static bool isIncluded(int n, int v[], int vsize);
-	static void clamp(int& n, int min, int max);
+	static int clamp(int n, int min, int max);
 	static int getIndex(int n, int v[], int vsize);
 	static Rect make_Rect(int nx, int ny, int nheight, int nwidth) 
 	{
@@ -37,5 +37,7 @@ public:
 		
 		return newRect;
 	}
+	static int getSign(int n) { if (n < 0) return -1; if (n > 0) return 1; return 0; };
+	static bool isNegative(int n) { if (n < 0) return true; return false; };
 };
 

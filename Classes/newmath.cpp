@@ -17,12 +17,13 @@ bool newmath::isIncluded(int n, int v[], int vsize)
 	return false;
 }
 
-void newmath::clamp(int& n, int min, int max)
+int newmath::clamp(int n, int min, int max)
 {
 	if (n < min)
-		n = min;
+		return min;
 	else if (n > max)
-		n = max;
+		return max;
+	return n;
 }
 
 int newmath::getIndex(int n, int v[], int vsize)

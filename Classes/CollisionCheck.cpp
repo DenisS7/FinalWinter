@@ -2,10 +2,12 @@
 #include "newmath.h"
 #include <vector>
 #include "EnemyBase.h"
+#include <iostream>
+#include "../surface.h"
 
-int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* currentRoom)
+int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* currentRoom, GameSpace::Surface* screen, int xMove, int yMove)
 {
-	bool areEnemies = false;
+	screen->Clear(0);
 	bool isPortal = false;
 	int portalDirection = -1;
 	int collisionType = 0;
@@ -16,53 +18,48 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 	int portalActive = 3;
 	int enemies = 4;
 
-	const int radius = 1;
+	const int radius = 3;
 
 	newmath::ivec2 roomPos;
-	roomPos.x = (player->collisionBox.collisionBox.x + 18) / currentRoom->tilesize;
-	roomPos.y = (player->collisionBox.collisionBox.y + 18) / currentRoom->tilesize;
+
+	roomPos.x = player->loc.x / currentRoom->tilesize + 1;
+	roomPos.y = player->loc.y / currentRoom->tilesize + 1;
 
 	std::vector <int> enemyTiles;
 
-	int xoffset = 0;
-	int yoffset = 0;
+	newmath::ivec2 startPos;
 
-	for (int x = roomPos.x - radius; x <= roomPos.x + radius; x++, xoffset++)
+	startPos.x = newmath::clamp(roomPos.x, radius, currentRoom->size.x - radius - 1);
+	startPos.y = newmath::clamp(roomPos.y, radius, currentRoom->size.y - radius - 1);
+
+	for (int y = startPos.y - radius; y <= startPos.y + radius; y++)
 	{
-		for (int y = roomPos.y - radius; y <= roomPos.y + radius; y++, yoffset++)
+		for (int x = startPos.x - radius; x <= startPos.x + radius; x++)
 		{
+			//std::cout << roomPos.x << " " << roomPos.y << " " << x << " " << y << std::endl;
 			const int tilepos = x + y * currentRoom->size.x;
-			if (currentRoom->tiles[tilepos].type == nonCollide)
+			if (currentRoom->tiles[tilepos].type == collide)
 			{
-				if (!currentRoom->tiles[tilepos].entitiesOnTile.empty())
-				{
-					areEnemies = true; // another function determines the damage the player takes
-					enemyTiles.push_back(tilepos);
-				}
+				CollisionComponent actor2Col;
+				actor2Col.collisionBox = newmath::make_Rect(x * 32, y * 32, 32, 32);
+				screen->Box(x * 32 - player->currentRoom->loc.x, y * 32 - player->currentRoom->loc.y, x * 32 + 32 - player->currentRoom->loc.x, y * 32 + 32 - player->currentRoom->loc.y, 0xffffff);
+				if(checkEnemyCollision(player->collisionBox, actor2Col))
+					collisionType = collide, std::cout << "COLLISION ";
 			}
-			else if (currentRoom->tiles[tilepos].type == collide)
-				collisionType = collide;
 			else if (currentRoom->tiles[tilepos].type == portalActive)
 			{
-				isPortal = true;
-				if (y >= roomPos.y - 1 && y <= roomPos.y + 1)
-				{
-					if (x < roomPos.x)
-						portalDirection = 1;
-					else if (x > roomPos.x)
-						portalDirection = 3;
-				}
-				else if (x >= roomPos.x - 1 && x <= roomPos.x + 1)
-				{
-					if (y < roomPos.y)
-						portalDirection = 0;
-					else if (y > roomPos.y)
-						portalDirection = 2;
-				}
+				CollisionComponent actor2Col;
+				actor2Col.collisionBox = newmath::make_Rect(x * 32, y * 32, 32, 32);
+				screen->Box(x * 32 - player->currentRoom->loc.x, y * 32 - player->currentRoom->loc.y, x * 32 + 32 - player->currentRoom->loc.x, y * 32 + 32 - player->currentRoom->loc.y, 0xffffff);
+				if (checkEnemyCollision(player->collisionBox, actor2Col))
+					collisionType = collide, std::cout << "Portal", isPortal = true;
 			}
+			//
+			screen->Box(startPos.x * 32 - player->currentRoom->loc.x, startPos.y * 32 - player->currentRoom->loc.y, x * 32 - player->currentRoom->loc.x, y * 32 - player->currentRoom->loc.y, 0xff0000);
 		}
 	}
-	if (areEnemies)
+
+	/*if (areEnemies)
 	{
 		int damageTaken = 0;
 		for (int i = 0; i < enemyTiles.size(); i++)
@@ -74,9 +71,9 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 				if (checkEnemyCollision(player->collisionBox, currentRoom->tiles[enemyTiles[i]].entitiesOnTile[j]->collisionBox))
 					damageTaken += currentRoom->tiles[enemyTiles[i]].entitiesOnTile[j]->damageOnCollision;
 		}
-	}
+	}*/
 
-	if (portalDirection == player->directionFacing)
+	if (isPortal)
 		return portalActive;
 	return collisionType;
 }

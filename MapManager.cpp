@@ -159,7 +159,7 @@ namespace Map
 	void MapManager::GenerateFirstRoom()
 	{
 		exists[start.x + start.y * 7] = true;
-		rooms[start.x + start.y * 7].CalculateDoors(3, true, -1);
+		rooms[start.x + start.y * 7].CalculateDoors(2, true, -1);
 		bool possible[4] = { true };
 		for (int i = 0; i < 4; i++)
 		{

@@ -230,47 +230,6 @@ namespace Character
 	void Player::addMovement(int x, int y)
 	{
 		int xMap = 0, yMap = 0;
-		
-		/*if (x > 0)
-		{
-			sign.x = 48;
-			if (loc.y % 32 < 16)
-				sign.y = 32;
-			else sign.y = 48;
-			
-		}
-		else if (x < 0)
-		{
-			sign.x = 16;
-			
-			if (loc.y % 32 < 16)
-				sign.y = 32;
-			else sign.y = 48;
-			
-		}
-		 
-		if (y > 0)
-		{
-			sign.y = 48;
-			if (loc.x % 32 < 16)
-				sign.x = 48;
-			else sign.x = 31;
-		
-		}
-
-		else if (y < 0)
-		{
-			sign.y = 32;
-			if (loc.x % 32 < 16)
-				sign.x = 48;
-			else sign.x = 31;
-			
-		}
-
-		xMap = (loc.x + x + sign.x) / currentRoom->tilesize;
-		yMap = (loc.y + y + sign.y) / currentRoom->tilesize;
-		*/
-
 
 		loc.x += x;
 		loc.y += y;
@@ -278,7 +237,9 @@ namespace Character
 		collisionBox.collisionBox.x += x;
 		collisionBox.collisionBox.y += y;
 
-		int nextTile = CollisionCheck::isPlayerOverlapping(this, currentRoom);
+		int nextTile = CollisionCheck::isPlayerOverlapping(this, currentRoom, screen, x, y);
+
+		
 
 		if (nextTile == 0) //no collision
 		{
@@ -312,9 +273,13 @@ namespace Character
 				loc.x = currentRoom->tilesize - sprite.GetWidth() / 2 + currentRoom->tilesize / 2;
 				loc.y = (currentRoom->size.y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2; 
 
+				collisionBox.collisionBox.x = loc.x + 14;
+				collisionBox.collisionBox.y = loc.y + 14;
+
 				drawloc.x = loc.x - currentRoom->loc.x;
 				drawloc.y = loc.y - currentRoom->loc.y;
-				//std::cout << "Going Right: " << currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
+
+				std::cout << "Going Right: " << currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
 
 				//for (int i = 0; i < 4; i++)
 					//std::cout << currentRoom->doors[i] << " ";
@@ -331,9 +296,12 @@ namespace Character
 				loc.x = (currentRoom->size.x - 1) * currentRoom->tilesize - sprite.GetWidth() / 2 - currentRoom->tilesize / 2;
 				loc.y = (currentRoom->size.y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2; 
 
+				collisionBox.collisionBox.x = loc.x + 14;
+				collisionBox.collisionBox.y = loc.y + 14;
+
 				drawloc.x = loc.x - currentRoom->loc.x;
 				drawloc.y = loc.y - currentRoom->loc.y;
-				//std::cout << "Going Left: " << currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
+				std::cout << "Going Left: " << currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
 
 				//for (int i = 0; i < 4; i++)
 					//std::cout << currentRoom->doors[i] << " ";
@@ -350,11 +318,14 @@ namespace Character
 				loc.x = (currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2;
 				loc.y = 2 * currentRoom->tilesize - sprite.GetHeight() / 2 + currentRoom->tilesize / 2;
 
+				collisionBox.collisionBox.x = loc.x + 14;
+				collisionBox.collisionBox.y = loc.y + 14;
+
 				drawloc.x = loc.x - currentRoom->loc.x;
 				drawloc.y = loc.y - currentRoom->loc.y;
 
 
-				//std::cout << "Going Down: " << currentRoom->roomNumber << " Player x: " << loc.x << " Player y: " << loc.y << " Room: " <<  currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
+				std::cout << "Going Down: " << currentRoom->roomNumber << " Player x: " << loc.x << " Player y: " << loc.y << " Room: " <<  currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
 
 				//for (int i = 0; i < 4; i++)
 					//std::cout << currentRoom->doors[i] << " ";
@@ -371,16 +342,29 @@ namespace Character
 				loc.x = (currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2;
 				loc.y = (currentRoom->size.y - 1) * currentRoom->tilesize - sprite.GetHeight() / 2 - currentRoom->tilesize / 2; 
 
+				collisionBox.collisionBox.x = loc.x + 14;
+				collisionBox.collisionBox.y = loc.y + 14;
+
 				drawloc.x = loc.x - currentRoom->loc.x;
 				drawloc.y = loc.y - currentRoom->loc.y;
 
-				//std::cout << "Going Up: " << currentRoom->roomNumber << " Player x: " << loc.x << " Player y: " << loc.y << " Room: " << currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
+				std::cout << "Going Up: " << currentRoom->roomNumber << " Player x: " << loc.x << " Player y: " << loc.y << " Room: " << currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
 
 				//for (int i = 0; i < 4; i++)
 					//std::cout << currentRoom->doors[i] << " ";
 				//std::cout << std::endl;
 			}
-			std::cout << "Entered PORTAL" << std::endl;
+			else
+			{
+				if ((x && drawloc.x == middleScreen.x) || (y && drawloc.y == middleScreen.y))
+					currentRoom->moveMap(x, y);
+
+
+
+				drawloc.x = loc.x - currentRoom->loc.x;
+				drawloc.y = loc.y - currentRoom->loc.y;
+			}
+			//std::cout << "Entered PORTAL" << std::endl;
 		}	
 
 	}
@@ -403,14 +387,19 @@ namespace Character
 			currentSs.drawNextSprite(deltaTime, screen, drawloc.x, drawloc.y);
 			if (weapon.visible)
 				weapon.sprite.Draw(screen, drawloc.x, drawloc.y);
-			
+			screen->Box(collisionBox.collisionBox.x - currentRoom->loc.x, collisionBox.collisionBox.y - currentRoom->loc.y, collisionBox.collisionBox.x + collisionBox.collisionBox.width - currentRoom->loc.x, collisionBox.collisionBox.y + collisionBox.collisionBox.height - currentRoom->loc.y, 0xff0000);
+		
+			screen->Box(drawloc.x, drawloc.y, drawloc.x + 64, drawloc.y + 64, 0xff0000);
+
 		}
 		else
 		{
 			if (weapon.visible)
 				weapon.sprite.Draw(screen, drawloc.x, drawloc.y);
 			currentSs.drawNextSprite(deltaTime, screen, drawloc.x, drawloc.y);
-			
+			screen->Box(collisionBox.collisionBox.x - currentRoom->loc.x, collisionBox.collisionBox.y - currentRoom->loc.y, collisionBox.collisionBox.x + collisionBox.collisionBox.width - currentRoom->loc.x, collisionBox.collisionBox.y + collisionBox.collisionBox.height - currentRoom->loc.y, 0xff0000);
+		
+			screen->Box(drawloc.x, drawloc.y, drawloc.x + 64, drawloc.y + 64, 0xff0000);
 		}
 	}
 	
