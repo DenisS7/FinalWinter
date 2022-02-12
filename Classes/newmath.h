@@ -20,6 +20,8 @@ public:
 		int y;
 		int height;
 		int width;
+
+		friend Rect operator+(const Rect& a, const Rect& b) { return{ a.x + b.x, a.y + b.y, a.height + b.height, a.width + b.width }; }
 	};
 
 	static bool inRange(int n, int min, int max);
@@ -37,6 +39,7 @@ public:
 		
 		return newRect;
 	}
+	static ivec2 make_ivec2(int x, int y) { ivec2 a; a.x = x, a.y = y; return a; };
 	static int getSign(int n) { if (n < 0) return -1; if (n > 0) return 1; return 0; };
 	static bool isNegative(int n) { if (n < 0) return true; return false; };
 };

@@ -23,6 +23,8 @@ public:
 	newmath::ivec2 centre;
 	newmath::ivec2 loc, drawLoc;
 	CollisionComponent collisionBox;
+
+	void takeDamage(int damage);
 };
 
 }

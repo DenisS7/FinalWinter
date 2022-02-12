@@ -4,6 +4,13 @@
 #include "../Classes/Spritesheet.h"
 #include "../Classes/newmath.h"
 #include "../template.h"
+#include "../Classes/Arrow.h"
+#include <vector>
+
+namespace Character
+{
+	class Player;
+}
 
 namespace Weapon
 {
@@ -18,29 +25,29 @@ private:
 	const int crossbow = 5, snowball = 6, snowman = 7;
 	int weaponType = 5;
 	int speed = 1;
-
-
-
-	newmath::spriteData wpaths[10];
-
-public:
-	bool visible = false;
-
-	int directionFacing = 0;
 	
 
-	GameSpace::vec2 arrows[100];
+	
+
+public:
+
+	newmath::Rect arrowCol[4];
+	Character::Player* player;
+	bool visible = false;
+	std::vector <Arrow*> arrows;
+	int directionFacing = 0;
+	newmath::spriteData wpaths[10];
 
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Weapons/crossbow_down.png"), 1 };
 	
 
-	void Init(newmath::ivec2 newDrawLoc);
+	void Init(newmath::ivec2 newDrawLoc, Character::Player* newPlayer);
 	void changeDirection(int direction);
 	void changeWeapon(int newWeapon);
 	void changeVisibility(bool newVisible);
-	void shootArrows(int x, int y);
+	void shootArrows();
+	void deleteArrow(Arrow* endArrow);
 	void Update(float deltaTime);
-	
 };
 
 }

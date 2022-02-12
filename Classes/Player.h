@@ -45,6 +45,7 @@ public:
 	int currentState = 2;
 	int directionFacing = 0;
 	bool isHoldingGun = false;
+	bool isHoldingProjectile = false;
 
 	Spritesheet currentSs{ "assets/Player/player_idle.png", 4, 6, &sprite};
 	
@@ -69,6 +70,7 @@ public:
 	void addMovement(int x, int y);
 	void drawPlayer();
 	void equipWeapon(int type);
+	void shootProjectile(int type);
 	void Update(float deltaTime);
 	
 };

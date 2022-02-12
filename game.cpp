@@ -79,6 +79,8 @@ namespace GameSpace
 		case SDL_SCANCODE_E:
 			player.equipWeapon(x);
 			break;
+		case SDL_SCANCODE_R:
+			player.shootProjectile(5);
 		default:
 			break;
 		}
@@ -109,7 +111,7 @@ namespace GameSpace
 		
 
 		
-		manager.rooms[player.currentRoom->roomNumber].DrawMap(screen);
+		//manager.rooms[player.currentRoom->roomNumber].DrawMap(screen);
 		player.Update(deltaTime);
 
 	}

@@ -35,9 +35,12 @@ namespace Character
 		updateRoom(newRoom);
 		updateMapManager(newMapManager);
 
-		collisionBox.setCollisionBox(loc.x + 14, loc.y + 14, 36, 36);
-	
-		weapon.Init(drawloc);
+
+		collisionBox.setOffset(14, 12);
+		collisionBox.setCollisionBox(loc.x + collisionBox.offset.x, loc.y + collisionBox.offset.y, 36, 36);
+		
+
+		weapon.Init(drawloc, this);
 	}
 
 	void Player::checkIdle()
@@ -122,12 +125,10 @@ namespace Character
 		}
 	}
 
-
 	void Player::updateMapManager(Map::MapManager* newMapManager)
 	{
 		mapManager = newMapManager;
 	}
-
 
 	void Player::updateScreen(GameSpace::Surface* newScreen)
 	{
@@ -141,8 +142,6 @@ namespace Character
 		drawloc.x = middleScreen.x ;
 		drawloc.y = middleScreen.y ;
 	}
-
-
 
 	void Player::updateRoom(Map::Room* newRoom)
 	{
@@ -219,12 +218,36 @@ namespace Character
 		else if (type == crossbow)
 		{
 			isHoldingGun = true;
+			isHoldingProjectile = false;
 
 			weapon.changeVisibility(true);
 
 			checkIdle();
 		}
-		
+		else if (type == snowball)
+		{
+			isHoldingGun = false;
+			isHoldingProjectile = true;
+
+			weapon.changeVisibility(false);
+
+			checkIdle();
+		}
+		else if (type == snowman)
+		{
+			isHoldingGun = false;
+			isHoldingProjectile = true;
+
+			weapon.changeVisibility(false);
+
+			checkIdle();
+		}
+	}
+
+	void Player::shootProjectile(int type)
+	{
+		if (type == 5)
+			equipWeapon(crossbow), weapon.shootArrows();
 	}
 
 	void Player::addMovement(int x, int y)
@@ -237,9 +260,7 @@ namespace Character
 		collisionBox.collisionBox.x += x;
 		collisionBox.collisionBox.y += y;
 
-		int nextTile = CollisionCheck::isPlayerOverlapping(this, currentRoom, screen, x, y);
-
-		
+		int nextTile = CollisionCheck::isPlayerOverlapping(this, currentRoom);
 
 		if (nextTile == 0) //no collision
 		{
@@ -273,8 +294,8 @@ namespace Character
 				loc.x = currentRoom->tilesize - sprite.GetWidth() / 2 + currentRoom->tilesize / 2;
 				loc.y = (currentRoom->size.y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2; 
 
-				collisionBox.collisionBox.x = loc.x + 14;
-				collisionBox.collisionBox.y = loc.y + 14;
+				collisionBox.collisionBox.x = loc.x + collisionBox.offset.x;
+				collisionBox.collisionBox.y = loc.y + collisionBox.offset.y;
 
 				drawloc.x = loc.x - currentRoom->loc.x;
 				drawloc.y = loc.y - currentRoom->loc.y;
@@ -296,8 +317,8 @@ namespace Character
 				loc.x = (currentRoom->size.x - 1) * currentRoom->tilesize - sprite.GetWidth() / 2 - currentRoom->tilesize / 2;
 				loc.y = (currentRoom->size.y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2; 
 
-				collisionBox.collisionBox.x = loc.x + 14;
-				collisionBox.collisionBox.y = loc.y + 14;
+				collisionBox.collisionBox.x = loc.x + collisionBox.offset.x;
+				collisionBox.collisionBox.y = loc.y + collisionBox.offset.y;
 
 				drawloc.x = loc.x - currentRoom->loc.x;
 				drawloc.y = loc.y - currentRoom->loc.y;
@@ -318,8 +339,8 @@ namespace Character
 				loc.x = (currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2;
 				loc.y = 2 * currentRoom->tilesize - sprite.GetHeight() / 2 + currentRoom->tilesize / 2;
 
-				collisionBox.collisionBox.x = loc.x + 14;
-				collisionBox.collisionBox.y = loc.y + 14;
+				collisionBox.collisionBox.x = loc.x + collisionBox.offset.x;
+				collisionBox.collisionBox.y = loc.y + collisionBox.offset.y;
 
 				drawloc.x = loc.x - currentRoom->loc.x;
 				drawloc.y = loc.y - currentRoom->loc.y;
@@ -342,8 +363,8 @@ namespace Character
 				loc.x = (currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2;
 				loc.y = (currentRoom->size.y - 1) * currentRoom->tilesize - sprite.GetHeight() / 2 - currentRoom->tilesize / 2; 
 
-				collisionBox.collisionBox.x = loc.x + 14;
-				collisionBox.collisionBox.y = loc.y + 14;
+				collisionBox.collisionBox.x = loc.x + collisionBox.offset.x;
+				collisionBox.collisionBox.y = loc.y + collisionBox.offset.y;
 
 				drawloc.x = loc.x - currentRoom->loc.x;
 				drawloc.y = loc.y - currentRoom->loc.y;
@@ -369,14 +390,11 @@ namespace Character
 
 	}
 
-	
-
 	void Player::drawPlayer()
 	{
 		
 		
 	}
-
 
 	void Player::Update(float deltaTime)
 	{
@@ -386,20 +404,13 @@ namespace Character
 		{
 			currentSs.drawNextSprite(deltaTime, screen, drawloc.x, drawloc.y);
 			if (weapon.visible)
-				weapon.sprite.Draw(screen, drawloc.x, drawloc.y);
-			screen->Box(collisionBox.collisionBox.x - currentRoom->loc.x, collisionBox.collisionBox.y - currentRoom->loc.y, collisionBox.collisionBox.x + collisionBox.collisionBox.width - currentRoom->loc.x, collisionBox.collisionBox.y + collisionBox.collisionBox.height - currentRoom->loc.y, 0xff0000);
-		
-			screen->Box(drawloc.x, drawloc.y, drawloc.x + 64, drawloc.y + 64, 0xff0000);
-
+				weapon.Update(deltaTime);
 		}
 		else
 		{
 			if (weapon.visible)
-				weapon.sprite.Draw(screen, drawloc.x, drawloc.y);
+				weapon.Update(deltaTime);
 			currentSs.drawNextSprite(deltaTime, screen, drawloc.x, drawloc.y);
-			screen->Box(collisionBox.collisionBox.x - currentRoom->loc.x, collisionBox.collisionBox.y - currentRoom->loc.y, collisionBox.collisionBox.x + collisionBox.collisionBox.width - currentRoom->loc.x, collisionBox.collisionBox.y + collisionBox.collisionBox.height - currentRoom->loc.y, 0xff0000);
-		
-			screen->Box(drawloc.x, drawloc.y, drawloc.x + 64, drawloc.y + 64, 0xff0000);
 		}
 	}
 	

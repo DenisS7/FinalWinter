@@ -14,11 +14,21 @@ private:
 
 public:
 
-	GameSpace::vec2 loc, drawLoc;
+	newmath::ivec2 loc, drawLoc, move;
 	int direction, damage, speed;
-	GameSpace::Sprite sprite;
+	GameSpace::Sprite sprite{new GameSpace::Surface("assets/Weapons/arrow_down.png"), 1};
 	newmath::spriteData ppaths[6];
 	
+
+	Projectile()
+	{
+
+	}
+
+	~Projectile()
+	{
+
+	}
 
 	void Init();
 	void Spawn(newmath::ivec2 newLoc, newmath::ivec2 newDrawLoc, int newDirection);

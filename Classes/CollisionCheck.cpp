@@ -5,18 +5,79 @@
 #include <iostream>
 #include "../surface.h"
 
-int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* currentRoom, GameSpace::Surface* screen, int xMove, int yMove)
+
+
+
+int CollisionCheck::isOverlapping(CollisionComponent actorCollision, newmath::ivec2 actorPosition, Map::Room* currentRoom, int damage, GameSpace::Surface* screen)
 {
-	screen->Clear(0);
+	int collisionType = 0;
+	bool isEnemy = false;
+
+	const int nonCollide = 0;
+	const int collide = 1;
+	const int portalInactive = 2;
+	const int portalActive = 3;
+	const int enemy = 4;
+
+	const int radius = 1;
+
+	newmath::ivec2 roomPos;
+
+	roomPos.x = actorPosition.x / currentRoom->tilesize + 1;
+	roomPos.y = actorPosition.y / currentRoom->tilesize + 1;
+
+	std::vector <int> enemyTiles;
+
+	newmath::ivec2 startPos;
+
+	startPos.x = newmath::clamp(roomPos.x, radius, currentRoom->size.x - radius - 1);
+	startPos.y = newmath::clamp(roomPos.y, radius, currentRoom->size.y - radius - 1);
+
+	for (int y = startPos.y - radius; y <= startPos.y + radius; y++)
+	{
+		for (int x = startPos.x - radius; x <= startPos.x + radius; x++)
+		{
+			
+			
+			const int tilepos = x + y * currentRoom->size.x;
+			if (currentRoom->tiles[tilepos].colidable)
+			{
+				
+				CollisionComponent tileCol;
+				tileCol.collisionBox = newmath::make_Rect(x * 32, y * 32, 32, 32);
+				screen->Box(x * 32, y * 32, 32 , 32 , 0xffffff);
+				if (areColliding(actorCollision, tileCol))
+					collisionType = currentRoom->tiles[tilepos].type;
+				
+				if (!currentRoom->tiles[tilepos].entitiesOnTile.empty())
+				{
+					for (int i = 0; i < currentRoom->tiles[tilepos].entitiesOnTile.size(); i++)
+						if (areColliding(actorCollision, currentRoom->tiles[tilepos].entitiesOnTile[i]->collisionBox))
+						{
+							currentRoom->tiles[tilepos].entitiesOnTile[i]->takeDamage(damage);
+							isEnemy = true;
+						}
+				}
+			}
+		}
+	}
+	//screen->Clear(0);
+	
+	if (isEnemy)
+		return enemy;
+	else return collisionType;
+	return 0;
+}
+
+int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* currentRoom)
+{
 	bool isPortal = false;
-	int portalDirection = -1;
 	int collisionType = 0;
 
-	int nonCollide = 0;
-	int collide = 1;
-	int portalInactive = 2;
-	int portalActive = 3;
-	int enemies = 4;
+	const int nonCollide = 0;
+	const int collide = 1;
+	const int portalInactive = 2;
+	const int portalActive = 3;
 
 	const int radius = 3;
 
@@ -36,26 +97,18 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 	{
 		for (int x = startPos.x - radius; x <= startPos.x + radius; x++)
 		{
-			//std::cout << roomPos.x << " " << roomPos.y << " " << x << " " << y << std::endl;
 			const int tilepos = x + y * currentRoom->size.x;
-			if (currentRoom->tiles[tilepos].type == collide)
+			if (currentRoom->tiles[tilepos].colidable)
 			{
 				CollisionComponent actor2Col;
 				actor2Col.collisionBox = newmath::make_Rect(x * 32, y * 32, 32, 32);
-				screen->Box(x * 32 - player->currentRoom->loc.x, y * 32 - player->currentRoom->loc.y, x * 32 + 32 - player->currentRoom->loc.x, y * 32 + 32 - player->currentRoom->loc.y, 0xffffff);
-				if(checkEnemyCollision(player->collisionBox, actor2Col))
-					collisionType = collide, std::cout << "COLLISION ";
+
+				if (areColliding(player->collisionBox, actor2Col))
+					collisionType = currentRoom->tiles[tilepos].type;
+
+				if (collisionType == portalActive)
+					isPortal = true;
 			}
-			else if (currentRoom->tiles[tilepos].type == portalActive)
-			{
-				CollisionComponent actor2Col;
-				actor2Col.collisionBox = newmath::make_Rect(x * 32, y * 32, 32, 32);
-				screen->Box(x * 32 - player->currentRoom->loc.x, y * 32 - player->currentRoom->loc.y, x * 32 + 32 - player->currentRoom->loc.x, y * 32 + 32 - player->currentRoom->loc.y, 0xffffff);
-				if (checkEnemyCollision(player->collisionBox, actor2Col))
-					collisionType = collide, std::cout << "Portal", isPortal = true;
-			}
-			//
-			screen->Box(startPos.x * 32 - player->currentRoom->loc.x, startPos.y * 32 - player->currentRoom->loc.y, x * 32 - player->currentRoom->loc.x, y * 32 - player->currentRoom->loc.y, 0xff0000);
 		}
 	}
 
@@ -78,7 +131,7 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 	return collisionType;
 }
 
-bool CollisionCheck::checkEnemyCollision(CollisionComponent actor1, CollisionComponent actor2)
+bool CollisionCheck::areColliding(CollisionComponent actor1, CollisionComponent actor2)
 {
 	if (actor1.collisionBox.x < actor2.collisionBox.x + actor2.collisionBox.width &&
 		actor1.collisionBox.x + actor1.collisionBox.width > actor2.collisionBox.x &&

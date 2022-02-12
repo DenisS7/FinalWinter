@@ -5,4 +5,10 @@ void CollisionComponent::setCollisionBox(const int x, const int y, const int hei
 	collisionBox = newmath::make_Rect(x, y, height, width);
 }
 
+void CollisionComponent::setOffset(const int x, const int y)
+{
+	offset.x = x;
+	offset.y = y;
+}
+
 

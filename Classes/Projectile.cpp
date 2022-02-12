@@ -3,6 +3,7 @@
 
 namespace Weapon
 {
+
 	void Projectile::Init()
 	{
 	}

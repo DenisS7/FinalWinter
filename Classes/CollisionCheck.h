@@ -9,8 +9,10 @@
 class CollisionCheck
 {
 public:
-	static int isOverlapping(CollisionComponent actor, int actorType, newmath::ivec2 actorPosition, int direction);
-	static int isPlayerOverlapping(Character::Player *player, Map::Room* currentRoom, GameSpace::Surface* screen, int xMove, int yMove);
-	static bool checkEnemyCollision(CollisionComponent actor1, CollisionComponent actor2);
+
+	static int isOverlapping(CollisionComponent actorCollision, newmath::ivec2 actorPosition, Map::Room* currentRoom, int damage, GameSpace::Surface* screen);
+	static int isPlayerOverlapping(Character::Player *player, Map::Room* currentRoom);
+	static bool areColliding(CollisionComponent actor1, CollisionComponent actor2);
+
 };
 
