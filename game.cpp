@@ -60,29 +60,34 @@ namespace GameSpace
 
 	}
 
-	void Game::Input()
+	void Game::Input(float deltaTime)
 	{
-		player.moveDown(keystate[SDL_SCANCODE_DOWN]);
-		player.moveLeft(keystate[SDL_SCANCODE_LEFT]);
-		player.moveUp(keystate[SDL_SCANCODE_UP]);
-		player.moveRight(keystate[SDL_SCANCODE_RIGHT]);
+		player.moveDown(keystate[SDL_SCANCODE_DOWN], deltaTime);
+		player.moveLeft(keystate[SDL_SCANCODE_LEFT], deltaTime);
+		player.moveUp(keystate[SDL_SCANCODE_UP], deltaTime);
+		player.moveRight(keystate[SDL_SCANCODE_RIGHT], deltaTime);
 	}
 
 	void Game::KeyDown(int key)
 	{
-		int x;
-		if (player.isHoldingGun)
-			x = 0;
-		else x = 5;
-		switch (key)
+		std::cout << key << " " << SDL_SCANCODE_R << std::endl;
+		if (key != SDL_SCANCODE_DOWN && key != SDL_SCANCODE_LEFT && key != SDL_SCANCODE_UP && key != SDL_SCANCODE_RIGHT)
 		{
-		case SDL_SCANCODE_E:
-			player.equipWeapon(x);
-			break;
-		case SDL_SCANCODE_R:
-			player.shootProjectile(5);
-		default:
-			break;
+			int x;
+			if (player.isHoldingGun)
+				x = 0;
+			else x = 5;
+			std::cout << "KEY: " << key << std::endl;
+			switch (key)
+			{
+			case SDL_SCANCODE_E:
+				player.equipWeapon(x), std::cout << "E SHOOT" << std::endl;
+				break;
+			case SDL_SCANCODE_R:
+				player.shootProjectile(5), std::cout << "R SHOOT" << std::endl;
+			default:
+				break;
+			}
 		}
 	}
 
@@ -106,12 +111,12 @@ namespace GameSpace
 	void Game::Tick(float deltaTime)
 	{
 		//keystate = SDL_GetKeyboardState(NULL);
-		Input();
+		Input(deltaTime);
 
 		
 
 		
-		//manager.rooms[player.currentRoom->roomNumber].DrawMap(screen);
+		manager.rooms[player.currentRoom->roomNumber].DrawMap(screen);
 		player.Update(deltaTime);
 
 	}

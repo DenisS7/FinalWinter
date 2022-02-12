@@ -1,18 +1,24 @@
 #include "Arrow.h"
 #include "CollisionCheck.h"
 #include "../Classes/Room.h"
+#include <iostream>
 
 namespace Weapon
 {
 	void Arrow::Init(WeaponBase* newCrossbow)
 	{
 		crossbow = newCrossbow;
-		this->loc = crossbow->player->loc;
-		this->drawLoc = crossbow->player->drawloc;
+
+		locf.x = crossbow->player->locf.x;
+		locf.y = crossbow->player->locf.y;
+
+		drawLocf.x = drawLocf.x;
+		drawLocf.y = drawLocf.y;
+
 		direction = crossbow->player->directionFacing;
 		sprite.SetFile(new GameSpace::Surface(crossbow->wpaths[direction + 5].path), 1, 0);
 		
-		collision.collisionBox = newmath::make_Rect(loc.x, loc.y, 0, 0) + crossbow->arrowCol[direction];
+		collision.collisionBox = newmath::make_Rect((int)locf.x, (int)locf.y, 0, 0) + crossbow->arrowCol[direction];
 		
 		this->currentRoom = crossbow->player->currentRoom;
 		if (direction % 2 == 0)
@@ -27,21 +33,27 @@ namespace Weapon
 		}
 	}
 
-	void Arrow::UpdatePosition()
+	void Arrow::UpdatePosition(float deltaTime)
 	{
-		if (CollisionCheck::isOverlapping(collision, loc, currentRoom, 4, crossbow->player->screen))
+		if (CollisionCheck::isOverlapping(collision, locf, currentRoom, 4, crossbow->player->screen))
 		{
 			crossbow->deleteArrow(this);
 			delete this;
 		}
 		else
 		{
-			loc.x += move.x;
-			loc.y += move.y;
-			drawLoc.x = loc.x - currentRoom->loc.x;
-			drawLoc.y = loc.y - currentRoom->loc.y;
+
+			locf.x += speedf * deltaTime * move.x;
+			locf.y += speedf * deltaTime * move.y;
+
+			drawLocf.x = locf.x - (float)currentRoom->locf.x;
+			drawLocf.y = locf.y - (float)currentRoom->locf.y;
+
+			collision.collisionBox = newmath::make_Rect((int)locf.x, (int)locf.y, 0, 0) + crossbow->arrowCol[direction];
+
+			//std::cout << locf.x << " " << (int)locf.x << std::endl;
 			crossbow->player->screen->Box(collision.collisionBox.x, collision.collisionBox.y, collision.collisionBox.x + collision.collisionBox.width, collision.collisionBox.y + collision.collisionBox.height, 0xff0000);
-			sprite.Draw(crossbow->player->screen, drawLoc.x, drawLoc.y);
+			sprite.Draw(crossbow->player->screen, (int)drawLocf.x, (int)drawLocf.y);
 		}
 	}
 }

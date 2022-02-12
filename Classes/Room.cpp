@@ -39,15 +39,15 @@ void Room::InitiateRoom(int number, const std::vector <int> collisionTiles, cons
 	tilesPerRow = tilemap.GetPitch() / tilesize;
 }
 
-void Room::moveMap(int x, int y)
+void Room::moveMap(int x, int y, float deltaTime)
 {
-	loc.x += x;
-	loc.y += y;
-	if (!newmath::inRange(loc.x, 0, size.x * tilesize - 800) || !newmath::inRange(loc.y, 0, size.y * tilesize * 512))
+	locf.x += speed * x * deltaTime;
+	locf.y += speed * y * deltaTime;
+	if (!newmath::inRangef(locf.x, 0.0, (float)size.x * tilesize - 800) || !newmath::inRangef(locf.y, 0.0, (float)size.y * tilesize * 512))
 		moved = false;
 	else moved = true;
-	loc.x = newmath::clamp(loc.x, 0, size.x * tilesize - 800);
-	loc.y = newmath::clamp(loc.y, 0, size.y * tilesize - 512);
+	locf.x = newmath::clampf(locf.x, 0.0, (float)size.x * tilesize - 800);
+	locf.y = newmath::clampf(locf.y, 0.0, (float)size.y * tilesize - 512);
 }
 
 void Room::ChangeDoorLayout()
@@ -255,13 +255,13 @@ void Room::DrawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx
 
 void Room::DrawMap(GameSpace::Surface* GameScreen)
 {
-	offset.x = loc.x % tilesize;
-	offset.y = loc.y % tilesize;
+	offset.x = (int)locf.x % tilesize;
+	offset.y = (int)locf.y % tilesize;
 	
 	newmath::ivec2 start;
 
-	start.x = loc.x / tilesize;
-	start.y = loc.y / tilesize;
+	start.x = (int)locf.x / tilesize;
+	start.y = (int)locf.y / tilesize;
 	
 	if (start.x < 0)
 		start.x = 0;

@@ -42,7 +42,8 @@ public:
 
 	std::vector <tile> tiles;
 	
-	newmath::ivec2 loc, size, offset;
+	newmath::ivec2 size, offset;
+	GameSpace::vec2 locf;
 	int roomSize;
 	int tilesize = 32;
 
@@ -62,12 +63,14 @@ public:
 	const int portalInactive = 2;
 	const int portalActive = 3;
 
+	float speed;
+
 	Room() 
 	{
 		//InitiateRoom(0);
-		loc.x = loc.y = 0;
+		locf.x = locf.y = 0;
 		offset.x = offset.y = 0;
-
+		speed = 0.2f;
 		reachedEnd = false;
 		enemies = 0;
 	}
@@ -83,7 +86,7 @@ public:
 	}
 	void InitiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles);
 	
-	void moveMap(int x, int y);
+	void moveMap(int x, int y, float deltaTime);
 	void ChangeDoorLayout();
 	void CalculateDoors(int startDoor, bool CanClose, int beforeRoom);
 	void ResetDoors();

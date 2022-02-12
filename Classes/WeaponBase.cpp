@@ -2,11 +2,12 @@
 #include <algorithm>
 #include "Player.h"
 #include <iostream>
+#include "../template.h"
 
 namespace Weapon
 {
 
-	void WeaponBase::Init(newmath::ivec2 newDrawLoc, Character::Player* newPlayer)
+	void WeaponBase::Init(GameSpace::vec2 newDrawLocf, Character::Player* newPlayer)
 	{
 		player = newPlayer;
 		wpaths[1].path = "assets/Weapons/crossbow_down.png";
@@ -23,13 +24,14 @@ namespace Weapon
 
 		weaponType = 5;
 
-		drawLoc.x = newDrawLoc.x;
-		drawLoc.y = newDrawLoc.y;
-
-		arrowCol[1] = newmath::make_Rect(27, 31, 12, 22);
-		arrowCol[2] = newmath::make_Rect(11, 31, 22, 12);
-		arrowCol[3] = newmath::make_Rect(26, 13, 12, 22);
+		drawLocf.x = newDrawLocf.x;
+		drawLocf.y = newDrawLocf.y;
+		
 		arrowCol[0] = newmath::make_Rect(31, 31, 22, 12);
+		arrowCol[1] = newmath::make_Rect(18, 31, 12, 22);
+		arrowCol[2] = newmath::make_Rect(25, 20, 22, 12);
+		arrowCol[3] = newmath::make_Rect(13, 31, 12, 22);
+		
 		
 	}
 
@@ -64,9 +66,7 @@ namespace Weapon
 
 	void WeaponBase::Update(float deltaTime)
 	{
-		for (int i = 0; i < arrows.size(); i++)
-			arrows[i]->UpdatePosition();
-		sprite.Draw(player->screen, player->drawloc.x, player->drawloc.y);
+		sprite.Draw(player->screen, (int) player->drawLocf.x, (int)player->drawLocf.y);
 	}
 
 }

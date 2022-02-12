@@ -8,7 +8,7 @@
 
 
 
-int CollisionCheck::isOverlapping(CollisionComponent actorCollision, newmath::ivec2 actorPosition, Map::Room* currentRoom, int damage, GameSpace::Surface* screen)
+int CollisionCheck::isOverlapping(CollisionComponent actorCollision, GameSpace::vec2 actorPosition, Map::Room* currentRoom, int damage, GameSpace::Surface* screen)
 {
 	int collisionType = 0;
 	bool isEnemy = false;
@@ -23,8 +23,8 @@ int CollisionCheck::isOverlapping(CollisionComponent actorCollision, newmath::iv
 
 	newmath::ivec2 roomPos;
 
-	roomPos.x = actorPosition.x / currentRoom->tilesize + 1;
-	roomPos.y = actorPosition.y / currentRoom->tilesize + 1;
+	roomPos.x = (int) actorPosition.x / currentRoom->tilesize + 1;
+	roomPos.y = (int) actorPosition.y / currentRoom->tilesize + 1;
 
 	std::vector <int> enemyTiles;
 
@@ -66,6 +66,7 @@ int CollisionCheck::isOverlapping(CollisionComponent actorCollision, newmath::iv
 	if (isEnemy)
 		return enemy;
 	else return collisionType;
+
 	return 0;
 }
 
@@ -83,8 +84,8 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 
 	newmath::ivec2 roomPos;
 
-	roomPos.x = player->loc.x / currentRoom->tilesize + 1;
-	roomPos.y = player->loc.y / currentRoom->tilesize + 1;
+	roomPos.x = (int)player->locf.x / currentRoom->tilesize + 1;
+	roomPos.y = (int)player->locf.y / currentRoom->tilesize + 1;
 
 	std::vector <int> enemyTiles;
 

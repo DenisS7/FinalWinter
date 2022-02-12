@@ -22,7 +22,10 @@ private:
 
 public:
 
-	newmath::ivec2 loc, drawloc, sign, middleScreen;
+	newmath::ivec2 middleScreen;
+
+	GameSpace::vec2 locf, drawLocf;
+
 	CollisionComponent collisionBox;
 
 	int health;
@@ -37,7 +40,7 @@ public:
 		bool direction[4] = { 0 };
 		bool down = false, left = false, up = false, right = false;
 		bool side[4] = { 0 };
-		int speed = 1;
+		float speed = 0.2f;
 	} move;
 
 	newmath::spriteData sspaths[10];
@@ -49,7 +52,7 @@ public:
 
 	Spritesheet currentSs{ "assets/Player/player_idle.png", 4, 6, &sprite};
 	
-
+	const Uint8* keystate;
 	Map::Room* currentRoom;
 	Map::MapManager* mapManager;
 	GameSpace::Surface* screen;
@@ -60,14 +63,16 @@ public:
 	void updateMapManager(Map::MapManager* newMapManager);
 	void updateScreen(GameSpace::Surface* newScreen);
 	void updateRoom(Map::Room* newRoom);
-	void moveDown(bool down);
-	void moveLeft(bool left);
-	void moveUp(bool up);
-	void moveRight(bool right);
+	void updateKeystate(const Uint8* keystate);
+	void movePlayer(float deltaTime);
+	void moveDown(bool down, float deltaTime);
+	void moveLeft(bool left, float deltaTime);
+	void moveUp(bool up, float deltaTime);
+	void moveRight(bool right, float deltaTime);
 	void changeActionSprite(int x); // 1 - idle, 2 - run, 3 - dead
 	void InputDown(int key);
 	void InputUp(int key);
-	void addMovement(int x, int y);
+	void addMovement(int x, int y, float deltaTime);
 	void drawPlayer();
 	void equipWeapon(int type);
 	void shootProjectile(int type);

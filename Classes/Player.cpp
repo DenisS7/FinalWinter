@@ -37,10 +37,10 @@ namespace Character
 
 
 		collisionBox.setOffset(14, 12);
-		collisionBox.setCollisionBox(loc.x + collisionBox.offset.x, loc.y + collisionBox.offset.y, 36, 36);
+		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		
 
-		weapon.Init(drawloc, this);
+		weapon.Init(drawLocf, this);
 	}
 
 	void Player::checkIdle()
@@ -136,11 +136,13 @@ namespace Character
 		middleScreen.x = screen->GetWidth() / 2 - sprite.GetWidth() / 2;
 		middleScreen.y = screen->GetHeight() / 2 - sprite.GetHeight() / 2;
 
-		loc.x =  middleScreen.x;
-		loc.y =  middleScreen.y;
+		locf.x = (float)middleScreen.x;
+		locf.y = (float)middleScreen.y;
 
-		drawloc.x = middleScreen.x ;
-		drawloc.y = middleScreen.y ;
+		drawLocf.x = (float)middleScreen.x;
+		drawLocf.y = (float)middleScreen.y;
+
+		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 	}
 
 	void Player::updateRoom(Map::Room* newRoom)
@@ -148,50 +150,63 @@ namespace Character
 		currentRoom = newRoom;
 	}
 
-	void Player::moveDown(bool down)
+	void Player::updateKeystate(const Uint8* keystate)
+	{
+		this->keystate = keystate;
+	}
+
+	void Player::movePlayer(float deltaTime)
+	{
+		moveDown(keystate[SDL_SCANCODE_DOWN], deltaTime);
+		moveLeft(keystate[SDL_SCANCODE_LEFT], deltaTime);
+		moveUp(keystate[SDL_SCANCODE_UP], deltaTime);
+		moveRight(keystate[SDL_SCANCODE_RIGHT], deltaTime);
+	}
+
+	void Player::moveDown(bool down, float deltaTime)
 	{
 		move.side[0] = down;
 		if (down)
 		{
-			move.side[2] = false;
-			addMovement(0, 1);
+			//move.side[2] = false;
+			addMovement(0, 1, deltaTime);
 			checkDirection(0);
 		}
 		
 		checkIdle();
 	}
 
-	void Player::moveLeft(bool left)
+	void Player::moveLeft(bool left, float deltaTime)
 	{
 		move.side[1] = left;
 		if (left)
 		{
-			move.side[3] = false;
-			addMovement(-1, 0);
+			//move.side[3] = false;
+			addMovement(-1, 0, deltaTime);
 			checkDirection(1);
 		}
 		checkIdle();
 	}
 
-	void Player::moveUp(bool up)
+	void Player::moveUp(bool up, float deltaTime)
 	{
 		move.side[2] = up;
 		if (up)
 		{
-			move.side[0] = false;
-			addMovement(0, -1);
+			//move.side[0] = false;
+			addMovement(0, -1, deltaTime);
 			checkDirection(2);
 		}
 		checkIdle();
 	}
 
-	void Player::moveRight(bool right)
+	void Player::moveRight(bool right, float deltaTime)
 	{
 		move.side[3] = right;
 		if (right)
 		{
-			move.side[1] = false;
-			addMovement(1, 0);
+			//move.side[1] = false;
+			addMovement(1, 0, deltaTime);
 			checkDirection(3);
 		}
 		
@@ -246,130 +261,125 @@ namespace Character
 
 	void Player::shootProjectile(int type)
 	{
+		std::cout << "INPUT RECEIVED" << std::endl;
 		if (type == 5)
-			equipWeapon(crossbow), weapon.shootArrows();
+			equipWeapon(crossbow), weapon.shootArrows(), std::cout << "SHOOT";
 	}
 
-	void Player::addMovement(int x, int y)
+	void Player::addMovement(int x, int y, float deltaTime)
 	{
 		int xMap = 0, yMap = 0;
 
-		loc.x += x;
-		loc.y += y;
+		locf.x += move.speed * deltaTime * x;
+		locf.y += move.speed * deltaTime * y;
 
-		collisionBox.collisionBox.x += x;
-		collisionBox.collisionBox.y += y;
+		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 
 		int nextTile = CollisionCheck::isPlayerOverlapping(this, currentRoom);
 
 		if (nextTile == 0) //no collision
 		{
-			if ((x && drawloc.x == middleScreen.x) || (y && drawloc.y == middleScreen.y))
-				currentRoom->moveMap(x, y);
+			if ((x && newmath::inRangef(drawLocf.x, (float)middleScreen.x - 2, (float)middleScreen.x + 2)) || ((y && newmath::inRangef(drawLocf.y, (float)middleScreen.y - 2, (float)middleScreen.y + 2))))
+				currentRoom->moveMap(x, y, deltaTime);
 			
-			
-
-			drawloc.x = loc.x - currentRoom->loc.x;
-			drawloc.y = loc.y - currentRoom->loc.y;
+			drawLocf.x = locf.x - currentRoom->locf.x;
+			drawLocf.y = locf.y - currentRoom->locf.y;
 		}
 		else if (nextTile == 1)
 		{
-			loc.x -= x;
-			loc.y -= y;
 
-			collisionBox.collisionBox.x -= x;
-			collisionBox.collisionBox.y -= y;
+			locf.x -= move.speed * deltaTime * x;
+			locf.y -= move.speed * deltaTime * y;
+
+			
+			collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		}
 		else if (nextTile == 3)
 		{
-			std::cout << "PORTAL" << std::endl;
-			if (x > 0 && loc.x > (currentRoom->size.x - 4) * currentRoom->tilesize)
+			//std::cout << "PORTAL" << std::endl;
+			if (x > 0 && locf.x > (currentRoom->size.x - 4) * currentRoom->tilesize)
 			{
-				std::cout << "Going Right: " << currentRoom->roomNumber << " New x: " << currentRoom->roomNumber % mapManager->roomAm.x + 1 << std::endl;
+				//std::cout << "Going Right: " << currentRoom->roomNumber << " New x: " << currentRoom->roomNumber % mapManager->roomAm.x + 1 << std::endl;
 				currentRoom = mapManager->SwitchRoom(currentRoom->roomNumber % mapManager->roomAm.x + 1, currentRoom->roomNumber / mapManager->roomAm.x);
-				std::cout << "Switched Room" << std::endl;
-				currentRoom->loc.x = 0;
-				currentRoom->loc.y = (currentRoom->size.y / 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetHeight() / 2;
+				//std::cout << "Switched Room" << std::endl;
+				currentRoom->locf.x = 0;
+				currentRoom->locf.y = (float) ((currentRoom->size.y / 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetHeight() / 2);
 
-				loc.x = currentRoom->tilesize - sprite.GetWidth() / 2 + currentRoom->tilesize / 2;
-				loc.y = (currentRoom->size.y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2; 
+				locf.x = (float) (currentRoom->tilesize - sprite.GetWidth() / 2 + currentRoom->tilesize / 2);
+				locf.y = (float) ((currentRoom->size.y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2); 
 
-				collisionBox.collisionBox.x = loc.x + collisionBox.offset.x;
-				collisionBox.collisionBox.y = loc.y + collisionBox.offset.y;
+				collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 
-				drawloc.x = loc.x - currentRoom->loc.x;
-				drawloc.y = loc.y - currentRoom->loc.y;
+				drawLocf.x = locf.x - currentRoom->locf.x;
+				drawLocf.y = locf.y - currentRoom->locf.y;
 
-				std::cout << "Going Right: " << currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
+				//std::cout << "Going Right: " << currentRoom->roomNumber << " Room x: " << currentRoom->locf.x << " Room y: " << currentRoom->locf.y << std::endl;
 
 				//for (int i = 0; i < 4; i++)
 					//std::cout << currentRoom->doors[i] << " ";
 				//std::cout << std::endl;
 			}
-			else if (x < 0 && loc.x < 4 * currentRoom->tilesize)
+			else if (x < 0 && locf.x < 4 * currentRoom->tilesize)
 			{
-				std::cout << "Going Left: " << currentRoom->roomNumber << " New x: " << currentRoom->roomNumber % mapManager->roomAm.x - 1 << std::endl;
+				//std::cout << "Going Left: " << currentRoom->roomNumber << " New x: " << currentRoom->roomNumber % mapManager->roomAm.x - 1 << std::endl;
 				currentRoom = mapManager->SwitchRoom(currentRoom->roomNumber % mapManager->roomAm.x - 1, currentRoom->roomNumber / mapManager->roomAm.x);
-				std::cout << "Switched Room" << std::endl;
-				currentRoom->loc.x = (currentRoom->size.x - screen->GetWidth() / currentRoom->tilesize) * currentRoom->tilesize;
-				currentRoom->loc.y = (currentRoom->size.y / 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetHeight() / 2;
+				//std::cout << "Switched Room" << std::endl;
+				currentRoom->locf.x = (float)((currentRoom->size.x - screen->GetWidth() / currentRoom->tilesize) * currentRoom->tilesize);
+				currentRoom->locf.y = (float)((currentRoom->size.y / 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetHeight() / 2);
 
-				loc.x = (currentRoom->size.x - 1) * currentRoom->tilesize - sprite.GetWidth() / 2 - currentRoom->tilesize / 2;
-				loc.y = (currentRoom->size.y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2; 
+				locf.x = (float)((currentRoom->size.x - 1) * currentRoom->tilesize - sprite.GetWidth() / 2 - currentRoom->tilesize / 2);
+				locf.y = (float)((currentRoom->size.y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2);
 
-				collisionBox.collisionBox.x = loc.x + collisionBox.offset.x;
-				collisionBox.collisionBox.y = loc.y + collisionBox.offset.y;
+				collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 
-				drawloc.x = loc.x - currentRoom->loc.x;
-				drawloc.y = loc.y - currentRoom->loc.y;
-				std::cout << "Going Left: " << currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
+				drawLocf.x = locf.x - currentRoom->locf.x;
+				drawLocf.y = locf.y - currentRoom->locf.y;
+				//std::cout << "Going Left: " << currentRoom->roomNumber << " Room x: " << currentRoom->locf.x << " Room y: " << currentRoom->locf.y << std::endl;
 
 				//for (int i = 0; i < 4; i++)
 					//std::cout << currentRoom->doors[i] << " ";
 				//std::cout << std::endl;
 			}
-			else if (y > 0 && loc.y > (currentRoom->size.y - 4) * currentRoom->tilesize)
+			else if (y > 0 && locf.y > (currentRoom->size.y - 4) * currentRoom->tilesize)
 			{
-				std::cout << "Going Down: " << currentRoom->roomNumber << " New y: " << currentRoom->roomNumber / mapManager->roomAm.x + 1 << std::endl;
+				//std::cout << "Going Down: " << currentRoom->roomNumber << " New y: " << currentRoom->roomNumber / mapManager->roomAm.x + 1 << std::endl;
 				currentRoom = mapManager->SwitchRoom(currentRoom->roomNumber % mapManager->roomAm.x, currentRoom->roomNumber / mapManager->roomAm.x + 1);
-				std::cout << "Switched Room" << std::endl;
-				currentRoom->loc.x = (currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetWidth() / 2;
-				currentRoom->loc.y = 0;
+				//std::cout << "Switched Room" << std::endl;
+				currentRoom->locf.x = (float)((currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetWidth() / 2);
+				currentRoom->locf.y = 0;
 
-				loc.x = (currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2;
-				loc.y = 2 * currentRoom->tilesize - sprite.GetHeight() / 2 + currentRoom->tilesize / 2;
+				locf.x = (float)((currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2);
+				locf.y = (float)(2 * currentRoom->tilesize - sprite.GetHeight() / 2 + currentRoom->tilesize / 2);
 
-				collisionBox.collisionBox.x = loc.x + collisionBox.offset.x;
-				collisionBox.collisionBox.y = loc.y + collisionBox.offset.y;
+				collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 
-				drawloc.x = loc.x - currentRoom->loc.x;
-				drawloc.y = loc.y - currentRoom->loc.y;
+				drawLocf.x = locf.x - currentRoom->locf.x;
+				drawLocf.y = locf.y - currentRoom->locf.y;
 
 
-				std::cout << "Going Down: " << currentRoom->roomNumber << " Player x: " << loc.x << " Player y: " << loc.y << " Room: " <<  currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
+				//std::cout << "Going Down: " << currentRoom->roomNumber << " Player x: " << locf.x << " Player y: " << locf.y << " Room: " <<  currentRoom->roomNumber << " Room x: " << currentRoom->locf.x << " Room y: " << currentRoom->locf.y << std::endl;
 
 				//for (int i = 0; i < 4; i++)
 					//std::cout << currentRoom->doors[i] << " ";
 				//std::cout << std::endl;
 			}
-			else if (y < 0 && loc.y < 4 * currentRoom->tilesize)
+			else if (y < 0 && locf.y < 4 * currentRoom->tilesize)
 			{
-				std::cout << "Going Up: " << currentRoom->roomNumber << " New y: " << currentRoom->roomNumber / mapManager->roomAm.x - 1 << std::endl;
+				//std::cout << "Going Up: " << currentRoom->roomNumber << " New y: " << currentRoom->roomNumber / mapManager->roomAm.x - 1 << std::endl;
 				currentRoom = mapManager->SwitchRoom(currentRoom->roomNumber % mapManager->roomAm.x, currentRoom->roomNumber / mapManager->roomAm.x - 1);
-				std::cout << "Switched Room" << std::endl;
-				currentRoom->loc.x = (currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetWidth() / 2;
-				currentRoom->loc.y = (currentRoom->size.y - screen->GetHeight() / currentRoom->tilesize) * currentRoom->tilesize;
+				//std::cout << "Switched Room" << std::endl;
+				currentRoom->locf.x = (float)((currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetWidth() / 2);
+				currentRoom->locf.y = (float)((currentRoom->size.y - screen->GetHeight() / currentRoom->tilesize) * currentRoom->tilesize);
 
-				loc.x = (currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2;
-				loc.y = (currentRoom->size.y - 1) * currentRoom->tilesize - sprite.GetHeight() / 2 - currentRoom->tilesize / 2; 
+				locf.x = (float)((currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2);
+				locf.y = (float)((currentRoom->size.y - 1) * currentRoom->tilesize - sprite.GetHeight() / 2 - currentRoom->tilesize / 2);
 
-				collisionBox.collisionBox.x = loc.x + collisionBox.offset.x;
-				collisionBox.collisionBox.y = loc.y + collisionBox.offset.y;
+				collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 
-				drawloc.x = loc.x - currentRoom->loc.x;
-				drawloc.y = loc.y - currentRoom->loc.y;
+				drawLocf.x = locf.x - currentRoom->locf.x;
+				drawLocf.y = locf.y - currentRoom->locf.y;
 
-				std::cout << "Going Up: " << currentRoom->roomNumber << " Player x: " << loc.x << " Player y: " << loc.y << " Room: " << currentRoom->roomNumber << " Room x: " << currentRoom->loc.x << " Room y: " << currentRoom->loc.y << std::endl;
+				//std::cout << "Going Up: " << currentRoom->roomNumber << " Player x: " << locf.x << " Player y: " << locf.y << " Room: " << currentRoom->roomNumber << " Room x: " << currentRoom->locf.x << " Room y: " << currentRoom->locf.y << std::endl;
 
 				//for (int i = 0; i < 4; i++)
 					//std::cout << currentRoom->doors[i] << " ";
@@ -377,13 +387,11 @@ namespace Character
 			}
 			else
 			{
-				if ((x && drawloc.x == middleScreen.x) || (y && drawloc.y == middleScreen.y))
-					currentRoom->moveMap(x, y);
+				if ((x && (int) drawLocf.x == middleScreen.x) || (y && (int)drawLocf.y == middleScreen.y))
+					currentRoom->moveMap(x, y, deltaTime);
 
-
-
-				drawloc.x = loc.x - currentRoom->loc.x;
-				drawloc.y = loc.y - currentRoom->loc.y;
+				drawLocf.x = locf.x - currentRoom->locf.x;
+				drawLocf.y = locf.y - currentRoom->locf.y;
 			}
 			//std::cout << "Entered PORTAL" << std::endl;
 		}	
@@ -402,15 +410,19 @@ namespace Character
 
 		if (directionFacing == 0)
 		{
-			currentSs.drawNextSprite(deltaTime, screen, drawloc.x, drawloc.y);
+			currentSs.drawNextSprite(deltaTime, screen, drawLocf);
 			if (weapon.visible)
 				weapon.Update(deltaTime);
+			for (int i = 0; i < weapon.arrows.size(); i++)
+				weapon.arrows[i]->UpdatePosition(deltaTime);
 		}
 		else
 		{
 			if (weapon.visible)
 				weapon.Update(deltaTime);
-			currentSs.drawNextSprite(deltaTime, screen, drawloc.x, drawloc.y);
+			for (int i = 0; i < weapon.arrows.size(); i++)
+				weapon.arrows[i]->UpdatePosition(deltaTime);
+			currentSs.drawNextSprite(deltaTime, screen, drawLocf);
 		}
 	}
 	

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../surface.h"
+#include "../template.h"
 
 class Spritesheet
 {
@@ -14,7 +15,7 @@ public:
     void freezeFrame(int frame, bool isFreezed);
     void calculateNextFrame();
     void changeVisiblity(bool visible);
-    void drawNextSprite(float deltaTime, GameSpace::Surface* screen, int x, int y);
+    void drawNextSprite(float deltaTime, GameSpace::Surface* screen, GameSpace::vec2 drawLocf);
    // void Init(char* path, int row, int column);
 
     GameSpace::Surface image{"assets/Player/player_run.png"};

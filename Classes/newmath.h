@@ -1,4 +1,5 @@
 #pragma once
+#include "../Classes/CollisionComponent.h"
 
 class newmath
 {
@@ -15,6 +16,15 @@ public:
 		float frameTime;
 	};
 
+	struct projectileData {
+		float damage;
+		float speed;
+		float reloadTime;
+		int type;
+		CollisionComponent collision;
+		int direction;
+	};
+
 	struct Rect {
 		int x;
 		int y;
@@ -25,8 +35,10 @@ public:
 	};
 
 	static bool inRange(int n, int min, int max);
+	static bool inRangef(float n, float min, float max);
 	static bool isIncluded(int n, int v[], int vsize);
 	static int clamp(int n, int min, int max);
+	static float clampf(float n, float min, float max);
 	static int getIndex(int n, int v[], int vsize);
 	static Rect make_Rect(int nx, int ny, int nheight, int nwidth) 
 	{

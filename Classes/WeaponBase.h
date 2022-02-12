@@ -20,7 +20,7 @@ class WeaponBase
 
 private:
 
-	newmath::ivec2 drawLoc;
+	GameSpace::vec2 drawLocf;
 
 	const int crossbow = 5, snowball = 6, snowman = 7;
 	int weaponType = 5;
@@ -41,7 +41,7 @@ public:
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Weapons/crossbow_down.png"), 1 };
 	
 
-	void Init(newmath::ivec2 newDrawLoc, Character::Player* newPlayer);
+	void Init(GameSpace::vec2 newDrawLocf, Character::Player* newPlayer);
 	void changeDirection(int direction);
 	void changeWeapon(int newWeapon);
 	void changeVisibility(bool newVisible);

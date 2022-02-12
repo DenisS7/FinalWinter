@@ -71,7 +71,7 @@ void Spritesheet::changeVisiblity(bool newVisible)
     visible = newVisible;
 }
 
-void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface *screen, int x, int y)
+void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface *screen, GameSpace::vec2 drawLocf)
 {
     if (visible)
     {
@@ -85,7 +85,7 @@ void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface *screen, in
             currentTime -= frameTime;
             sprite->SetFrame(currentFrame);
         }
-        sprite->Draw(screen, x, y);
+        sprite->Draw(screen, (int)drawLocf.x, (int)drawLocf.y);
     }
 }
 
