@@ -1,5 +1,4 @@
 #pragma once
-#include "../Classes/CollisionComponent.h"
 
 class newmath
 {
@@ -21,9 +20,19 @@ public:
 		float speed;
 		float reloadTime;
 		int type;
-		CollisionComponent collision;
 		int direction;
 	};
+
+	struct chMove
+	{
+		bool direction[4] = { 0 };
+		bool down = false, left = false, up = false, right = false;
+		bool side[4] = { 0 };
+		float speed = 0.2f;
+	};
+
+
+
 
 	struct Rect {
 		int x;

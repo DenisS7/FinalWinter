@@ -27,11 +27,10 @@ namespace Weapon
 		drawLocf.x = newDrawLocf.x;
 		drawLocf.y = newDrawLocf.y;
 		
-		arrowCol[0] = newmath::make_Rect(31, 31, 22, 12);
+		arrowCol[0] = newmath::make_Rect(27, 23, 22, 12);
 		arrowCol[1] = newmath::make_Rect(18, 31, 12, 22);
 		arrowCol[2] = newmath::make_Rect(25, 20, 22, 12);
-		arrowCol[3] = newmath::make_Rect(13, 31, 12, 22);
-		
+		arrowCol[3] = newmath::make_Rect(23, 31, 12, 22);
 		
 	}
 

@@ -40,6 +40,7 @@
     <ClCompile Include="Classes\CollisionComponent.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\enemy_metalbox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -81,6 +82,7 @@
     <ClInclude Include="Classes\CollisionComponent.h">
       <Filter>Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\enemy_metalbox.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template code">

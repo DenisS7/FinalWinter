@@ -31,6 +31,7 @@ private:
 
 public:
 
+
 	newmath::Rect arrowCol[4];
 	Character::Player* player;
 	bool visible = false;

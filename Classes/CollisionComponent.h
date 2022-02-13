@@ -1,6 +1,6 @@
 #pragma once
 #include "../Classes/newmath.h"
-#include "../Classes/Room.h"
+
 
 class CollisionComponent
 {

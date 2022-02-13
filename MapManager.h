@@ -3,6 +3,7 @@
 #include "../template.h"
 #include "../Classes/newmath.h"
 #include <vector>
+#include "../Classes/CollisionComponent.h"
 
 
 namespace Character
@@ -52,7 +53,25 @@ public:
 	std::vector <int> collisionTiles;
 	std::vector <int> portalTiles;
 
+	struct typeEn
+	{
+		int type = 0;
+		float health = 100;
+		float damagePerAttack = 0;
+		float damageOnCol = 0;
+		float speed = 0.2;
+		CollisionComponent col;
+		int spritesheetsNr;
+		newmath::spriteData epaths[9];
+	} enemyTypes[5];
 
+	const char* enemyPath[5] = {
+	"Classes/Enemies/metalbox.txt",
+	"Classes/Enemies/deer.txt",
+	"Classes/Enemies/snowman.txt"
+	};
+
+	const int typesOfEnemies = 1;
 
 	Room rooms[100];
 	void Initiate();

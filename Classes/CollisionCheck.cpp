@@ -52,7 +52,7 @@ int CollisionCheck::isOverlapping(CollisionComponent actorCollision, GameSpace::
 				if (!currentRoom->tiles[tilepos].entitiesOnTile.empty())
 				{
 					for (int i = 0; i < currentRoom->tiles[tilepos].entitiesOnTile.size(); i++)
-						if (areColliding(actorCollision, currentRoom->tiles[tilepos].entitiesOnTile[i]->collisionBox))
+						if (areColliding(actorCollision, currentRoom->tiles[tilepos].entitiesOnTile[i]->data.col))
 						{
 							currentRoom->tiles[tilepos].entitiesOnTile[i]->takeDamage(damage);
 							isEnemy = true;

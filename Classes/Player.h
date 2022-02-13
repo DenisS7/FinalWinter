@@ -28,20 +28,16 @@ public:
 
 	CollisionComponent collisionBox;
 
-	int health;
+	float health;
 	const int run = 2, idle = 1, dead = 3, runWithGun = 4;
 	const int crossbow = 5, snowball = 6, snowman = 7;
 
 	GameSpace::Sprite sprite{new GameSpace::Surface("assets/Player/player_idle.png"), 24};
 	Weapon::WeaponBase weapon;
 
-	struct chMove
-	{
-		bool direction[4] = { 0 };
-		bool down = false, left = false, up = false, right = false;
-		bool side[4] = { 0 };
-		float speed = 0.2f;
-	} move;
+	
+	
+	newmath::chMove move;
 
 	newmath::spriteData sspaths[10];
 

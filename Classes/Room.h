@@ -2,6 +2,7 @@
 #include "../surface.h"
 #include "../template.h"
 #include "../Classes/newmath.h"
+#include "../Classes/CollisionComponent.h"
 #include <vector>
 
 
@@ -14,6 +15,7 @@ namespace Character
 namespace Map 
 {
 
+class MapManager;
 class Room
 {
 	
@@ -33,17 +35,23 @@ public:
 
 	struct tile
 	{
-		int drawIndex;
-		int type;
-		int rotate;
-		bool colidable;
+		int drawIndex = 0;
+		int type = 0;
+		int rotate = 0;
+		bool colidable = 0;
 		std::vector <Character::EnemyBase*> entitiesOnTile;
 	};
 
+
+
 	std::vector <tile> tiles;
+	std::vector <Character::EnemyBase*> enemiesInRoom;
 	
 	newmath::ivec2 size, offset;
 	GameSpace::vec2 locf;
+
+	Map::MapManager* manager;
+
 	int roomSize;
 	int tilesize = 32;
 
@@ -84,7 +92,7 @@ public:
 		newTile.colidable = colidable;
 		return newTile;
 	}
-	void InitiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles);
+	void InitiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, MapManager* newManager);
 	
 	void moveMap(int x, int y, float deltaTime);
 	void ChangeDoorLayout();

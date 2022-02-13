@@ -9,13 +9,6 @@ namespace Map
 
 	void MapManager::Initiate()
 	{
-		/*
-		start.x = IRand(7);
-		start.y = IRand(7);
-		finish.x = IRand(7);
-		finish.y = IRand(7);
-		*/
-
 		std::ifstream fin("Classes/RoomLayout/Collisions.txt");
 		fin >> nrColTiles;
 		for (int i = 0; i < nrColTiles; i++)
@@ -36,6 +29,26 @@ namespace Map
 		}
 		pin.close();
 
+		for (int i = 0; i < typesOfEnemies; i++)
+		{
+			std::ifstream ein(enemyPath[i]);
+			ein >> enemyTypes[i].type >> enemyTypes[i].health;
+			ein >> enemyTypes[i].damagePerAttack >> enemyTypes[i].damageOnCol >> enemyTypes[i].speed;
+			int x, y, h, w;
+			ein >> x >> y >> h >> w;
+			enemyTypes[i].col.collisionBox = newmath::make_Rect(x, y, h, w);
+			ein >> enemyTypes[i].spritesheetsNr;
+			for (int j = 0; j < enemyTypes[i].spritesheetsNr; j++)
+			{
+				ein >> enemyTypes[i].epaths[j].rows;
+				ein >> enemyTypes[i].epaths[j].columns;
+				ein >> enemyTypes[i].epaths[j].frameTime;
+			}
+		}
+
+		enemyTypes[0].epaths[0].path = "assets/Enemies/metalgift/metalgift_idle";
+		enemyTypes[0].epaths[1].path = "assets/Enemies/metalgift/metalgift_run";
+		enemyTypes[0].epaths[2].path = "assets/Enemies/metalgift/metalgift_explosion";
 
 		roomAm.x = 7;
 		roomAm.y = 7;
@@ -45,7 +58,7 @@ namespace Map
 		finish.x = 1;
 		finish.y = 1;
 		for (int i = 0; i < 49; i++)
-			rooms[i].InitiateRoom(i, collisionTiles, portalTiles);
+			rooms[i].InitiateRoom(i, collisionTiles, portalTiles, this);
 	}
 
 	void MapManager::addToNextRooms(int x, int y, int startingDoor, bool canClose)

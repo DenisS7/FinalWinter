@@ -14,12 +14,15 @@ namespace Map
 {
 
 
-void Room::InitiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles)
+void Room::InitiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, Map::MapManager* newManager)
 {	
 	roomNumber = number;
 	type = Fight;
 	level = 2;
 
+	manager = newManager;
+
+	
 	std::ifstream fin("Classes/RoomLayout/Room2.txt");
 	fin >> size.x >> size.y;
 

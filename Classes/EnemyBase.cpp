@@ -1,5 +1,19 @@
 #include "EnemyBase.h"
 
-void Character::EnemyBase::takeDamage(int damage)
+namespace Character
 {
+	void EnemyBase::Init(int newType)
+	{
+		
+	}
+
+	void EnemyBase::takeDamage(int damage)
+	{
+
+	}
+
+	void EnemyBase::die()
+	{
+	}
+
 }
