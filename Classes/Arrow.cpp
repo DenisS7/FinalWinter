@@ -33,12 +33,17 @@ namespace Weapon
 		}
 	}
 
+	void Arrow::deleteArrow()
+	{
+		crossbow->deleteArrow(this);
+		delete this;
+	}
+
 	void Arrow::UpdatePosition(float deltaTime)
 	{
 		if (CollisionCheck::isOverlapping(collision, locf, currentRoom, 4, crossbow->player->screen))
 		{
-			crossbow->deleteArrow(this);
-			delete this;
+			deleteArrow();
 		}
 		else
 		{
@@ -46,8 +51,8 @@ namespace Weapon
 			locf.x += speedf * deltaTime * move.x;
 			locf.y += speedf * deltaTime * move.y;
 
-			drawLocf.x += speedf * deltaTime * move.x;
-			drawLocf.y += speedf * deltaTime * move.y;
+			drawLocf.x = locf.x - currentRoom->locf.x + speedf * deltaTime * move.x;
+			drawLocf.y = locf.y - currentRoom->locf.y + speedf * deltaTime * move.y;
 
 			collision.collisionBox = newmath::make_Rect((int)locf.x, (int)locf.y, 0, 0) + crossbow->arrowCol[direction];
 
@@ -56,4 +61,6 @@ namespace Weapon
 			sprite.Draw(crossbow->player->screen, (int)drawLocf.x, (int)drawLocf.y);
 		}
 	}
+
+
 }

@@ -61,6 +61,11 @@ namespace Map
 			rooms[i].InitiateRoom(i, collisionTiles, portalTiles, this);
 	}
 
+	void MapManager::setPlayer(Character::Player* newPlayer)
+	{
+		player = newPlayer;
+	}
+
 	void MapManager::addToNextRooms(int x, int y, int startingDoor, bool canClose)
 	{
 		nextRooms[newRooms][0] = x;

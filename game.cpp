@@ -9,7 +9,7 @@
 #include "Classes/Other.h"
 #include "../Classes/CollisionCheck.h"
 
-
+#include "Classes/APath.h"
 
 namespace GameSpace
 {
@@ -17,11 +17,12 @@ namespace GameSpace
 	// Initialize the application
 	// -----------------------------------------------------------
 
-
+	APath pathFinder;
 	Map::MapManager manager;
 	Character::Player player;
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
 	CollisionCheck collisionManager;
+	std::vector <newmath::ivec2> path;
 	//Spritesheet test("assets/Player/player_run.png", 4, 8);
 	//Sprite test(new Surface("assets/Player/player_run.png"), 8);
 
@@ -34,11 +35,15 @@ namespace GameSpace
 		//test.Init("assets/Player/player_run.png", 4, 8);
 		time_t t;
 		srand((unsigned)time(&t));
+		manager.setPlayer(&player);
 		manager.Initiate();
 		manager.GenerateFirstRoom();
 		player.Init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager);
+		path = pathFinder.findPath(newmath::make_ivec2(13, 2), newmath::make_ivec2(18, 4), &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x]);
 		
-		manager.setPlayer(&player);
+		std::cout << "Pathsize" << path.size() << std::endl;
+
+	
 		
 		/*std::cout << "PR " << "GO " << "D " << "L " << "U " << "R " << std::endl;
 
@@ -70,14 +75,14 @@ namespace GameSpace
 
 	void Game::KeyDown(int key)
 	{
-		std::cout << key << " " << SDL_SCANCODE_R << std::endl;
+		//std::cout << key << " " << SDL_SCANCODE_R << std::endl;
 		if (key != SDL_SCANCODE_DOWN && key != SDL_SCANCODE_LEFT && key != SDL_SCANCODE_UP && key != SDL_SCANCODE_RIGHT)
 		{
 			int x;
 			if (player.isHoldingGun)
 				x = 0;
 			else x = 5;
-			std::cout << "KEY: " << key << std::endl;
+			//std::cout << "KEY: " << key << std::endl;
 			switch (key)
 			{
 			case SDL_SCANCODE_E:
@@ -112,12 +117,11 @@ namespace GameSpace
 	{
 		//keystate = SDL_GetKeyboardState(NULL);
 		Input(deltaTime);
-
-		
-
 		
 		manager.rooms[player.currentRoom->roomNumber].DrawMap(screen);
 		player.Update(deltaTime);
+		for (int i = 0; i < path.size(); i++)
+			std::cout << path[i].x << " " << path[i].y << std::endl, screen->Box(path[i].x * 32, path[i].y * 32, path[i].x * 32 + 32, path[i].y * 32 + 32, 0xff0000);
 
 	}
 };

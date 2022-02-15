@@ -25,6 +25,7 @@ public:
     int direction;
 
     void Init(WeaponBase* newCrossbow);
+    void deleteArrow();
     void UpdatePosition(float deltaTime);
 };
 

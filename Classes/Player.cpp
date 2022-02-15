@@ -215,7 +215,7 @@ namespace Character
 
 	void Player::changeActionSprite(int x)
 	{
-		sprite.SetFile(new GameSpace::Surface(sspaths[x].path), sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
+		sprite.SetFile(&GameSpace::Surface(sspaths[x].path), sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
 		currentSs.setFrameTime(sspaths[x].frameTime);
 	}	
 
@@ -315,6 +315,9 @@ namespace Character
 
 				//std::cout << "Going Right: " << currentRoom->roomNumber << " Room x: " << currentRoom->locf.x << " Room y: " << currentRoom->locf.y << std::endl;
 
+				for (int i = 0; i < weapon.arrows.size(); i++)
+					weapon.arrows[i]->deleteArrow();
+				weapon.arrows.clear();
 				//for (int i = 0; i < 4; i++)
 					//std::cout << currentRoom->doors[i] << " ";
 				//std::cout << std::endl;
@@ -336,6 +339,9 @@ namespace Character
 				drawLocf.y = locf.y - currentRoom->locf.y;
 				//std::cout << "Going Left: " << currentRoom->roomNumber << " Room x: " << currentRoom->locf.x << " Room y: " << currentRoom->locf.y << std::endl;
 
+				for (int i = 0; i < weapon.arrows.size(); i++)
+					weapon.arrows[i]->deleteArrow();
+				weapon.arrows.clear();
 				//for (int i = 0; i < 4; i++)
 					//std::cout << currentRoom->doors[i] << " ";
 				//std::cout << std::endl;
@@ -356,7 +362,9 @@ namespace Character
 				drawLocf.x = locf.x - currentRoom->locf.x;
 				drawLocf.y = locf.y - currentRoom->locf.y;
 
-
+				for (int i = 0; i < weapon.arrows.size(); i++)
+					weapon.arrows[i]->deleteArrow();
+				weapon.arrows.clear();
 				//std::cout << "Going Down: " << currentRoom->roomNumber << " Player x: " << locf.x << " Player y: " << locf.y << " Room: " <<  currentRoom->roomNumber << " Room x: " << currentRoom->locf.x << " Room y: " << currentRoom->locf.y << std::endl;
 
 				//for (int i = 0; i < 4; i++)
@@ -379,6 +387,9 @@ namespace Character
 				drawLocf.x = locf.x - currentRoom->locf.x;
 				drawLocf.y = locf.y - currentRoom->locf.y;
 
+				for (int i = 0; i < weapon.arrows.size(); i++)
+					weapon.arrows[i]->deleteArrow();
+				weapon.arrows.clear();
 				//std::cout << "Going Up: " << currentRoom->roomNumber << " Player x: " << locf.x << " Player y: " << locf.y << " Room: " << currentRoom->roomNumber << " Room x: " << currentRoom->locf.x << " Room y: " << currentRoom->locf.y << std::endl;
 
 				//for (int i = 0; i < 4; i++)

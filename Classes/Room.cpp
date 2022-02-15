@@ -6,7 +6,8 @@
 #include "newmath.h"
 #include <algorithm>
 #include <vector>
-
+#include "../MapManager.h"
+#include "Player.h"
 
 
 
@@ -21,7 +22,7 @@ void Room::InitiateRoom(int number, const std::vector <int> collisionTiles, cons
 	level = 2;
 
 	manager = newManager;
-
+	player = newManager->player;
 	
 	std::ifstream fin("Classes/RoomLayout/Room2.txt");
 	fin >> size.x >> size.y;
@@ -41,6 +42,22 @@ void Room::InitiateRoom(int number, const std::vector <int> collisionTiles, cons
 
 	tilesPerRow = tilemap.GetPitch() / tilesize;
 }
+
+bool Room::isTileValid(newmath::ivec2 tile)
+{
+	return false;
+}
+
+void Room::getAdjTile(Atile tile, newmath::ivec2 nextTile)
+{
+	newmath::ivec2 neighbour = tile.position + nextTile;
+	if (isTileValid(neighbour))
+	{
+		
+	}
+}
+
+
 
 void Room::moveMap(int x, int y, float deltaTime)
 {

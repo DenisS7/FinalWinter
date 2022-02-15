@@ -40,7 +40,10 @@
     <ClCompile Include="Classes\CollisionComponent.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\enemy_metalbox.cpp" />
+    <ClCompile Include="Classes\enemy_metalbox.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\APath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -82,7 +85,10 @@
     <ClInclude Include="Classes\CollisionComponent.h">
       <Filter>Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\enemy_metalbox.h" />
+    <ClInclude Include="Classes\enemy_metalbox.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\APath.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template code">

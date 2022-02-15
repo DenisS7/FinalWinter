@@ -42,11 +42,14 @@ public:
 	int type;
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_idle.png"), 1 };
 	Map::Room* currentRoom;
-	GameSpace::vec2 loc, drawLoc;
+	GameSpace::vec2 locf, drawLocf;
+	newmath::chMove move;
 
 	void Init(int newType);
 	void takeDamage(int damage);
 	void die();
+	void update(float deltaTime);
+	void followPlayer();
 };
 
 }

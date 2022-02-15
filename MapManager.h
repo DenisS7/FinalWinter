@@ -61,7 +61,7 @@ public:
 		float damageOnCol = 0;
 		float speed = 0.2;
 		CollisionComponent col;
-		int spritesheetsNr;
+		int spritesheetsNr = 0;
 		newmath::spriteData epaths[9];
 	} enemyTypes[5];
 
@@ -75,9 +75,10 @@ public:
 
 	Room rooms[100];
 	void Initiate();
+	void setPlayer(Character::Player* newPlayer);
 	void addToNextRooms(int x, int y, int startingDoor, bool canClose);
 	bool CanCreateNewRoom(int x, int y);
-	void setPlayer(Character::Player* newPlayer) { player = newPlayer; };
+	
 	void calcNewRoom(int i, int x, int y, bool canClose, bool& generated);
 	void CalculateRoute(int room);
 	void GenerateFirstRoom();
