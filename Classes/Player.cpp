@@ -82,6 +82,14 @@ namespace Character
 		}
 	}
 
+	newmath::ivec2 Player::getCurrentPos()
+	{
+		int x = ((int)locf.x + collisionBox.collisionBox.width / 2) / currentRoom->tilesize;
+		int y = ((int)locf.y + collisionBox.collisionBox.height) / currentRoom->tilesize;
+		newmath::ivec2 pos = newmath::make_ivec2(x, y);
+		return pos;
+	}
+
 	void Player::checkDirection(int n)
 	{
 		/*if (move.side[0] || move.side[1] || move.side[2] || move.side[3])
@@ -279,7 +287,7 @@ namespace Character
 
 		if (nextTile == 0) //no collision
 		{
-			if ((x && newmath::inRangef(drawLocf.x, (float)middleScreen.x - 2, (float)middleScreen.x + 2)) || ((y && newmath::inRangef(drawLocf.y, (float)middleScreen.y - 2, (float)middleScreen.y + 2))))
+			if ((x && newmath::inRangef(drawLocf.x, (float)middleScreen.x - 4, (float)middleScreen.x + 4)) || ((y && newmath::inRangef(drawLocf.y, (float)middleScreen.y - 4, (float)middleScreen.y + 4))))
 				currentRoom->moveMap(x, y, deltaTime);
 			
 			drawLocf.x = locf.x - currentRoom->locf.x;

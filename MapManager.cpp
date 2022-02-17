@@ -89,6 +89,12 @@ namespace Map
 		return true;
 	}
 
+	void MapManager::initiateEnemiesInRooms()
+	{
+		for (int i = 0; i < actualRooms; i++)
+			rooms[i].InititateEnemies();
+	}
+
 	void MapManager::calcNewRoom(int i, int x, int y, bool canClose, bool& generated)
 	{
 		if (i % 2 == 0)

@@ -9,7 +9,6 @@
 #include "Classes/Other.h"
 #include "../Classes/CollisionCheck.h"
 
-#include "Classes/APath.h"
 
 namespace GameSpace
 {
@@ -17,52 +16,26 @@ namespace GameSpace
 	// Initialize the application
 	// -----------------------------------------------------------
 
-	APath pathFinder;
+	
 	Map::MapManager manager;
 	Character::Player player;
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
 	CollisionCheck collisionManager;
-	std::vector <newmath::ivec2> path;
-	//Spritesheet test("assets/Player/player_run.png", 4, 8);
-	//Sprite test(new Surface("assets/Player/player_run.png"), 8);
 
 
 	void Game::Init()
 	{
-
 		vec2 s;
-		//test2->LoadImage("assets/Player/player_run.png");
-		//test.Init("assets/Player/player_run.png", 4, 8);
 		time_t t;
 		srand((unsigned)time(&t));
 		manager.setPlayer(&player);
+		manager.setScreen(screen);
 		manager.Initiate();
 		manager.GenerateFirstRoom();
+
 		player.Init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager);
-		path = pathFinder.findPath(newmath::make_ivec2(13, 2), newmath::make_ivec2(18, 4), &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x]);
-		
-		std::cout << "Pathsize" << path.size() << std::endl;
-
-	
-		
-		/*std::cout << "PR " << "GO " << "D " << "L " << "U " << "R " << std::endl;
-
-		for (int i = 0; i < manager.actualRooms; i++)
-		{
-			std::cout << manager.parentRoom[manager.generatedOrder[i]] << " " << manager.generatedOrder[i] << " ";
-			for (int j = 0; j < 4; j++)
-				std::cout << manager.rooms[manager.generatedOrder[i]].doors[j] << " ";
-			std::cout << std::endl;
-		}*/
-
+		manager.initiateEnemiesInRooms();
 		player.equipWeapon(5);
-
-		//for (int i = 0; i < manager.roomAm.x * manager.roomAm.y; i++, std::cout << std::endl)
-			//for (int j = 0; j < manager.roomAm.x * manager.roomAm.y; j++)
-				//std::cout << manager.graph[i][j] << " ";
-
-		//manager.rooms[46].DrawTile(0, 1, screen, 132, 96, 0);
-
 	}
 
 	void Game::Input(float deltaTime)
@@ -75,14 +48,13 @@ namespace GameSpace
 
 	void Game::KeyDown(int key)
 	{
-		//std::cout << key << " " << SDL_SCANCODE_R << std::endl;
+		std::cout << key << " " << SDL_SCANCODE_R << std::endl;
 		if (key != SDL_SCANCODE_DOWN && key != SDL_SCANCODE_LEFT && key != SDL_SCANCODE_UP && key != SDL_SCANCODE_RIGHT)
 		{
 			int x;
 			if (player.isHoldingGun)
 				x = 0;
 			else x = 5;
-			//std::cout << "KEY: " << key << std::endl;
 			switch (key)
 			{
 			case SDL_SCANCODE_E:
@@ -115,13 +87,11 @@ namespace GameSpace
 
 	void Game::Tick(float deltaTime)
 	{
-		//keystate = SDL_GetKeyboardState(NULL);
 		Input(deltaTime);
 		
-		manager.rooms[player.currentRoom->roomNumber].DrawMap(screen);
+		//manager.rooms[player.currentRoom->roomNumber].DrawMap(screen);
+		manager.rooms[player.currentRoom->roomNumber].UpdateMap(deltaTime, screen);
 		player.Update(deltaTime);
-		for (int i = 0; i < path.size(); i++)
-			std::cout << path[i].x << " " << path[i].y << std::endl, screen->Box(path[i].x * 32, path[i].y * 32, path[i].x * 32 + 32, path[i].y * 32 + 32, 0xff0000);
 
 	}
 };

@@ -73,12 +73,17 @@ public:
 
 	const int typesOfEnemies = 1;
 
+	GameSpace::Surface* screen;
+
 	Room rooms[100];
+	
+	void setScreen(GameSpace::Surface* newScreen) { screen = newScreen; };
 	void Initiate();
 	void setPlayer(Character::Player* newPlayer);
 	void addToNextRooms(int x, int y, int startingDoor, bool canClose);
 	bool CanCreateNewRoom(int x, int y);
 	
+	void initiateEnemiesInRooms();
 	void calcNewRoom(int i, int x, int y, bool canClose, bool& generated);
 	void CalculateRoute(int room);
 	void GenerateFirstRoom();

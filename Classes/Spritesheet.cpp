@@ -9,9 +9,13 @@ Spritesheet::Spritesheet(char* path, int row, int column, GameSpace::Sprite* new
     //image = newimage;
     rows = row;
     columns = column;
-    currentFrame = currentRow * column;
-    sprite = newSprite;
+    currentFrame = (currentRow * column) % (row * column);
     
+    std::cout << path << " " << currentFrame << std::endl;
+    sprite = newSprite;
+    int ok = 0;
+    if (ok == 0)
+        ok = 0;
 }
 
 Spritesheet::~Spritesheet()

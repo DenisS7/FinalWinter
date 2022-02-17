@@ -67,6 +67,7 @@ public:
 
 	Map::MapManager* manager;
 
+
 	int roomSize;
 	int tilesize = 32;
 
@@ -111,6 +112,7 @@ public:
 	}
 	
 	void InitiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, MapManager* newManager);
+	void InititateEnemies();
 	bool isTileValid(newmath::ivec2 tile);
 	void getAdjTile(Atile tile, newmath::ivec2 nextTile);
 	void getNeighbours(Atile tile);
@@ -127,7 +129,7 @@ public:
 	void DrawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy);
 	void DrawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy);
 	void DrawMap(GameSpace::Surface* GameScreen);
-	void UpdateMap(int x, int y);
+	void UpdateMap(float deltaTime, GameSpace::Surface* GameScreen);
 };
 
 };

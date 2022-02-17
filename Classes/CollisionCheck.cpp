@@ -45,7 +45,6 @@ int CollisionCheck::isOverlapping(CollisionComponent actorCollision, GameSpace::
 				
 				CollisionComponent tileCol;
 				tileCol.collisionBox = newmath::make_Rect(x * 32, y * 32, 32, 32);
-				screen->Box(x * 32, y * 32, 32 , 32 , 0xffffff);
 				if (areColliding(actorCollision, tileCol))
 					collisionType = currentRoom->tiles[tilepos].type;
 				

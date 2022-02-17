@@ -55,6 +55,7 @@ public:
 
 	void Init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager);
 	void checkIdle();
+	newmath::ivec2 Player::getCurrentPos();
 	void checkDirection(int n);
 	void updateMapManager(Map::MapManager* newMapManager);
 	void updateScreen(GameSpace::Surface* newScreen);

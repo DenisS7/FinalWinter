@@ -8,7 +8,8 @@
 #include <vector>
 #include "../MapManager.h"
 #include "Player.h"
-
+#include "EnemyBase.h"
+#include "enemy_metalbox.h"
 
 
 namespace Map
@@ -21,9 +22,15 @@ void Room::InitiateRoom(int number, const std::vector <int> collisionTiles, cons
 	type = Fight;
 	level = 2;
 
+	enemies = 1;
+	
+
 	manager = newManager;
 	player = newManager->player;
 	
+
+
+
 	std::ifstream fin("Classes/RoomLayout/Room2.txt");
 	fin >> size.x >> size.y;
 
@@ -41,6 +48,17 @@ void Room::InitiateRoom(int number, const std::vector <int> collisionTiles, cons
 	fin.close();
 
 	tilesPerRow = tilemap.GetPitch() / tilesize;
+}
+
+void Room::InititateEnemies()
+{
+	for (int i = 0; i < enemies; i++)
+	{
+		Character::enemy_metalbox* newEnemy = new Character::enemy_metalbox(this, 0);
+		newEnemy->Init();
+
+		enemiesInRoom.push_back(newEnemy);
+	}
 }
 
 bool Room::isTileValid(newmath::ivec2 tile)
@@ -314,9 +332,11 @@ void Room::DrawMap(GameSpace::Surface* GameScreen)
 	
 }
 
-void Room::UpdateMap(int x, int y)
+void Room::UpdateMap(float deltaTime, GameSpace::Surface* GameScreen)
 {
-	
+	DrawMap(GameScreen);
+	for (int i = 0; i < enemiesInRoom.size(); i++)
+		enemiesInRoom[i]->update(deltaTime), std::cout << "UPDATE" << std::endl;
 }
 
 }
