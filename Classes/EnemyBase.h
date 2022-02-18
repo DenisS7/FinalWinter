@@ -66,7 +66,7 @@ public:
 
 	GameSpace::Surface* screen;
 
-	float timeUntilPathRefresh = 10000.0f;
+	float timeUntilPathRefresh = 1000.0f;
 	float currentTimePath = 0.0f;
 
 	std::vector <newmath::ivec2> path;

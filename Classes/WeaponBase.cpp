@@ -34,6 +34,12 @@ namespace Weapon
 		
 	}
 
+	void WeaponBase::reload(float deltaTime)
+	{
+		if (reloading < reloadTime)
+			reloading += deltaTime;
+	}
+
 	void WeaponBase::changeDirection(int direction)
 	{
 		directionFacing = direction - 1;
@@ -47,9 +53,13 @@ namespace Weapon
 
 	void WeaponBase::shootArrows()
 	{
-		Arrow* newArrow = new Arrow;
-		newArrow->Init(this);
-		arrows.push_back(newArrow);
+		if (reloading >= reloadTime)
+		{
+			reloading = 0;
+			Arrow* newArrow = new Arrow;
+			newArrow->Init(this);
+			arrows.push_back(newArrow);
+		}
 		//std::cout << "SHOOT ARROW " << arrows.size() << " " << &newArrow << std::endl;
 	}
 
@@ -63,7 +73,7 @@ namespace Weapon
 
 	}
 
-	void WeaponBase::Update(float deltaTime)
+	void WeaponBase::update(float deltaTime)
 	{
 		sprite.Draw(player->screen, (int) player->drawLocf.x, (int)player->drawLocf.y);
 	}

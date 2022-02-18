@@ -36,7 +36,6 @@ namespace Character
 		nextTiles.clear();
 		passedTiles.clear();
 		std::fill(std::begin(visited), std::end(visited), false);
-		
 	}
 
 	int EnemyBase::getClosestTile()
@@ -46,11 +45,11 @@ namespace Character
 
 		for (int i = 0; i < nextTiles.size(); i++)
 		{
-			std::cout << minf << " " << nextTiles[i].position.x << " " << nextTiles[i].position.y << " " << nextTiles[i].f << " " << nextTiles[i].g << " " << nextTiles[i].h << std::endl;
+			//std::cout << minf << " " << nextTiles[i].position.x << " " << nextTiles[i].position.y << " " << nextTiles[i].f << " " << nextTiles[i].g << " " << nextTiles[i].h << std::endl;
 			if (nextTiles[i].f <= minf)
 				index = i, minf = nextTiles[i].f;
 		}
-		std::cout << index << std::endl;
+		
 		return index;
 	}
 
@@ -67,11 +66,12 @@ namespace Character
 		if (tilePos.x >= 0 && tilePos.x <= currentRoom->size.x)
 			if (tilePos.y >= 0 && tilePos.y <= currentRoom->size.y)
 			{
+				
 				if (!currentRoom->tiles[tilePos.x + tilePos.y * currentRoom->size.x].colidable)
 					return true;
 				//else std::cout << "COLIDABLE: " << tilePos.x << " " << tilePos.y << std::endl;
 			}
-
+		//std::cout << tilePos.x + tilePos.y * 44 << std::endl;
 		return false;
 	}
 
@@ -176,6 +176,9 @@ namespace Character
 				current = parents[tileIndex];
 				path.insert(path.begin(), current.position);
 			}
+			std::cout << std::endl << "NEW PATH: " << std::endl;
+			for (int i = 0; i < path.size(); i++)
+				std::cout << path[i].x << " " << path[i].y << std::endl;
 		}
 		resetAPath();
 		return path;
@@ -210,7 +213,7 @@ namespace Character
 	void EnemyBase::update(float deltaTime)
 	{
 		
-		//currentSs.drawNextSprite(deltaTime, currentRoom->manager->screen, drawLocf);
+		currentSs.drawNextSprite(deltaTime, currentRoom->manager->screen, drawLocf);
 	}
 
 

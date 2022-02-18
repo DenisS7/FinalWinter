@@ -53,7 +53,7 @@ public:
 	Map::MapManager* mapManager;
 	GameSpace::Surface* screen;
 
-	void Init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager);
+	void init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate);
 	void checkIdle();
 	newmath::ivec2 Player::getCurrentPos();
 	void checkDirection(int n);
@@ -61,19 +61,16 @@ public:
 	void updateScreen(GameSpace::Surface* newScreen);
 	void updateRoom(Map::Room* newRoom);
 	void updateKeystate(const Uint8* keystate);
-	void movePlayer(float deltaTime);
+	void input(float deltaTime);
 	void moveDown(bool down, float deltaTime);
 	void moveLeft(bool left, float deltaTime);
 	void moveUp(bool up, float deltaTime);
 	void moveRight(bool right, float deltaTime);
 	void changeActionSprite(int x); // 1 - idle, 2 - run, 3 - dead
-	void InputDown(int key);
-	void InputUp(int key);
 	void addMovement(int x, int y, float deltaTime);
-	void drawPlayer();
 	void equipWeapon(int type);
 	void shootProjectile(int type);
-	void Update(float deltaTime);
+	void update(float deltaTime);
 	
 };
 

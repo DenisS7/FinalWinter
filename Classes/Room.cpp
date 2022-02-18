@@ -16,7 +16,7 @@ namespace Map
 {
 
 
-void Room::InitiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, Map::MapManager* newManager)
+void Room::initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, Map::MapManager* newManager)
 {	
 	roomNumber = number;
 	type = Fight;
@@ -28,9 +28,6 @@ void Room::InitiateRoom(int number, const std::vector <int> collisionTiles, cons
 	manager = newManager;
 	player = newManager->player;
 	
-
-
-
 	std::ifstream fin("Classes/RoomLayout/Room2.txt");
 	fin >> size.x >> size.y;
 
@@ -50,32 +47,15 @@ void Room::InitiateRoom(int number, const std::vector <int> collisionTiles, cons
 	tilesPerRow = tilemap.GetPitch() / tilesize;
 }
 
-void Room::InititateEnemies()
+void Room::inititateEnemies()
 {
 	for (int i = 0; i < enemies; i++)
 	{
 		Character::enemy_metalbox* newEnemy = new Character::enemy_metalbox(this, 0);
 		newEnemy->Init();
-
 		enemiesInRoom.push_back(newEnemy);
 	}
 }
-
-bool Room::isTileValid(newmath::ivec2 tile)
-{
-	return false;
-}
-
-void Room::getAdjTile(Atile tile, newmath::ivec2 nextTile)
-{
-	newmath::ivec2 neighbour = tile.position + nextTile;
-	if (isTileValid(neighbour))
-	{
-		
-	}
-}
-
-
 
 void Room::moveMap(int x, int y, float deltaTime)
 {
@@ -88,7 +68,7 @@ void Room::moveMap(int x, int y, float deltaTime)
 	locf.y = newmath::clampf(locf.y, 0.0, (float)size.y * tilesize - 512);
 }
 
-void Room::ChangeDoorLayout()
+void Room::changeDoorLayout()
 {
 	if (doors[0]) //down
 	{	
@@ -134,7 +114,7 @@ void Room::ChangeDoorLayout()
 	}
 }	
 
-void Room::CalculateDoors(int startDoor, bool CanClose, int beforeRoom)
+void Room::calculateDoors(int startDoor, bool CanClose, int beforeRoom)
 {
 	doors[startDoor] = true;
 	
@@ -155,14 +135,14 @@ void Room::CalculateDoors(int startDoor, bool CanClose, int beforeRoom)
 	}
 }
 
-void Room::ResetDoors()
+void Room::resetDoors()
 {
 	nrdoors = 1;
 	for (int i = 0; i < 4; i++)
 		doors[i] = false;
 }
 
-int Room::DoorNumber()
+int Room::doorNumber()
 {
 	int k = 0;
 	for (int i = 0; i < 4; i++)
@@ -171,7 +151,7 @@ int Room::DoorNumber()
 	return k;
 }
 
-int Room::CheckCollision(int x, int y)
+int Room::checkCollision(int x, int y)
 {
 	int xTile = x;
 	int yTile = y;
@@ -182,7 +162,7 @@ int Room::CheckCollision(int x, int y)
 	return 0;
 }
 
-void Room::DrawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy, int rotate)
+void Room::drawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy, int rotate)
 {
 	newmath::ivec2 rot, loop, add;
 	rot.x = rot.y = 0;
@@ -245,7 +225,7 @@ void Room::DrawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int d
 	}
 }
 
-void Room::DrawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy)
+void Room::drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy)
 {
 	GameSpace::Pixel* src = tilemap.GetBuffer() + tx * tilesize + ty * tilesize * tilemap.GetPitch();
 	GameSpace::Pixel* dst = GameScreen->GetBuffer() + dx - offset.x + (dy - offset.y) * GameScreen->GetPitch();
@@ -268,7 +248,7 @@ void Room::DrawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int 
 	}
 }
 
-void Room::DrawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy)
+void Room::drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy)
 {
 	GameSpace::Pixel* src = tilemap.GetBuffer() + tx * tilesize + ty * tilesize * tilemap.GetPitch();
 	GameSpace::Pixel* dst = GameScreen->GetBuffer() + dx - offset.x + (dy - offset.y) * GameScreen->GetPitch();
@@ -291,7 +271,7 @@ void Room::DrawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx
 	}
 }
 
-void Room::DrawMap(GameSpace::Surface* GameScreen)
+void Room::drawMap(GameSpace::Surface* GameScreen)
 {
 	offset.x = (int)locf.x % tilesize;
 	offset.y = (int)locf.y % tilesize;
@@ -319,11 +299,11 @@ void Room::DrawMap(GameSpace::Surface* GameScreen)
 
 			if (!tiles[y * 44 + x].rotate)
 			{
-					DrawTile(tx, ty, GameScreen, xDrawLoc, yDrawLoc);
+					drawTile(tx, ty, GameScreen, xDrawLoc, yDrawLoc);
 			}
 			else 
 			{
-				DrawRotatedTile(tx, ty, GameScreen, xDrawLoc, yDrawLoc, tiles[y * 44 + x].rotate);
+				drawRotatedTile(tx, ty, GameScreen, xDrawLoc, yDrawLoc, tiles[y * 44 + x].rotate);
 			}
 	
 		}
@@ -332,11 +312,11 @@ void Room::DrawMap(GameSpace::Surface* GameScreen)
 	
 }
 
-void Room::UpdateMap(float deltaTime, GameSpace::Surface* GameScreen)
+void Room::updateMap(float deltaTime, GameSpace::Surface* GameScreen)
 {
-	DrawMap(GameScreen);
+	drawMap(GameScreen);
 	for (int i = 0; i < enemiesInRoom.size(); i++)
-		enemiesInRoom[i]->update(deltaTime), std::cout << "UPDATE" << std::endl;
+		enemiesInRoom[i]->update(deltaTime);
 }
 
 }

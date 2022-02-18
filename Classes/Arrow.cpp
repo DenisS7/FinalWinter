@@ -12,8 +12,8 @@ namespace Weapon
 		locf.x = crossbow->player->locf.x;
 		locf.y = crossbow->player->locf.y;
 
-		drawLocf.x = crossbow->player->drawLocf.x;
-		drawLocf.y = crossbow->player->drawLocf.y;
+		drawLocf.x = locf.x - crossbow->player->currentRoom->locf.x;
+		drawLocf.y = locf.y - crossbow->player->currentRoom->locf.y;
 
 		direction = crossbow->player->directionFacing;
 		sprite.SetFile(new GameSpace::Surface(crossbow->wpaths[direction + 5].path), 1, 0);
@@ -47,17 +47,15 @@ namespace Weapon
 		}
 		else
 		{
-
 			locf.x += speedf * deltaTime * move.x;
 			locf.y += speedf * deltaTime * move.y;
 
-			drawLocf.x = locf.x - currentRoom->locf.x + speedf * deltaTime * move.x;
-			drawLocf.y = locf.y - currentRoom->locf.y + speedf * deltaTime * move.y;
+			drawLocf.x += speedf * deltaTime * move.x;
+			drawLocf.y += speedf * deltaTime * move.y;
 
 			collision.collisionBox = newmath::make_Rect((int)locf.x, (int)locf.y, 0, 0) + crossbow->arrowCol[direction];
 
 			//std::cout << locf.x << " " << (int)locf.x << std::endl;
-			crossbow->player->screen->Box(collision.collisionBox.x, collision.collisionBox.y, collision.collisionBox.x + collision.collisionBox.width, collision.collisionBox.y + collision.collisionBox.height, 0xff0000);
 			sprite.Draw(crossbow->player->screen, (int)drawLocf.x, (int)drawLocf.y);
 		}
 	}

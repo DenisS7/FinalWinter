@@ -5,8 +5,6 @@
 #include "MapManager.h"
 #include "Classes/Player.h"
 
-#include "Classes/Spritesheet.h"
-#include "Classes/Other.h"
 #include "../Classes/CollisionCheck.h"
 
 
@@ -16,7 +14,7 @@ namespace GameSpace
 	// Initialize the application
 	// -----------------------------------------------------------
 
-	
+
 	Map::MapManager manager;
 	Character::Player player;
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
@@ -30,27 +28,22 @@ namespace GameSpace
 		srand((unsigned)time(&t));
 		manager.setPlayer(&player);
 		manager.setScreen(screen);
-		manager.Initiate();
-		manager.GenerateFirstRoom();
+		manager.initiate();
+		manager.generateFirstRoom();
 
-		player.Init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager);
+		player.init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager, keystate);
 		manager.initiateEnemiesInRooms();
 		player.equipWeapon(5);
 	}
 
 	void Game::Input(float deltaTime)
 	{
-		player.moveDown(keystate[SDL_SCANCODE_DOWN], deltaTime);
-		player.moveLeft(keystate[SDL_SCANCODE_LEFT], deltaTime);
-		player.moveUp(keystate[SDL_SCANCODE_UP], deltaTime);
-		player.moveRight(keystate[SDL_SCANCODE_RIGHT], deltaTime);
+		player.input(deltaTime);
 	}
 
 	void Game::KeyDown(int key)
 	{
-		std::cout << key << " " << SDL_SCANCODE_R << std::endl;
-		if (key != SDL_SCANCODE_DOWN && key != SDL_SCANCODE_LEFT && key != SDL_SCANCODE_UP && key != SDL_SCANCODE_RIGHT)
-		{
+	
 			int x;
 			if (player.isHoldingGun)
 				x = 0;
@@ -65,7 +58,7 @@ namespace GameSpace
 			default:
 				break;
 			}
-		}
+		
 	}
 
 
@@ -87,11 +80,11 @@ namespace GameSpace
 
 	void Game::Tick(float deltaTime)
 	{
+		//std::cout << player.currentRoom->tiles[273].colidable << std::endl;
 		Input(deltaTime);
-		
-		//manager.rooms[player.currentRoom->roomNumber].DrawMap(screen);
-		manager.rooms[player.currentRoom->roomNumber].UpdateMap(deltaTime, screen);
-		player.Update(deltaTime);
+		manager.rooms[player.currentRoom->roomNumber].drawMap(screen);
+		manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
+		player.update(deltaTime);
 
 	}
 };

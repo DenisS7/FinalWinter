@@ -42,23 +42,7 @@ public:
 		std::vector <Character::EnemyBase*> entitiesOnTile;
 	};
 
-	struct Atile
-	{
-		newmath::ivec2 parent;
-		newmath::ivec2 position;
-		int g = 0;
-		int h = 0;
-		Atile(newmath::ivec2 newParent, newmath::ivec2 newPosition, int ng, int nh)
-		{
-			parent = newParent;
-			position = newPosition;
-			g = ng;
-			h = nh;
-		}
-	};
 
-
-	std::vector <Atile> Apath;
 	std::vector <tile> tiles;
 	std::vector <Character::EnemyBase*> enemiesInRoom;
 	
@@ -111,25 +95,20 @@ public:
 		return newTile;
 	}
 	
-	void InitiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, MapManager* newManager);
-	void InititateEnemies();
-	bool isTileValid(newmath::ivec2 tile);
-	void getAdjTile(Atile tile, newmath::ivec2 nextTile);
-	void getNeighbours(Atile tile);
-	void FindApath(newmath::ivec2 enemyPos);
+	void initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, MapManager* newManager);
+	void inititateEnemies();
 	void moveMap(int x, int y, float deltaTime);
-	void ChangeDoorLayout();
-	void CalculateDoors(int startDoor, bool CanClose, int beforeRoom);
-	void ResetDoors();
-	int DoorNumber();
-	void GetMap();
-	bool ReachedEnd();
-	int CheckCollision(int x, int y);
-	void DrawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy, int rotate);
-	void DrawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy);
-	void DrawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy);
-	void DrawMap(GameSpace::Surface* GameScreen);
-	void UpdateMap(float deltaTime, GameSpace::Surface* GameScreen);
+	void changeDoorLayout();
+	void calculateDoors(int startDoor, bool CanClose, int beforeRoom);
+	void resetDoors();
+	int doorNumber();
+	void getMap();
+	int checkCollision(int x, int y);
+	void drawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy, int rotate);
+	void drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy);
+	void drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy);
+	void drawMap(GameSpace::Surface* GameScreen);
+	void updateMap(float deltaTime, GameSpace::Surface* GameScreen);
 };
 
 };

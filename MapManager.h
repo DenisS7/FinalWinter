@@ -78,20 +78,20 @@ public:
 	Room rooms[100];
 	
 	void setScreen(GameSpace::Surface* newScreen) { screen = newScreen; };
-	void Initiate();
+	void initiate();
 	void setPlayer(Character::Player* newPlayer);
 	void addToNextRooms(int x, int y, int startingDoor, bool canClose);
-	bool CanCreateNewRoom(int x, int y);
+	bool canCreateNewRoom(int x, int y);
 	
 	void initiateEnemiesInRooms();
 	void calcNewRoom(int i, int x, int y, bool canClose, bool& generated);
-	void CalculateRoute(int room);
-	void GenerateFirstRoom();
-	void Generate(int x, int y, int direction, bool CanClose, int kn);
-	void GenerateNextRooms();
+	void calculateRoute(int room);
+	void generateFirstRoom();
+	void generate(int x, int y, int direction, bool CanClose, int kn);
+	void generateNextRooms();
 	
-	Room* SwitchRoom(int x, int y);
-	void SetLength(int n) { length = n; };
+	Room* switchRoom(int x, int y);
+	void setLength(int n) { length = n; };
 	
 };
 

@@ -1,17 +1,17 @@
 #include "Spritesheet.h"
 #include "../surface.h"
 #include <iostream>
+#include "../template.h"
 
 
 Spritesheet::Spritesheet(char* path, int row, int column, GameSpace::Sprite* newSprite)
 {
-    image.LoadImage(path);
-    //image = newimage;
+    image = new GameSpace::Surface{ "assets/Player/player_idle.png" };
+    image->SetFile(path);
     rows = row;
     columns = column;
     currentFrame = (currentRow * column) % (row * column);
     
-    std::cout << path << " " << currentFrame << std::endl;
     sprite = newSprite;
     int ok = 0;
     if (ok == 0)
@@ -31,8 +31,7 @@ void Spritesheet::changeSpritesheet(char* path, int row, int column, GameSpace::
     columns = column;
     //std::cout << "State Change " << row << " " << column << " " << currentFrame << std::endl;
     sprite = newSprite;
-    image.LoadImage(path);
-    
+    image->SetFile(path);
 }
 
 void Spritesheet::setFrameTime(float newFrameTime)

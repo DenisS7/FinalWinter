@@ -37,18 +37,21 @@ public:
 	bool visible = false;
 	std::vector <Arrow*> arrows;
 	int directionFacing = 0;
+	float reloadTime = 150.0f;
+	float reloading = 0.0f;
 	newmath::spriteData wpaths[10];
 
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Weapons/crossbow_down.png"), 1 };
 	
 
 	void Init(GameSpace::vec2 newDrawLocf, Character::Player* newPlayer);
+	void reload(float deltaTime);
 	void changeDirection(int direction);
 	void changeWeapon(int newWeapon);
 	void changeVisibility(bool newVisible);
 	void shootArrows();
 	void deleteArrow(Arrow* endArrow);
-	void Update(float deltaTime);
+	void update(float deltaTime);
 };
 
 }

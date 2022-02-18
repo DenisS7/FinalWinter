@@ -222,14 +222,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Classes\APath.cpp" />
     <ClCompile Include="Classes\Arrow.cpp" />
     <ClCompile Include="Classes\CollisionCheck.cpp" />
     <ClCompile Include="Classes\CollisionComponent.cpp" />
     <ClCompile Include="Classes\EnemyBase.cpp" />
     <ClCompile Include="Classes\enemy_metalbox.cpp" />
     <ClCompile Include="Classes\newmath.cpp" />
-    <ClCompile Include="Classes\Other.cpp" />
     <ClCompile Include="Classes\Player.cpp" />
     <ClCompile Include="Classes\Projectile.cpp" />
     <ClCompile Include="Classes\Room.cpp" />
@@ -241,14 +239,12 @@
     <ClCompile Include="template.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Classes\APath.h" />
     <ClInclude Include="Classes\Arrow.h" />
     <ClInclude Include="Classes\CollisionCheck.h" />
     <ClInclude Include="Classes\CollisionComponent.h" />
     <ClInclude Include="Classes\EnemyBase.h" />
     <ClInclude Include="Classes\enemy_metalbox.h" />
     <ClInclude Include="Classes\newmath.h" />
-    <ClInclude Include="Classes\Other.h" />
     <ClInclude Include="Classes\Player.h" />
     <ClInclude Include="Classes\Projectile.h" />
     <ClInclude Include="Classes\Room.h" />
@@ -260,6 +256,9 @@
     <ClInclude Include="template.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Classes\Enemies\deer.txt" />
+    <Text Include="Classes\Enemies\metalbox.txt" />
+    <Text Include="Classes\Enemies\snowman.txt" />
     <Text Include="Classes\RoomLayout\Collisions.txt" />
     <Text Include="Classes\RoomLayout\Portals.txt" />
     <Text Include="Classes\RoomLayout\Room2.txt" />

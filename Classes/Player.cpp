@@ -10,7 +10,7 @@
 namespace Character
 {
 	
-	void Player::Init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager)
+	void Player::init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate)
 	{
 		sspaths[1].path = "assets/Player/player_idle.png";
 		sspaths[1].columns = 6;
@@ -34,7 +34,7 @@ namespace Character
 		updateScreen(newScreen);
 		updateRoom(newRoom);
 		updateMapManager(newMapManager);
-
+		updateKeystate(newKeystate);
 
 		collisionBox.setOffset(14, 12);
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
@@ -92,36 +92,6 @@ namespace Character
 
 	void Player::checkDirection(int n)
 	{
-		/*if (move.side[0] || move.side[1] || move.side[2] || move.side[3])
-		{
-			if (n % 2 == 0) //down or up
-			{
-			
-				if (!(move.side[1] || move.side[3]))
-				{
-					if (directionFacing != n)
-					{
-						weapon.changeDirection(n);
-						currentSs.setDirection(n);
-						directionFacing = n;
-					}
-				
-				}
-			}
-			else if (n % 2 == 1) //left or right
-			{
-				
-				if (directionFacing != n)
-				{
-					weapon.changeDirection(n);
-					currentSs.setDirection(n);
-					directionFacing = n;
-				}
-				
-
-			}
-		}*/
-
 		if (directionFacing != n)
 		{
 			if(move.side[n] && !move.side[directionFacing])
@@ -163,12 +133,15 @@ namespace Character
 		this->keystate = keystate;
 	}
 
-	void Player::movePlayer(float deltaTime)
+	void Player::input(float deltaTime)
 	{
 		moveDown(keystate[SDL_SCANCODE_DOWN], deltaTime);
 		moveLeft(keystate[SDL_SCANCODE_LEFT], deltaTime);
 		moveUp(keystate[SDL_SCANCODE_UP], deltaTime);
 		moveRight(keystate[SDL_SCANCODE_RIGHT], deltaTime);
+
+		weapon.reload(deltaTime);
+		
 	}
 
 	void Player::moveDown(bool down, float deltaTime)
@@ -229,7 +202,6 @@ namespace Character
 
 	void Player::equipWeapon(int type) //type = 0 -> no weapon    5 - crossbow   6 - snowball  7 - snowman head
 	{
-		std::cout << "WEAPON" << std::endl;
 		if (!type)
 		{
 			isHoldingGun = false;
@@ -238,7 +210,7 @@ namespace Character
 
 			checkIdle();
 		}
-		else if (type == crossbow)
+		else if (type)
 		{
 			isHoldingGun = true;
 			isHoldingProjectile = false;
@@ -269,8 +241,7 @@ namespace Character
 
 	void Player::shootProjectile(int type)
 	{
-		std::cout << "INPUT RECEIVED" << std::endl;
-		if (type == 5)
+		if (type)
 			equipWeapon(crossbow), weapon.shootArrows(), std::cout << "SHOOT";
 	}
 
@@ -308,7 +279,7 @@ namespace Character
 			if (x > 0 && locf.x > (currentRoom->size.x - 4) * currentRoom->tilesize)
 			{
 				//std::cout << "Going Right: " << currentRoom->roomNumber << " New x: " << currentRoom->roomNumber % mapManager->roomAm.x + 1 << std::endl;
-				currentRoom = mapManager->SwitchRoom(currentRoom->roomNumber % mapManager->roomAm.x + 1, currentRoom->roomNumber / mapManager->roomAm.x);
+				currentRoom = mapManager->switchRoom(currentRoom->roomNumber % mapManager->roomAm.x + 1, currentRoom->roomNumber / mapManager->roomAm.x);
 				//std::cout << "Switched Room" << std::endl;
 				currentRoom->locf.x = 0;
 				currentRoom->locf.y = (float) ((currentRoom->size.y / 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetHeight() / 2);
@@ -333,7 +304,7 @@ namespace Character
 			else if (x < 0 && locf.x < 4 * currentRoom->tilesize)
 			{
 				//std::cout << "Going Left: " << currentRoom->roomNumber << " New x: " << currentRoom->roomNumber % mapManager->roomAm.x - 1 << std::endl;
-				currentRoom = mapManager->SwitchRoom(currentRoom->roomNumber % mapManager->roomAm.x - 1, currentRoom->roomNumber / mapManager->roomAm.x);
+				currentRoom = mapManager->switchRoom(currentRoom->roomNumber % mapManager->roomAm.x - 1, currentRoom->roomNumber / mapManager->roomAm.x);
 				//std::cout << "Switched Room" << std::endl;
 				currentRoom->locf.x = (float)((currentRoom->size.x - screen->GetWidth() / currentRoom->tilesize) * currentRoom->tilesize);
 				currentRoom->locf.y = (float)((currentRoom->size.y / 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetHeight() / 2);
@@ -357,7 +328,7 @@ namespace Character
 			else if (y > 0 && locf.y > (currentRoom->size.y - 4) * currentRoom->tilesize)
 			{
 				//std::cout << "Going Down: " << currentRoom->roomNumber << " New y: " << currentRoom->roomNumber / mapManager->roomAm.x + 1 << std::endl;
-				currentRoom = mapManager->SwitchRoom(currentRoom->roomNumber % mapManager->roomAm.x, currentRoom->roomNumber / mapManager->roomAm.x + 1);
+				currentRoom = mapManager->switchRoom(currentRoom->roomNumber % mapManager->roomAm.x, currentRoom->roomNumber / mapManager->roomAm.x + 1);
 				//std::cout << "Switched Room" << std::endl;
 				currentRoom->locf.x = (float)((currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetWidth() / 2);
 				currentRoom->locf.y = 0;
@@ -382,7 +353,7 @@ namespace Character
 			else if (y < 0 && locf.y < 4 * currentRoom->tilesize)
 			{
 				//std::cout << "Going Up: " << currentRoom->roomNumber << " New y: " << currentRoom->roomNumber / mapManager->roomAm.x - 1 << std::endl;
-				currentRoom = mapManager->SwitchRoom(currentRoom->roomNumber % mapManager->roomAm.x, currentRoom->roomNumber / mapManager->roomAm.x - 1);
+				currentRoom = mapManager->switchRoom(currentRoom->roomNumber % mapManager->roomAm.x, currentRoom->roomNumber / mapManager->roomAm.x - 1);
 				//std::cout << "Switched Room" << std::endl;
 				currentRoom->locf.x = (float)((currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetWidth() / 2);
 				currentRoom->locf.y = (float)((currentRoom->size.y - screen->GetHeight() / currentRoom->tilesize) * currentRoom->tilesize);
@@ -417,13 +388,7 @@ namespace Character
 
 	}
 
-	void Player::drawPlayer()
-	{
-		
-		
-	}
-
-	void Player::Update(float deltaTime)
+	void Player::update(float deltaTime)
 	{
 		//std::cout << directionFacing << std::endl;
 
@@ -431,14 +396,14 @@ namespace Character
 		{
 			currentSs.drawNextSprite(deltaTime, screen, drawLocf);
 			if (weapon.visible)
-				weapon.Update(deltaTime);
+				weapon.update(deltaTime);
 			for (int i = 0; i < weapon.arrows.size(); i++)
 				weapon.arrows[i]->UpdatePosition(deltaTime);
 		}
 		else
 		{
 			if (weapon.visible)
-				weapon.Update(deltaTime);
+				weapon.update(deltaTime);
 			for (int i = 0; i < weapon.arrows.size(); i++)
 				weapon.arrows[i]->UpdatePosition(deltaTime);
 			currentSs.drawNextSprite(deltaTime, screen, drawLocf);

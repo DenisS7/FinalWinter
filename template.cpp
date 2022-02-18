@@ -304,7 +304,7 @@ int main( int argc, char **argv )
     if (!redirectIO())
         return 1;
 #endif
-	printf("application started.\n");
+	printf( "application started.\n" );
 	SDL_Init( SDL_INIT_VIDEO );
 #ifdef ADVANCEDGL
 #ifdef FULLSCREEN

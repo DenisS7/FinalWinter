@@ -1,7 +1,11 @@
 #pragma once
-
-#include "../surface.h"
 #include "../template.h"
+
+namespace GameSpace
+{
+    class Surface;
+    class Sprite;
+}
 
 class Spritesheet
 {
@@ -16,9 +20,8 @@ public:
     void calculateNextFrame();
     void changeVisiblity(bool visible);
     void drawNextSprite(float deltaTime, GameSpace::Surface* screen, GameSpace::vec2 drawLocf);
-   // void Init(char* path, int row, int column);
 
-    GameSpace::Surface image{"assets/Player/player_run.png"};
+    GameSpace::Surface* image;
 private:
     
     GameSpace::Sprite* sprite;
