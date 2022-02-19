@@ -11,7 +11,6 @@ Spritesheet::Spritesheet(char* path, int row, int column, GameSpace::Sprite* new
     rows = row;
     columns = column;
     currentFrame = (currentRow * column) % (row * column);
-    
     sprite = newSprite;
     int ok = 0;
     if (ok == 0)
@@ -44,7 +43,6 @@ void Spritesheet::setDirection(int newRow)
     currentFrame = newRow * columns + currentFrame;
     //std::cout << "New Direction " << newRow << " " << currentFrame << std::endl;
     currentRow = newRow;
-
 }
 
 void Spritesheet::freezeFrame(int frame, bool isFreezed)

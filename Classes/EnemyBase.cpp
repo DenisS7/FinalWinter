@@ -3,13 +3,14 @@
 #include <limits.h>
 #include <iostream>
 #include "Player.h"
+#include "../surface.h"
 
 namespace Character
 {
 	newmath::ivec2 EnemyBase::getCurrentPos()
 	{
-		int x = ((int)locf.x + data.col.collisionBox.width / 2) / currentRoom->tilesize;
-		int y = ((int)locf.y + data.col.collisionBox.height) / currentRoom->tilesize;
+		int x = ((int)locf.x + 64) / currentRoom->tilesize;
+		int y = ((int)locf.y + 64) / currentRoom->tilesize;
 		newmath::ivec2 pos = newmath::make_ivec2(x, y);
 		return pos;
 	}
@@ -29,7 +30,17 @@ namespace Character
 		
 	}
 
-	
+	void EnemyBase::changeActionSprite(int x)
+	{
+		sprite.SetFile(new GameSpace::Surface(data.epaths[x].path), data.epaths[x].rows * data.epaths[x].columns, directionFacing * data.epaths[x].columns);
+		currentSs.changeSpritesheet(data.epaths[x].path, data.epaths[x].rows, data.epaths[x].columns, &sprite);
+		currentSs.setFrameTime(data.epaths[x].frameTime);
+	}
+
+	void EnemyBase::changeDrawLoc()
+	{
+		drawLocf = locf - currentRoom->locf;
+	}
 
 	void EnemyBase::resetAPath()
 	{
@@ -176,9 +187,12 @@ namespace Character
 				current = parents[tileIndex];
 				path.insert(path.begin(), current.position);
 			}
-			std::cout << std::endl << "NEW PATH: " << std::endl;
-			for (int i = 0; i < path.size(); i++)
-				std::cout << path[i].x << " " << path[i].y << std::endl;
+			//std::cout << std::endl << "NEW PATH: " << std::endl;
+			//for (int i = 0; i < path.size(); i++)
+			{
+				//std::cout << path[i].x << " " << path[i].y << std::endl;
+				//currentRoom->player->screen->Box(path[i].x * 32, path[i].y * 32, path[i].x * 32 + 32, path[i].y * 32 + 32, 0xff0000);
+			}
 		}
 		resetAPath();
 		return path;
@@ -186,6 +200,15 @@ namespace Character
 
 	void EnemyBase::changeDirection(int newDirection)
 	{
+		if (directionFacing != newDirection)
+		{
+			if (move.side[newDirection] && !move.side[directionFacing])
+			{
+				currentSs.setDirection(newDirection);
+				directionFacing = newDirection;
+				std::cout << "Direction Changed" << std::endl;
+			}
+		}
 	}
 
 	void EnemyBase::takeDamage(const int damage)
@@ -212,7 +235,6 @@ namespace Character
 
 	void EnemyBase::update(float deltaTime)
 	{
-		
 		currentSs.drawNextSprite(deltaTime, currentRoom->manager->screen, drawLocf);
 	}
 

@@ -1,5 +1,7 @@
 #include "MapManager.h"
 #include "Classes/Room.h"
+#include "Classes/EnemyBase.h"
+#include "Classes/Player.h"
 #include <iostream>
 #include <fstream>
 
@@ -46,9 +48,9 @@ namespace Map
 			}
 		}
 
-		enemyTypes[0].epaths[0].path = "assets/Enemies/metalgift/metalgift_idle";
-		enemyTypes[0].epaths[1].path = "assets/Enemies/metalgift/metalgift_run";
-		enemyTypes[0].epaths[2].path = "assets/Enemies/metalgift/metalgift_explosion";
+		enemyTypes[0].epaths[0].path = "assets/Enemies/metalgift/metalgift_idle.png";
+		enemyTypes[0].epaths[1].path = "assets/Enemies/metalgift/metalgift_run.png";
+		enemyTypes[0].epaths[2].path = "assets/Enemies/metalgift/metalgift_explosion.png";
 
 		roomAm.x = 7;
 		roomAm.y = 7;
@@ -178,8 +180,6 @@ namespace Map
 		std::cout << dist << std::endl;
 	}
 
-
-
 	void MapManager::generateFirstRoom()
 	{
 		exists[start.x + start.y * 7] = true;
@@ -217,8 +217,6 @@ namespace Map
 
 		generateNextRooms();
 	}
-
-	
 
 	void MapManager::generate(int x, int y, int StartDirection, bool CanClose, int kn)
 	{
@@ -263,7 +261,6 @@ namespace Map
 		actualRooms++;
 		generatedOrder[actualRooms] = x + y * 7;
 	}
-
 
 	void MapManager::generateNextRooms()
 	{

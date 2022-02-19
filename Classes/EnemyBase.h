@@ -34,7 +34,7 @@ public:
 		float health = 100;
 		float damagePerAttack = 0;
 		float damageOnCol = 0;
-		float speed = 0.2;
+		float speed = 0.2f;
 		CollisionComponent col;
 		int spritesheetsNr = 0;
 		newmath::spriteData epaths[9];
@@ -76,14 +76,17 @@ public:
 	newmath::ivec2 finish;
 
 	int type;
+	int directionFacing = 0;
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_idle.png"), 1 };
 	Spritesheet currentSs{ "assets/Enemies/metalgift/metalgift_idle.png", 1, 1, &sprite };
 	GameSpace::vec2 locf, drawLocf;
 	newmath::chMove move;
 	newmath::ivec2 tilePos;
 
-	virtual void Init();
 	newmath::ivec2 getCurrentPos();
+	virtual void Init();
+	void EnemyBase::changeActionSprite(int x);
+	void changeDrawLoc();
 	void resetAPath();
 	int getClosestTile();
 	int getIndex(const std::vector <Atile>& v, newmath::ivec2 pos);

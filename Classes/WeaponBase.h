@@ -39,6 +39,7 @@ public:
 	int directionFacing = 0;
 	float reloadTime = 150.0f;
 	float reloading = 0.0f;
+	bool isShooting = false;
 	newmath::spriteData wpaths[10];
 
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Weapons/crossbow_down.png"), 1 };
@@ -50,6 +51,7 @@ public:
 	void changeWeapon(int newWeapon);
 	void changeVisibility(bool newVisible);
 	void shootArrows();
+	void stopShooting();
 	void deleteArrow(Arrow* endArrow);
 	void update(float deltaTime);
 };

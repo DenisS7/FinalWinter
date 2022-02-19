@@ -53,14 +53,13 @@ namespace Weapon
 
 	void WeaponBase::shootArrows()
 	{
-		if (reloading >= reloadTime)
-		{
-			reloading = 0;
-			Arrow* newArrow = new Arrow;
-			newArrow->Init(this);
-			arrows.push_back(newArrow);
-		}
+		isShooting = true;
 		//std::cout << "SHOOT ARROW " << arrows.size() << " " << &newArrow << std::endl;
+	}
+
+	void WeaponBase::stopShooting()
+	{
+		isShooting = false;
 	}
 
 	void WeaponBase::deleteArrow(Arrow* endArrow)
@@ -75,6 +74,16 @@ namespace Weapon
 
 	void WeaponBase::update(float deltaTime)
 	{
+		if (isShooting)
+		{
+			if (reloading >= reloadTime)
+			{
+				reloading = 0;
+				Arrow* newArrow = new Arrow;
+				newArrow->Init(this);
+				arrows.push_back(newArrow);
+			}
+		}
 		sprite.Draw(player->screen, (int) player->drawLocf.x, (int)player->drawLocf.y);
 	}
 

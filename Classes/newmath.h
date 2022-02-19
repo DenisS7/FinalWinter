@@ -13,7 +13,7 @@ public:
 			x = nx;
 			y = ny;
 		}
-
+		
 		friend ivec2 operator+(const ivec2 a, const ivec2 b) { return make_ivec2(a.x + b.x, a.y + b.y); };
 		bool operator==(const ivec2& b) { if (x == b.x && y == b.y) return true; return false; };
 		bool operator!=(const ivec2& b) { if (x == b.x && y == b.y) return false; return true; };

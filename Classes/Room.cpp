@@ -45,6 +45,7 @@ void Room::initiateRoom(int number, const std::vector <int> collisionTiles, cons
 	fin.close();
 
 	tilesPerRow = tilemap.GetPitch() / tilesize;
+	moveDir.x = moveDir.y = 0;
 }
 
 void Room::inititateEnemies()
@@ -57,13 +58,24 @@ void Room::inititateEnemies()
 	}
 }
 
+void Room::changeDir()
+{
+	//std::cout << player->move.side[0] << " " << player->move.side[1] << " " << player->move.side[2] << " " << player->move.side[3] << std::endl;
+	
+	moveDir.x = player->move.side[3] - player->move.side[1];
+	moveDir.y = player->move.side[0] - player->move.side[2];
+
+	if (locf.x == 0 || locf.x == (float)size.x * tilesize - 800)
+		moveDir.x = 0;
+	if (locf.y == 0 || locf.y == (float)size.y * tilesize - 512)
+		moveDir.y = 0;
+}
+
 void Room::moveMap(int x, int y, float deltaTime)
 {
 	locf.x += speed * x * deltaTime;
 	locf.y += speed * y * deltaTime;
-	if (!newmath::inRangef(locf.x, 0.0, (float)size.x * tilesize - 800) || !newmath::inRangef(locf.y, 0.0, (float)size.y * tilesize * 512))
-		moved = false;
-	else moved = true;
+	
 	locf.x = newmath::clampf(locf.x, 0.0, (float)size.x * tilesize - 800);
 	locf.y = newmath::clampf(locf.y, 0.0, (float)size.y * tilesize - 512);
 }
@@ -312,8 +324,20 @@ void Room::drawMap(GameSpace::Surface* GameScreen)
 	
 }
 
+void Room::updateEnemies()
+{
+	for (int i = 0; i < enemiesInRoom.size(); i++)
+	{
+		enemiesInRoom[i]->findPath(enemiesInRoom[i]->getCurrentPos(), player->getCurrentPos());
+		enemiesInRoom[i]->changeDrawLoc();
+	}
+}
+
 void Room::updateMap(float deltaTime, GameSpace::Surface* GameScreen)
 {
+	
+	changeDir();
+	//std::cout << moveDir.x << " " << moveDir.y << std::endl;
 	drawMap(GameScreen);
 	for (int i = 0; i < enemiesInRoom.size(); i++)
 		enemiesInRoom[i]->update(deltaTime);

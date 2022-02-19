@@ -55,10 +55,23 @@ namespace GameSpace
 				break;
 			case SDL_SCANCODE_R:
 				player.shootProjectile(5), std::cout << "R SHOOT" << std::endl;
-			default:
 				break;
+			//default:
+				//break;
 			}
 		
+	}
+
+	void Game::KeyUp(int key)
+	{
+		switch (key)
+		{
+			case SDL_SCANCODE_R:
+				player.shootProjectile(0);
+				break;
+			//default:
+				//break;
+		}
 	}
 
 

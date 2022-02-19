@@ -54,38 +54,30 @@ namespace Character
 			else
 				currentState = run;
 			
-			sprite.SetFile(new GameSpace::Surface(sspaths[currentState].path), sspaths[currentState].rows * sspaths[currentState].columns, directionFacing * sspaths[currentState].columns);
-			//sprite.SetFrame(directionFacing * sspaths[1].columns);
-			
-			currentSs.changeSpritesheet(sspaths[currentState].path, sspaths[currentState].rows, sspaths[currentState].columns, &sprite);
+			changeActionSprite(currentState);
 		}
 		else if ((currentState == run || currentState == runWithGun) && !(move.side[0] || move.side[1] || move.side[2] || move.side[3]))
 		{
+
 			currentState = idle;
-			sprite.SetFile(new GameSpace::Surface(sspaths[currentState].path), sspaths[currentState].rows * sspaths[currentState].columns, directionFacing * sspaths[currentState].columns);
-			
-			currentSs.changeSpritesheet(sspaths[currentState].path, sspaths[currentState].rows, sspaths[currentState].columns, &sprite);
+			changeActionSprite(currentState);
 		}
 		else if (isHoldingGun == true && currentState == run)
 		{
 			currentState = runWithGun;
-			sprite.SetFile(new GameSpace::Surface(sspaths[currentState].path), sspaths[currentState].rows * sspaths[currentState].columns, directionFacing * sspaths[currentState].columns);
-
-			currentSs.changeSpritesheet(sspaths[currentState].path, sspaths[currentState].rows, sspaths[currentState].columns, &sprite);
+			changeActionSprite(currentState);
 		}
 		else if (isHoldingGun == false && currentState == runWithGun && (move.side[0] || move.side[1] || move.side[2] || move.side[3]))
 		{
 			currentState = run;
-			sprite.SetFile(new GameSpace::Surface(sspaths[currentState].path), sspaths[currentState].rows * sspaths[currentState].columns, directionFacing * sspaths[currentState].columns);
-
-			currentSs.changeSpritesheet(sspaths[currentState].path, sspaths[currentState].rows, sspaths[currentState].columns, &sprite);
+			changeActionSprite(currentState);
 		}
 	}
 
 	newmath::ivec2 Player::getCurrentPos()
 	{
-		int x = ((int)locf.x + collisionBox.collisionBox.width / 2) / currentRoom->tilesize;
-		int y = ((int)locf.y + collisionBox.collisionBox.height) / currentRoom->tilesize;
+		int x = ((int)locf.x + 32) / currentRoom->tilesize;
+		int y = ((int)locf.y + 32) / currentRoom->tilesize;
 		newmath::ivec2 pos = newmath::make_ivec2(x, y);
 		return pos;
 	}
@@ -141,7 +133,6 @@ namespace Character
 		moveRight(keystate[SDL_SCANCODE_RIGHT], deltaTime);
 
 		weapon.reload(deltaTime);
-		
 	}
 
 	void Player::moveDown(bool down, float deltaTime)
@@ -196,7 +187,8 @@ namespace Character
 
 	void Player::changeActionSprite(int x)
 	{
-		sprite.SetFile(&GameSpace::Surface(sspaths[x].path), sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
+		sprite.SetFile(new GameSpace::Surface(sspaths[x].path), sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
+		currentSs.changeSpritesheet(sspaths[x].path, sspaths[x].rows, sspaths[x].columns, &sprite);
 		currentSs.setFrameTime(sspaths[x].frameTime);
 	}	
 
@@ -243,6 +235,8 @@ namespace Character
 	{
 		if (type)
 			equipWeapon(crossbow), weapon.shootArrows(), std::cout << "SHOOT";
+		else
+			weapon.stopShooting();
 	}
 
 	void Player::addMovement(int x, int y, float deltaTime)
@@ -258,6 +252,7 @@ namespace Character
 
 		if (nextTile == 0) //no collision
 		{
+			//
 			if ((x && newmath::inRangef(drawLocf.x, (float)middleScreen.x - 4, (float)middleScreen.x + 4)) || ((y && newmath::inRangef(drawLocf.y, (float)middleScreen.y - 4, (float)middleScreen.y + 4))))
 				currentRoom->moveMap(x, y, deltaTime);
 			
@@ -284,6 +279,8 @@ namespace Character
 				currentRoom->locf.x = 0;
 				currentRoom->locf.y = (float) ((currentRoom->size.y / 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetHeight() / 2);
 
+				currentRoom->updateEnemies();
+
 				locf.x = (float) (currentRoom->tilesize - sprite.GetWidth() / 2 + currentRoom->tilesize / 2);
 				locf.y = (float) ((currentRoom->size.y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2); 
 
@@ -309,6 +306,8 @@ namespace Character
 				currentRoom->locf.x = (float)((currentRoom->size.x - screen->GetWidth() / currentRoom->tilesize) * currentRoom->tilesize);
 				currentRoom->locf.y = (float)((currentRoom->size.y / 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetHeight() / 2);
 
+				currentRoom->updateEnemies();
+
 				locf.x = (float)((currentRoom->size.x - 1) * currentRoom->tilesize - sprite.GetWidth() / 2 - currentRoom->tilesize / 2);
 				locf.y = (float)((currentRoom->size.y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2);
 
@@ -332,6 +331,8 @@ namespace Character
 				//std::cout << "Switched Room" << std::endl;
 				currentRoom->locf.x = (float)((currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetWidth() / 2);
 				currentRoom->locf.y = 0;
+
+				currentRoom->updateEnemies();
 
 				locf.x = (float)((currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2);
 				locf.y = (float)(2 * currentRoom->tilesize - sprite.GetHeight() / 2 + currentRoom->tilesize / 2);
@@ -357,6 +358,8 @@ namespace Character
 				//std::cout << "Switched Room" << std::endl;
 				currentRoom->locf.x = (float)((currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize + currentRoom->tilesize / 2 - screen->GetWidth() / 2);
 				currentRoom->locf.y = (float)((currentRoom->size.y - screen->GetHeight() / currentRoom->tilesize) * currentRoom->tilesize);
+
+				currentRoom->updateEnemies();
 
 				locf.x = (float)((currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2);
 				locf.y = (float)((currentRoom->size.y - 1) * currentRoom->tilesize - sprite.GetHeight() / 2 - currentRoom->tilesize / 2);
@@ -391,7 +394,7 @@ namespace Character
 	void Player::update(float deltaTime)
 	{
 		//std::cout << directionFacing << std::endl;
-
+		//std::cout << "DOWN: " << move.side[0] << " UP: " << move.side[2] << " RIGHT: " << move.side[3] << " LEFT: " << move.side[1] << std::endl;
 		if (directionFacing == 0)
 		{
 			currentSs.drawNextSprite(deltaTime, screen, drawLocf);

@@ -14,7 +14,7 @@ public:
 	void MouseDown( int button ) { /* implement if you want to detect mouse button presses */ }
 	void MouseMove( int x, int y ) { /* implement if you want to detect mouse movement */ }
 	void Input(float deltaTime);
-	void KeyUp( int key ) { /* implement if you want to handle keys */ }
+	void KeyUp(int key);
 	void KeyDown(int key);
 private:
 	Surface* screen;

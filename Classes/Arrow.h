@@ -14,13 +14,13 @@ private:
 
 public:
 
-
-    
     const int enemy = 4;
 
     WeaponBase* crossbow;
     Map::Room* currentRoom;
     CollisionComponent collision;
+
+    float time = 0;
     
     int direction;
 

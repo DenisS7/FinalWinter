@@ -14,19 +14,27 @@ namespace Character
 		findPath(tilePos, currentRoom->player->getCurrentPos());
 		
 	}
+
+	
+
 	void enemy_metalbox::addMovement(float deltaTime)
 	{
 		newmath::ivec2 currentPos = getCurrentPos();
 		if (path.size())
 		{
 			newmath::ivec2 nextPos = *path.begin();
+			newmath::ivec2 dir(nextPos.x - currentPos.x, nextPos.y - currentPos.y);
 			if (currentPos != nextPos)
 			{
-				locf.x += (nextPos.x - currentPos.x) * data.speed * deltaTime;
-				locf.y += (nextPos.y - currentPos.y) * data.speed * deltaTime;
+				float div = 1;
+				if (dir.x && dir.y)
+					div = 2.0f / 3.0f;
 
-				drawLocf.x = locf.x;
-				drawLocf.y = locf.y;
+				locf.x += float(dir.x * data.speed * deltaTime * div);
+				locf.y += float(dir.y * data.speed * deltaTime * div);
+				
+				drawLocf.x = locf.x - currentRoom->locf.x;
+				drawLocf.y = locf.y - currentRoom->locf.y;
 			}
 			else
 			{
@@ -34,13 +42,39 @@ namespace Character
 				if (path.size())
 				{
 					newmath::ivec2 nextPos = *path.begin();
-					locf.x += (nextPos.x - currentPos.x) * data.speed * deltaTime;
-					locf.y += (nextPos.y - currentPos.y) * data.speed * deltaTime;
-
-					drawLocf.x = locf.x;
-					drawLocf.y = locf.y;
+					dir.x = nextPos.x - currentPos.x;
+					dir.y = nextPos.y - currentPos.y;
+					
+					float div = 1;
+					if (dir.x && dir.y)
+						div = 2.0f / 3.0f;
+					locf.x += float(dir.x * data.speed * deltaTime * div);
+					locf.y += float(dir.y * data.speed * deltaTime * div);
+					
+					drawLocf.x = locf.x - currentRoom->locf.x;
+					drawLocf.y = locf.y - currentRoom->locf.y;
 				}
 			}
+
+			if (dir.x)
+			{
+				move.side[dir.x + 2] = true;
+				move.side[(dir.x + 4) % 4] = false;
+				
+			}
+			else move.side[1] = move.side[3] = false;
+
+			if (dir.y)
+			{
+				move.side[(dir.y + 3) % 4] = true;
+				move.side[dir.y + 1] = false;
+			}
+			else move.side[0] = move.side[2] = false;
+
+			if (dir.x)
+				EnemyBase::changeDirection(dir.x + 2); // x = -1 || x = 1; left = 1, right = 3
+			if (dir.y)
+				EnemyBase::changeDirection((dir.y + 3) % 4); // y = 1 (down) || y = -1 (up); down = 0, up = 2
 		}
 		//else explode
 	}
@@ -50,11 +84,14 @@ namespace Character
 		EnemyBase::update(deltaTime);
 		currentTimePath += deltaTime;
 		if (currentTimePath >= timeUntilPathRefresh)
-		{
 			findPath(getCurrentPos(), currentRoom->player->getCurrentPos());
-			//for (int i = 0; i < path.size(); i++)
-				//std::cout << path[i].x << " " << path[i].y << std::endl;
+		std::cout << currentRoom->roomNumber << " " << path.size() << std::endl;
+		if (isFollowingPlayer || path.size() <= 10)
+		{
+			if (!isFollowingPlayer)
+				EnemyBase::changeActionSprite(1);
+			addMovement(deltaTime);
+			isFollowingPlayer = true;
 		}
-		addMovement(deltaTime);
 	}
 }

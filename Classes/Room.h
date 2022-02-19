@@ -46,7 +46,7 @@ public:
 	std::vector <tile> tiles;
 	std::vector <Character::EnemyBase*> enemiesInRoom;
 	
-	newmath::ivec2 size, offset;
+	newmath::ivec2 size, offset, moveDir;
 	GameSpace::vec2 locf;
 
 	Map::MapManager* manager;
@@ -58,7 +58,8 @@ public:
 	int nrdoors = 1;
 	int tilesPerRow = 0;
 
-	bool moved = false;
+	bool movedx = false;
+	bool movedy = false;
 	bool doors[4] = { false };
 
 
@@ -97,6 +98,7 @@ public:
 	
 	void initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, MapManager* newManager);
 	void inititateEnemies();
+	void changeDir();
 	void moveMap(int x, int y, float deltaTime);
 	void changeDoorLayout();
 	void calculateDoors(int startDoor, bool CanClose, int beforeRoom);
@@ -108,6 +110,7 @@ public:
 	void drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy);
 	void drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy);
 	void drawMap(GameSpace::Surface* GameScreen);
+	void updateEnemies();
 	void updateMap(float deltaTime, GameSpace::Surface* GameScreen);
 };
 

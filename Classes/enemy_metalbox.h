@@ -13,6 +13,8 @@ class enemy_metalbox :
     public EnemyBase
 {
 private: 
+    
+    bool isFollowingPlayer = false;
 
 public:
     enemy_metalbox(Map::Room* currentRoom, int entype)
