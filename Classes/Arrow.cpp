@@ -37,7 +37,7 @@ namespace Weapon
 
 	void Arrow::deleteArrow()
 	{
-		std::cout << time << std::endl;
+		//std::cout << time << std::endl;
 		crossbow->deleteArrow(this);
 		delete this;
 	}

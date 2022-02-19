@@ -53,7 +53,7 @@ namespace GameSpace
 			case SDL_SCANCODE_E:
 				player.equipWeapon(x), std::cout << "E SHOOT" << std::endl;
 				break;
-			case SDL_SCANCODE_R:
+			case SDL_SCANCODE_G:
 				player.shootProjectile(5), std::cout << "R SHOOT" << std::endl;
 				break;
 			//default:
@@ -66,7 +66,7 @@ namespace GameSpace
 	{
 		switch (key)
 		{
-			case SDL_SCANCODE_R:
+			case SDL_SCANCODE_G:
 				player.shootProjectile(0);
 				break;
 			//default:
@@ -89,11 +89,12 @@ namespace GameSpace
 	// Main application tick function
 	// -----------------------------------------------------------
 
-
+	//Surface explosion{ "assets/Enemies/metalgift/metalgift_explosion.png" };
 
 	void Game::Tick(float deltaTime)
 	{
 		//std::cout << player.currentRoom->tiles[273].colidable << std::endl;
+		//std::cout << explosion.GetWidth() << std::endl;
 		Input(deltaTime);
 		manager.rooms[player.currentRoom->roomNumber].drawMap(screen);
 		manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);

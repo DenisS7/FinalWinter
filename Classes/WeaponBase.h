@@ -37,7 +37,7 @@ public:
 	bool visible = false;
 	std::vector <Arrow*> arrows;
 	int directionFacing = 0;
-	float reloadTime = 150.0f;
+	float reloadTime = 300.0f;
 	float reloading = 0.0f;
 	bool isShooting = false;
 	newmath::spriteData wpaths[10];

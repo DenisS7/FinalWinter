@@ -93,7 +93,7 @@ namespace Map
 
 	void MapManager::initiateEnemiesInRooms()
 	{
-		for (int i = 0; i < actualRooms; i++)
+		for (int i = 0; i < roomAm.x * roomAm.y; i++)
 			rooms[i].inititateEnemies();
 	}
 

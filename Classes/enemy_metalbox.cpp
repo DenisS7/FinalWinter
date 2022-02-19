@@ -15,6 +15,12 @@ namespace Character
 		
 	}
 
+	void enemy_metalbox::explode()
+	{
+		directionFacing = 0;
+		EnemyBase::changeActionSprite(2, 0);
+	}
+
 	
 
 	void enemy_metalbox::addMovement(float deltaTime)
@@ -81,17 +87,32 @@ namespace Character
 
 	void enemy_metalbox::update(float deltaTime)
 	{
+		std::cout << data.speed << std::endl;
 		EnemyBase::update(deltaTime);
 		currentTimePath += deltaTime;
-		if (currentTimePath >= timeUntilPathRefresh)
-			findPath(getCurrentPos(), currentRoom->player->getCurrentPos());
-		std::cout << currentRoom->roomNumber << " " << path.size() << std::endl;
-		if (isFollowingPlayer || path.size() <= 10)
+		//if (currentTimePath >= timeUntilPathRefresh)
+			
+		//std::cout << currentRoom->roomNumber << " " << path.size() << std::endl;
+		if (path.size() <= 1 && !isExploding)
+		{
+			isExploding = true;
+			explode();
+		}
+		if ((isFollowingPlayer || path.size() <= 7) && !isExploding)
 		{
 			if (!isFollowingPlayer)
-				EnemyBase::changeActionSprite(1);
+				EnemyBase::changeActionSprite(1, directionFacing);
 			addMovement(deltaTime);
 			isFollowingPlayer = true;
 		}
+		else
+		{
+			drawLocf = locf - currentRoom->locf;
+		}
+		findPath(getCurrentPos(), currentRoom->player->getCurrentPos());
+
+		if (currentSs.getCurrentFrame() == 12 && isExploding)
+			EnemyBase::die();
+		data.speed += 0.000002 * deltaTime;
 	}
 }

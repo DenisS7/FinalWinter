@@ -23,9 +23,11 @@ Spritesheet::~Spritesheet()
     columns = 0;
 }
 
-void Spritesheet::changeSpritesheet(char* path, int row, int column, GameSpace::Sprite* newSprite)
+void Spritesheet::changeSpritesheet(char* path, int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite)
 {
+    currentTime = 0;
     rows = row;
+    currentRow = newCurrentRow;
     currentFrame = currentRow * column;
     columns = column;
     //std::cout << "State Change " << row << " " << column << " " << currentFrame << std::endl;
@@ -63,7 +65,7 @@ void Spritesheet::freezeFrame(int frame, bool isFreezed)
 
 void Spritesheet::calculateNextFrame()
 {   
-    currentFrame = (currentFrame + 1 * freezedColumn) % columns + columns * currentRow;
+    currentFrame = (currentFrame + 1) % columns + columns * currentRow;
     //std::cout << currentFrame << " " << columns << " " << currentRow << std::endl;
 }
 

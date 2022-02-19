@@ -13,13 +13,15 @@ public:
     Spritesheet(char* path, int row, int column, GameSpace::Sprite* newSprite);
     ~Spritesheet();
 
-    void changeSpritesheet(char* path, int row, int column, GameSpace::Sprite* newSprite);
+    void changeSpritesheet(char* path, int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite);
     void setFrameTime(float newFrameTime);
     void setDirection(int newRow);
     void freezeFrame(int frame, bool isFreezed);
     void calculateNextFrame();
     void changeVisiblity(bool visible);
     void drawNextSprite(float deltaTime, GameSpace::Surface* screen, GameSpace::vec2 drawLocf);
+
+    int getCurrentFrame() { return currentFrame; };
 
     GameSpace::Surface* image;
 private:

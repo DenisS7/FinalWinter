@@ -98,6 +98,8 @@ public:
 	
 	void initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, MapManager* newManager);
 	void inititateEnemies();
+	void openPortals();
+	void deleteEnemy(Character::EnemyBase* enemy);
 	void changeDir();
 	void moveMap(int x, int y, float deltaTime);
 	void changeDoorLayout();

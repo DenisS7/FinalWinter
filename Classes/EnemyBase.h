@@ -28,6 +28,11 @@ public:
 		data.type = entype;
 	}
 
+	~EnemyBase()
+	{
+		
+	}
+
 	struct typeEn
 	{
 		int type = 0;
@@ -85,7 +90,7 @@ public:
 
 	newmath::ivec2 getCurrentPos();
 	virtual void Init();
-	void EnemyBase::changeActionSprite(int x);
+	void EnemyBase::changeActionSprite(int x, int newCurrentRow);
 	void changeDrawLoc();
 	void resetAPath();
 	int getClosestTile();

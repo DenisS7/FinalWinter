@@ -29,7 +29,7 @@ public:
 
 	~Projectile()
 	{
-
+		
 	}
 
 	void Init();

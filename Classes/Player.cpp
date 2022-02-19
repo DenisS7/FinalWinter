@@ -188,7 +188,7 @@ namespace Character
 	void Player::changeActionSprite(int x)
 	{
 		sprite.SetFile(new GameSpace::Surface(sspaths[x].path), sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
-		currentSs.changeSpritesheet(sspaths[x].path, sspaths[x].rows, sspaths[x].columns, &sprite);
+		currentSs.changeSpritesheet(sspaths[x].path, sspaths[x].rows, sspaths[x].columns, directionFacing, &sprite);
 		currentSs.setFrameTime(sspaths[x].frameTime);
 	}	
 
@@ -234,9 +234,17 @@ namespace Character
 	void Player::shootProjectile(int type)
 	{
 		if (type)
-			equipWeapon(crossbow), weapon.shootArrows(), std::cout << "SHOOT";
+		{
+			equipWeapon(crossbow);
+			weapon.shootArrows();
+			std::cout << "SHOOT";
+		}
 		else
+		{
+			if (weapon.reloading < weapon.reloadTime / 2)
+				weapon.reloading = weapon.reloadTime / 2;
 			weapon.stopShooting();
+		}
 	}
 
 	void Player::addMovement(int x, int y, float deltaTime)

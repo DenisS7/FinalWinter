@@ -30,10 +30,11 @@ namespace Character
 		
 	}
 
-	void EnemyBase::changeActionSprite(int x)
+	void EnemyBase::changeActionSprite(int x, int newCurrentRow)
 	{
 		sprite.SetFile(new GameSpace::Surface(data.epaths[x].path), data.epaths[x].rows * data.epaths[x].columns, directionFacing * data.epaths[x].columns);
-		currentSs.changeSpritesheet(data.epaths[x].path, data.epaths[x].rows, data.epaths[x].columns, &sprite);
+		currentSs.changeSpritesheet(data.epaths[x].path, data.epaths[x].rows, data.epaths[x].columns, newCurrentRow, &sprite);
+		
 		currentSs.setFrameTime(data.epaths[x].frameTime);
 	}
 
@@ -220,7 +221,10 @@ namespace Character
 
 	void EnemyBase::die()
 	{
-
+		//increase score
+		currentRoom->deleteEnemy(this);
+		std::cout << "Delete" << std::endl;
+		delete this;
 	}
 
 	void EnemyBase::followPlayer()

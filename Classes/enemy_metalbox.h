@@ -15,6 +15,7 @@ class enemy_metalbox :
 private: 
     
     bool isFollowingPlayer = false;
+    bool isExploding = false;
 
 public:
     enemy_metalbox(Map::Room* currentRoom, int entype)
@@ -24,6 +25,7 @@ public:
     }
 
     void Init();
+    void explode();
     void findApath(newmath::ivec2 start, newmath::ivec2 finish) { EnemyBase::findPath(start, finish); };
     void followPlayer();
     void addMovement(float deltaTime);

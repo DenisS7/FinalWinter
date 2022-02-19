@@ -52,10 +52,26 @@ void Room::inititateEnemies()
 {
 	for (int i = 0; i < enemies; i++)
 	{
+		//std::cout << roomNumber << " newEnemy" << std::endl;
 		Character::enemy_metalbox* newEnemy = new Character::enemy_metalbox(this, 0);
 		newEnemy->Init();
 		enemiesInRoom.push_back(newEnemy);
 	}
+}
+
+void Room::openPortals()
+{
+}
+
+void Room::deleteEnemy(Character::EnemyBase* enemy)
+{
+	enemies--;
+	//std::cout << "deleteEnemy" << std::endl;
+	std::vector<Character::EnemyBase*>::iterator position = std::find(enemiesInRoom.begin(), enemiesInRoom.end(), enemy);
+	if (position != enemiesInRoom.end())
+		enemiesInRoom.erase(position);
+	if (enemies == 0)
+		openPortals();
 }
 
 void Room::changeDir()
@@ -335,7 +351,6 @@ void Room::updateEnemies()
 
 void Room::updateMap(float deltaTime, GameSpace::Surface* GameScreen)
 {
-	
 	changeDir();
 	//std::cout << moveDir.x << " " << moveDir.y << std::endl;
 	drawMap(GameScreen);
