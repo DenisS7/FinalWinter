@@ -47,16 +47,24 @@ int CollisionCheck::isOverlapping(CollisionComponent actorCollision, GameSpace::
 				tileCol.collisionBox = newmath::make_Rect(x * 32, y * 32, 32, 32);
 				if (areColliding(actorCollision, tileCol))
 					collisionType = currentRoom->tiles[tilepos].type;
+			}
+
+			if (!currentRoom->tiles[tilepos].entitiesOnTile.empty())
+			{
+				//std::cout << "Enemies On Tile" << actorCollision.collisionBox.x << " " << actorCollision.collisionBox.y << std::endl;
+				//screen->Box(tilepos % 44 * 32 - (int)currentRoom->locf.x, tilepos / 44 * 32 - (int)currentRoom->locf.y, tilepos % 44 * 32 + 32 - (int)currentRoom->locf.x, tilepos / 44 * 32 - (int)currentRoom->locf.y + 32, 0xff0000);
 				
-				if (!currentRoom->tiles[tilepos].entitiesOnTile.empty())
-				{
-					for (int i = 0; i < currentRoom->tiles[tilepos].entitiesOnTile.size(); i++)
-						if (areColliding(actorCollision, currentRoom->tiles[tilepos].entitiesOnTile[i]->data.col))
-						{
-							currentRoom->tiles[tilepos].entitiesOnTile[i]->takeDamage(damage);
-							isEnemy = true;
-						}
-				}
+				//std::cout << "Enemies On Tile" << std::endl;
+				//std::cout << actorCollision.collisionBox.x << " " << actorCollision.collisionBox.y << std::endl;
+				//std::cout << currentRoom->tiles[tilepos].entitiesOnTile[0]->data.col.collisionBox.x << " " << currentRoom->tiles[tilepos].entitiesOnTile[0]->data.col.collisionBox.y << std::endl;
+
+				for (int i = 0; i < currentRoom->tiles[tilepos].entitiesOnTile.size(); i++)
+					if (areColliding(actorCollision, currentRoom->tiles[tilepos].entitiesOnTile[i]->data.col))
+					{
+						//std::cout << "ENEMY COLLISION" << std::endl;
+						currentRoom->tiles[tilepos].entitiesOnTile[i]->takeDamage(damage);
+						isEnemy = true;
+					}
 			}
 		}
 	}

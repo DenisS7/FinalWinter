@@ -46,12 +46,16 @@ public:
 	int actualRooms = 0;
 	int generatedOrder[100] = { 0 };
 	int parentRoom[100] = { 0 };
+	const int closedDoor[2] = { 40, 67 };
+	const int openDoor[2] = { 164, 191 };
 
 	newmath::ivec2 start, finish, roomAm;
 
 	int nrColTiles, nrPortalTiles;
 	std::vector <int> collisionTiles;
 	std::vector <int> portalTiles;
+
+
 
 	struct typeEn
 	{

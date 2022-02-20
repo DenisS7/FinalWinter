@@ -91,6 +91,7 @@ namespace Character
 				weapon.changeDirection(n);
 				currentSs.setDirection(n);
 				directionFacing = n;
+				weapon.reloading = weapon.reloadTime;
 			}
 		}
 	}
@@ -258,7 +259,7 @@ namespace Character
 
 		int nextTile = CollisionCheck::isPlayerOverlapping(this, currentRoom);
 
-		if (nextTile == 0) //no collision
+		if (nextTile == nonCollide) //no collision
 		{
 			//
 			if ((x && newmath::inRangef(drawLocf.x, (float)middleScreen.x - 4, (float)middleScreen.x + 4)) || ((y && newmath::inRangef(drawLocf.y, (float)middleScreen.y - 4, (float)middleScreen.y + 4))))
@@ -267,7 +268,7 @@ namespace Character
 			drawLocf.x = locf.x - currentRoom->locf.x;
 			drawLocf.y = locf.y - currentRoom->locf.y;
 		}
-		else if (nextTile == 1)
+		else if (nextTile == collide || nextTile == portalInactive)
 		{
 
 			locf.x -= move.speed * deltaTime * x;
@@ -276,7 +277,7 @@ namespace Character
 			
 			collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		}
-		else if (nextTile == 3)
+		else if (nextTile == portalActive)
 		{
 			//std::cout << "PORTAL" << std::endl;
 			if (x > 0 && locf.x > (currentRoom->size.x - 4) * currentRoom->tilesize)

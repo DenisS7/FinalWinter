@@ -64,10 +64,11 @@ namespace Weapon
 
 			//std::cout << locf.x << " " << (int)locf.x << std::endl;
 			sprite.Draw(crossbow->player->screen, (int)drawLocf.x, (int)drawLocf.y);
-
+			//crossbow->player->screen->Box(collision.collisionBox.x - currentRoom->locf.x, collision.collisionBox.y - currentRoom->locf.y, collision.collisionBox.x + collision.collisionBox.width - currentRoom->locf.x, collision.collisionBox.y + collision.collisionBox.height - currentRoom->locf.y, 0xff0000);
 			//drawLocf.x -= move.x * (abs(currentRoom->locf.x - initialPosf.x));
 			//drawLocf.y -= move.y * (abs(currentRoom->locf.y - initialPosf.y));
 		}
+		
 		time += deltaTime;
 	}
 

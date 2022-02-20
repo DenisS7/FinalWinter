@@ -66,7 +66,6 @@ void Spritesheet::freezeFrame(int frame, bool isFreezed)
 void Spritesheet::calculateNextFrame()
 {   
     currentFrame = (currentFrame + 1) % columns + columns * currentRow;
-    //std::cout << currentFrame << " " << columns << " " << currentRow << std::endl;
 }
 
 void Spritesheet::changeVisiblity(bool newVisible)

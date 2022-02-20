@@ -7,12 +7,20 @@
 
 namespace Character
 {
-	newmath::ivec2 EnemyBase::getCurrentPos()
+	newmath::ivec2 EnemyBase::getCurrentPos(newmath::ivec2 posToGet)
 	{
-		int x = ((int)locf.x + 64) / currentRoom->tilesize;
-		int y = ((int)locf.y + 64) / currentRoom->tilesize;
-		newmath::ivec2 pos = newmath::make_ivec2(x, y);
-		return pos;
+		int x = ((int)locf.x + posToGet.x) / currentRoom->tilesize;
+		int y = ((int)locf.y + posToGet.y) / currentRoom->tilesize;
+		return newmath::make_ivec2(x, y);
+	}
+
+	void EnemyBase::changeDrawLoc()
+	{
+		drawLocf = locf - currentRoom->locf;
+	}
+
+	void EnemyBase::triggerFollowPlayer()
+	{
 	}
 
 	void EnemyBase::Init()
@@ -22,12 +30,38 @@ namespace Character
 		data.damagePerAttack = currentRoom->manager->enemyTypes[data.type].damagePerAttack;
 		data.damageOnCol = currentRoom->manager->enemyTypes[data.type].damageOnCol;
 		data.speed = currentRoom->manager->enemyTypes[data.type].speed;
-		data.col.collisionBox = currentRoom->manager->enemyTypes[data.type].col.collisionBox;
+		data.col.offset.x = currentRoom->manager->enemyTypes[data.type].col.collisionBox.x;
+		data.col.offset.y = currentRoom->manager->enemyTypes[data.type].col.collisionBox.y;
+
+		data.col.collisionBox.width = currentRoom->manager->enemyTypes[data.type].col.collisionBox.width;
+		data.col.collisionBox.height = currentRoom->manager->enemyTypes[data.type].col.collisionBox.height;
+
 		data.spritesheetsNr = currentRoom->manager->enemyTypes[data.type].spritesheetsNr;
 		for(int i = 0; i < data.spritesheetsNr; i++)
 			data.epaths[i] = currentRoom->manager->enemyTypes[data.type].epaths[i];
-		tilePos = getCurrentPos();
-		
+
+		locf.x = IRand((currentRoom->size.x - sprite.GetWidth() / currentRoom->tilesize - 1) * currentRoom->tilesize) + sprite.GetWidth();
+		locf.y = IRand((currentRoom->size.y - sprite.GetHeight() / currentRoom->tilesize - 1) * currentRoom->tilesize) + sprite.GetHeight();
+
+		data.col.collisionBox.x = data.col.offset.x + (int)locf.x;
+		data.col.collisionBox.y = data.col.offset.y + (int)locf.y;
+
+		changeDrawLoc();
+
+		tilePos = getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2));
+
+		initOcupTile = getCurrentPos(newmath::make_ivec2(0, 0));
+		finOcupTile = getCurrentPos(newmath::make_ivec2(sprite.GetWidth(), sprite.GetHeight()));
+
+		for (int x = initOcupTile.x; x <= finOcupTile.x && x < currentRoom->size.x; x++)
+		{
+			for (int y = initOcupTile.y; y <= finOcupTile.y && y < currentRoom->size.y; y++)
+			{
+				int tileNr = x + y * currentRoom->size.x;
+				currentRoom->addEnemyToTile(this, tileNr);
+			}
+		}
+
 	}
 
 	void EnemyBase::changeActionSprite(int x, int newCurrentRow)
@@ -36,11 +70,6 @@ namespace Character
 		currentSs.changeSpritesheet(data.epaths[x].path, data.epaths[x].rows, data.epaths[x].columns, newCurrentRow, &sprite);
 		
 		currentSs.setFrameTime(data.epaths[x].frameTime);
-	}
-
-	void EnemyBase::changeDrawLoc()
-	{
-		drawLocf = locf - currentRoom->locf;
 	}
 
 	void EnemyBase::resetAPath()
@@ -75,8 +104,8 @@ namespace Character
 
 	bool EnemyBase::isTileValid(const newmath::ivec2& tilePos)
 	{
-		if (tilePos.x >= 0 && tilePos.x <= currentRoom->size.x)
-			if (tilePos.y >= 0 && tilePos.y <= currentRoom->size.y)
+		if (tilePos.x >= 0 && tilePos.x < currentRoom->size.x)
+			if (tilePos.y >= 0 && tilePos.y < currentRoom->size.y)
 			{
 				
 				if (!currentRoom->tiles[tilePos.x + tilePos.y * currentRoom->size.x].colidable)
@@ -215,8 +244,12 @@ namespace Character
 	void EnemyBase::takeDamage(const int damage)
 	{
 		data.health -= damage;
+		
 		if (data.health <= 0)
-			die();
+			isDead = true;
+
+		if (!isFollowingPlayer && !isDead)
+			triggerFollowPlayer();
 	}
 
 	void EnemyBase::die()
@@ -239,6 +272,7 @@ namespace Character
 
 	void EnemyBase::update(float deltaTime)
 	{
+		//std::cout << "UPDATE" << std::endl;
 		currentSs.drawNextSprite(deltaTime, currentRoom->manager->screen, drawLocf);
 	}
 

@@ -22,6 +22,11 @@ private:
 
 public:
 
+	const int nonCollide = 0;
+	const int collide = 1;
+	const int portalInactive = 2;
+	const int portalActive = 3;
+
 	newmath::ivec2 middleScreen;
 
 	GameSpace::vec2 locf, drawLocf;

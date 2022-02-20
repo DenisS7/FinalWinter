@@ -65,7 +65,7 @@ namespace Weapon
 	void WeaponBase::deleteArrow(Arrow* endArrow)
 	{	
 		/* https://stackoverflow.com/questions/3385229/c-erase-vector-element-by-value-rather-than-by-position */
-		std::cout << "deleteArrow" << std::endl;
+		//std::cout << "deleteArrow" << std::endl;
 		std::vector<Arrow*>::iterator position = std::find(arrows.begin(), arrows.end(), endArrow);
 		if (position != arrows.end())
 			arrows.erase(position);

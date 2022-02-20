@@ -59,8 +59,122 @@ void Room::inititateEnemies()
 	}
 }
 
+void Room::removeEnemyFromTile(const Character::EnemyBase* enemy, int tileNr)
+{
+	std::vector<Character::EnemyBase*>::iterator position = std::find(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy);
+	if (position != tiles[tileNr].entitiesOnTile.end())
+		tiles[tileNr].entitiesOnTile.erase(position);
+	//else std::cout << "WRONG TILE" << std::endl;
+}
+
+void Room::addEnemyToTile(Character::EnemyBase* enemy, int tileNr)
+{
+	if (!std::count(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy))
+		tiles[tileNr].entitiesOnTile.push_back(enemy);
+	//else std::cout << "ALREADY " << std::endl;
+}
+
+void Room::enemyOnTiles(Character::EnemyBase* enemy)
+{
+	int x = ((int)enemy->locf.x) / tilesize;
+	int y = ((int)enemy->locf.y) / tilesize;
+	newmath::ivec2 initTile = newmath::make_ivec2(x, y);
+
+	x = ((int)enemy->locf.x + enemy->sprite.GetWidth()) / tilesize;
+	y = ((int)enemy->locf.y + enemy->sprite.GetHeight()) / tilesize;
+	newmath::ivec2 finTile = newmath::make_ivec2(x, y);
+
+	newmath::ivec2 dif = initTile - enemy->initOcupTile;
+	if (dif.x < 0)
+	{
+		for (int x = 0; x > dif.x; x--)
+		{
+			for (int y = enemy->initOcupTile.y; y <= enemy->finOcupTile.y; y++)
+			{
+				const int removex = enemy->finOcupTile.x - x;
+				const int addx = enemy->initOcupTile.x - x;
+
+				newmath::clamp(removex, 0, size.x - 1);
+				newmath::clamp(addx, 0, size.x - 1);
+
+				const int tileRemNr = removex + y * size.x;
+				const int tileAddNr = addx + y * size.x;
+
+				removeEnemyFromTile(enemy, tileRemNr);
+				addEnemyToTile(enemy, tileAddNr);
+			}
+		}
+	}
+	else if (dif.x > 0)
+	{
+		for (int x = 0; x < dif.x; x++)
+		{
+			for (int y = enemy->initOcupTile.y; y <= enemy->finOcupTile.y; y++)
+			{
+				const int removex = enemy->initOcupTile.x + x;
+				const int addx = enemy->finOcupTile.x + x;
+
+				newmath::clamp(removex, 0, size.x - 1);
+				newmath::clamp(addx, 0, size.x - 1);
+
+				const int tileRemNr = removex + y * size.x;
+				const int tileAddNr = addx + y * size.x;
+
+				removeEnemyFromTile(enemy, tileRemNr);
+				addEnemyToTile(enemy, tileAddNr);
+			}
+		}
+	}
+	
+	if (dif.y < 0)
+	{
+		for (int y = 0; y > dif.y; y--)
+		{
+			for (int x = enemy->initOcupTile.x; x <= enemy->finOcupTile.x; x++)
+			{
+				const int removey = enemy->finOcupTile.y - y;
+				const int addy = enemy->initOcupTile.y - y;
+
+				newmath::clamp(removey, 0, size.y - 1);
+				newmath::clamp(addy, 0, size.y - 1);
+
+				const int tileRemNr = x + removey * size.x;
+				const int tileAddNr = x + addy * size.x;
+
+				removeEnemyFromTile(enemy, tileRemNr);
+				addEnemyToTile(enemy, tileAddNr);
+			}
+		}
+	}
+	else if (dif.y > 0)
+	{
+		for (int y = 0; y < dif.y; y++)
+		{
+			for (int x = enemy->initOcupTile.x; x <= enemy->finOcupTile.x; x++)
+			{
+				const int removey = enemy->initOcupTile.y + y;
+				const int addy = enemy->finOcupTile.y + y;
+
+				newmath::clamp(removey, 0, size.y - 1);
+				newmath::clamp(addy, 0, size.y - 1);
+
+				const int tileRemNr = x + removey * 7;
+				const int tileAddNr = x + addy * 7;
+
+				removeEnemyFromTile(enemy, tileRemNr);
+				addEnemyToTile(enemy, tileAddNr);
+			}
+		}
+	}
+
+	enemy->initOcupTile = initTile;
+	enemy->finOcupTile = finTile;
+
+}
+
 void Room::openPortals()
 {
+	changeDoorLayout(true);
 }
 
 void Room::deleteEnemy(Character::EnemyBase* enemy)
@@ -96,14 +210,28 @@ void Room::moveMap(int x, int y, float deltaTime)
 	locf.y = newmath::clampf(locf.y, 0.0, (float)size.y * tilesize - 512);
 }
 
-void Room::changeDoorLayout()
+void Room::changeDoorLayout(bool isOpen)
 {
+	int door[2] = { 40, 67 };
+	int type = portalInactive;
+	if (isOpen)
+	{
+		door[0] = manager->openDoor[0];
+		door[1] = manager->openDoor[1];
+		type = portalActive;
+	}
+	else
+	{
+		door[0] = manager->closedDoor[0];
+		door[1] = manager->closedDoor[1];
+		type = portalInactive;
+	}
 	if (doors[0]) //down
 	{	
-		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].drawIndex = 164;
-		tiles[size.x / 2 - 1 + (size.y - 2) * size.x].drawIndex = 191;
+		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].drawIndex = door[0];
+		tiles[size.x / 2 - 1 + (size.y - 2) * size.x].drawIndex = door[1];
 
-		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = portalActive;
+		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = type;
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].colidable = true;
 		//tiles[size.x / 2 - 1 + (size.y - 2) * size.x].type = portalActive;
 
@@ -111,19 +239,19 @@ void Room::changeDoorLayout()
 	}
 	if (doors[2]) // up
 	{
-		tiles[size.x / 2 - 1 + size.x].drawIndex = 164;
-		tiles[size.x / 2 - 1 + 2 * size.x].drawIndex = 191;
+		tiles[size.x / 2 - 1 + size.x].drawIndex = door[0];
+		tiles[size.x / 2 - 1 + 2 * size.x].drawIndex = door[1];
 
-		tiles[size.x / 2 - 1 + size.x].type = portalActive;
+		tiles[size.x / 2 - 1 + size.x].type = type;
 		tiles[size.x / 2 - 1 + size.x].colidable = true;
 		//tiles[size.x / 2 - 1 + 2 * size.x].type = portalActive;
 	}
 	if (doors[1]) //left
 	{
-		tiles[(size.y / 2) * size.x].drawIndex = 164;
-		tiles[(size.y / 2) * size.x + 1].drawIndex = 191;
+		tiles[(size.y / 2) * size.x].drawIndex = door[0];
+		tiles[(size.y / 2) * size.x + 1].drawIndex = door[1];
 
-		tiles[(size.y / 2) * size.x].type = portalActive;
+		tiles[(size.y / 2) * size.x].type = type;
 		tiles[(size.y / 2) * size.x].colidable = true;
 		//tiles[(size.y / 2) * size.x + 1].type = portalActive;
 
@@ -131,10 +259,10 @@ void Room::changeDoorLayout()
 	}
 	if (doors[3]) //right
 	{
-		tiles[(size.y / 2) * size.x + size.x - 1].drawIndex = 164;
-		tiles[(size.y / 2) * size.x + size.x - 2].drawIndex = 191;
+		tiles[(size.y / 2) * size.x + size.x - 1].drawIndex = door[0];
+		tiles[(size.y / 2) * size.x + size.x - 2].drawIndex = door[1];
 
-		tiles[(size.y / 2) * size.x + size.x - 1].type = portalActive;
+		tiles[(size.y / 2) * size.x + size.x - 1].type = type;
 		tiles[(size.y / 2) * size.x + size.x - 1].colidable = true;
 		//tiles[(size.y / 2) * size.x + size.x - 2].type = portalActive;
 
@@ -344,18 +472,28 @@ void Room::updateEnemies()
 {
 	for (int i = 0; i < enemiesInRoom.size(); i++)
 	{
-		enemiesInRoom[i]->findPath(enemiesInRoom[i]->getCurrentPos(), player->getCurrentPos());
+		enemiesInRoom[i]->findPath(enemiesInRoom[i]->getCurrentPos(newmath::make_ivec2(enemiesInRoom[i]->sprite.GetWidth() / 2, enemiesInRoom[i]->sprite.GetHeight() / 2)), player->getCurrentPos());
 		enemiesInRoom[i]->changeDrawLoc();
 	}
+}
+
+void Room::updateTiles()
+{
+	for (int i = 0; i < enemiesInRoom.size(); i++)
+		enemyOnTiles(enemiesInRoom[i]);
 }
 
 void Room::updateMap(float deltaTime, GameSpace::Surface* GameScreen)
 {
 	changeDir();
+	
 	//std::cout << moveDir.x << " " << moveDir.y << std::endl;
 	drawMap(GameScreen);
 	for (int i = 0; i < enemiesInRoom.size(); i++)
+	{
 		enemiesInRoom[i]->update(deltaTime);
+	}
+	updateTiles();
 }
 
 }

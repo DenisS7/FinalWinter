@@ -8,24 +8,29 @@ namespace Character
 	{
 		EnemyBase::Init();
 		currentSs.setDirection(0);
-		locf.x = drawLocf.x = 150.0f;
-		locf.y = drawLocf.y = 150.0f;
-		tilePos = EnemyBase::getCurrentPos();
+		//locf.x = drawLocf.x = 150.0f;
+		//locf.y = drawLocf.y = 150.0f;
+		tilePos = EnemyBase::getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2));
 		findPath(tilePos, currentRoom->player->getCurrentPos());
-		
 	}
 
 	void enemy_metalbox::explode()
 	{
+		//std::cout << "EXPLODE" << std::endl;
 		directionFacing = 0;
 		EnemyBase::changeActionSprite(2, 0);
 	}
 
-	
+	void enemy_metalbox::triggerFollowPlayer()
+	{
+		if (!isFollowingPlayer)
+			EnemyBase::changeActionSprite(1, directionFacing);
+		isFollowingPlayer = true;
+	}
 
 	void enemy_metalbox::addMovement(float deltaTime)
 	{
-		newmath::ivec2 currentPos = getCurrentPos();
+		newmath::ivec2 currentPos = getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2));
 		if (path.size())
 		{
 			newmath::ivec2 nextPos = *path.begin();
@@ -39,6 +44,9 @@ namespace Character
 				locf.x += float(dir.x * data.speed * deltaTime * div);
 				locf.y += float(dir.y * data.speed * deltaTime * div);
 				
+				data.col.collisionBox.x = (int)locf.x + data.col.offset.x;
+				data.col.collisionBox.y = (int)locf.y + data.col.offset.y;
+
 				drawLocf.x = locf.x - currentRoom->locf.x;
 				drawLocf.y = locf.y - currentRoom->locf.y;
 			}
@@ -54,14 +62,17 @@ namespace Character
 					float div = 1;
 					if (dir.x && dir.y)
 						div = 2.0f / 3.0f;
+
 					locf.x += float(dir.x * data.speed * deltaTime * div);
-					locf.y += float(dir.y * data.speed * deltaTime * div);
+					locf.y += float(dir.y * data.speed * deltaTime * div);\
+					
+					data.col.collisionBox.x = (int)locf.x + data.col.offset.x;
+					data.col.collisionBox.y = (int)locf.y + data.col.offset.y;
 					
 					drawLocf.x = locf.x - currentRoom->locf.x;
 					drawLocf.y = locf.y - currentRoom->locf.y;
 				}
 			}
-
 			if (dir.x)
 			{
 				move.side[dir.x + 2] = true;
@@ -87,21 +98,30 @@ namespace Character
 
 	void enemy_metalbox::update(float deltaTime)
 	{
-		std::cout << data.speed << std::endl;
+		
 		EnemyBase::update(deltaTime);
+
+		//screen->Box(data.col.collisionBox.x - currentRoom->locf.x, data.col.collisionBox.y - currentRoom->locf.y, data.col.collisionBox.x + data.col.collisionBox.width - currentRoom->locf.x, data.col.collisionBox.y + data.col.collisionBox.height - currentRoom->locf.y, 0xff0000);
+
+		//for (int x = initOcupTile.x; x <= finOcupTile.x && x <= currentRoom->size.x; x++)
+			//for (int y = initOcupTile.y; y <= finOcupTile.y && y <= currentRoom->size.y; y++)
+				//screen->Box(x * 32 - currentRoom->locf.x, y * 32 - currentRoom->locf.y, x * 32 - currentRoom->locf.x + 32, y * 32 - currentRoom->locf.y + 32, 0x00ff00);
+
+
 		currentTimePath += deltaTime;
 		//if (currentTimePath >= timeUntilPathRefresh)
 			
 		//std::cout << currentRoom->roomNumber << " " << path.size() << std::endl;
-		if (path.size() <= 1 && !isExploding)
+		if ((path.size() <= 1 || isDead) && !isExploding)
 		{
+			isFollowingPlayer = false;
 			isExploding = true;
 			explode();
 		}
-		if ((isFollowingPlayer || path.size() <= 7) && !isExploding)
+		else if ((isFollowingPlayer || path.size() <= 7) && !isExploding)
 		{
-			if (!isFollowingPlayer)
-				EnemyBase::changeActionSprite(1, directionFacing);
+			data.speed += (float)0.000002 * deltaTime;
+			triggerFollowPlayer();
 			addMovement(deltaTime);
 			isFollowingPlayer = true;
 		}
@@ -109,10 +129,12 @@ namespace Character
 		{
 			drawLocf = locf - currentRoom->locf;
 		}
-		findPath(getCurrentPos(), currentRoom->player->getCurrentPos());
+		findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->player->getCurrentPos());
+		
+		//std::cout << currentSs.getCurrentFrame() << std::endl;
 
-		if (currentSs.getCurrentFrame() == 12 && isExploding)
+		if (isExploding && currentSs.getCurrentFrame() == 12)
 			EnemyBase::die();
-		data.speed += 0.000002 * deltaTime;
+		
 	}
 }

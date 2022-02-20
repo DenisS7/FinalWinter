@@ -63,6 +63,7 @@ public:
 	bool doors[4] = { false };
 
 
+
 	const int Fight = 0;
 	const int Rest = 1;
 	const int Upgrade = 2;
@@ -98,11 +99,14 @@ public:
 	
 	void initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, MapManager* newManager);
 	void inititateEnemies();
+	void removeEnemyFromTile(const Character::EnemyBase* enemy, int tileNr);
+	void addEnemyToTile(Character::EnemyBase* enemy, int tileNr);
+	void enemyOnTiles(Character::EnemyBase* enemy);
 	void openPortals();
 	void deleteEnemy(Character::EnemyBase* enemy);
 	void changeDir();
 	void moveMap(int x, int y, float deltaTime);
-	void changeDoorLayout();
+	void changeDoorLayout(bool isOpen);
 	void calculateDoors(int startDoor, bool CanClose, int beforeRoom);
 	void resetDoors();
 	int doorNumber();
@@ -113,6 +117,7 @@ public:
 	void drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy);
 	void drawMap(GameSpace::Surface* GameScreen);
 	void updateEnemies();
+	void updateTiles();
 	void updateMap(float deltaTime, GameSpace::Surface* GameScreen);
 };
 

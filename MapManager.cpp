@@ -211,7 +211,7 @@ namespace Map
 			
 		}
 
-		rooms[start.x + start.y * 7].changeDoorLayout();
+		rooms[start.x + start.y * 7].changeDoorLayout(false);
 		
 		generatedOrder[0] = start.x + start.y * 7;
 
@@ -257,7 +257,7 @@ namespace Map
 		}
 		//if (goingBack)
 			//std::cout << "Passed For \n";
-		rooms[x + y * 7].changeDoorLayout();
+		rooms[x + y * 7].changeDoorLayout(false);
 		actualRooms++;
 		generatedOrder[actualRooms] = x + y * 7;
 	}

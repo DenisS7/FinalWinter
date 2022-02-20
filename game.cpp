@@ -43,32 +43,32 @@ namespace GameSpace
 
 	void Game::KeyDown(int key)
 	{
-	
-			int x;
-			if (player.isHoldingGun)
-				x = 0;
-			else x = 5;
-			switch (key)
-			{
-			case SDL_SCANCODE_E:
-				player.equipWeapon(x), std::cout << "E SHOOT" << std::endl;
-				break;
-			case SDL_SCANCODE_G:
-				player.shootProjectile(5), std::cout << "R SHOOT" << std::endl;
-				break;
+
+		int x;
+		if (player.isHoldingGun)
+			x = 0;
+		else x = 5;
+		switch (key)
+		{
+		case SDL_SCANCODE_E:
+			player.equipWeapon(x), std::cout << "E SHOOT" << std::endl;
+			break;
+		case SDL_SCANCODE_G:
+			player.shootProjectile(5), std::cout << "R SHOOT" << std::endl;
+			break;
 			//default:
 				//break;
-			}
-		
+		}
+
 	}
 
 	void Game::KeyUp(int key)
 	{
 		switch (key)
 		{
-			case SDL_SCANCODE_G:
-				player.shootProjectile(0);
-				break;
+		case SDL_SCANCODE_G:
+			player.shootProjectile(0);
+			break;
 			//default:
 				//break;
 		}
@@ -84,7 +84,6 @@ namespace GameSpace
 	}
 
 
-
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
@@ -93,10 +92,12 @@ namespace GameSpace
 
 	void Game::Tick(float deltaTime)
 	{
+		
+		screen->Clear(0);
 		//std::cout << player.currentRoom->tiles[273].colidable << std::endl;
 		//std::cout << explosion.GetWidth() << std::endl;
 		Input(deltaTime);
-		manager.rooms[player.currentRoom->roomNumber].drawMap(screen);
+		//manager.rooms[player.currentRoom->roomNumber].drawMap(screen);
 		manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
 		player.update(deltaTime);
 

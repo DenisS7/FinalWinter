@@ -71,8 +71,14 @@ public:
 
 	GameSpace::Surface* screen;
 
-	float timeUntilPathRefresh = 1000.0f;
+	const float timeUntilPathRefresh = 1000.0f;
 	float currentTimePath = 0.0f;
+
+	bool isFollowingPlayer = false;
+	bool isExploding = false;
+	bool isDead = false;
+
+	newmath::ivec2 initOcupTile{ -1, -1 }, finOcupTile{ -1, -1 };
 
 	std::vector <newmath::ivec2> path;
 	std::vector <Atile> nextTiles;
@@ -88,9 +94,10 @@ public:
 	newmath::chMove move;
 	newmath::ivec2 tilePos;
 
-	newmath::ivec2 getCurrentPos();
+	newmath::ivec2 getCurrentPos(newmath::ivec2 posToGet);
 	virtual void Init();
-	void EnemyBase::changeActionSprite(int x, int newCurrentRow);
+	void changeActionSprite(int x, int newCurrentRow);
+	virtual void triggerFollowPlayer();
 	void changeDrawLoc();
 	void resetAPath();
 	int getClosestTile();
