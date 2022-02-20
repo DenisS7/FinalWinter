@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "EnemyBase.h"
 #include "enemy_metalbox.h"
+#include "enemy_snowman.h"
 
 
 namespace Map
@@ -53,7 +54,7 @@ void Room::inititateEnemies()
 	for (int i = 0; i < enemies; i++)
 	{
 		//std::cout << roomNumber << " newEnemy" << std::endl;
-		Character::enemy_metalbox* newEnemy = new Character::enemy_metalbox(this, 0);
+		Character::enemy_snowman* newEnemy = new Character::enemy_snowman(this, 0);
 		newEnemy->Init();
 		enemiesInRoom.push_back(newEnemy);
 	}

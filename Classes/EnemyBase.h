@@ -87,6 +87,7 @@ public:
 	newmath::ivec2 finish;
 
 	int type;
+	int currentState = 0;
 	int directionFacing = 0;
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_idle.png"), 1 };
 	Spritesheet currentSs{ "assets/Enemies/metalgift/metalgift_idle.png", 1, 1, &sprite };
@@ -106,7 +107,7 @@ public:
 	void getAdjTile(const Atile& tile, const newmath::ivec2& nextTile);
 	void getNeighbours(const Atile& tile);
 	std::vector <newmath::ivec2> findPath(newmath::ivec2 start, newmath::ivec2 finish);
-	void changeDirection(int newDirection);
+	virtual void changeDirection(int newDirection);
 	void takeDamage(int damage);
 	void die();
 	void followPlayer();

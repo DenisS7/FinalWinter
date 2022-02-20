@@ -52,6 +52,11 @@ namespace Map
 		enemyTypes[0].epaths[1].path = "assets/Enemies/metalgift/metalgift_run.png";
 		enemyTypes[0].epaths[2].path = "assets/Enemies/metalgift/metalgift_explosion.png";
 
+		enemyTypes[1].epaths[0].path = "assets/Enemies/snowman/snowman_turn.png";
+		enemyTypes[1].epaths[1].path = "assets/Enemies/snowman/snowman_spawn.png";
+		enemyTypes[1].epaths[2].path = "assets/Enemies/snowman/snowman_attack.png";
+		enemyTypes[1].epaths[3].path = "assets/Enemies/snowman/snowman_death.png";
+
 		roomAm.x = 7;
 		roomAm.y = 7;
 

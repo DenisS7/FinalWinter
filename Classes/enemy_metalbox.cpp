@@ -4,7 +4,7 @@
 
 namespace Character
 {
-	void enemy_metalbox::Init()
+	void enemy_metalbox::init()
 	{
 		EnemyBase::Init();
 		currentSs.setDirection(0);

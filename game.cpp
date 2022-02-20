@@ -83,7 +83,6 @@ namespace GameSpace
 	{
 	}
 
-
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
@@ -100,6 +99,5 @@ namespace GameSpace
 		//manager.rooms[player.currentRoom->roomNumber].drawMap(screen);
 		manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
 		player.update(deltaTime);
-
 	}
 };

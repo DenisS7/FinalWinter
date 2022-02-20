@@ -46,6 +46,9 @@
     <ClCompile Include="Classes\CollisionComponent.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\enemy_snowman.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Player.h">
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="Classes\CollisionComponent.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\enemy_snowman.h">
+      <Filter>Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

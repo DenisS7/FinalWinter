@@ -21,7 +21,7 @@ public:
         
     }
 
-    void Init();
+    void init();
     void explode();
     void triggerFollowPlayer();
     void findApath(newmath::ivec2 start, newmath::ivec2 finish) { EnemyBase::findPath(start, finish); };

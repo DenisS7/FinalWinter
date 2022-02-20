@@ -68,7 +68,6 @@ namespace Character
 	{
 		sprite.SetFile(new GameSpace::Surface(data.epaths[x].path), data.epaths[x].rows * data.epaths[x].columns, directionFacing * data.epaths[x].columns);
 		currentSs.changeSpritesheet(data.epaths[x].path, data.epaths[x].rows, data.epaths[x].columns, newCurrentRow, &sprite);
-		
 		currentSs.setFrameTime(data.epaths[x].frameTime);
 	}
 

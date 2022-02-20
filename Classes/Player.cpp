@@ -76,8 +76,8 @@ namespace Character
 
 	newmath::ivec2 Player::getCurrentPos()
 	{
-		int x = ((int)locf.x + 32) / currentRoom->tilesize;
-		int y = ((int)locf.y + 32) / currentRoom->tilesize;
+		int x = ((int)locf.x + sprite.GetWidth() / 2) / currentRoom->tilesize;
+		int y = ((int)locf.y + sprite.GetHeight() / 2) / currentRoom->tilesize;
 		newmath::ivec2 pos = newmath::make_ivec2(x, y);
 		return pos;
 	}

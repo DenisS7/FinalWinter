@@ -71,11 +71,11 @@ public:
 
 	const char* enemyPath[5] = {
 	"Classes/Enemies/metalbox.txt",
-	"Classes/Enemies/deer.txt",
-	"Classes/Enemies/snowman.txt"
+	"Classes/Enemies/snowman.txt",
+	"Classes/Enemies/deer.txt"
 	};
 
-	const int typesOfEnemies = 1;
+	const int typesOfEnemies = 2;
 
 	GameSpace::Surface* screen;
 
