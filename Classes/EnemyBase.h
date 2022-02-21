@@ -96,7 +96,7 @@ public:
 	newmath::ivec2 tilePos;
 
 	newmath::ivec2 getCurrentPos(newmath::ivec2 posToGet);
-	virtual void Init();
+	virtual void init(int type);
 	void changeActionSprite(int x, int newCurrentRow);
 	virtual void triggerFollowPlayer();
 	void changeDrawLoc();

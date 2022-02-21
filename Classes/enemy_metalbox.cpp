@@ -6,7 +6,7 @@ namespace Character
 {
 	void enemy_metalbox::init()
 	{
-		EnemyBase::Init();
+		EnemyBase::init(0);
 		currentSs.setDirection(0);
 		//locf.x = drawLocf.x = 150.0f;
 		//locf.y = drawLocf.y = 150.0f;

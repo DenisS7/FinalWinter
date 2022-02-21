@@ -23,9 +23,10 @@ namespace Character
 	{
 	}
 
-	void EnemyBase::Init()
+	void EnemyBase::init(int type)
 	{
 		screen = currentRoom->player->screen;
+		data.type = type;
 		data.health= currentRoom->manager->enemyTypes[data.type].health;
 		data.damagePerAttack = currentRoom->manager->enemyTypes[data.type].damagePerAttack;
 		data.damageOnCol = currentRoom->manager->enemyTypes[data.type].damageOnCol;
@@ -271,7 +272,7 @@ namespace Character
 
 	void EnemyBase::update(float deltaTime)
 	{
-		//std::cout << "UPDATE" << std::endl;
+	
 		currentSs.drawNextSprite(deltaTime, currentRoom->manager->screen, drawLocf);
 	}
 

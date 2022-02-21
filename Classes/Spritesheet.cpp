@@ -65,6 +65,8 @@ void Spritesheet::freezeFrame(int frame, bool isFreezed)
 
 void Spritesheet::calculateNextFrame()
 {   
+    //if (columns == 10)
+        //std::cout << currentRow << std::endl;
     currentFrame = (currentFrame + 1 * freezedColumn) % columns + columns * currentRow;
 }
 

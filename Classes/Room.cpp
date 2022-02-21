@@ -55,7 +55,7 @@ void Room::inititateEnemies()
 	{
 		//std::cout << roomNumber << " newEnemy" << std::endl;
 		Character::enemy_snowman* newEnemy = new Character::enemy_snowman(this, 0);
-		newEnemy->Init();
+		newEnemy->init();
 		enemiesInRoom.push_back(newEnemy);
 	}
 }
