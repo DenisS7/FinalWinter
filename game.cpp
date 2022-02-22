@@ -91,7 +91,6 @@ namespace GameSpace
 
 	void Game::Tick(float deltaTime)
 	{
-		
 		screen->Clear(0);
 		//std::cout << player.currentRoom->tiles[273].colidable << std::endl;
 		//std::cout << explosion.GetWidth() << std::endl;

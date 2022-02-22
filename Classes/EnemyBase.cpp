@@ -236,7 +236,7 @@ namespace Character
 			{
 				currentSs.setDirection(newDirection);
 				directionFacing = newDirection;
-				std::cout << "Direction Changed" << std::endl;
+				//std::cout << "Direction Changed" << std::endl;
 			}
 		}
 	}
@@ -256,7 +256,7 @@ namespace Character
 	{
 		//increase score
 		currentRoom->deleteEnemy(this);
-		std::cout << "Delete" << std::endl;
+		//std::cout << "Delete" << std::endl;
 		delete this;
 	}
 

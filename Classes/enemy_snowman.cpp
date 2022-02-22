@@ -20,7 +20,7 @@ namespace Character
 	{
 		directionFacing = newDirection;
 		currentSs.setDirection(newDirection);
-		std::cout << "Snowman Direction Changed" << std::endl;
+		//std::cout << "Snowman Direction Changed" << std::endl;
 	}
 
 	void enemy_snowman::turnToPlayer()
@@ -39,65 +39,63 @@ namespace Character
 		//std::cout << currentRoom->player->drawLocf.x << " " << currentRoom->player->drawLocf.y << std::endl;
 		//std::cout << this->drawLocf.x << " " << this->changeDrawLoc.y << std::endl;
 		
-		std::cout << "DIF: " << dif.x << " " << dif.y << std::endl;
-		std::cout << "Compared to: " << range.x + range.x * ((int)(dif.y) / divideValuey) << " " << range.y + range.y * ((int)(dif.x) / divideValuex) << std::endl;
+		//std::cout << "DIF: " << dif.x << " " << dif.y << std::endl;
+		//std::cout << "Compared to: " << range.x + range.x * ((int)(dif.y) / divideValuey) << " " << range.y + range.y * ((int)(dif.x) / divideValuex) << std::endl;
 		
 
 		if (dif.x < -range.x * ((int)abs(dif.y) / divideValuey))
 		{
 			if (dif.y < -range.y * ((int)abs(dif.x) / divideValuex))
 			{
-				newDirection = 5;
+				newDirection = 3; // up - left
 			}
 			else if (dif.y > range.y * ((int)abs(dif.x) / divideValuex))
 			{
-				newDirection = 3;
+				newDirection = 1; // down - left
 			}
 			else
 			{
-				newDirection = 4;
+				newDirection = 2; // left
 			}
 		}
 		else if (dif.x > range.x * ((int)abs(dif.y)  / divideValuey))
 		{
 			if (dif.y < -range.y * ((int)abs(dif.x)  / divideValuex))
 			{
-				newDirection = 7;
+				newDirection = 5; // up - right
 			}
 			else if (dif.y > range.y * ((int)abs(dif.x)  / divideValuex))
 			{
-				newDirection = 1;
+				newDirection = 7; // down - right
 			}
 			else
 			{
-				newDirection = 0;
+				newDirection = 6; // right
 			}
 		}
 		else
 		{
 			if (dif.y < -range.y * ((int)abs(dif.x) / divideValuex))
 			{
-				newDirection = 6;
+				newDirection = 4; // up
 			}
 			else if (dif.y > range.y * ((int)abs(dif.x) / divideValuex))
 			{
-				newDirection = 2;
+				newDirection = 0;// down
 			}
 			else
 			{
-				newDirection = 6;
+				newDirection = 0; // not gonna be used 
 			}
 		}
-		newDirection;
-		std::cout << newDirection << std::endl;
-		//currentSs.freezeFrame(directionFacing, true);
 		changeDirection(newDirection);
 	}
 
 	void enemy_snowman::triggerFollowPlayer()
 	{
+		currentSs.freezeFrame(0, false);
 		isFollowingPlayer = true;
-		EnemyBase::changeActionSprite(0, 0);
+		//EnemyBase::changeActionSprite(0, 0);
 	}
 
 	void enemy_snowman::update(float deltaTime)
@@ -105,22 +103,56 @@ namespace Character
 		//std::cout << "Snowman " << data.type << " " << drawLocf.x << " " << drawLocf.y << std::endl;
 		EnemyBase::update(deltaTime);
 		drawLocf = locf - currentRoom->locf;
-		if (!isFollowingPlayer)
+		if (isDead)
 		{
-			EnemyBase::findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->player->getCurrentPos());
-			if (path.size() <= 9)
+			currentSs.freezeFrame(0, false);
+			if (currentState == 3 && currentSs.getCurrentFrame() % 6 == 5)
+				die();
+			else if (currentState != 3)
 			{
-				currentSs.freezeFrame(0, false);
-				isFollowingPlayer = true;
+				currentState = 3;
+				changeActionSprite(3, 0);
+				isExploding = false;
+				isFollowingPlayer = false;
 			}
 		}
-		if (currentState == 1 && currentSs.getCurrentFrame() == 9)
+		else
 		{
-			currentState = 0;
-			changeActionSprite(0, 0);
-			turnToPlayer();
+			if (!isFollowingPlayer)
+			{
+				EnemyBase::findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->player->getCurrentPos());
+				if (path.size() <= 9)
+				{
+					currentSs.freezeFrame(0, false);
+					isFollowingPlayer = true;
+				}
+			}
+			if (currentState == 1 && currentSs.getCurrentFrame() == 9)
+			{
+				currentState = 0;
+				changeActionSprite(0, 0);
+				turnToPlayer();
+			}
+			if (currentState == 0)
+			{
+				if (GameSpace::vec2::dist(this->locf, currentRoom->player->locf) < 300 && !isExploding)
+				{
+					isExploding = true;
+					currentState = 2;
+					changeActionSprite(2, directionFacing);
+				}
+				else turnToPlayer();
+			}
+			if (currentState == 2)
+				std::cout << currentSs.getCurrentFrame() << std::endl;
+			if (currentState == 2 && (currentSs.getCurrentFrame() % 7) == 6)
+			{
+				//std::cout << "Stop: " << currentSs.getCurrentFrame() << std::endl;
+				isExploding = false;
+				currentState = 0;
+				changeActionSprite(0, directionFacing);
+				turnToPlayer();
+			}
 		}
-		if (currentState == 0)
-			turnToPlayer();
 	}
 }
