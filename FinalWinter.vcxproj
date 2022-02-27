@@ -228,6 +228,7 @@
     <ClCompile Include="Classes\EnemyBase.cpp" />
     <ClCompile Include="Classes\enemy_metalbox.cpp" />
     <ClCompile Include="Classes\enemy_snowman.cpp" />
+    <ClCompile Include="Classes\Healthbar.cpp" />
     <ClCompile Include="Classes\newmath.cpp" />
     <ClCompile Include="Classes\Player.cpp" />
     <ClCompile Include="Classes\Projectile.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="Classes\EnemyBase.h" />
     <ClInclude Include="Classes\enemy_metalbox.h" />
     <ClInclude Include="Classes\enemy_snowman.h" />
+    <ClInclude Include="Classes\Healthbar.h" />
     <ClInclude Include="Classes\newmath.h" />
     <ClInclude Include="Classes\Player.h" />
     <ClInclude Include="Classes\Projectile.h" />

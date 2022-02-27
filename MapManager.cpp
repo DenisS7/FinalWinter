@@ -64,6 +64,13 @@ namespace Map
 		start.y = 5;
 		finish.x = 1;
 		finish.y = 1;
+
+		start.x = IRand(7);
+		start.y = IRand(7);
+
+		finish.x = IRand(7);
+		finish.y = IRand(7);
+
 		for (int i = 0; i < 49; i++)
 			rooms[i].initiateRoom(i, collisionTiles, portalTiles, this);
 	}

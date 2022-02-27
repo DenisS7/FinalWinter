@@ -84,11 +84,15 @@ namespace Character
 
 	void Player::die()
 	{
+		equipWeapon(0);
+		isDead = true;
+		changeActionSprite(dead);
 	}
 
 	void Player::modifyPoints(int newPoints)
 	{
 		points += newPoints;
+		std::cout << points << std::endl;
 	}
 
 	void Player::takeDamage(float damage)
@@ -454,6 +458,7 @@ namespace Character
 	{
 		//std::cout << directionFacing << std::endl;
 		//std::cout << "DOWN: " << move.side[0] << " UP: " << move.side[2] << " RIGHT: " << move.side[3] << " LEFT: " << move.side[1] << std::endl;
+		healthbar.drawHealthbar(health, screen);
 		if (directionFacing == 0)
 		{
 			currentSs.drawNextSprite(deltaTime, screen, drawLocf);

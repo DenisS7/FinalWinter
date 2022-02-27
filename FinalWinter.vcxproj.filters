@@ -52,6 +52,9 @@
     <ClCompile Include="Classes\Snowball.cpp">
       <Filter>Weapons</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Healthbar.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Player.h">
@@ -104,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="Classes\Snowball.h">
       <Filter>Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Healthbar.h">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -104,6 +104,8 @@ public:
 	void addEnemyToTile(Character::EnemyBase* enemy, int tileNr);
 	void enemyOnTiles(Character::EnemyBase* enemy);
 	void openPortals();
+	void hideEnemy(Character::EnemyBase* enemy);
+	void removeEnemy(Character::EnemyBase* enemy);
 	void deleteEnemy(Character::EnemyBase* enemy);
 	void changeDir();
 	void moveMap(int x, int y, float deltaTime);

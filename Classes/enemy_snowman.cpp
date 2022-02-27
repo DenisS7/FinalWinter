@@ -122,17 +122,18 @@ namespace Character
 			{
 				if (snowballs.size() == 0)
 				{
-					if (!currentSs.getVisibility())
-						currentRoom->enemies++;
-					die();
+					if (currentSs.getVisibility())
+						die();
+					else currentRoom->removeEnemy(this);
 				}
 				else
 				{
+					if (currentSs.getVisibility())
+						currentRoom->hideEnemy(this);
 					currentSs.freezeFrame(currentSs.getCurrentFrame(), true);
 					currentSs.changeVisiblity(false);
 					data.col.collisionBox.x = data.col.collisionBox.y = 0;
-					currentRoom->enemies--;
-					currentRoom->openPortals();
+					
 					//currentRoom->deleteEnemy(this);
 				}
 			}

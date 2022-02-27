@@ -7,6 +7,7 @@
 #include "../Classes/newmath.h"
 #include "../Classes/WeaponBase.h"
 #include "../Classes/CollisionComponent.h"
+#include "Healthbar.h"
 
 
 
@@ -34,14 +35,15 @@ public:
 
 	CollisionComponent collisionBox;
 
-	float health;
+	bool isDead = false;
+	float health = 100;
 	const int run = 2, idle = 1, dead = 3, runWithGun = 4;
 	const int crossbow = 5, snowball = 6, snowman = 7;
 
 	GameSpace::Sprite sprite{new GameSpace::Surface("assets/Player/player_idle.png"), 24};
 	Weapon::WeaponBase weapon;
 
-	
+	Healthbar healthbar;
 	
 	newmath::chMove move;
 

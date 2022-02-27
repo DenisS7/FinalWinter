@@ -23,7 +23,7 @@ void Room::initiateRoom(int number, const std::vector <int> collisionTiles, cons
 	type = Fight;
 	level = 2;
 
-	enemies = 1;
+	enemies = 4;
 	
 
 	manager = newManager;
@@ -53,10 +53,21 @@ void Room::inititateEnemies()
 {
 	for (int i = 0; i < enemies; i++)
 	{
-		//std::cout << roomNumber << " newEnemy" << std::endl;
-		Character::enemy_snowman* newEnemy = new Character::enemy_snowman(this, 0);
-		newEnemy->init();
-		enemiesInRoom.push_back(newEnemy);
+		
+		int enemyType = IRand(2);
+		if (enemyType == 0)
+		{
+			Character::enemy_metalbox* newEnemy = new Character::enemy_metalbox(this, 0);
+			newEnemy->init();
+			enemiesInRoom.push_back(newEnemy);
+		}
+		else if (enemyType == 1)
+		{
+			Character::enemy_snowman* newEnemy = new Character::enemy_snowman(this, 0);
+			newEnemy->init();
+			enemiesInRoom.push_back(newEnemy);
+		}
+	
 	}
 }
 
@@ -178,18 +189,29 @@ void Room::openPortals()
 	changeDoorLayout(true);
 }
 
-void Room::deleteEnemy(Character::EnemyBase* enemy)
+void Room::hideEnemy(Character::EnemyBase* enemy)
 {
-	
-	//std::cout << "deleteEnemy" << std::endl;
+	enemies--;
+	player->modifyPoints(enemy->data.points);
+	if (enemies == 0)
+	{
+		player->modifyPoints(100);
+		openPortals();
+	}
+}
+
+void Room::removeEnemy(Character::EnemyBase* enemy)
+{
 	std::vector<Character::EnemyBase*>::iterator position = std::find(enemiesInRoom.begin(), enemiesInRoom.end(), enemy);
 	if (position != enemiesInRoom.end())
-	{
-		player->modifyPoints(enemy->data.points);
 		enemiesInRoom.erase(position);
-		enemies--;
-		
-	}
+}
+
+void Room::deleteEnemy(Character::EnemyBase* enemy)
+{
+	removeEnemy(enemy);
+	enemies--;
+	player->modifyPoints(enemy->data.points);
 	if (enemies == 0)
 	{
 		player->modifyPoints(100);
