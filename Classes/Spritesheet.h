@@ -10,10 +10,10 @@ namespace GameSpace
 class Spritesheet
 {
 public:
-    Spritesheet(char* path, int row, int column, GameSpace::Sprite* newSprite);
+    Spritesheet(GameSpace::Surface* newImage, int row, int column, GameSpace::Sprite* newSprite);
     ~Spritesheet();
 
-    void changeSpritesheet(char* path, int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite);
+    void changeSpritesheet(GameSpace::Surface* newImage, int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite);
     void setFrameTime(float newFrameTime);
     void setDirection(int newRow);
     void freezeFrame(int frame, bool isFreezed);

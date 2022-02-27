@@ -97,10 +97,10 @@ namespace Character
 	{
 		
 		EnemyBase::update(deltaTime);
-		currentTimePath += deltaTime;
 	
 		if ((path.size() <= 1 || isDead) && !isExploding)
 		{
+			std::cout << "EXPLODE" << std::endl;
 			isFollowingPlayer = false;
 			isExploding = true;
 			explode();
@@ -112,7 +112,7 @@ namespace Character
 			addMovement(deltaTime);
 			isFollowingPlayer = true;
 		}
-		else
+		else 
 		{
 			drawLocf = locf - currentRoom->locf;
 		}

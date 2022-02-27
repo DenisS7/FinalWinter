@@ -67,8 +67,8 @@ namespace Character
 
 	void EnemyBase::changeActionSprite(int x, int newCurrentRow)
 	{
-		sprite.SetFile(new GameSpace::Surface(data.epaths[x].path), data.epaths[x].rows * data.epaths[x].columns, directionFacing * data.epaths[x].columns);
-		currentSs.changeSpritesheet(data.epaths[x].path, data.epaths[x].rows, data.epaths[x].columns, newCurrentRow, &sprite);
+		sprite.SetFile(Sprites::get().metalbox[x], data.epaths[x].rows * data.epaths[x].columns, directionFacing * data.epaths[x].columns);
+		currentSs.changeSpritesheet(Sprites::get().metalbox[x], data.epaths[x].rows, data.epaths[x].columns, newCurrentRow, &sprite);
 		currentSs.setFrameTime(data.epaths[x].frameTime);
 	}
 

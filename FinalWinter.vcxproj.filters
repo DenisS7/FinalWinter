@@ -55,6 +55,10 @@
     <ClCompile Include="Classes\Healthbar.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\enemy_reindeer.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Sprites.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Player.h">
@@ -111,6 +115,10 @@
     <ClInclude Include="Classes\Healthbar.h">
       <Filter>Player</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\enemy_reindeer.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Sprites.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />
@@ -123,7 +131,7 @@
     <Text Include="Classes\RoomLayout\Room2.txt">
       <Filter>Map\Layouts</Filter>
     </Text>
-    <Text Include="Classes\Enemies\deer.txt">
+    <Text Include="Classes\Enemies\reindeer.txt">
       <Filter>Enemies\Data</Filter>
     </Text>
     <Text Include="Classes\Enemies\metalbox.txt">

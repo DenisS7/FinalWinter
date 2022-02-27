@@ -4,10 +4,10 @@
 #include "../template.h"
 
 
-Spritesheet::Spritesheet(char* path, int row, int column, GameSpace::Sprite* newSprite)
+Spritesheet::Spritesheet(GameSpace::Surface* newImage, int row, int column, GameSpace::Sprite* newSprite)
 {
-    image = new GameSpace::Surface{ "assets/Player/player_idle.png" };
-    image->SetFile(path);
+    image = newImage;
+    
     rows = row;
     columns = column;
     currentFrame = (currentRow * column) % (row * column);
@@ -23,7 +23,7 @@ Spritesheet::~Spritesheet()
     columns = 0;
 }
 
-void Spritesheet::changeSpritesheet(char* path, int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite)
+void Spritesheet::changeSpritesheet(GameSpace::Surface* newImage, int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite)
 {
     currentTime = 0;
     rows = row;
@@ -32,7 +32,7 @@ void Spritesheet::changeSpritesheet(char* path, int row, int column, int newCurr
     columns = column;
     //std::cout << "State Change " << row << " " << column << " " << currentFrame << std::endl;
     sprite = newSprite;
-    image->SetFile(path);
+    image = newImage;
 }
 
 void Spritesheet::setFrameTime(float newFrameTime)

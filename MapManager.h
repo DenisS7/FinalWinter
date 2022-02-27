@@ -72,7 +72,7 @@ public:
 	const char* enemyPath[5] = {
 	"Classes/Enemies/metalbox.txt",
 	"Classes/Enemies/snowman.txt",
-	"Classes/Enemies/deer.txt"
+	"Classes/Enemies/reindeer.txt"
 	};
 
 	const int typesOfEnemies = 2;

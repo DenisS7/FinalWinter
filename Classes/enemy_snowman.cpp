@@ -110,7 +110,7 @@ namespace Character
 
 	void enemy_snowman::update(float deltaTime)
 	{
-		//std::cout << "Snowman " << data.type << " " << drawLocf.x << " " << drawLocf.y << std::endl;
+		//std::cout << "Snowman " << data.health << std::endl;
 		EnemyBase::update(deltaTime);
 		drawLocf = locf - currentRoom->locf;
 		for (int i = 0; i < snowballs.size(); i++)

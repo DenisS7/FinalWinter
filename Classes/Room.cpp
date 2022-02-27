@@ -11,7 +11,7 @@
 #include "EnemyBase.h"
 #include "enemy_metalbox.h"
 #include "enemy_snowman.h"
-
+#include "Sprites.h"
 
 namespace Map
 {
@@ -45,7 +45,7 @@ void Room::initiateRoom(int number, const std::vector <int> collisionTiles, cons
 
 	fin.close();
 
-	tilesPerRow = tilemap.GetPitch() / tilesize;
+	tilesPerRow = Sprites::get().tilemap.GetPitch() / tilesize;
 	moveDir.x = moveDir.y = 0;
 }
 
@@ -73,7 +73,10 @@ void Room::inititateEnemies()
 
 void Room::removeEnemyFromTile(const Character::EnemyBase* enemy, int tileNr)
 {
-	std::vector<Character::EnemyBase*>::iterator position = std::find(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy);
+	newmath::clamp(tileNr, 0, roomSize - 1);
+	std::vector<Character::EnemyBase*>::iterator position = tiles[tileNr].entitiesOnTile.end();
+	if (std::count(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy))
+		position = std::find(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy);
 	if (position != tiles[tileNr].entitiesOnTile.end())
 		tiles[tileNr].entitiesOnTile.erase(position);
 	//else std::cout << "WRONG TILE" << std::endl;
@@ -101,7 +104,7 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 	{
 		for (int x = 0; x > dif.x; x--)
 		{
-			for (int y = enemy->initOcupTile.y; y <= enemy->finOcupTile.y; y++)
+			for (int y = enemy->initOcupTile.y; y <= enemy->finOcupTile.y && y < size.y; y++)
 			{
 				const int removex = enemy->finOcupTile.x - x;
 				const int addx = enemy->initOcupTile.x - x;
@@ -121,7 +124,7 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 	{
 		for (int x = 0; x < dif.x; x++)
 		{
-			for (int y = enemy->initOcupTile.y; y <= enemy->finOcupTile.y; y++)
+			for (int y = enemy->initOcupTile.y; y <= enemy->finOcupTile.y && y < size.y; y++)
 			{
 				const int removex = enemy->initOcupTile.x + x;
 				const int addx = enemy->finOcupTile.x + x;
@@ -142,7 +145,7 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 	{
 		for (int y = 0; y > dif.y; y--)
 		{
-			for (int x = enemy->initOcupTile.x; x <= enemy->finOcupTile.x; x++)
+			for (int x = enemy->initOcupTile.x; x <= enemy->finOcupTile.x && x < size.x; x++)
 			{
 				const int removey = enemy->finOcupTile.y - y;
 				const int addy = enemy->initOcupTile.y - y;
@@ -162,7 +165,7 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 	{
 		for (int y = 0; y < dif.y; y++)
 		{
-			for (int x = enemy->initOcupTile.x; x <= enemy->finOcupTile.x; x++)
+			for (int x = enemy->initOcupTile.x; x <= enemy->finOcupTile.x && x < size.x; x++)
 			{
 				const int removey = enemy->initOcupTile.y + y;
 				const int addy = enemy->finOcupTile.y + y;
@@ -383,7 +386,7 @@ void Room::drawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int d
 		add.y = 0;
 	}
 
-	GameSpace::Pixel* src = tilemap.GetBuffer() + tx * tilesize + ty * tilesize * tilemap.GetPitch();
+	GameSpace::Pixel* src = Sprites::get().tilemap.GetBuffer() + tx * tilesize + ty * tilesize * Sprites::get().tilemap.GetPitch();
 	GameSpace::Pixel* dst = GameScreen->GetBuffer() + dx - offset.x + (dy - offset.y) * GameScreen->GetPitch();
 
 	int yStartOffset = dy - offset.y;
@@ -403,18 +406,18 @@ void Room::drawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int d
 		rem.y = rot.y;
 		for (int j = 0; j < tilesize; j++, rem.x += loop.x, rem.y += loop.y)
 			if (j + dx >= offset.x && j + dx < GameScreen->GetPitch() + offset.x)
-				dst[j] = src[rem.x + rem.y * tilemap.GetPitch()];
+				dst[j] = src[rem.x + rem.y * Sprites::get().tilemap.GetPitch()];
 		rot.x += add.x;
 		rot.y += add.y;
 		
-		//src += tilemap.GetPitch() * yAdd;
+		//src += Sprites::get().tilemap.GetPitch() * yAdd;
 		dst += GameScreen->GetPitch();
 	}
 }
 
 void Room::drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy)
 {
-	GameSpace::Pixel* src = tilemap.GetBuffer() + tx * tilesize + ty * tilesize * tilemap.GetPitch();
+	GameSpace::Pixel* src = Sprites::get().tilemap.GetBuffer() + tx * tilesize + ty * tilesize * Sprites::get().tilemap.GetPitch();
 	GameSpace::Pixel* dst = GameScreen->GetBuffer() + dx - offset.x + (dy - offset.y) * GameScreen->GetPitch();
 
 	int yStartOffset = dy - offset.y;
@@ -422,7 +425,7 @@ void Room::drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int 
 	while (yStartOffset < 0)
 	{
 		yStartOffset++;
-		src += tilemap.GetPitch();
+		src += Sprites::get().tilemap.GetPitch();
 		dst += GameScreen->GetPitch();
 	}
 
@@ -431,13 +434,13 @@ void Room::drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int 
 		for (int j = 0; j < tilesize; j++)
 			if (j + dx >= offset.x && j + dx < GameScreen->GetPitch() + offset.x)
 				dst[j] = src[j];
-		src += tilemap.GetPitch(), dst += GameScreen->GetPitch();
+		src += Sprites::get().tilemap.GetPitch(), dst += GameScreen->GetPitch();
 	}
 }
 
 void Room::drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy)
 {
-	GameSpace::Pixel* src = tilemap.GetBuffer() + tx * tilesize + ty * tilesize * tilemap.GetPitch();
+	GameSpace::Pixel* src = Sprites::get().tilemap.GetBuffer() + tx * tilesize + ty * tilesize * Sprites::get().tilemap.GetPitch();
 	GameSpace::Pixel* dst = GameScreen->GetBuffer() + dx - offset.x + (dy - offset.y) * GameScreen->GetPitch();
 
 	int yStartOffset = dy - offset.y;
@@ -445,7 +448,7 @@ void Room::drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx
 	while (yStartOffset < 0)
 	{
 		yStartOffset++;
-		src += tilemap.GetPitch();
+		src += Sprites::get().tilemap.GetPitch();
 		dst += GameScreen->GetPitch();
 	}
 
@@ -454,7 +457,7 @@ void Room::drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx
 		for (int j = 0; j < tilesize; j++)
 			if (j + dx >= offset.x && j + dx < GameScreen->GetPitch() + offset.x && src[j])
 				dst[j] = src[j];
-		src += tilemap.GetPitch(), dst += GameScreen->GetPitch();
+		src += Sprites::Sprites::get().tilemap.GetPitch(), dst += GameScreen->GetPitch();
 	}
 }
 

@@ -21,7 +21,7 @@ namespace GameSpace
 	Character::Player player;
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
 	CollisionCheck collisionManager;
-	
+	//Font font{ "assets/Font/font.TTF", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.:,;'|(!?)+-*/="};
 	void Game::Init()
 	{
 		vec2 s;
@@ -110,7 +110,7 @@ namespace GameSpace
 	// Main application tick function
 	// -----------------------------------------------------------
 
-	//Surface explosion{ "assets/Enemies/metalgift/metalgift_explosion.png" };
+	//Surface explosion{ "assets/Font/Essentle4.otf" };
 
 	void Game::Tick(float deltaTime)
 	{
@@ -122,6 +122,8 @@ namespace GameSpace
 		//manager.rooms[player.currentRoom->roomNumber].drawMap(screen);
 		manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
 		player.update(deltaTime);
+		//deer.Draw(screen, 100, 100);
+		//font.Print(screen, "Score: ", 10, 50, false);
 	}
 
 };

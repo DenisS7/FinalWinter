@@ -5,6 +5,7 @@
 #include "Room.h"
 #include "Spritesheet.h"
 #include "CollisionComponent.h"
+#include "Sprites.h"
 
 namespace Weapon 
 {
@@ -22,9 +23,9 @@ public:
 	GameSpace::vec2 locf, drawLocf, initialPosf;
 	float speedf = 0.4f;
 	int direction, damage, speed;
-	GameSpace::Sprite sprite{new GameSpace::Surface("assets/Weapons/arrow_down.png"), 1};
+	GameSpace::Sprite sprite{ Sprites::get().arrow[0], 1 };
 	
-	Spritesheet currentSs{ "assets/Weapons/snowball_attack-blue_down.png", 1, 4, &sprite };
+	Spritesheet currentSs{ Sprites::get().arrow[0], 1, 4, &sprite };
 
 	bool isExploding = false;
 	float timeToExplode = 3000.0f;

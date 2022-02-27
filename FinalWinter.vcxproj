@@ -227,6 +227,7 @@
     <ClCompile Include="Classes\CollisionComponent.cpp" />
     <ClCompile Include="Classes\EnemyBase.cpp" />
     <ClCompile Include="Classes\enemy_metalbox.cpp" />
+    <ClCompile Include="Classes\enemy_reindeer.cpp" />
     <ClCompile Include="Classes\enemy_snowman.cpp" />
     <ClCompile Include="Classes\Healthbar.cpp" />
     <ClCompile Include="Classes\newmath.cpp" />
@@ -234,6 +235,7 @@
     <ClCompile Include="Classes\Projectile.cpp" />
     <ClCompile Include="Classes\Room.cpp" />
     <ClCompile Include="Classes\Snowball.cpp" />
+    <ClCompile Include="Classes\Sprites.cpp" />
     <ClCompile Include="Classes\Spritesheet.cpp" />
     <ClCompile Include="Classes\WeaponBase.cpp" />
     <ClCompile Include="game.cpp" />
@@ -247,6 +249,7 @@
     <ClInclude Include="Classes\CollisionComponent.h" />
     <ClInclude Include="Classes\EnemyBase.h" />
     <ClInclude Include="Classes\enemy_metalbox.h" />
+    <ClInclude Include="Classes\enemy_reindeer.h" />
     <ClInclude Include="Classes\enemy_snowman.h" />
     <ClInclude Include="Classes\Healthbar.h" />
     <ClInclude Include="Classes\newmath.h" />
@@ -254,6 +257,7 @@
     <ClInclude Include="Classes\Projectile.h" />
     <ClInclude Include="Classes\Room.h" />
     <ClInclude Include="Classes\Snowball.h" />
+    <ClInclude Include="Classes\Sprites.h" />
     <ClInclude Include="Classes\Spritesheet.h" />
     <ClInclude Include="Classes\WeaponBase.h" />
     <ClInclude Include="game.h" />
@@ -262,7 +266,7 @@
     <ClInclude Include="template.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Classes\Enemies\deer.txt" />
+    <Text Include="Classes\Enemies\reindeer.txt" />
     <Text Include="Classes\Enemies\metalbox.txt" />
     <Text Include="Classes\Enemies\snowman.txt" />
     <Text Include="Classes\RoomLayout\Collisions.txt" />
