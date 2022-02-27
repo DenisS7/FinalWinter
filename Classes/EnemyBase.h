@@ -40,6 +40,7 @@ public:
 		float damagePerAttack = 0;
 		float damageOnCol = 0;
 		float speed = 0.2f;
+		int points = 0;
 		CollisionComponent col;
 		int spritesheetsNr = 0;
 		newmath::spriteData epaths[9];

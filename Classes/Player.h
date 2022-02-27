@@ -19,6 +19,7 @@ class Player
 {
 private:
 
+	int points = 0;
 
 public:
 
@@ -61,12 +62,17 @@ public:
 	void init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate);
 	void checkIdle();
 	newmath::ivec2 Player::getCurrentPos();
+	void die();
+	void modifyPoints(int newPoints);
+	int getPoints() { return points; };
+	void takeDamage(float damage);
 	void checkDirection(int n);
 	void updateMapManager(Map::MapManager* newMapManager);
 	void updateScreen(GameSpace::Surface* newScreen);
 	void updateRoom(Map::Room* newRoom);
 	void updateKeystate(const Uint8* keystate);
 	void input(float deltaTime);
+	void mouseLoc(int x, int y);
 	void moveDown(bool down, float deltaTime);
 	void moveLeft(bool left, float deltaTime);
 	void moveUp(bool up, float deltaTime);

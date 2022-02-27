@@ -57,6 +57,7 @@ void Spritesheet::freezeFrame(int frame, bool isFreezed)
     }
     else
     {
+       // currentTime = 0.0f;
         freezedColumn = 1;
     }
 }
@@ -79,7 +80,7 @@ void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface *screen, Ga
 {
     if (visible)
     {
-        currentTime += deltaTime;
+        currentTime += deltaTime * freezedColumn;
         //std::cout << currentFrame << std::endl;
         if (currentTime >= frameTime)
         {

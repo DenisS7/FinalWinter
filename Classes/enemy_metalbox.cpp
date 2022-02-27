@@ -6,17 +6,15 @@ namespace Character
 {
 	void enemy_metalbox::init()
 	{
+		data.points = 15;
 		EnemyBase::init(0);
 		currentSs.setDirection(0);
-		//locf.x = drawLocf.x = 150.0f;
-		//locf.y = drawLocf.y = 150.0f;
 		tilePos = EnemyBase::getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2));
 		findPath(tilePos, currentRoom->player->getCurrentPos());
 	}
 
 	void enemy_metalbox::explode()
 	{
-		//std::cout << "EXPLODE" << std::endl;
 		directionFacing = 0;
 		EnemyBase::changeActionSprite(2, 0);
 	}
@@ -93,25 +91,14 @@ namespace Character
 			if (dir.y)
 				EnemyBase::changeDirection((dir.y + 3) % 4); // y = 1 (down) || y = -1 (up); down = 0, up = 2
 		}
-		//else explode
 	}
 
 	void enemy_metalbox::update(float deltaTime)
 	{
 		
 		EnemyBase::update(deltaTime);
-
-		//screen->Box(data.col.collisionBox.x - currentRoom->locf.x, data.col.collisionBox.y - currentRoom->locf.y, data.col.collisionBox.x + data.col.collisionBox.width - currentRoom->locf.x, data.col.collisionBox.y + data.col.collisionBox.height - currentRoom->locf.y, 0xff0000);
-
-		//for (int x = initOcupTile.x; x <= finOcupTile.x && x <= currentRoom->size.x; x++)
-			//for (int y = initOcupTile.y; y <= finOcupTile.y && y <= currentRoom->size.y; y++)
-				//screen->Box(x * 32 - currentRoom->locf.x, y * 32 - currentRoom->locf.y, x * 32 - currentRoom->locf.x + 32, y * 32 - currentRoom->locf.y + 32, 0x00ff00);
-
-
 		currentTimePath += deltaTime;
-		//if (currentTimePath >= timeUntilPathRefresh)
-			
-		//std::cout << currentRoom->roomNumber << " " << path.size() << std::endl;
+	
 		if ((path.size() <= 1 || isDead) && !isExploding)
 		{
 			isFollowingPlayer = false;
@@ -130,8 +117,6 @@ namespace Character
 			drawLocf = locf - currentRoom->locf;
 		}
 		findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->player->getCurrentPos());
-		
-		//std::cout << currentSs.getCurrentFrame() << std::endl;
 
 		if (isExploding && currentSs.getCurrentFrame() == 12)
 			EnemyBase::die();

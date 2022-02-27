@@ -22,12 +22,13 @@ class Room
 private:
 	
 	bool reachedEnd;
-	int enemies;
+	
 	
 	
 
 public:
-	
+
+	int enemies;
 	GameSpace::Surface tilemap{ "assets/Map/all_map.png" };
 	int roomNumber;
 	int level;

@@ -42,9 +42,6 @@ public:
 		float speed = 0.2f;
 	};
 
-
-
-
 	struct Rect {
 		int x;
 		int y;
@@ -74,6 +71,7 @@ public:
 	}
 	static ivec2 make_ivec2(int x, int y) { ivec2 a; a.x = x, a.y = y; return a; };
 	static int getSign(int n) { if (n < 0) return -1; if (n > 0) return 1; return 0; };
+	static float getSign(float n) { if (n < 0) return -1; if (n > 0) return 1; return 0; };
 	static bool isNegative(int n) { if (n < 0) return true; return false; };
 	static int manhattanDist(ivec2 start, ivec2 finish) { return (abs(start.x - finish.x) + abs(start.y - finish.y)); };
 };

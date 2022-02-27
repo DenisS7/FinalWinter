@@ -1,11 +1,13 @@
 #include "enemy_snowman.h"
 #include "Player.h"
+#include "Snowball.h"
 #include <iostream>
 
 namespace Character
 {
 	void enemy_snowman::init()
 	{
+		data.points = 25;
 		EnemyBase::init(1);
 		currentSs.setDirection(0);
 		EnemyBase::changeActionSprite(1, 0);
@@ -35,13 +37,6 @@ namespace Character
 		int newDirection = 0;
 		float divideValuex = 300.0f;
 		float divideValuey = 300.0f;
-
-		//std::cout << currentRoom->player->drawLocf.x << " " << currentRoom->player->drawLocf.y << std::endl;
-		//std::cout << this->drawLocf.x << " " << this->changeDrawLoc.y << std::endl;
-		
-		//std::cout << "DIF: " << dif.x << " " << dif.y << std::endl;
-		//std::cout << "Compared to: " << range.x + range.x * ((int)(dif.y) / divideValuey) << " " << range.y + range.y * ((int)(dif.x) / divideValuex) << std::endl;
-		
 
 		if (dif.x < -range.x * ((int)abs(dif.y) / divideValuey))
 		{
@@ -91,6 +86,21 @@ namespace Character
 		changeDirection(newDirection);
 	}
 
+	void enemy_snowman::removeSnowball(Weapon::Snowball* snowballToRemove)
+	{
+		std::vector<Weapon::Snowball*>::iterator position = std::find(snowballs.begin(), snowballs.end(), snowballToRemove);
+		if (position != snowballs.end())
+			snowballs.erase(position);
+	}
+
+	void enemy_snowman::attack()
+	{
+		const GameSpace::vec2 snowballLocf(locf.x + snowballPos[directionFacing].x, locf.y + snowballPos[directionFacing].y);
+		Weapon::Snowball* newSnowball = new Weapon::Snowball(currentRoom, currentRoom->player->locf, snowballLocf);
+		newSnowball->Init(this);
+		snowballs.push_back(newSnowball);
+	}
+
 	void enemy_snowman::triggerFollowPlayer()
 	{
 		currentSs.freezeFrame(0, false);
@@ -103,11 +113,29 @@ namespace Character
 		//std::cout << "Snowman " << data.type << " " << drawLocf.x << " " << drawLocf.y << std::endl;
 		EnemyBase::update(deltaTime);
 		drawLocf = locf - currentRoom->locf;
+		for (int i = 0; i < snowballs.size(); i++)
+			snowballs[i]->Move(deltaTime);
 		if (isDead)
 		{
 			currentSs.freezeFrame(0, false);
 			if (currentState == 3 && currentSs.getCurrentFrame() % 6 == 5)
-				die();
+			{
+				if (snowballs.size() == 0)
+				{
+					if (!currentSs.getVisibility())
+						currentRoom->enemies++;
+					die();
+				}
+				else
+				{
+					currentSs.freezeFrame(currentSs.getCurrentFrame(), true);
+					currentSs.changeVisiblity(false);
+					data.col.collisionBox.x = data.col.collisionBox.y = 0;
+					currentRoom->enemies--;
+					currentRoom->openPortals();
+					//currentRoom->deleteEnemy(this);
+				}
+			}
 			else if (currentState != 3)
 			{
 				currentState = 3;
@@ -140,11 +168,10 @@ namespace Character
 					isExploding = true;
 					currentState = 2;
 					changeActionSprite(2, directionFacing);
+					attack();
 				}
 				else turnToPlayer();
 			}
-			if (currentState == 2)
-				std::cout << currentSs.getCurrentFrame() << std::endl;
 			if (currentState == 2 && (currentSs.getCurrentFrame() % 7) == 6)
 			{
 				//std::cout << "Stop: " << currentSs.getCurrentFrame() << std::endl;

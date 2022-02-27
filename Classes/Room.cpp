@@ -180,13 +180,21 @@ void Room::openPortals()
 
 void Room::deleteEnemy(Character::EnemyBase* enemy)
 {
-	enemies--;
+	
 	//std::cout << "deleteEnemy" << std::endl;
 	std::vector<Character::EnemyBase*>::iterator position = std::find(enemiesInRoom.begin(), enemiesInRoom.end(), enemy);
 	if (position != enemiesInRoom.end())
+	{
+		player->modifyPoints(enemy->data.points);
 		enemiesInRoom.erase(position);
+		enemies--;
+		
+	}
 	if (enemies == 0)
+	{
+		player->modifyPoints(100);
 		openPortals();
+	}
 }
 
 void Room::changeDir()

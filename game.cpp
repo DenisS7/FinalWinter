@@ -5,6 +5,8 @@
 #include "MapManager.h"
 #include "Classes/Player.h"
 
+#include "Classes/Snowball.h"
+
 #include "../Classes/CollisionCheck.h"
 
 
@@ -19,8 +21,7 @@ namespace GameSpace
 	Character::Player player;
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
 	CollisionCheck collisionManager;
-
-
+	
 	void Game::Init()
 	{
 		vec2 s;
@@ -33,12 +34,14 @@ namespace GameSpace
 
 		player.init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager, keystate);
 		manager.initiateEnemiesInRooms();
+		
 		player.equipWeapon(5);
 	}
 
 	void Game::Input(float deltaTime)
 	{
 		player.input(deltaTime);
+		player.mouseLoc(mouse.x, mouse.y);
 	}
 
 	void Game::KeyDown(int key)
@@ -74,6 +77,26 @@ namespace GameSpace
 		}
 	}
 
+	void Game::MouseUp(int button)
+	{
+		switch (button)
+		{
+		case SDL_BUTTON_LEFT:
+			player.shootProjectile(0);
+			break;
+		}
+	}
+
+	void Game::MouseDown(int button)
+	{
+		switch (button)
+		{
+		case SDL_BUTTON_LEFT:
+			player.shootProjectile(5);
+			break;
+		}
+	}
+
 
 
 	// -----------------------------------------------------------
@@ -95,8 +118,10 @@ namespace GameSpace
 		//std::cout << player.currentRoom->tiles[273].colidable << std::endl;
 		//std::cout << explosion.GetWidth() << std::endl;
 		Input(deltaTime);
+		
 		//manager.rooms[player.currentRoom->roomNumber].drawMap(screen);
 		manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
 		player.update(deltaTime);
 	}
+
 };

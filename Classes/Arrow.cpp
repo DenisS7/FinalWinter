@@ -44,14 +44,14 @@ namespace Weapon
 
 	void Arrow::UpdatePosition(float deltaTime)
 	{
-		if (CollisionCheck::isOverlapping(collision, locf, currentRoom, 4, crossbow->player->screen))
+		if (CollisionCheck::isOverlapping(collision, locf, currentRoom, 4, 5, crossbow->player->screen))
 		{
 			deleteArrow();
 		}
 		else
 		{
-			locf.x += (speedf) * deltaTime * move.x;
-			locf.y += (speedf) * deltaTime * move.y;
+			locf.x += speedf * deltaTime * move.x;
+			locf.y += speedf * deltaTime * move.y;
 
 			//std::cout << currentRoom->moveDir.x * currentRoom->player->move.speed * deltaTime << " " << currentRoom->moveDir.y * currentRoom->player->move.speed * deltaTime << std::endl;
 
@@ -68,8 +68,6 @@ namespace Weapon
 			//drawLocf.x -= move.x * (abs(currentRoom->locf.x - initialPosf.x));
 			//drawLocf.y -= move.y * (abs(currentRoom->locf.y - initialPosf.y));
 		}
-		
-		time += deltaTime;
 	}
 
 

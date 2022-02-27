@@ -36,7 +36,7 @@ namespace Character
 		updateMapManager(newMapManager);
 		updateKeystate(newKeystate);
 
-		collisionBox.setOffset(14, 12);
+		collisionBox.setOffset(14, 14);
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		
 
@@ -82,11 +82,27 @@ namespace Character
 		return pos;
 	}
 
+	void Player::die()
+	{
+	}
+
+	void Player::modifyPoints(int newPoints)
+	{
+		points += newPoints;
+	}
+
+	void Player::takeDamage(float damage)
+	{
+		health -= damage;
+		if (health <= 0)
+			die();
+	}
+
 	void Player::checkDirection(int n)
 	{
 		if (directionFacing != n)
 		{
-			if(move.side[n] && !move.side[directionFacing])
+			if((move.side[n] && !move.side[directionFacing]) || weapon.isShooting)
 			{ 
 				weapon.changeDirection(n);
 				currentSs.setDirection(n);
@@ -128,12 +144,40 @@ namespace Character
 
 	void Player::input(float deltaTime)
 	{
-		moveDown(keystate[SDL_SCANCODE_DOWN], deltaTime);
-		moveLeft(keystate[SDL_SCANCODE_LEFT], deltaTime);
-		moveUp(keystate[SDL_SCANCODE_UP], deltaTime);
-		moveRight(keystate[SDL_SCANCODE_RIGHT], deltaTime);
+		moveDown(keystate[SDL_SCANCODE_S], deltaTime);
+		moveLeft(keystate[SDL_SCANCODE_A], deltaTime);
+		moveUp(keystate[SDL_SCANCODE_W], deltaTime);
+		moveRight(keystate[SDL_SCANCODE_D], deltaTime);
 
 		weapon.reload(deltaTime);
+	}
+
+	void Player::mouseLoc(int x, int y)
+	{
+		if (weapon.isShooting)
+		{
+			float distx = (float)screen->GetWidth() * ((float)y / screen->GetHeight());
+			float disty = (float)screen->GetHeight() * ((float)x / screen->GetWidth());
+
+			const float minx = GameSpace::Min(distx, screen->GetWidth() - distx);
+			const float maxx = screen->GetWidth() - minx;
+
+			const float miny = GameSpace::Min(disty, screen->GetHeight() - disty);
+			const float maxy = screen->GetHeight() - miny;
+
+			if (x >= minx && x <= maxx)
+			{
+				if (y < screen->GetHeight() / 2)
+					checkDirection(2);
+				else checkDirection(0);
+			}
+			else if (y >= miny && y <= maxy)
+			{
+				if (x < screen->GetWidth() / 2)
+					checkDirection(1);
+				else checkDirection(3);
+			}
+		}
 	}
 
 	void Player::moveDown(bool down, float deltaTime)
@@ -143,7 +187,8 @@ namespace Character
 		{
 			//move.side[2] = false;
 			addMovement(0, 1, deltaTime);
-			checkDirection(0);
+			if (!weapon.isShooting)
+				checkDirection(0);
 		}
 		
 		checkIdle();
@@ -156,7 +201,8 @@ namespace Character
 		{
 			//move.side[3] = false;
 			addMovement(-1, 0, deltaTime);
-			checkDirection(1);
+			if (!weapon.isShooting)
+				checkDirection(1);
 		}
 		checkIdle();
 	}
@@ -168,7 +214,8 @@ namespace Character
 		{
 			//move.side[0] = false;
 			addMovement(0, -1, deltaTime);
-			checkDirection(2);
+			if (!weapon.isShooting)
+				checkDirection(2);
 		}
 		checkIdle();
 	}
@@ -180,7 +227,8 @@ namespace Character
 		{
 			//move.side[1] = false;
 			addMovement(1, 0, deltaTime);
-			checkDirection(3);
+			if (!weapon.isShooting)
+				checkDirection(3);
 		}
 		
 		checkIdle();
@@ -197,6 +245,9 @@ namespace Character
 	{
 		if (!type)
 		{
+			move.speed = 0.25f;
+			currentRoom->speed = 0.25f;
+
 			isHoldingGun = false;
 			
 			weapon.changeVisibility(false);
@@ -205,6 +256,8 @@ namespace Character
 		}
 		else if (type)
 		{
+			move.speed = 0.2f;
+			currentRoom->speed = 0.2f;
 			isHoldingGun = true;
 			isHoldingProjectile = false;
 
@@ -214,6 +267,8 @@ namespace Character
 		}
 		else if (type == snowball)
 		{
+			move.speed = 0.2f;
+			currentRoom->speed = 0.2f;
 			isHoldingGun = false;
 			isHoldingProjectile = true;
 
@@ -223,6 +278,8 @@ namespace Character
 		}
 		else if (type == snowman)
 		{
+			move.speed = 0.2f;
+			currentRoom->speed = 0.2f;
 			isHoldingGun = false;
 			isHoldingProjectile = true;
 
@@ -290,7 +347,7 @@ namespace Character
 
 				currentRoom->updateEnemies();
 
-				locf.x = (float) (currentRoom->tilesize - sprite.GetWidth() / 2 + currentRoom->tilesize / 2);
+				locf.x = (float) (currentRoom->tilesize - sprite.GetWidth() / 2 + currentRoom->tilesize / 2) + 10;
 				locf.y = (float) ((currentRoom->size.y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2); 
 
 				collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
@@ -344,7 +401,7 @@ namespace Character
 				currentRoom->updateEnemies();
 
 				locf.x = (float)((currentRoom->size.x / 2 - (currentRoom->size.x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2);
-				locf.y = (float)(2 * currentRoom->tilesize - sprite.GetHeight() / 2 + currentRoom->tilesize / 2);
+				locf.y = (float)(2 * currentRoom->tilesize - sprite.GetHeight() / 2 + currentRoom->tilesize / 2) + 10;
 
 				collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 
@@ -387,14 +444,7 @@ namespace Character
 					//std::cout << currentRoom->doors[i] << " ";
 				//std::cout << std::endl;
 			}
-			else
-			{
-				if ((x && (int) drawLocf.x == middleScreen.x) || (y && (int)drawLocf.y == middleScreen.y))
-					currentRoom->moveMap(x, y, deltaTime);
-
-				drawLocf.x = locf.x - currentRoom->locf.x;
-				drawLocf.y = locf.y - currentRoom->locf.y;
-			}
+			currentRoom->speed = move.speed;
 			//std::cout << "Entered PORTAL" << std::endl;
 		}	
 

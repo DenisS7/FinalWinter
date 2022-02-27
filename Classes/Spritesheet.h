@@ -20,14 +20,14 @@ public:
     void calculateNextFrame();
     void changeVisiblity(bool visible);
     void drawNextSprite(float deltaTime, GameSpace::Surface* screen, GameSpace::vec2 drawLocf);
-
+    bool getVisibility() { return visible; };
     int getCurrentFrame() { return currentFrame; };
 
     GameSpace::Surface* image;
 private:
     
     GameSpace::Sprite* sprite;
-    int visible = true;
+    bool visible = true;
     int currentRow = 1;
     float frameTime = 0, currentTime = 0;
     int currentFrame = 0;
