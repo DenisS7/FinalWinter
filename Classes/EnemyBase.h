@@ -6,7 +6,6 @@
 #include "../Classes/CollisionComponent.h"
 #include "../Classes/Room.h"
 #include "../surface.h"
-#include "Sprites.h"
 
 namespace Map
 {
@@ -90,8 +89,8 @@ public:
 	int type;
 	int currentState = 0;
 	int directionFacing = 0;
-	GameSpace::Sprite sprite{ Sprites::get().metalbox[0], 1 };
-	Spritesheet currentSs{ Sprites::get().metalbox[0], 1, 1, &sprite};
+	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_idle.png"), 1 };
+	Spritesheet currentSs{ "assets/Enemies/metalgift/metalgift_idle.png", 1, 1, &sprite };
 	GameSpace::vec2 locf, drawLocf;
 	newmath::chMove move;
 	newmath::ivec2 tilePos;

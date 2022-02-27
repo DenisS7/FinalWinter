@@ -43,7 +43,7 @@ namespace Weapon
 	void WeaponBase::changeDirection(int direction)
 	{
 		directionFacing = direction - 1;
-		sprite.SetFile(Sprites::get().crossbow[direction], 1, 0);
+		sprite.SetFile(new GameSpace::Surface(wpaths[direction + 1].path), 1, 0);
 	}
 
 	void WeaponBase::changeVisibility(bool newVisible)

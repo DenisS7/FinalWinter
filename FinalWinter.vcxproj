@@ -227,7 +227,7 @@
     <ClCompile Include="Classes\CollisionComponent.cpp" />
     <ClCompile Include="Classes\EnemyBase.cpp" />
     <ClCompile Include="Classes\enemy_metalbox.cpp" />
-    <ClCompile Include="Classes\enemy_reindeer.cpp" />
+    <ClCompile Include="Classes\enemy_rager.cpp" />
     <ClCompile Include="Classes\enemy_snowman.cpp" />
     <ClCompile Include="Classes\Healthbar.cpp" />
     <ClCompile Include="Classes\newmath.cpp" />
@@ -249,7 +249,7 @@
     <ClInclude Include="Classes\CollisionComponent.h" />
     <ClInclude Include="Classes\EnemyBase.h" />
     <ClInclude Include="Classes\enemy_metalbox.h" />
-    <ClInclude Include="Classes\enemy_reindeer.h" />
+    <ClInclude Include="Classes\enemy_rager.h" />
     <ClInclude Include="Classes\enemy_snowman.h" />
     <ClInclude Include="Classes\Healthbar.h" />
     <ClInclude Include="Classes\newmath.h" />
@@ -266,6 +266,7 @@
     <ClInclude Include="template.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Classes\Enemies\rager.txt" />
     <Text Include="Classes\Enemies\reindeer.txt" />
     <Text Include="Classes\Enemies\metalbox.txt" />
     <Text Include="Classes\Enemies\snowman.txt" />

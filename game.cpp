@@ -8,6 +8,7 @@
 #include "Classes/Snowball.h"
 
 #include "../Classes/CollisionCheck.h"
+#include <fstream>
 
 
 namespace GameSpace
@@ -104,6 +105,7 @@ namespace GameSpace
 	// -----------------------------------------------------------
 	void Game::Shutdown()
 	{
+
 	}
 
 	// -----------------------------------------------------------
@@ -112,18 +114,17 @@ namespace GameSpace
 
 	//Surface explosion{ "assets/Font/Essentle4.otf" };
 
+
+	std::ofstream fout("Scores/scores.txt");
+
 	void Game::Tick(float deltaTime)
 	{
 		screen->Clear(0);
-		//std::cout << player.currentRoom->tiles[273].colidable << std::endl;
-		//std::cout << explosion.GetWidth() << std::endl;
 		Input(deltaTime);
-		
-		//manager.rooms[player.currentRoom->roomNumber].drawMap(screen);
+
 		manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
 		player.update(deltaTime);
-		//deer.Draw(screen, 100, 100);
-		//font.Print(screen, "Score: ", 10, 50, false);
+
 	}
 
 };

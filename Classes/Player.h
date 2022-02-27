@@ -8,10 +8,6 @@
 #include "../Classes/WeaponBase.h"
 #include "../Classes/CollisionComponent.h"
 #include "Healthbar.h"
-#include "Sprites.h"
-
-
-
 
 namespace Character
 {
@@ -21,10 +17,10 @@ class Player
 {
 private:
 
-	int points = 0;
+	
 
 public:
-
+	int points = 0;
 	const int nonCollide = 0;
 	const int collide = 1;
 	const int portalInactive = 2;
@@ -41,7 +37,7 @@ public:
 	const int run = 2, idle = 1, dead = 3, runWithGun = 4;
 	const int crossbow = 5, snowball = 6, snowman = 7;
 
-	GameSpace::Sprite sprite{Sprites::get().player[0], 24};
+	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Player/player_idle.png"), 24 };
 	Weapon::WeaponBase weapon;
 
 	Healthbar healthbar;
@@ -55,7 +51,7 @@ public:
 	bool isHoldingGun = false;
 	bool isHoldingProjectile = false;
 
-	Spritesheet currentSs{ Sprites::get().player[0], 4, 6, &sprite};
+	Spritesheet currentSs{ "assets/Player/player_idle.png", 4, 6, &sprite };
 	
 	const Uint8* keystate;
 	Map::Room* currentRoom;

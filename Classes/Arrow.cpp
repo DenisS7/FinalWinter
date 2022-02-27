@@ -19,11 +19,7 @@ namespace Weapon
 
 		direction = crossbow->player->directionFacing;
 
-		GameSpace::Surface* arrow = new GameSpace::Surface("assets/Weapons/arrow_down.png");
-		
-		arrow = Sprites::get().arrow[direction];
-
-		sprite.SetFile(arrow, 1, 0);
+		sprite.SetFile(new GameSpace::Surface(crossbow->wpaths[direction + 5].path), 1, 0);
 		
 		collision.collisionBox = newmath::make_Rect((int)locf.x, (int)locf.y, 0, 0) + crossbow->arrowCol[direction];
 		

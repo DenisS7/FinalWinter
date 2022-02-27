@@ -4,10 +4,10 @@
 #include "../template.h"
 
 
-Spritesheet::Spritesheet(GameSpace::Surface* newImage, int row, int column, GameSpace::Sprite* newSprite)
+Spritesheet::Spritesheet(char* path, int row, int column, GameSpace::Sprite* newSprite)
 {
-    image = newImage;
-    
+    image = new GameSpace::Surface{ "assets/Player/player_idle.png" };
+    image->SetFile(path);
     rows = row;
     columns = column;
     currentFrame = (currentRow * column) % (row * column);
@@ -23,7 +23,7 @@ Spritesheet::~Spritesheet()
     columns = 0;
 }
 
-void Spritesheet::changeSpritesheet(GameSpace::Surface* newImage, int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite)
+void Spritesheet::changeSpritesheet(char* path, int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite)
 {
     currentTime = 0;
     rows = row;
@@ -32,7 +32,7 @@ void Spritesheet::changeSpritesheet(GameSpace::Surface* newImage, int row, int c
     columns = column;
     //std::cout << "State Change " << row << " " << column << " " << currentFrame << std::endl;
     sprite = newSprite;
-    image = newImage;
+    image->SetFile(path);
 }
 
 void Spritesheet::setFrameTime(float newFrameTime)
@@ -57,7 +57,7 @@ void Spritesheet::freezeFrame(int frame, bool isFreezed)
     }
     else
     {
-       // currentTime = 0.0f;
+        // currentTime = 0.0f;
         freezedColumn = 1;
     }
 }
@@ -65,7 +65,7 @@ void Spritesheet::freezeFrame(int frame, bool isFreezed)
 
 
 void Spritesheet::calculateNextFrame()
-{   
+{
     //if (columns == 10)
         //std::cout << currentRow << std::endl;
     currentFrame = (currentFrame + 1 * freezedColumn) % columns + columns * currentRow;
@@ -76,7 +76,7 @@ void Spritesheet::changeVisiblity(bool newVisible)
     visible = newVisible;
 }
 
-void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface *screen, GameSpace::vec2 drawLocf)
+void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface* screen, GameSpace::vec2 drawLocf)
 {
     if (visible)
     {
@@ -93,5 +93,3 @@ void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface *screen, Ga
         sprite->Draw(screen, (int)drawLocf.x, (int)drawLocf.y);
     }
 }
-
-

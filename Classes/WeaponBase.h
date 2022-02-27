@@ -6,7 +6,7 @@
 #include "../template.h"
 #include "../Classes/Arrow.h"
 #include <vector>
-#include "Sprites.h"
+
 
 namespace Character
 {
@@ -43,7 +43,7 @@ public:
 	bool isShooting = false;
 	newmath::spriteData wpaths[10];
 
-	GameSpace::Sprite sprite{ Sprites::get().crossbow[0], 1};
+	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Weapons/crossbow_down.png"), 1 };
 	
 
 	void Init(GameSpace::vec2 newDrawLocf, Character::Player* newPlayer);

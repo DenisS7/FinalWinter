@@ -11,6 +11,7 @@
 #include "EnemyBase.h"
 #include "enemy_metalbox.h"
 #include "enemy_snowman.h"
+#include "enemy_rager.h"
 #include "Sprites.h"
 
 namespace Map
@@ -45,16 +46,16 @@ void Room::initiateRoom(int number, const std::vector <int> collisionTiles, cons
 
 	fin.close();
 
-	tilesPerRow = Sprites::get().tilemap.GetPitch() / tilesize;
+	tilesPerRow = tilemap.GetPitch() / tilesize;
 	moveDir.x = moveDir.y = 0;
 }
 
 void Room::inititateEnemies()
 {
+	enemies = 1;
 	for (int i = 0; i < enemies; i++)
 	{
-		
-		int enemyType = IRand(2);
+		int enemyType = 2;
 		if (enemyType == 0)
 		{
 			Character::enemy_metalbox* newEnemy = new Character::enemy_metalbox(this, 0);
@@ -63,7 +64,14 @@ void Room::inititateEnemies()
 		}
 		else if (enemyType == 1)
 		{
-			Character::enemy_snowman* newEnemy = new Character::enemy_snowman(this, 0);
+			Character::enemy_snowman* newEnemy = new Character::enemy_snowman(this, 1);
+			newEnemy->init();
+			enemiesInRoom.push_back(newEnemy);
+		}
+		else if (enemyType == 2)
+		{
+			Character::enemy_rager* newEnemy = new Character::enemy_rager(this, 2);
+			//std::cout << manager->enemyTypes[2].spritesheetsNr<< std::endl;
 			newEnemy->init();
 			enemiesInRoom.push_back(newEnemy);
 		}
@@ -386,7 +394,7 @@ void Room::drawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int d
 		add.y = 0;
 	}
 
-	GameSpace::Pixel* src = Sprites::get().tilemap.GetBuffer() + tx * tilesize + ty * tilesize * Sprites::get().tilemap.GetPitch();
+	GameSpace::Pixel* src = tilemap.GetBuffer() + tx * tilesize + ty * tilesize * tilemap.GetPitch();
 	GameSpace::Pixel* dst = GameScreen->GetBuffer() + dx - offset.x + (dy - offset.y) * GameScreen->GetPitch();
 
 	int yStartOffset = dy - offset.y;
@@ -406,18 +414,18 @@ void Room::drawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int d
 		rem.y = rot.y;
 		for (int j = 0; j < tilesize; j++, rem.x += loop.x, rem.y += loop.y)
 			if (j + dx >= offset.x && j + dx < GameScreen->GetPitch() + offset.x)
-				dst[j] = src[rem.x + rem.y * Sprites::get().tilemap.GetPitch()];
+				dst[j] = src[rem.x + rem.y * tilemap.GetPitch()];
 		rot.x += add.x;
 		rot.y += add.y;
 		
-		//src += Sprites::get().tilemap.GetPitch() * yAdd;
+		//src += tilemap.GetPitch() * yAdd;
 		dst += GameScreen->GetPitch();
 	}
 }
 
 void Room::drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy)
 {
-	GameSpace::Pixel* src = Sprites::get().tilemap.GetBuffer() + tx * tilesize + ty * tilesize * Sprites::get().tilemap.GetPitch();
+	GameSpace::Pixel* src = tilemap.GetBuffer() + tx * tilesize + ty * tilesize * tilemap.GetPitch();
 	GameSpace::Pixel* dst = GameScreen->GetBuffer() + dx - offset.x + (dy - offset.y) * GameScreen->GetPitch();
 
 	int yStartOffset = dy - offset.y;
@@ -425,7 +433,7 @@ void Room::drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int 
 	while (yStartOffset < 0)
 	{
 		yStartOffset++;
-		src += Sprites::get().tilemap.GetPitch();
+		src += tilemap.GetPitch();
 		dst += GameScreen->GetPitch();
 	}
 
@@ -434,13 +442,13 @@ void Room::drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int 
 		for (int j = 0; j < tilesize; j++)
 			if (j + dx >= offset.x && j + dx < GameScreen->GetPitch() + offset.x)
 				dst[j] = src[j];
-		src += Sprites::get().tilemap.GetPitch(), dst += GameScreen->GetPitch();
+		src += tilemap.GetPitch(), dst += GameScreen->GetPitch();
 	}
 }
 
 void Room::drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy)
 {
-	GameSpace::Pixel* src = Sprites::get().tilemap.GetBuffer() + tx * tilesize + ty * tilesize * Sprites::get().tilemap.GetPitch();
+	GameSpace::Pixel* src = tilemap.GetBuffer() + tx * tilesize + ty * tilesize * tilemap.GetPitch();
 	GameSpace::Pixel* dst = GameScreen->GetBuffer() + dx - offset.x + (dy - offset.y) * GameScreen->GetPitch();
 
 	int yStartOffset = dy - offset.y;
@@ -448,7 +456,7 @@ void Room::drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx
 	while (yStartOffset < 0)
 	{
 		yStartOffset++;
-		src += Sprites::get().tilemap.GetPitch();
+		src += tilemap.GetPitch();
 		dst += GameScreen->GetPitch();
 	}
 
@@ -457,7 +465,7 @@ void Room::drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx
 		for (int j = 0; j < tilesize; j++)
 			if (j + dx >= offset.x && j + dx < GameScreen->GetPitch() + offset.x && src[j])
 				dst[j] = src[j];
-		src += Sprites::Sprites::get().tilemap.GetPitch(), dst += GameScreen->GetPitch();
+		src += tilemap.GetPitch(), dst += GameScreen->GetPitch();
 	}
 }
 

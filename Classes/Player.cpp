@@ -5,7 +5,7 @@
 #include "../template.h"
 #include "newmath.h"
 #include "CollisionCheck.h"
-#include "Sprites.h"
+
 
 
 namespace Character
@@ -161,14 +161,23 @@ namespace Character
 	{
 		if (weapon.isShooting)
 		{
-			float distx = (float)screen->GetWidth() * ((float)y / screen->GetHeight());
-			float disty = (float)screen->GetHeight() * ((float)x / screen->GetWidth());
+			const float distx = (float)screen->GetWidth() * ((float)y / screen->GetHeight());
+			const float disty = (float)screen->GetHeight() * ((float)x / screen->GetWidth());
 
 			const float minx = GameSpace::Min(distx, screen->GetWidth() - distx);
 			const float maxx = screen->GetWidth() - minx;
 
+			//minx += drawLocf.x - middleScreen.x;
+			//maxx += drawLocf.x - middleScreen.x;
+
 			const float miny = GameSpace::Min(disty, screen->GetHeight() - disty);
 			const float maxy = screen->GetHeight() - miny;
+
+			//miny += drawLocf.y - middleScreen.y;
+			//maxy += drawLocf.y - middleScreen.y;
+
+			//std::cout << distx << " " << disty << std::endl;
+			//std::cout << minx << " " << maxx << std::endl << std::endl;
 
 			if (x >= minx && x <= maxx)
 			{
@@ -241,9 +250,8 @@ namespace Character
 
 	void Player::changeActionSprite(int x)
 	{
-		int y = x - 1;
-		sprite.SetFile(Sprites::get().player[y], sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
-		currentSs.changeSpritesheet(Sprites::get().player[y], sspaths[x].rows, sspaths[x].columns, directionFacing, &sprite);
+		sprite.SetFile(new GameSpace::Surface(sspaths[x].path), sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
+		currentSs.changeSpritesheet(sspaths[x].path, sspaths[x].rows, sspaths[x].columns, directionFacing, &sprite);
 		currentSs.setFrameTime(sspaths[x].frameTime);
 	}	
 
@@ -458,9 +466,8 @@ namespace Character
 
 	void Player::update(float deltaTime)
 	{
-		//std::cout << directionFacing << std::endl;
-		//std::cout << "DOWN: " << move.side[0] << " UP: " << move.side[2] << " RIGHT: " << move.side[3] << " LEFT: " << move.side[1] << std::endl;
 		healthbar.drawHealthbar(health, screen);
+
 		if (directionFacing == 0)
 		{
 			currentSs.drawNextSprite(deltaTime, screen, drawLocf);

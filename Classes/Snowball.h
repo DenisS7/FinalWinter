@@ -3,7 +3,6 @@
 #include "newmath.h"
 #include "CollisionComponent.h"
 #include "../Classes/Room.h"
-#include "Sprites.h"
 
 
 namespace Character
@@ -35,15 +34,15 @@ public:
 		if (abs(moveDirection.x) <= abs(moveDirection.y))
 		{
 			if (moveDirection.y <= 0)
-				sprite.SetFile(Sprites::get().snowball[0], 4, 0);
-			else sprite.SetFile(Sprites::get().snowball[2], 4, 0);
+				sprite.SetFile(new GameSpace::Surface("assets/Weapons/snowball_attack-blue_down.png"), 4, 0);
+			else sprite.SetFile(new GameSpace::Surface("assets/Weapons/snowball_attack-blue_up.png"), 4, 0);
 		}
 		else
 		{
 			if (moveDirection.x <= 0)
-				sprite.SetFile(Sprites::get().snowball[3], 4, 0);
+				sprite.SetFile(new GameSpace::Surface("assets/Weapons/snowball_attack-blue_right.png"), 4, 0);
 			else
-				sprite.SetFile(Sprites::get().snowball[1], 4, 0);
+				sprite.SetFile(new GameSpace::Surface("assets/Weapons/snowball_attack-blue_left.png"), 4, 0);
 		}
 	}
 	void Init(Character::enemy_snowman* newOwner);

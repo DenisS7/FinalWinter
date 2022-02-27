@@ -23,10 +23,9 @@ public:
 
     void init();
     void explode();
-    void triggerFollowPlayer();
+    void triggerFollowPlayer() override;
     void findApath(newmath::ivec2 start, newmath::ivec2 finish) { EnemyBase::findPath(start, finish); };
-    void followPlayer();
-    void addMovement(float deltaTime);
+    void addMovement(float deltaTime) override;
     void update(float deltaTime) override;
 };
 
