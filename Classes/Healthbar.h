@@ -8,6 +8,6 @@ private:
 	GameSpace::Sprite bar{ new GameSpace::Surface("assets/Healthbar/healthbar_bar.png"), 1 };
 public:
 
-	void drawHealthbar(int health, GameSpace::Surface* screen);
+	void drawHealthbar(const int health, GameSpace::Surface* screen);
 };
 

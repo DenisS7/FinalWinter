@@ -1,7 +1,7 @@
 #include "Healthbar.h"
 
 
-void Healthbar::drawHealthbar(int health, GameSpace::Surface* screen)
+void Healthbar::drawHealthbar(const int health, GameSpace::Surface* screen)
 {
 	background.Draw(screen, 600, 450);
 	GameSpace::Pixel* src = bar.GetBuffer() + 14 * bar.GetWidth();

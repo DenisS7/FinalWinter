@@ -57,6 +57,12 @@ namespace Map
 		enemyTypes[1].epaths[2].path = "assets/Enemies/snowman/snowman_attack.png";
 		enemyTypes[1].epaths[3].path = "assets/Enemies/snowman/snowman_death.png";
 
+		enemyTypes[2].epaths[0].path = "assets/Enemies/rager/rager_idle.png";
+		enemyTypes[2].epaths[1].path = "assets/Enemies/rager/rager_move.png";
+		enemyTypes[2].epaths[2].path = "assets/Enemies/rager/rager_attack.png";
+		enemyTypes[2].epaths[3].path = "assets/Enemies/rager/rager_death.png";
+
+
 		roomAm.x = 7;
 		roomAm.y = 7;
 
@@ -238,7 +244,7 @@ namespace Map
 		rooms[x + y * 7].calculateDoors(StartDirection, CanClose, kn);
 		//if (goingBack)
 			//std::cout << "Passed Calculate Doors \n";
-		bool possible[4] = { true };
+		bool possible[4] = { true, true, true, true };
 		for (int i = 0; i < 4; i++)
 		{
 			bool generated = false;

@@ -22,7 +22,7 @@ public:
 	GameSpace::vec2 locf, drawLocf, initialPosf;
 	float speedf = 0.4f;
 	int direction, damage, speed;
-	GameSpace::Sprite sprite{new GameSpace::Surface("assets/Weapons/arrow_down.png"), 1};
+	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Weapons/arrow_down.png"), 1 };
 	
 	Spritesheet currentSs{ "assets/Weapons/snowball_attack-blue_down.png", 1, 4, &sprite };
 

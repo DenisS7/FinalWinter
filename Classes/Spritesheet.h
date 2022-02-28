@@ -14,6 +14,7 @@ public:
     ~Spritesheet();
 
     void changeSpritesheet(char* path, int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite);
+    void setFrame(int frame) { if (frame < rows * columns) currentFrame = frame; }
     void setFrameTime(float newFrameTime);
     void setDirection(int newRow);
     void freezeFrame(int frame, bool isFreezed);
@@ -25,7 +26,7 @@ public:
 
     GameSpace::Surface* image;
 private:
-    
+
     GameSpace::Sprite* sprite;
     bool visible = true;
     int currentRow = 1;

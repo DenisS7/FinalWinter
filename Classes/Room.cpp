@@ -11,7 +11,8 @@
 #include "EnemyBase.h"
 #include "enemy_metalbox.h"
 #include "enemy_snowman.h"
-
+#include "enemy_rager.h"
+#include "Sprites.h"
 
 namespace Map
 {
@@ -51,10 +52,10 @@ void Room::initiateRoom(int number, const std::vector <int> collisionTiles, cons
 
 void Room::inititateEnemies()
 {
+	enemies = 1;
 	for (int i = 0; i < enemies; i++)
 	{
-		
-		int enemyType = IRand(2);
+		int enemyType = 2;
 		if (enemyType == 0)
 		{
 			Character::enemy_metalbox* newEnemy = new Character::enemy_metalbox(this, 0);
@@ -63,7 +64,14 @@ void Room::inititateEnemies()
 		}
 		else if (enemyType == 1)
 		{
-			Character::enemy_snowman* newEnemy = new Character::enemy_snowman(this, 0);
+			Character::enemy_snowman* newEnemy = new Character::enemy_snowman(this, 1);
+			newEnemy->init();
+			enemiesInRoom.push_back(newEnemy);
+		}
+		else if (enemyType == 2)
+		{
+			Character::enemy_rager* newEnemy = new Character::enemy_rager(this, 2);
+			//std::cout << manager->enemyTypes[2].spritesheetsNr<< std::endl;
 			newEnemy->init();
 			enemiesInRoom.push_back(newEnemy);
 		}
@@ -73,7 +81,10 @@ void Room::inititateEnemies()
 
 void Room::removeEnemyFromTile(const Character::EnemyBase* enemy, int tileNr)
 {
-	std::vector<Character::EnemyBase*>::iterator position = std::find(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy);
+	newmath::clamp(tileNr, 0, roomSize - 1);
+	std::vector<Character::EnemyBase*>::iterator position = tiles[tileNr].entitiesOnTile.end();
+	if (std::count(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy))
+		position = std::find(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy);
 	if (position != tiles[tileNr].entitiesOnTile.end())
 		tiles[tileNr].entitiesOnTile.erase(position);
 	//else std::cout << "WRONG TILE" << std::endl;
@@ -101,7 +112,7 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 	{
 		for (int x = 0; x > dif.x; x--)
 		{
-			for (int y = enemy->initOcupTile.y; y <= enemy->finOcupTile.y; y++)
+			for (int y = enemy->initOcupTile.y; y <= enemy->finOcupTile.y && y < size.y; y++)
 			{
 				const int removex = enemy->finOcupTile.x - x;
 				const int addx = enemy->initOcupTile.x - x;
@@ -121,7 +132,7 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 	{
 		for (int x = 0; x < dif.x; x++)
 		{
-			for (int y = enemy->initOcupTile.y; y <= enemy->finOcupTile.y; y++)
+			for (int y = enemy->initOcupTile.y; y <= enemy->finOcupTile.y && y < size.y; y++)
 			{
 				const int removex = enemy->initOcupTile.x + x;
 				const int addx = enemy->finOcupTile.x + x;
@@ -142,7 +153,7 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 	{
 		for (int y = 0; y > dif.y; y--)
 		{
-			for (int x = enemy->initOcupTile.x; x <= enemy->finOcupTile.x; x++)
+			for (int x = enemy->initOcupTile.x; x <= enemy->finOcupTile.x && x < size.x; x++)
 			{
 				const int removey = enemy->finOcupTile.y - y;
 				const int addy = enemy->initOcupTile.y - y;
@@ -162,7 +173,7 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 	{
 		for (int y = 0; y < dif.y; y++)
 		{
-			for (int x = enemy->initOcupTile.x; x <= enemy->finOcupTile.x; x++)
+			for (int x = enemy->initOcupTile.x; x <= enemy->finOcupTile.x && x < size.x; x++)
 			{
 				const int removey = enemy->initOcupTile.y + y;
 				const int addy = enemy->finOcupTile.y + y;

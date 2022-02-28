@@ -16,14 +16,15 @@ namespace Character
 	void enemy_metalbox::explode()
 	{
 		directionFacing = 0;
-		EnemyBase::changeActionSprite(2, 0);
+		changeActionSprite(2, 0);
 	}
 
 	void enemy_metalbox::triggerFollowPlayer()
 	{
 		if (!isFollowingPlayer)
-			EnemyBase::changeActionSprite(1, directionFacing);
+			changeActionSprite(1, directionFacing);
 		isFollowingPlayer = true;
+		isExploding = false;
 	}
 
 	void enemy_metalbox::addMovement(float deltaTime)
@@ -97,10 +98,10 @@ namespace Character
 	{
 		
 		EnemyBase::update(deltaTime);
-		currentTimePath += deltaTime;
 	
 		if ((path.size() <= 1 || isDead) && !isExploding)
 		{
+			std::cout << "EXPLODE" << std::endl;
 			isFollowingPlayer = false;
 			isExploding = true;
 			explode();
@@ -112,7 +113,7 @@ namespace Character
 			addMovement(deltaTime);
 			isFollowingPlayer = true;
 		}
-		else
+		else 
 		{
 			drawLocf = locf - currentRoom->locf;
 		}

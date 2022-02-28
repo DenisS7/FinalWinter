@@ -21,6 +21,7 @@ namespace Character
 
 	void EnemyBase::triggerFollowPlayer()
 	{
+
 	}
 
 	void EnemyBase::init(int type)
@@ -41,8 +42,8 @@ namespace Character
 		for(int i = 0; i < data.spritesheetsNr; i++)
 			data.epaths[i] = currentRoom->manager->enemyTypes[data.type].epaths[i];
 
-		locf.x = (float)IRand((currentRoom->size.x - sprite.GetWidth() / currentRoom->tilesize - 1) * currentRoom->tilesize) + sprite.GetWidth();
-		locf.y = (float)IRand((currentRoom->size.y - sprite.GetHeight() / currentRoom->tilesize - 1) * currentRoom->tilesize) + sprite.GetHeight();
+		locf.x = (float)IRand((currentRoom->size.x - sprite.GetWidth() / currentRoom->tilesize - 1) * currentRoom->tilesize);
+		locf.y = (float)IRand((currentRoom->size.y - sprite.GetHeight() / currentRoom->tilesize - 1) * currentRoom->tilesize);
 
 		data.col.collisionBox.x = data.col.offset.x + (int)locf.x;
 		data.col.collisionBox.y = data.col.offset.y + (int)locf.y;

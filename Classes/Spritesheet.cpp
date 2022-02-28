@@ -57,7 +57,7 @@ void Spritesheet::freezeFrame(int frame, bool isFreezed)
     }
     else
     {
-       // currentTime = 0.0f;
+        // currentTime = 0.0f;
         freezedColumn = 1;
     }
 }
@@ -65,7 +65,7 @@ void Spritesheet::freezeFrame(int frame, bool isFreezed)
 
 
 void Spritesheet::calculateNextFrame()
-{   
+{
     //if (columns == 10)
         //std::cout << currentRow << std::endl;
     currentFrame = (currentFrame + 1 * freezedColumn) % columns + columns * currentRow;
@@ -76,7 +76,7 @@ void Spritesheet::changeVisiblity(bool newVisible)
     visible = newVisible;
 }
 
-void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface *screen, GameSpace::vec2 drawLocf)
+void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface* screen, GameSpace::vec2 drawLocf)
 {
     if (visible)
     {
@@ -93,5 +93,3 @@ void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface *screen, Ga
         sprite->Draw(screen, (int)drawLocf.x, (int)drawLocf.y);
     }
 }
-
-

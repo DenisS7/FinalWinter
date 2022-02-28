@@ -7,7 +7,6 @@
 #include "../Classes/Room.h"
 #include "../surface.h"
 
-
 namespace Map
 {
 	class Room;

@@ -8,6 +8,7 @@
 #include "Classes/Snowball.h"
 
 #include "../Classes/CollisionCheck.h"
+#include <fstream>
 
 
 namespace GameSpace
@@ -21,7 +22,7 @@ namespace GameSpace
 	Character::Player player;
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
 	CollisionCheck collisionManager;
-	
+	//Font font{ "assets/Font/font.TTF", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.:,;'|(!?)+-*/="};
 	void Game::Init()
 	{
 		vec2 s;
@@ -104,24 +105,26 @@ namespace GameSpace
 	// -----------------------------------------------------------
 	void Game::Shutdown()
 	{
+
 	}
 
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
 
-	//Surface explosion{ "assets/Enemies/metalgift/metalgift_explosion.png" };
+	//Surface explosion{ "assets/Font/Essentle4.otf" };
+
+
+	std::ofstream fout("Scores/scores.txt");
 
 	void Game::Tick(float deltaTime)
 	{
 		screen->Clear(0);
-		//std::cout << player.currentRoom->tiles[273].colidable << std::endl;
-		//std::cout << explosion.GetWidth() << std::endl;
 		Input(deltaTime);
-		
-		//manager.rooms[player.currentRoom->roomNumber].drawMap(screen);
+
 		manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
 		player.update(deltaTime);
+
 	}
 
 };

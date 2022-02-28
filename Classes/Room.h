@@ -3,6 +3,7 @@
 #include "../template.h"
 #include "../Classes/newmath.h"
 #include "../Classes/CollisionComponent.h"
+
 #include <vector>
 
 
@@ -29,7 +30,7 @@ private:
 public:
 
 	int enemies;
-	GameSpace::Surface tilemap{ "assets/Map/all_map.png" };
+	
 	int roomNumber;
 	int level;
 	int type;
@@ -43,6 +44,7 @@ public:
 		std::vector <Character::EnemyBase*> entitiesOnTile;
 	};
 
+	GameSpace::Surface tilemap{ "assets/Map/all_map.png" };
 
 	std::vector <tile> tiles;
 	std::vector <Character::EnemyBase*> enemiesInRoom;

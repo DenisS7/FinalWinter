@@ -27,8 +27,6 @@ public:
 		destination = newDestination;
 		locf = newInitial;
 		moveDirection = GameSpace::vec2::normalize(destination - locf);
-		//moveDirection.x = newmath::getSign(moveDirection.x) * moveDirection.x * moveDirection.x;
-		//moveDirection.y = newmath::getSign(moveDirection.y) * moveDirection.y * moveDirection.y;
 		collision.offset = newmath::make_ivec2(22, 22);
 		collision.collisionBox = newmath::make_Rect((int)locf.x + 22, (int)locf.y + 22, 20, 20);
 		speedf = 0.2f;
