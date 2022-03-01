@@ -13,7 +13,8 @@ class enemy_metalbox :
     public EnemyBase
 {
 private: 
-
+    int explosionRange = 20;
+    bool exploded = false;
 public:
     enemy_metalbox(Map::Room* currentRoom, int entype)
         : EnemyBase(currentRoom, entype)

@@ -100,6 +100,7 @@ public:
 		return newTile;
 	}
 	
+	void restart();
 	void initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, MapManager* newManager);
 	void inititateEnemies();
 	void removeEnemyFromTile(const Character::EnemyBase* enemy, int tileNr);

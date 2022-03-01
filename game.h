@@ -8,10 +8,14 @@ class Game
 {
 public:
 
+	bool isRunning = false;
 	newmath::ivec2 mouse;
 
+	void Restart();
 	void SetTarget( Surface* surface ) { screen = surface; }
 	void Init();
+	void StartGame();
+	void StopGame();
 	void Shutdown();
 	void Tick( float deltaTime );
 	void MouseUp(int button);

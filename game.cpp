@@ -8,6 +8,7 @@
 #include "Classes/Snowball.h"
 
 #include "../Classes/CollisionCheck.h"
+#include "../Classes/CollisionComponent.h"
 #include <fstream>
 
 
@@ -21,8 +22,13 @@ namespace GameSpace
 	Map::MapManager manager;
 	Character::Player player;
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
-	CollisionCheck collisionManager;
-	//Font font{ "assets/Font/font.TTF", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.:,;'|(!?)+-*/="};
+	//Font font{ "assets/Font/font.png", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.:,;'|(!?)+-*/="};
+	
+	void Game::Restart()
+	{
+
+	}
+
 	void Game::Init()
 	{
 		vec2 s;
@@ -32,11 +38,23 @@ namespace GameSpace
 		manager.setScreen(screen);
 		manager.initiate();
 		manager.generateFirstRoom();
-
+		std::cout << " \n Generate \n";
 		player.init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager, keystate);
 		manager.initiateEnemiesInRooms();
 		
 		player.equipWeapon(5);
+		StartGame();
+	}
+
+	void Game::StartGame()
+	{
+		std::cout << "\n START \n";
+		isRunning = true;
+	}
+
+	void Game::StopGame()
+	{
+		isRunning = false;
 	}
 
 	void Game::Input(float deltaTime)
@@ -73,6 +91,8 @@ namespace GameSpace
 		case SDL_SCANCODE_G:
 			player.shootProjectile(0);
 			break;
+		case SDL_SCANCODE_T:
+				Shutdown();
 			//default:
 				//break;
 		}
@@ -105,7 +125,7 @@ namespace GameSpace
 	// -----------------------------------------------------------
 	void Game::Shutdown()
 	{
-
+		exit(1);
 	}
 
 	// -----------------------------------------------------------
@@ -119,12 +139,24 @@ namespace GameSpace
 
 	void Game::Tick(float deltaTime)
 	{
-		screen->Clear(0);
-		Input(deltaTime);
+		if (player.isDead)
+		{
+			std::cout << "\n STOP \n";
+			StopGame();
+			player.restart();
+			std::cout << "\n Restart \n";
+			Init();
+		}
+		if (isRunning)
+		{
+			//std::cout << "RUNS";
+			screen->Clear(0);
+			Input(deltaTime);
 
-		manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
-		player.update(deltaTime);
-
+			manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
+			player.update(deltaTime);
+		}
+		//font.Print(screen, "AAA", 10, 10, false);
 	}
 
 };

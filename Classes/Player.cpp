@@ -10,7 +10,24 @@
 
 namespace Character
 {
-	
+	void Player::restart()
+	{
+		currentState = 1;
+		directionFacing = 0;
+		isHoldingGun = false;
+		health = 100;
+		isDead = false;
+		locf = drawLocf = middleScreen;
+		changeActionSprite(1);
+		currentSs.setFrame(0);
+		for (int i = 0; i < weapon.arrows.size(); i++)
+			weapon.deleteArrow(weapon.arrows[i]);
+		weapon.changeDirection(0);
+		mapManager->restart();
+		points = 0;
+		
+	}
+
 	void Player::init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate)
 	{
 		sspaths[1].path = "assets/Player/player_idle.png";
@@ -93,7 +110,7 @@ namespace Character
 	void Player::modifyPoints(int newPoints)
 	{
 		points += newPoints;
-		std::cout << points << std::endl;
+		//std::cout << points << std::endl;
 	}
 
 	void Player::takeDamage(float damage)

@@ -9,6 +9,32 @@ namespace Map
 {
 	int k[10] = { 0 };
 
+	void MapManager::restart()
+	{
+		collisionTiles.clear();
+		portalTiles.clear();
+		for (int i = 0; i < roomAm.x * roomAm.y; i++)
+		{
+			rooms[i].restart();
+			generatedOrder[i] = 0;
+			parentRoom[i] = 0;
+			for (int j = 0; j < roomAm.x * roomAm.y; j++)
+				graph[i][j] = 0;
+			exists[i] = false;
+			aux[i] = 0;
+			p[i] = 0;
+			path[i] = 0;
+			nextRooms[i][0] = nextRooms[i][1] = nextRooms[i][2] = nextRooms[i][3] = 0;
+		}
+		actualRooms = 0;
+		length = 0;
+		goBack = 0;
+		currentGen = 0;
+		goingBack = false;
+		newRooms = 0;
+		
+	}
+
 	void MapManager::initiate()
 	{
 		std::ifstream fin("Classes/RoomLayout/Collisions.txt");
@@ -161,8 +187,6 @@ namespace Map
 		
 		int dist = 0;
 
-		std::cout << std::endl;
-
 		while (lf <= rt)
 		{
 			int k = q[lf];
@@ -185,24 +209,14 @@ namespace Map
 			j = t[j] - 1;
 			dist++;
 		}
-		/*int dist = 0;
-		int x = finish.x + finish.y * roomAm.x;
-
-		while (x != room)
-		{
-			std::cout << x << " SEARCHING" << std::endl;
-			x = parentRoom[x];
-			dist++;
-		}*/
-
-		std::cout << dist << std::endl;
 	}
 
 	void MapManager::generateFirstRoom()
 	{
 		exists[start.x + start.y * 7] = true;
 		rooms[start.x + start.y * 7].calculateDoors(2, true, -1);
-		bool possible[4] = { true };
+		bool possible[4] = { true, true, true, true };
+		//std::cout << "\n Generate First Room\n";
 		for (int i = 0; i < 4; i++)
 		{
 			bool generated = false;
@@ -215,6 +229,7 @@ namespace Map
 					possible[i] = false;
 					for (int j = 0; j < 4; j++)
 					{
+						std::cout << "\n LOOP !Generated \n";
 						if (!rooms[start.x + start.y * 7].doors[i] && possible[j])
 							calcNewRoom(j, start.x, start.y, false, generated);
 						if (generated)
@@ -241,9 +256,9 @@ namespace Map
 		exists[x + y * 7] = true;
 		//if (goingBack)
 			//std::cout << "Entered Generation \n";
+		std::cout << "\n Generate Next Room\n";
+
 		rooms[x + y * 7].calculateDoors(StartDirection, CanClose, kn);
-		//if (goingBack)
-			//std::cout << "Passed Calculate Doors \n";
 		bool possible[4] = { true, true, true, true };
 		for (int i = 0; i < 4; i++)
 		{
@@ -287,7 +302,7 @@ namespace Map
 		
 		aux[goBack] = newRooms;
 		
-		//std::cout <<"NewRoomsNumber = " << newRooms << " " << std::endl;
+		std::cout <<"NewRoomsNumber = " << newRooms << " " << std::endl;
 
 	
 

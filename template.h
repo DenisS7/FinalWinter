@@ -10,6 +10,7 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include "../Classes/newmath.h"
 
 constexpr int ScreenWidth = 800;
 constexpr int ScreenHeight = 512;
@@ -88,6 +89,7 @@ public:
 	vec2 operator - ( const vec2& operand ) const { return vec2( x - operand.x, y - operand.y ); }
 	vec2 operator * ( const vec2& operand ) const { return vec2( x * operand.x, y * operand.y ); }
 	vec2 operator * ( float operand ) const { return vec2( x * operand, y * operand ); }
+	vec2 operator = (const newmath::ivec2 a) { return vec2((float)a.x, (float)a.y); };
 	void operator -= ( const vec2& a ) { x -= a.x; y -= a.y; }
 	void operator += ( const vec2& a ) { x += a.x; y += a.y; }
 	void operator *= ( const vec2& a ) { x *= a.x; y *= a.y; }

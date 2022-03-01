@@ -1,5 +1,6 @@
 #include "enemy_metalbox.h"
 #include "Player.h"
+#include "CollisionCheck.h"
 #include <iostream>
 
 namespace Character
@@ -119,8 +120,18 @@ namespace Character
 		}
 		findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->player->getCurrentPos());
 
-		if (isExploding && currentSs.getCurrentFrame() == 12)
-			EnemyBase::die();
+		if (isExploding)
+		{
+			if (currentSs.getCurrentFrame() == 8 && !exploded)
+			{
+				exploded = true;
+				data.col.extendCollision(explosionRange, explosionRange);
+				if (CollisionCheck::areColliding(this->data.col, currentRoom->player->collisionBox))
+					currentRoom->player->takeDamage(data.damagePerAttack);
+			}
+			if (currentSs.getCurrentFrame() == 12)
+				EnemyBase::die();
+		}
 		
 	}
 }

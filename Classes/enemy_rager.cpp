@@ -1,6 +1,7 @@
 #include "enemy_rager.h"
 #include "Player.h"
 #include <iostream>
+#include "CollisionCheck.h"
 
 namespace Character
 {
@@ -99,6 +100,7 @@ namespace Character
 		//std::cout << currentState << std::endl;
 		if (isDead)
 		{
+			drawLocf = locf - currentRoom->locf;
 			if (currentState != 3)
 			{
 				changeActionSprite(3, directionFacing);
@@ -110,28 +112,49 @@ namespace Character
 		}
 		else
 		{
+			drawLocf = locf - currentRoom->locf;
 			if (path.size() <= 1 && !isExploding)
 			{
-				std::cout << "ATTACK \n";
+				//std::cout << "ATTACK \n";
 				currentState = 2;
 				isExploding = true;
 				attack();
 			}
 			else if ((isFollowingPlayer || path.size() <= 7) && !isExploding)
 			{
-				std::cout << "FOLLOW \n";
+				//std::cout << "FOLLOW \n";
 				currentState = 1;
 				data.speed += (float)0.000001 * deltaTime;
 				triggerFollowPlayer();
 				addMovement(deltaTime);
 				isFollowingPlayer = true;
 			}
-			else if (isExploding && currentSs.getCurrentFrame() % 12 == 11)
+			else if (isExploding)
 			{
-				std::cout << "END ATTACK \n";
-				currentState = 1;
-				changeActionSprite(1, directionFacing);
-				isExploding = false;
+				std::cout << dealDamage << " " << currentSs.getCurrentFrame() % 12 << std::endl;
+				if (currentSs.getCurrentFrame() % 12 == 11)
+				{
+					dealDamage = false;
+					std::cout << "ENDATTACK \n";
+					currentState = 1;
+					changeActionSprite(1, directionFacing);
+					isExploding = false;
+				}
+				else if (currentSs.getCurrentFrame() % 12 > 7 && !dealDamage)
+				{
+					std::cout << "DEALDAMAGE \n";
+					CollisionComponent attackCollision = *attackCol;
+					attackCollision.collisionBox.x += data.col.collisionBox.x + directionFacing * 50;
+					attackCollision.collisionBox.y += data.col.collisionBox.y;
+					//screen->Box(attackCollision.collisionBox.x - currentRoom->locf.x, attackCollision.collisionBox.y - currentRoom->locf.y, attackCollision.collisionBox.x + attackCollision.collisionBox.width - currentRoom->locf.x, attackCollision.collisionBox.y + attackCollision.collisionBox.height - currentRoom->locf.y, 0xff0000);
+					if (CollisionCheck::areColliding(attackCollision, currentRoom->player->collisionBox))
+					{
+						dealDamage = true;
+						currentRoom->player->takeDamage(data.damagePerAttack);
+					}
+				}
+				
+
 			}
 			else
 			{

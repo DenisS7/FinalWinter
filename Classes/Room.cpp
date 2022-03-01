@@ -16,9 +16,19 @@
 
 namespace Map
 {
+	void Room::restart()
+	{
+		level = 0;
+		enemies = 0;
+		for (int i = 0; i < enemiesInRoom.size(); i++)
+			deleteEnemy(enemiesInRoom[i]);
+		resetDoors();
+		enemiesInRoom.clear();
+		tiles.clear();
+		nrdoors = 1;
+	}
 
-
-void Room::initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, Map::MapManager* newManager)
+	void Room::initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, Map::MapManager* newManager)
 {	
 	roomNumber = number;
 	type = Fight;
@@ -52,10 +62,10 @@ void Room::initiateRoom(int number, const std::vector <int> collisionTiles, cons
 
 void Room::inititateEnemies()
 {
-	enemies = 1;
+	enemies = 2;
+	int enemyType = 0;
 	for (int i = 0; i < enemies; i++)
 	{
-		int enemyType = 2;
 		if (enemyType == 0)
 		{
 			Character::enemy_metalbox* newEnemy = new Character::enemy_metalbox(this, 0);
@@ -75,6 +85,7 @@ void Room::inititateEnemies()
 			newEnemy->init();
 			enemiesInRoom.push_back(newEnemy);
 		}
+		enemyType = 2;
 	
 	}
 }

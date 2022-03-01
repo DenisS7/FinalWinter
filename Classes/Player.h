@@ -58,6 +58,7 @@ public:
 	Map::MapManager* mapManager;
 	GameSpace::Surface* screen;
 
+	void restart();
 	void init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate);
 	void checkIdle();
 	newmath::ivec2 Player::getCurrentPos();

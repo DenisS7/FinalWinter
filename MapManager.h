@@ -42,7 +42,7 @@ private:
 
 public:
 	Character::Player* player;
-	int graph[100][100] = { -1 };
+	int graph[100][100] = { 0 };
 	int actualRooms = 0;
 	int generatedOrder[100] = { 0 };
 	int parentRoom[100] = { 0 };
@@ -82,6 +82,8 @@ public:
 
 	Room rooms[100];
 	
+	void restart();
+
 	void setScreen(GameSpace::Surface* newScreen) { screen = newScreen; };
 	void initiate();
 	void setPlayer(Character::Player* newPlayer);
