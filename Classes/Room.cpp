@@ -62,10 +62,11 @@ namespace Map
 
 void Room::inititateEnemies()
 {
-	enemies = 2;
+	enemies = 5;
 	int enemyType = 0;
 	for (int i = 0; i < enemies; i++)
 	{
+		enemyType = IRand(3);
 		if (enemyType == 0)
 		{
 			Character::enemy_metalbox* newEnemy = new Character::enemy_metalbox(this, 0);
@@ -85,7 +86,7 @@ void Room::inititateEnemies()
 			newEnemy->init();
 			enemiesInRoom.push_back(newEnemy);
 		}
-		enemyType = 2;
+		
 	
 	}
 }

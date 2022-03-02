@@ -23,7 +23,9 @@ namespace GameSpace
 	Character::Player player;
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
 	//Font font{ "assets/Font/font.png", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.:,;'|(!?)+-*/="};
-	
+	Sprite score{new Surface( "assets/Font/newFont-blue.png"), 1};
+
+
 	void Game::Restart()
 	{
 
@@ -155,7 +157,9 @@ namespace GameSpace
 
 			manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
 			player.update(deltaTime);
+			//score.Draw(screen, 600, 10);
 		}
+		
 		//font.Print(screen, "AAA", 10, 10, false);
 	}
 

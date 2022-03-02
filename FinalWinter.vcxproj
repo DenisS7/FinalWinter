@@ -234,6 +234,7 @@
     <ClCompile Include="Classes\Player.cpp" />
     <ClCompile Include="Classes\Projectile.cpp" />
     <ClCompile Include="Classes\Room.cpp" />
+    <ClCompile Include="Classes\Score.cpp" />
     <ClCompile Include="Classes\Snowball.cpp" />
     <ClCompile Include="Classes\Sprites.cpp" />
     <ClCompile Include="Classes\Spritesheet.cpp" />
@@ -256,6 +257,7 @@
     <ClInclude Include="Classes\Player.h" />
     <ClInclude Include="Classes\Projectile.h" />
     <ClInclude Include="Classes\Room.h" />
+    <ClInclude Include="Classes\Score.h" />
     <ClInclude Include="Classes\Snowball.h" />
     <ClInclude Include="Classes\Sprites.h" />
     <ClInclude Include="Classes\Spritesheet.h" />

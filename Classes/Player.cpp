@@ -484,7 +484,7 @@ namespace Character
 	void Player::update(float deltaTime)
 	{
 		healthbar.drawHealthbar(health, screen);
-
+		score.printScore(screen, 780, 30, points);
 		if (directionFacing == 0)
 		{
 			currentSs.drawNextSprite(deltaTime, screen, drawLocf);

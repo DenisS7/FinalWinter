@@ -8,6 +8,7 @@
 #include "../Classes/WeaponBase.h"
 #include "../Classes/CollisionComponent.h"
 #include "Healthbar.h"
+#include "Score.h"
 
 namespace Character
 {
@@ -20,6 +21,7 @@ private:
 	
 
 public:
+	Score score;
 	int points = 0;
 	const int nonCollide = 0;
 	const int collide = 1;
