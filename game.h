@@ -1,5 +1,6 @@
 #pragma once
 #include "Classes/newmath.h"
+#include "Classes/StartScreen.h"
 
 namespace GameSpace {
 
@@ -7,7 +8,6 @@ class Surface;
 class Game
 {
 public:
-
 	bool isRunning = false;
 	newmath::ivec2 mouse;
 
@@ -22,6 +22,7 @@ public:
 	void MouseDown(int button);
 	void MouseMove(int x, int y) { mouse.x = x, mouse.y = y; };
 	void Input(float deltaTime);
+	void PressButton(bool down);
 	void KeyUp(int key);
 	void KeyDown(int key);
 private:

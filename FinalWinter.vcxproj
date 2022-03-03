@@ -223,6 +223,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Classes\Arrow.cpp" />
+    <ClCompile Include="Classes\Button.cpp" />
     <ClCompile Include="Classes\CollisionCheck.cpp" />
     <ClCompile Include="Classes\CollisionComponent.cpp" />
     <ClCompile Include="Classes\EnemyBase.cpp" />
@@ -238,6 +239,7 @@
     <ClCompile Include="Classes\Snowball.cpp" />
     <ClCompile Include="Classes\Sprites.cpp" />
     <ClCompile Include="Classes\Spritesheet.cpp" />
+    <ClCompile Include="Classes\StartScreen.cpp" />
     <ClCompile Include="Classes\WeaponBase.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="MapManager.cpp" />
@@ -246,6 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Arrow.h" />
+    <ClInclude Include="Classes\Button.h" />
     <ClInclude Include="Classes\CollisionCheck.h" />
     <ClInclude Include="Classes\CollisionComponent.h" />
     <ClInclude Include="Classes\EnemyBase.h" />
@@ -261,6 +264,7 @@
     <ClInclude Include="Classes\Snowball.h" />
     <ClInclude Include="Classes\Sprites.h" />
     <ClInclude Include="Classes\Spritesheet.h" />
+    <ClInclude Include="Classes\StartScreen.h" />
     <ClInclude Include="Classes\WeaponBase.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="MapManager.h" />

@@ -59,7 +59,13 @@
     <ClCompile Include="Classes\enemy_rager.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Score.cpp" />
+    <ClCompile Include="Classes\Score.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\StartScreen.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Player.h">
@@ -120,7 +126,13 @@
     <ClInclude Include="Classes\enemy_rager.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Score.h" />
+    <ClInclude Include="Classes\Score.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\StartScreen.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Button.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />
@@ -176,6 +188,9 @@
     </Filter>
     <Filter Include="Player">
       <UniqueIdentifier>{1d928c03-5240-4c6a-8fc4-62876d534f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{f278f2c1-876d-429d-a884-997e3051c101}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

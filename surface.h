@@ -42,8 +42,10 @@ public:
 	Surface( int a_Width, int a_Height, Pixel* a_Buffer, int a_Pitch );
 	Surface( int a_Width, int a_Height );
 	Surface( char* a_File );
+	Surface(char* a_File, int a_Height, int a_Width);
 	~Surface();
 	// member data access
+	//void resize(int a_Height, int a_Width);
 	Pixel* GetBuffer() { return m_Buffer; }
 	void SetBuffer( Pixel* a_Buffer ) { m_Buffer = a_Buffer; }
 	int GetWidth() { return m_Width; }

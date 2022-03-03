@@ -6,6 +6,7 @@
 #include "Classes/Player.h"
 
 #include "Classes/Snowball.h"
+#include "Classes/StartScreen.h"
 
 #include "../Classes/CollisionCheck.h"
 #include "../Classes/CollisionComponent.h"
@@ -21,10 +22,11 @@ namespace GameSpace
 
 	Map::MapManager manager;
 	Character::Player player;
+	StartScreen* startScreen;
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
 	//Font font{ "assets/Font/font.png", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.:,;'|(!?)+-*/="};
 	Sprite score{new Surface( "assets/Font/newFont-blue.png"), 1};
-
+	
 
 	void Game::Restart()
 	{
@@ -33,24 +35,36 @@ namespace GameSpace
 
 	void Game::Init()
 	{
-		vec2 s;
-		time_t t;
-		srand((unsigned)time(&t));
-		manager.setPlayer(&player);
-		manager.setScreen(screen);
-		manager.initiate();
-		manager.generateFirstRoom();
-		std::cout << " \n Generate \n";
-		player.init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager, keystate);
-		manager.initiateEnemiesInRooms();
-		
-		player.equipWeapon(5);
-		StartGame();
+		std::cout << "\n START \n";
+		startScreen = new StartScreen(screen);
+			startScreen->displayScreen();
+			vec2 s;
+			time_t t;
+			srand((unsigned)time(&t));
+			manager.setPlayer(&player);
+			manager.setScreen(screen);
+			manager.initiate();
+			manager.generateFirstRoom();
+			std::cout << " \n Generate \n";
+			player.init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager, keystate);
+			manager.initiateEnemiesInRooms();
+			player.equipWeapon(5);
+			
+		//StartGame();
+	}
+
+	// -----------------------------------------------------------
+	// Close down application
+	// -----------------------------------------------------------
+	void Game::Shutdown()
+	{
+		exit(1);
 	}
 
 	void Game::StartGame()
 	{
-		std::cout << "\n START \n";
+		
+		player.currentRoom = &player.mapManager->rooms[player.mapManager->start.x + player.mapManager->roomAm.x * player.mapManager->start.y];
 		isRunning = true;
 	}
 
@@ -61,8 +75,23 @@ namespace GameSpace
 
 	void Game::Input(float deltaTime)
 	{
-		player.input(deltaTime);
-		player.mouseLoc(mouse.x, mouse.y);
+		//PressButton();
+			player.input(deltaTime);
+			player.mouseLoc(mouse.x, mouse.y);
+	
+	}
+
+	void Game::PressButton(bool down)
+	{
+		int k = startScreen->isButtonPressed(vec2(mouse.x, mouse.y));
+		if (k != -1)
+		{
+			std::cout << "\n BUTTON PRESSED \n";
+			if (k == 0 && !isRunning && down)
+				StartGame();
+			else if (k == 1 && down)
+				Shutdown();
+		}
 	}
 
 	void Game::KeyDown(int key)
@@ -105,6 +134,7 @@ namespace GameSpace
 		switch (button)
 		{
 		case SDL_BUTTON_LEFT:
+			PressButton(true);
 			player.shootProjectile(0);
 			break;
 		}
@@ -115,6 +145,7 @@ namespace GameSpace
 		switch (button)
 		{
 		case SDL_BUTTON_LEFT:
+			PressButton(false);
 			player.shootProjectile(5);
 			break;
 		}
@@ -122,13 +153,7 @@ namespace GameSpace
 
 
 
-	// -----------------------------------------------------------
-	// Close down application
-	// -----------------------------------------------------------
-	void Game::Shutdown()
-	{
-		exit(1);
-	}
+	
 
 	// -----------------------------------------------------------
 	// Main application tick function
@@ -136,26 +161,32 @@ namespace GameSpace
 
 	//Surface explosion{ "assets/Font/Essentle4.otf" };
 
-
+	Surface* th = new Surface("assets/Thumbnail/thumbnail.png", 1920, 1080);
+	GameSpace::Sprite thumbnail{ th, 1 };
 	std::ofstream fout("Scores/scores.txt");
 
 	void Game::Tick(float deltaTime)
 	{
-		if (player.isDead)
+		//std::cout << "\n Height: " << th->GetHeight() << '\n';
+		//thumbnail.Draw(screen, 0, 0);
+		screen->Clear(0);
+		if (!isRunning)
+			startScreen->displayScreen();
+		if (player.isDead && player.currentSs.getCurrentFrame() % 7 == 6)
 		{
-			std::cout << "\n STOP \n";
-			StopGame();
-			player.restart();
-			std::cout << "\n Restart \n";
-			Init();
+				std::cout << "\n STOP \n";
+				player.restart();
+				StopGame();
+				std::cout << "\n Restart \n";	
 		}
-		if (isRunning)
+		else if (isRunning)
 		{
 			//std::cout << "RUNS";
-			screen->Clear(0);
+			
 			Input(deltaTime);
 
 			manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
+			
 			player.update(deltaTime);
 			//score.Draw(screen, 600, 10);
 		}

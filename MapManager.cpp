@@ -32,7 +32,9 @@ namespace Map
 		currentGen = 0;
 		goingBack = false;
 		newRooms = 0;
-		
+		initiate();
+		generateFirstRoom();
+		initiateEnemiesInRooms();
 	}
 
 	void MapManager::initiate()
@@ -229,7 +231,7 @@ namespace Map
 					possible[i] = false;
 					for (int j = 0; j < 4; j++)
 					{
-						std::cout << "\n LOOP !Generated \n";
+						//std::cout << "\n LOOP !Generated \n";
 						if (!rooms[start.x + start.y * 7].doors[i] && possible[j])
 							calcNewRoom(j, start.x, start.y, false, generated);
 						if (generated)
@@ -256,7 +258,7 @@ namespace Map
 		exists[x + y * 7] = true;
 		//if (goingBack)
 			//std::cout << "Entered Generation \n";
-		std::cout << "\n Generate Next Room\n";
+		//std::cout << "\n Generate Next Room\n";
 
 		rooms[x + y * 7].calculateDoors(StartDirection, CanClose, kn);
 		bool possible[4] = { true, true, true, true };
@@ -302,7 +304,7 @@ namespace Map
 		
 		aux[goBack] = newRooms;
 		
-		std::cout <<"NewRoomsNumber = " << newRooms << " " << std::endl;
+		//std::cout <<"NewRoomsNumber = " << newRooms << " " << std::endl;
 
 	
 

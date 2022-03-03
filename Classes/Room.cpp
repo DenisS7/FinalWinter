@@ -18,6 +18,7 @@ namespace Map
 {
 	void Room::restart()
 	{
+		locf = 0;
 		level = 0;
 		enemies = 0;
 		for (int i = 0; i < enemiesInRoom.size(); i++)
@@ -260,8 +261,8 @@ void Room::moveMap(int x, int y, float deltaTime)
 	locf.x += speed * x * deltaTime;
 	locf.y += speed * y * deltaTime;
 	
-	locf.x = newmath::clampf(locf.x, 0.0, (float)size.x * tilesize - 800);
-	locf.y = newmath::clampf(locf.y, 0.0, (float)size.y * tilesize - 512);
+	locf.x = newmath::clampf(locf.x, 0.0, (float)size.x * tilesize - ScreenWidth);
+	locf.y = newmath::clampf(locf.y, 0.0, (float)size.y * tilesize - ScreenHeight);
 }
 
 void Room::changeDoorLayout(bool isOpen)

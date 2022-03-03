@@ -17,12 +17,9 @@ void Score::printScore(GameSpace::Surface* screen, int x, int y, int points)
 		nr.push_back(points % 10);
 		points /= 10;
 	}
-	std::cout << x << " " << number1.GetSurface()->GetPitch() <<  " " << nrr << "\n";
 	x -= scoreUI.GetSurface()->GetPitch() + 10 + nr1 * number1.GetSurface()->GetPitch() + nrr * (numbers.GetSurface()->GetPitch() / numbers.Frames());
-	std::cout << x << "\n";
 	scoreUI.Draw(screen, x, y);
 	x += scoreUI.GetSurface()->GetPitch() + 10;
-	std::cout << x << "\n";
 	while (nr.size())
 	{
 		if (nr.back() == 1)
@@ -38,7 +35,6 @@ void Score::printScore(GameSpace::Surface* screen, int x, int y, int points)
 			numbers.Draw(screen, x, y);
 			x += (numbers.GetSurface()->GetPitch()) / numbers.Frames();
 		}
-		std::cout << "WHILE " << x << std::endl;
 		nr.pop_back();
 	}
 }

@@ -5,6 +5,7 @@
 #include "template.h"
 #include <cassert>
 #include <cstring>
+#include <iostream>
 #include "FreeImage.h"
 
 namespace GameSpace {
@@ -46,6 +47,34 @@ Surface::Surface( char* a_File )
 	}
 	else fclose( f );
 	LoadImage( a_File );
+}
+
+Surface::Surface(char* a_File, int a_Height, int a_Width)
+{
+	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
+	fif = FreeImage_GetFileType(a_File, 0);
+	if (fif == FIF_UNKNOWN) fif = FreeImage_GetFIFFromFilename(a_File);
+	FIBITMAP* tmp = FreeImage_Load(fif, a_File);
+	FIBITMAP* dib = FreeImage_ConvertTo32Bits(tmp);
+	dib = FreeImage_Rescale(dib, 800, 512, FILTER_BICUBIC);
+	FreeImage_Unload(tmp);
+	m_Width = m_Pitch = FreeImage_GetWidth(dib);
+	m_Height = FreeImage_GetHeight(dib);
+	m_Buffer = (Pixel*)MALLOC64(m_Width * m_Height * sizeof(Pixel));
+	if (m_Buffer)
+	{
+		m_Flags = OWNER;
+		assert(m_Pitch != 0);
+		for (int y = 0; y < m_Height; y++)
+		{
+			if (m_Pitch != 0)
+			{
+				unsigned char* line = FreeImage_GetScanLine(dib, m_Height - 1 - y);
+				memcpy(m_Buffer + (y * m_Pitch), line, m_Width * sizeof(Pixel));
+			}
+		}
+	}
+	FreeImage_Unload(dib);
 }
 
 void Surface::LoadImage( char* a_File )

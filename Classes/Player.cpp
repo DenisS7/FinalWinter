@@ -12,18 +12,23 @@ namespace Character
 {
 	void Player::restart()
 	{
+		std::cout << "\n Player RESTART \n";
+		locf = drawLocf = middleScreen;
+		collisionBox.setOffset(14, 14);
+		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
+		 
 		currentState = 1;
 		directionFacing = 0;
 		isHoldingGun = false;
 		health = 100;
 		isDead = false;
-		locf = drawLocf = middleScreen;
 		changeActionSprite(1);
 		currentSs.setFrame(0);
 		for (int i = 0; i < weapon.arrows.size(); i++)
 			weapon.deleteArrow(weapon.arrows[i]);
 		weapon.changeDirection(0);
 		mapManager->restart();
+		currentRoom = &mapManager->rooms[mapManager->start.x + mapManager->roomAm.x + mapManager->start.y];
 		points = 0;
 		
 	}
@@ -116,7 +121,7 @@ namespace Character
 	void Player::takeDamage(float damage)
 	{
 		health -= damage;
-		if (health <= 0)
+		if (health <= 0 && !isDead)
 			die();
 	}
 
@@ -339,7 +344,8 @@ namespace Character
 	void Player::addMovement(int x, int y, float deltaTime)
 	{
 		int xMap = 0, yMap = 0;
-
+		std::cout << "MOVE \n";
+		std::cout <<move.speed << " " << locf.x << " " << locf.y << " " << currentRoom->locf.x << currentRoom->locf.y;
 		locf.x += move.speed * deltaTime * x;
 		locf.y += move.speed * deltaTime * y;
 
@@ -359,6 +365,7 @@ namespace Character
 		else if (nextTile == collide || nextTile == portalInactive)
 		{
 
+			std::cout << "\n COLLIDE \n";
 			locf.x -= move.speed * deltaTime * x;
 			locf.y -= move.speed * deltaTime * y;
 
