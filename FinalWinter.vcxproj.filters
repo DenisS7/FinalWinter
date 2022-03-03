@@ -65,7 +65,9 @@
     <ClCompile Include="Classes\StartScreen.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Button.cpp" />
+    <ClCompile Include="Classes\Button.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Player.h">
@@ -132,7 +134,9 @@
     <ClInclude Include="Classes\StartScreen.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Button.h" />
+    <ClInclude Include="Classes\Button.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />

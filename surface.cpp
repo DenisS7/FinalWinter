@@ -56,7 +56,7 @@ Surface::Surface(char* a_File, int a_Height, int a_Width)
 	if (fif == FIF_UNKNOWN) fif = FreeImage_GetFIFFromFilename(a_File);
 	FIBITMAP* tmp = FreeImage_Load(fif, a_File);
 	FIBITMAP* dib = FreeImage_ConvertTo32Bits(tmp);
-	dib = FreeImage_Rescale(dib, 800, 512, FILTER_BICUBIC);
+	dib = FreeImage_Rescale(dib, a_Height, a_Width, FILTER_BICUBIC);
 	FreeImage_Unload(tmp);
 	m_Width = m_Pitch = FreeImage_GetWidth(dib);
 	m_Height = FreeImage_GetHeight(dib);
@@ -111,6 +111,15 @@ Surface::~Surface()
 		// only delete if the buffer was not passed to us
 		FREE64( m_Buffer );
 	}
+}
+
+void Surface::Rescale(int a_Width, int a_Height)
+
+{
+	m_Width = m_Pitch = a_Width;
+	m_Height = m_Height;
+	m_Flags = OWNER;
+	m_Buffer = static_cast<Pixel*>(MALLOC64((unsigned int)a_Width * (unsigned int)a_Height * sizeof(Pixel)));
 }
 
 void Surface::Clear( Pixel a_Color )

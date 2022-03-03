@@ -171,12 +171,15 @@ namespace Character
 
 	void Player::input(float deltaTime)
 	{
-		moveDown(keystate[SDL_SCANCODE_S], deltaTime);
-		moveLeft(keystate[SDL_SCANCODE_A], deltaTime);
-		moveUp(keystate[SDL_SCANCODE_W], deltaTime);
-		moveRight(keystate[SDL_SCANCODE_D], deltaTime);
+		if (!isDead)
+		{
+			moveDown(keystate[SDL_SCANCODE_S], deltaTime);
+			moveLeft(keystate[SDL_SCANCODE_A], deltaTime);
+			moveUp(keystate[SDL_SCANCODE_W], deltaTime);
+			moveRight(keystate[SDL_SCANCODE_D], deltaTime);
 
-		weapon.reload(deltaTime);
+			weapon.reload(deltaTime);
+		}
 	}
 
 	void Player::mouseLoc(int x, int y)

@@ -26,6 +26,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+
+
 #ifdef ADVANCEDGL
 #define GLEW_BUILD
 extern "C"
@@ -317,14 +319,15 @@ int main( int argc, char **argv )
 	ShowCursor( false );
 #else
 #ifdef FULLSCREEN
-	window = SDL_CreateWindow(TemplateVersion, 100, 100, ScreenWidth, ScreenHeight, SDL_WINDOW_FULLSCREEN );
+	window = SDL_CreateWindow(TemplateVersion, 100, 100, ScreenWidth * Scale, ScreenHeight * Scale	, SDL_WINDOW_FULLSCREEN );
 #else
-	window = SDL_CreateWindow(TemplateVersion, 100, 100, ScreenWidth, ScreenHeight, SDL_WINDOW_SHOWN );
+	window = SDL_CreateWindow(TemplateVersion, 100, 100, ScreenWidth * Scale, ScreenHeight * Scale, SDL_WINDOW_SHOWN );
 #endif
 	surface = new Surface( ScreenWidth, ScreenHeight );
 	surface->Clear( 0 );
 	SDL_Renderer* renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
-	SDL_Texture* frameBuffer = SDL_CreateTexture( renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, ScreenWidth, ScreenHeight );
+	SDL_Texture* frameBuffer = SDL_CreateTexture( renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, ScreenWidth, ScreenHeight);
+	SDL_RenderSetLogicalSize(renderer, ScreenWidth, ScreenHeight);
 #endif
 	int exitapp = 0;
 	game = new Game();

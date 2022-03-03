@@ -420,7 +420,7 @@ void Room::drawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int d
 		dst += GameScreen->GetPitch();
 	}
 
-	for (int i = 0; i < tilesize && yStartOffset <= GameScreen->GetHeight(); i++, yStartOffset++)
+	for (int i = 0; i < tilesize && yStartOffset < GameScreen->GetHeight(); i++, yStartOffset++)
 	{
 		newmath::ivec2 rem;
 		rem.x = rot.x;
@@ -450,7 +450,7 @@ void Room::drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int 
 		dst += GameScreen->GetPitch();
 	}
 
-	for (int i = 0; i < tilesize && yStartOffset <= GameScreen->GetHeight(); i++, yStartOffset++)
+	for (int i = 0; i < tilesize && yStartOffset < GameScreen->GetHeight(); i++, yStartOffset++)
 	{
 		for (int j = 0; j < tilesize; j++)
 			if (j + dx >= offset.x && j + dx < GameScreen->GetPitch() + offset.x)
@@ -473,7 +473,7 @@ void Room::drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx
 		dst += GameScreen->GetPitch();
 	}
 
-	for (int i = 0; i < tilesize && yStartOffset <= GameScreen->GetHeight(); i++, yStartOffset++)
+	for (int i = 0; i < tilesize && yStartOffset < GameScreen->GetHeight(); i++, yStartOffset++)
 	{
 		for (int j = 0; j < tilesize; j++)
 			if (j + dx >= offset.x && j + dx < GameScreen->GetPitch() + offset.x && src[j])
@@ -498,9 +498,9 @@ void Room::drawMap(GameSpace::Surface* GameScreen)
 	if (start.y < 0)
 		start.y = 0;
 	
-	for (int y = start.y; y <= 16 + start.y && y < size.y; y++)
+	for (int y = start.y; y <= GameScreen->GetHeight() / tilesize + start.y && y < size.y; y++)
 	{
-		for (int x = start.x; x <= 25 + start.x && x < size.x; x++)
+		for (int x = start.x; x <= GameScreen->GetWidth() / tilesize + start.x && x < size.x; x++)
 		{
 			int tx = (tiles[y  * 44 + x].drawIndex - 1) % tilesPerRow;
 			int ty = (tiles[y  * 44 + x].drawIndex - 1) / tilesPerRow;
@@ -510,7 +510,7 @@ void Room::drawMap(GameSpace::Surface* GameScreen)
 
 			if (!tiles[y * 44 + x].rotate)
 			{
-					drawTile(tx, ty, GameScreen, xDrawLoc, yDrawLoc);
+				drawTile(tx, ty, GameScreen, xDrawLoc, yDrawLoc);
 			}
 			else 
 			{

@@ -48,6 +48,7 @@ public:
 	//void resize(int a_Height, int a_Width);
 	Pixel* GetBuffer() { return m_Buffer; }
 	void SetBuffer( Pixel* a_Buffer ) { m_Buffer = a_Buffer; }
+	void Rescale(int a_Width, int a_Height);
 	int GetWidth() { return m_Width; }
 	int GetHeight() { return m_Height; }
 	int GetPitch() { return m_Pitch; }

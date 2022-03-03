@@ -16,7 +16,6 @@ int StartScreen::isButtonPressed(GameSpace::vec2 mouse)
 	
 	for (int i = 0; i < buttons.size(); i++)
 	{
-		std::cout << i << "\n";
 		if (buttons[i]->isButtonPressed(mouse))
 		{
 			if (!buttons[i]->getPressed())

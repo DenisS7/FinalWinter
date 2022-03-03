@@ -49,7 +49,6 @@ namespace GameSpace
 			player.init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager, keystate);
 			manager.initiateEnemiesInRooms();
 			player.equipWeapon(5);
-			
 		//StartGame();
 	}
 
@@ -134,8 +133,10 @@ namespace GameSpace
 		switch (button)
 		{
 		case SDL_BUTTON_LEFT:
-			PressButton(true);
-			player.shootProjectile(0);
+			if (!isRunning)
+				PressButton(true);
+			else
+				player.shootProjectile(0);
 			break;
 		}
 	}
@@ -145,8 +146,10 @@ namespace GameSpace
 		switch (button)
 		{
 		case SDL_BUTTON_LEFT:
-			PressButton(false);
-			player.shootProjectile(5);
+			if (!isRunning)
+				PressButton(false);
+			else
+				player.shootProjectile(5);
 			break;
 		}
 	}
@@ -161,37 +164,60 @@ namespace GameSpace
 
 	//Surface explosion{ "assets/Font/Essentle4.otf" };
 
-	Surface* th = new Surface("assets/Thumbnail/thumbnail.png", 1920, 1080);
-	GameSpace::Sprite thumbnail{ th, 1 };
+	//Surface* th = new Surface("assets/Thumbnail/thumbnail.png", 1920, 1080);
+	//GameSpace::Sprite thumbnail{ th, 1 };
 	std::ofstream fout("Scores/scores.txt");
+	Sprite gameOver(new Surface("assets/Font/game_over.png"), 1);
+	Surface* image = new Surface("assets/Thumbnail/thumbnailUP.png");
 
 	void Game::Tick(float deltaTime)
 	{
-		//std::cout << "\n Height: " << th->GetHeight() << '\n';
+		//std::cout << "\n Height: " << screen->GetHeight() << '\n';
+		//screen->Resize(image);
+		//std::cout << screen->GetHeight() << std::endl;;
 		//thumbnail.Draw(screen, 0, 0);
-		screen->Clear(0);
+		//std::cout << mouse.x << " " << mouse.y << "\n";
 		if (!isRunning)
+		{
+			screen->Clear(0);
 			startScreen->displayScreen();
+		}
 		if (player.isDead && player.currentSs.getCurrentFrame() % 7 == 6)
 		{
+			//screen->Clear(0);
+			//player.currentSs.drawNextSprite(deltaTime, screen, player.drawLocf);
+			////gameOver.Draw(screen, screen->GetPitch() / 2 - gameOver.GetSurface()->GetPitch() / 2, screen->GetHeight() / 2 - gameOver.GetSurface()->GetHeight() / 2);
+		//	manager.rooms[player.currentRoom->roomNumber].drawMap(screen);
+			//if ()
+			{
 				std::cout << "\n STOP \n";
 				player.restart();
 				StopGame();
-				std::cout << "\n Restart \n";	
+				std::cout << "\n Restart \n";
+			}
 		}
 		else if (isRunning)
 		{
 			//std::cout << "RUNS";
 			
+			screen->Clear(0);
 			Input(deltaTime);
 
+			std::cout << player.isDead << std::endl;
 			manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
 			
 			player.update(deltaTime);
-			//score.Draw(screen, 600, 10);
-		}
-		
-		//font.Print(screen, "AAA", 10, 10, false);
-	}
+			if (player.isDead)
+			{
+				gameOver.Draw(screen, screen->GetPitch() / 2 - gameOver.GetSurface()->GetPitch() / 2, screen->GetHeight() / 2 - gameOver.GetSurface()->GetHeight() / 2);
+				if (player.isDead && player.currentSs.getCurrentFrame() % 7 == 6)
+				{
+					std::cout << "\n STOP \n";
+					player.restart();
+					StopGame();
+					std::cout << "\n Restart \n";
+				}
+			}
+		}	}
 
 };

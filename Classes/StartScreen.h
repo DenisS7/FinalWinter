@@ -16,7 +16,7 @@ public:
 		quitButton = new UI::Button(quit, screen);
 		buttons.push_back(startButton);
 		buttons.push_back(quitButton);
-		thumbnail = new GameSpace::Sprite{ new GameSpace::Surface("assets/Thumbnail/thumbnail.png", screen->GetWidth(), screen->GetHeight()), 1 };
+		thumbnail = new GameSpace::Sprite{ new GameSpace::Surface("assets/Thumbnail/thumbnailUP.png", 800, 450), 1 };
 	}
 	GameSpace::Surface* screen;
 	GameSpace::Sprite* thumbnail;

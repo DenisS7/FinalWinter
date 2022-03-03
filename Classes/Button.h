@@ -2,6 +2,7 @@
 #include "../surface.h"
 #include "../template.h"
 #include "newmath.h"
+#include <iostream>
 
 namespace UI
 {
@@ -22,16 +23,16 @@ public:
 		if (type == start)
 		{
 			sprite.SetFile( new GameSpace::Surface("assets/UI/play_full.png"), 2, 0);
-			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight() / 2);
+			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight());
 			drawLocf.x = (float)screen->GetWidth() / 15;
-			drawLocf.y = (float)screen->GetHeight() / 2 - (float)screen->GetHeight() / 10;
+			drawLocf.y = (float)screen->GetHeight() / 2 - (float)screen->GetHeight() / 10 - sprite.GetSurface()->GetHeight();
 		}
 		else if (type == quit)
 		{
 			sprite.SetFile(new GameSpace::Surface("assets/UI/exit_full.png"), 2, 0);
-			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight() / 2);
+			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight());
 			drawLocf.x = (float)screen->GetWidth() / 15;
-			drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 10;
+			drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 10 - sprite.GetSurface()->GetHeight();
 		}
 		else if (type == pause)
 		{
@@ -40,6 +41,7 @@ public:
 			drawLocf.x = (float)screen->GetWidth() / 15;
 			drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 10;
 		}
+		std::cout << "ButtonType: " << type << " Size: " << size.x << " " << size.y << " " << drawLocf.x << " " << drawLocf.y << "\n";
 	}
 
 	bool isButtonPressed(GameSpace::vec2 mouse);
