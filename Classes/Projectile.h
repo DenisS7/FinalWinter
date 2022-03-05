@@ -43,6 +43,7 @@ public:
 		
 	}
 
+	virtual void drawProjectile(GameSpace::Surface* screen, float deltaTime);
 	virtual void Init();
 	virtual void Spawn(newmath::ivec2 newLoc, newmath::ivec2 newDrawLoc, int newDirection);
 	virtual void deleteProjectile();

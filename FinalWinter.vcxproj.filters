@@ -62,10 +62,19 @@
     <ClCompile Include="Classes\Score.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Button.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\ScreenBase.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
     <ClCompile Include="Classes\StartScreen.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Button.cpp">
+    <ClCompile Include="Classes\EndScreen.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\PauseScreen.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,10 +140,19 @@
     <ClInclude Include="Classes\Score.h">
       <Filter>Player</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Button.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\ScreenBase.h">
+      <Filter>UI</Filter>
+    </ClInclude>
     <ClInclude Include="Classes\StartScreen.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Button.h">
+    <ClInclude Include="Classes\EndScreen.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\PauseScreen.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>

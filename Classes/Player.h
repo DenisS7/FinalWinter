@@ -83,6 +83,8 @@ public:
 	void addMovement(int x, int y, float deltaTime);
 	void equipWeapon(int type);
 	void shootProjectile(int type);
+	void drawUI();
+	void drawPausePlayer(float deltaTime);
 	void update(float deltaTime);
 	
 };

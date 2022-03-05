@@ -54,6 +54,7 @@ public:
 	void shootArrows();
 	void stopShooting();
 	void deleteArrow(Arrow* endArrow);
+	void drawWeapon(float deltaTime);
 	void update(float deltaTime);
 };
 

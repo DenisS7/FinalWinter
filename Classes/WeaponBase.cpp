@@ -72,6 +72,13 @@ namespace Weapon
 
 	}
 
+	void WeaponBase::drawWeapon(float deltaTime)
+	{
+		sprite.Draw(player->screen, (int)player->drawLocf.x, (int)player->drawLocf.y);
+	}
+
+
+
 	void WeaponBase::update(float deltaTime)
 	{
 		if (isShooting)

@@ -3,6 +3,11 @@
 
 namespace Weapon
 {
+	void Projectile::drawProjectile(GameSpace::Surface* screen,float deltaTime)
+	{
+		currentSs.drawNextSprite(deltaTime, screen, drawLocf);
+	}
+
 	void Projectile::Init()
 	{
 

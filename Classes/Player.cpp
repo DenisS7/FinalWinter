@@ -13,7 +13,8 @@ namespace Character
 	void Player::restart()
 	{
 		std::cout << "\n Player RESTART \n";
-		locf = drawLocf = middleScreen;
+		locf.x = drawLocf.x = (float)middleScreen.x - 1;
+		locf.y = drawLocf.y = (float)middleScreen.y - 1;
 		collisionBox.setOffset(14, 14);
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		 
@@ -30,7 +31,9 @@ namespace Character
 		mapManager->restart();
 		currentRoom = &mapManager->rooms[mapManager->start.x + mapManager->roomAm.x + mapManager->start.y];
 		points = 0;
-		
+		SDL_Delay(100);
+		locf.x = drawLocf.x = (float)middleScreen.x - 1;
+		locf.y = drawLocf.y = (float)middleScreen.y - 1;	
 	}
 
 	void Player::init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate)
@@ -120,6 +123,7 @@ namespace Character
 
 	void Player::takeDamage(float damage)
 	{
+
 		health -= damage;
 		if (health <= 0 && !isDead)
 			die();
@@ -149,12 +153,10 @@ namespace Character
 		screen = newScreen;
 		middleScreen.x = screen->GetWidth() / 2 - sprite.GetWidth() / 2;
 		middleScreen.y = screen->GetHeight() / 2 - sprite.GetHeight() / 2;
+	
+		locf.x = drawLocf.x = (float)middleScreen.x - 1;
+		locf.y = drawLocf.y = (float)middleScreen.y - 1;
 
-		locf.x = (float)middleScreen.x;
-		locf.y = (float)middleScreen.y;
-
-		drawLocf.x = (float)middleScreen.x;
-		drawLocf.y = (float)middleScreen.y;
 
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 	}
@@ -173,6 +175,7 @@ namespace Character
 	{
 		if (!isDead)
 		{
+			std::cout << "\n is MOVING " << deltaTime << " \n";
 			moveDown(keystate[SDL_SCANCODE_S], deltaTime);
 			moveLeft(keystate[SDL_SCANCODE_A], deltaTime);
 			moveUp(keystate[SDL_SCANCODE_W], deltaTime);
@@ -347,8 +350,8 @@ namespace Character
 	void Player::addMovement(int x, int y, float deltaTime)
 	{
 		int xMap = 0, yMap = 0;
-		std::cout << "MOVE \n";
-		std::cout <<move.speed << " " << locf.x << " " << locf.y << " " << currentRoom->locf.x << currentRoom->locf.y;
+		//std::cout << "MOVE \n";
+		//std::cout <<move.speed << " " << locf.x << " " << locf.y << " " << currentRoom->locf.x << currentRoom->locf.y;
 		locf.x += move.speed * deltaTime * x;
 		locf.y += move.speed * deltaTime * y;
 
@@ -491,10 +494,36 @@ namespace Character
 
 	}
 
-	void Player::update(float deltaTime)
+	void Player::drawUI()
 	{
 		healthbar.drawHealthbar(health, screen);
-		score.printScore(screen, 780, 30, points);
+		score.printScore(screen, screen->GetPitch() - screen->GetPitch() / 40, screen->GetHeight() / 45, points);
+	}
+
+	void Player::drawPausePlayer(float deltaTime)
+	{
+		drawUI();
+		if (directionFacing == 0)
+		{
+			currentSs.drawNextSprite(0, screen, drawLocf);
+			if (weapon.visible)
+				weapon.drawWeapon(0);
+			for (int i = 0; i < weapon.arrows.size(); i++)
+				weapon.arrows[i]->drawProjectile(screen, 0);
+		}
+		else
+		{
+			if (weapon.visible)
+				weapon.drawWeapon(0);
+			for (int i = 0; i < weapon.arrows.size(); i++)
+				weapon.arrows[i]->drawProjectile(screen, 0);
+			currentSs.drawNextSprite(0, screen, drawLocf);
+		}
+	}
+
+	void Player::update(float deltaTime)
+	{
+		drawUI();
 		if (directionFacing == 0)
 		{
 			currentSs.drawNextSprite(deltaTime, screen, drawLocf);

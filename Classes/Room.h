@@ -124,6 +124,7 @@ public:
 	void drawMap(GameSpace::Surface* GameScreen);
 	void updateEnemies();
 	void updateTiles();
+	void drawEnemies(float deltaTime);
 	void updateMap(float deltaTime, GameSpace::Surface* GameScreen);
 };
 

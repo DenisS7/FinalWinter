@@ -266,6 +266,11 @@ namespace Character
 
 	}
 
+	void EnemyBase::drawEnemy(float deltaTime)
+	{
+		currentSs.drawNextSprite(deltaTime, currentRoom->manager->screen, drawLocf);
+	}
+
 	void EnemyBase::addMovement(float deltaTime)
 	{
 		
@@ -273,8 +278,7 @@ namespace Character
 
 	void EnemyBase::update(float deltaTime)
 	{
-	
-		currentSs.drawNextSprite(deltaTime, currentRoom->manager->screen, drawLocf);
+		drawEnemy(deltaTime);
 	}
 
 

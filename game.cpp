@@ -10,6 +10,7 @@
 
 #include "../Classes/CollisionCheck.h"
 #include "../Classes/CollisionComponent.h"
+
 #include <fstream>
 
 
@@ -19,37 +20,36 @@ namespace GameSpace
 	// Initialize the application
 	// -----------------------------------------------------------
 
-
+	
 	Map::MapManager manager;
 	Character::Player player;
-	StartScreen* startScreen;
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
-	//Font font{ "assets/Font/font.png", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.:,;'|(!?)+-*/="};
-	Sprite score{new Surface( "assets/Font/newFont-blue.png"), 1};
-	
+
+	float t = 0;
 
 	void Game::Restart()
 	{
 
 	}
 
+	void Game::Pause()
+	{
+		pauseScreen->displayScreen();
+	}
+
 	void Game::Init()
 	{
-		std::cout << "\n START \n";
-		startScreen = new StartScreen(screen);
-			startScreen->displayScreen();
-			vec2 s;
-			time_t t;
-			srand((unsigned)time(&t));
-			manager.setPlayer(&player);
-			manager.setScreen(screen);
-			manager.initiate();
-			manager.generateFirstRoom();
-			std::cout << " \n Generate \n";
-			player.init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager, keystate);
-			manager.initiateEnemiesInRooms();
-			player.equipWeapon(5);
-		//StartGame();
+		startScreen->displayScreen();
+		vec2 s;
+		time_t t;
+		srand((unsigned)time(&t));
+		manager.setPlayer(&player);
+		manager.setScreen(screen);
+		manager.initiate();
+		manager.generateFirstRoom();
+		player.init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager, keystate);
+		manager.initiateEnemiesInRooms();
+		player.equipWeapon(5);
 	}
 
 	// -----------------------------------------------------------
@@ -60,11 +60,44 @@ namespace GameSpace
 		exit(1);
 	}
 
+	void Game::DrawScreen(float deltaTime)
+	{
+		screen->Clear(0);
+		if (isRunning)
+		{
+			if (isPaused)
+			{	
+				manager.rooms[player.currentRoom->roomNumber].updateMap(0, screen);
+				player.drawPausePlayer(0);
+				pauseScreen->displayScreen();
+			}
+			else
+			{
+				manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
+				player.update(deltaTime);
+			}
+		}
+		else
+		{
+			if (!isEndScreen)
+			{
+				screen->Clear(0);
+				startScreen->displayScreen();
+			}
+			else
+			{
+				manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
+				player.drawPausePlayer(0);
+				endScreen->displayScreen(won);
+			}
+		}
+	}
+
 	void Game::StartGame()
 	{
-		
 		player.currentRoom = &player.mapManager->rooms[player.mapManager->start.x + player.mapManager->roomAm.x * player.mapManager->start.y];
 		isRunning = true;
+		isScreenFocus = false;
 	}
 
 	void Game::StopGame()
@@ -74,22 +107,32 @@ namespace GameSpace
 
 	void Game::Input(float deltaTime)
 	{
-		//PressButton();
-			player.input(deltaTime);
-			player.mouseLoc(mouse.x, mouse.y);
+		player.input(deltaTime);
+		player.mouseLoc(mouse.x, mouse.y);
 	
 	}
 
-	void Game::PressButton(bool down)
+	void Game::PressButton(bool down, UI::ScreenBase* currentScreen)
 	{
-		int k = startScreen->isButtonPressed(vec2(mouse.x, mouse.y));
+		int k = currentScreen->isButtonPressed(vec2((float)mouse.x, (float)mouse.y));
+		std::cout << k << std::endl;
 		if (k != -1)
 		{
-			std::cout << "\n BUTTON PRESSED \n";
 			if (k == 0 && !isRunning && down)
 				StartGame();
 			else if (k == 1 && down)
 				Shutdown();
+			else if (k == 3 && down)
+			{
+				isPaused = true;
+				isRunning = false;
+				std::cout << "RESTART" << std::endl;
+				player.restart();
+				isScreenFocus = false;
+				isEndScreen = false;
+				isPaused = false;
+				isRunning = true;
+			}
 		}
 	}
 
@@ -102,30 +145,33 @@ namespace GameSpace
 		else x = 5;
 		switch (key)
 		{
+		case SDL_SCANCODE_ESCAPE:
+			if (isRunning)
+			{
+				isPaused = !isPaused;
+				if (isPaused)
+				{
+					currentScreen = pauseScreen;
+					isScreenFocus = true;
+				}
+				else
+				{
+					currentScreen = startScreen;
+					isScreenFocus = false;
+				}
+			}
+			break;
 		case SDL_SCANCODE_E:
-			player.equipWeapon(x), std::cout << "E SHOOT" << std::endl;
+			if (!isPaused && isRunning)
+				player.equipWeapon(x), std::cout << "E SHOOT" << std::endl;
 			break;
-		case SDL_SCANCODE_G:
-			player.shootProjectile(5), std::cout << "R SHOOT" << std::endl;
-			break;
-			//default:
-				//break;
 		}
 
 	}
 
 	void Game::KeyUp(int key)
 	{
-		switch (key)
-		{
-		case SDL_SCANCODE_G:
-			player.shootProjectile(0);
-			break;
-		case SDL_SCANCODE_T:
-				Shutdown();
-			//default:
-				//break;
-		}
+		
 	}
 
 	void Game::MouseUp(int button)
@@ -133,10 +179,9 @@ namespace GameSpace
 		switch (button)
 		{
 		case SDL_BUTTON_LEFT:
-			if (!isRunning)
-				PressButton(true);
-			else
-				player.shootProjectile(0);
+			if (isScreenFocus)
+				PressButton(true, currentScreen);
+			player.shootProjectile(0);
 			break;
 		}
 	}
@@ -146,9 +191,9 @@ namespace GameSpace
 		switch (button)
 		{
 		case SDL_BUTTON_LEFT:
-			if (!isRunning)
-				PressButton(false);
-			else
+			if (isScreenFocus)
+				PressButton(false, currentScreen);
+			else if (isRunning && !isPaused)
 				player.shootProjectile(5);
 			break;
 		}
@@ -162,62 +207,29 @@ namespace GameSpace
 	// Main application tick function
 	// -----------------------------------------------------------
 
-	//Surface explosion{ "assets/Font/Essentle4.otf" };
-
-	//Surface* th = new Surface("assets/Thumbnail/thumbnail.png", 1920, 1080);
-	//GameSpace::Sprite thumbnail{ th, 1 };
 	std::ofstream fout("Scores/scores.txt");
 	Sprite gameOver(new Surface("assets/Font/game_over.png"), 1);
 	Surface* image = new Surface("assets/Thumbnail/thumbnailUP.png");
 
 	void Game::Tick(float deltaTime)
-	{
-		//std::cout << "\n Height: " << screen->GetHeight() << '\n';
-		//screen->Resize(image);
-		//std::cout << screen->GetHeight() << std::endl;;
-		//thumbnail.Draw(screen, 0, 0);
-		//std::cout << mouse.x << " " << mouse.y << "\n";
-		if (!isRunning)
-		{
-			screen->Clear(0);
-			startScreen->displayScreen();
-		}
+	{		
+		deltaTime = newmath::clampf(deltaTime, 0, 10.0f);
+		DrawScreen(deltaTime);
 		if (player.isDead && player.currentSs.getCurrentFrame() % 7 == 6)
 		{
-			//screen->Clear(0);
-			//player.currentSs.drawNextSprite(deltaTime, screen, player.drawLocf);
-			////gameOver.Draw(screen, screen->GetPitch() / 2 - gameOver.GetSurface()->GetPitch() / 2, screen->GetHeight() / 2 - gameOver.GetSurface()->GetHeight() / 2);
-		//	manager.rooms[player.currentRoom->roomNumber].drawMap(screen);
-			//if ()
-			{
-				std::cout << "\n STOP \n";
-				player.restart();
-				StopGame();
-				std::cout << "\n Restart \n";
-			}
+			isScreenFocus = true;
+			currentScreen = endScreen;
+			StopGame();
 		}
-		else if (isRunning)
+		else if (isRunning && !isPaused)
 		{
-			//std::cout << "RUNS";
-			
-			screen->Clear(0);
 			Input(deltaTime);
-
-			std::cout << player.isDead << std::endl;
-			manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
-			
-			player.update(deltaTime);
 			if (player.isDead)
 			{
-				gameOver.Draw(screen, screen->GetPitch() / 2 - gameOver.GetSurface()->GetPitch() / 2, screen->GetHeight() / 2 - gameOver.GetSurface()->GetHeight() / 2);
-				if (player.isDead && player.currentSs.getCurrentFrame() % 7 == 6)
-				{
-					std::cout << "\n STOP \n";
-					player.restart();
-					StopGame();
-					std::cout << "\n Restart \n";
-				}
+				won = false;
+				isEndScreen = true;
 			}
-		}	}
+		}	
+	}
 
 };

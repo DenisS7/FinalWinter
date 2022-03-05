@@ -111,6 +111,7 @@ public:
 	void takeDamage(int damage);
 	void die();
 	void followPlayer();
+	void drawEnemy(float deltaTime);
 	virtual void addMovement(float deltaTime);
 	virtual void update(float deltaTime);
 };

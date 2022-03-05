@@ -538,16 +538,21 @@ void Room::updateTiles()
 		enemyOnTiles(enemiesInRoom[i]);
 }
 
+void Room::drawEnemies(float deltaTime)
+{
+	for (int i = 0; i < enemiesInRoom.size(); i++)
+	{
+		enemiesInRoom[i]->update(deltaTime);
+	}
+}
+
 void Room::updateMap(float deltaTime, GameSpace::Surface* GameScreen)
 {
 	changeDir();
 	
 	//std::cout << moveDir.x << " " << moveDir.y << std::endl;
 	drawMap(GameScreen);
-	for (int i = 0; i < enemiesInRoom.size(); i++)
-	{
-		enemiesInRoom[i]->update(deltaTime);
-	}
+	drawEnemies(deltaTime);
 	updateTiles();
 }
 

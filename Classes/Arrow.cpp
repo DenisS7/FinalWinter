@@ -5,6 +5,11 @@
 
 namespace Weapon
 {
+	void Arrow::drawProjectile(GameSpace::Surface* screen, float deltaTime)
+	{
+		sprite.Draw(screen, (int)drawLocf.x, (int)drawLocf.y);
+	}
+
 	void Arrow::Init(WeaponBase* newCrossbow)
 	{
 		crossbow = newCrossbow;
@@ -43,6 +48,8 @@ namespace Weapon
 		delete this;
 	}
 
+
+
 	void Arrow::UpdatePosition(float deltaTime)
 	{
 		if (!isExploding)
@@ -57,20 +64,11 @@ namespace Weapon
 				locf.x += speedf * deltaTime * move.x;
 				locf.y += speedf * deltaTime * move.y;
 
-				//std::cout << currentRoom->moveDir.x * currentRoom->player->move.speed * deltaTime << " " << currentRoom->moveDir.y * currentRoom->player->move.speed * deltaTime << std::endl;
-
-				//std::cout << drawLocf.x << " " << drawLocf.y << std::endl;
-
 				drawLocf.x = locf.x - currentRoom->locf.x;
 				drawLocf.y = locf.y - currentRoom->locf.y;
 
 				collision.collisionBox = newmath::make_Rect((int)locf.x, (int)locf.y, 0, 0) + crossbow->arrowCol[direction];
-
-				//std::cout << locf.x << " " << (int)locf.x << std::endl;
 				sprite.Draw(crossbow->player->screen, (int)drawLocf.x, (int)drawLocf.y);
-				//crossbow->player->screen->Box(collision.collisionBox.x - currentRoom->locf.x, collision.collisionBox.y - currentRoom->locf.y, collision.collisionBox.x + collision.collisionBox.width - currentRoom->locf.x, collision.collisionBox.y + collision.collisionBox.height - currentRoom->locf.y, 0xff0000);
-				//drawLocf.x -= move.x * (abs(currentRoom->locf.x - initialPosf.x));
-				//drawLocf.y -= move.y * (abs(currentRoom->locf.y - initialPosf.y));
 			}
 		}
 	}

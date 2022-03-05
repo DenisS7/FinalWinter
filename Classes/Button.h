@@ -10,45 +10,88 @@ namespace UI
 class Button
 {
 private:
-	int start = 0, quit = 1, pause = 2;
+	int start = 0, quit = 1, scores = 2, replay = 3;
 	bool isPressed = false;
+	int buttonType = -1;
 	GameSpace::Sprite sprite{new GameSpace::Surface("assets/UI/play_full.png"), 2};
 	GameSpace::Surface* screen;
 	newmath::ivec2 size;
 	GameSpace::vec2 drawLocf;
 public:
-	Button(const int type, GameSpace::Surface* screen)
+	Button(const int type, GameSpace::Surface* screen, GameSpace::vec2 newDrawLocf)
 	{
 		this->screen = screen;
+		buttonType = type;
 		if (type == start)
 		{
 			sprite.SetFile( new GameSpace::Surface("assets/UI/play_full.png"), 2, 0);
 			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight());
-			drawLocf.x = (float)screen->GetWidth() / 15;
-			drawLocf.y = (float)screen->GetHeight() / 2 - (float)screen->GetHeight() / 10 - sprite.GetSurface()->GetHeight();
+			if (!newDrawLocf.length())
+			{
+				drawLocf.x = (float)screen->GetWidth() / 11;
+				drawLocf.y = (float)screen->GetHeight() / 2 -  2 * (float)screen->GetHeight() / 10 + (float)screen->GetHeight() / 7 - sprite.GetSurface()->GetHeight();
+			}
+			else drawLocf = newDrawLocf;
 		}
 		else if (type == quit)
 		{
 			sprite.SetFile(new GameSpace::Surface("assets/UI/exit_full.png"), 2, 0);
 			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight());
-			drawLocf.x = (float)screen->GetWidth() / 15;
-			drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 10 - sprite.GetSurface()->GetHeight();
+			if (!newDrawLocf.length())
+			{
+				drawLocf.x = (float)screen->GetWidth() / 11;
+				drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 7 - sprite.GetSurface()->GetHeight();
+			}
+			else drawLocf = newDrawLocf;
 		}
-		else if (type == pause)
+		/*else if (type == pause)
 		{
 			sprite.SetFile(new GameSpace::Surface("assets/UI/pause.png"), 2, 0);
 			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight() / 2);
-			drawLocf.x = (float)screen->GetWidth() / 15;
-			drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 10;
+			if (!newDrawLocf.length())
+			{
+				drawLocf.x = (float)screen->GetWidth() / 2 - (float)sprite.GetWidth() / 2;
+				drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 10;
+			}
+			else drawLocf = newDrawLocf;
+		}*/
+		else if (type == replay)
+		{
+			sprite.SetFile(new GameSpace::Surface("assets/UI/replay.png"), 2, 0);
+			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight());
+			if (!newDrawLocf.length())
+			{
+				drawLocf.x = (float)screen->GetWidth() / 2 - (float)sprite.GetWidth() / 2;
+				drawLocf.y = 4 * (float)screen->GetHeight() / 7;
+			}
+			else drawLocf = newDrawLocf;
+		}
+		else if (type == scores)
+		{
+			sprite.SetFile(new GameSpace::Surface("assets/UI/scores.png"), 2, 0);
+			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight());
+			if (!newDrawLocf.length())
+			{
+				drawLocf.x = (float)screen->GetWidth() / 11;
+				drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 5 + (float)screen->GetHeight() / 7 - sprite.GetSurface()->GetHeight();
+			}
+			else drawLocf = newDrawLocf;
 		}
 		std::cout << "ButtonType: " << type << " Size: " << size.x << " " << size.y << " " << drawLocf.x << " " << drawLocf.y << "\n";
 	}
 
 	bool isButtonPressed(GameSpace::vec2 mouse);
 	bool getPressed() { return isPressed; };
+	GameSpace::Sprite getSprite() { return sprite; };
+	GameSpace::vec2 getLocation() { return drawLocf; };
+	newmath::ivec2 getSize() { return size; };
+
+	void setDrawLocation(GameSpace::vec2 newDrawLocf) { drawLocf = newDrawLocf; };
+	
 	void pressButton();
 	void releaseButton();
 	void drawButton();
+	int getType() { return buttonType; };
 };
 
 }
