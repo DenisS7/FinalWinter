@@ -17,21 +17,7 @@ namespace Character
 
 class EnemyBase
 {
-private:
-
-public:
-
-	EnemyBase(Map::Room* newRoom, int entype)
-	{
-		currentRoom = newRoom;
-		data.type = entype;
-	}
-
-	~EnemyBase()
-	{
-		
-	}
-
+protected:
 	struct typeEn
 	{
 		int type = 0;
@@ -70,30 +56,51 @@ public:
 	bool visited[1200] = { false };
 
 	GameSpace::Surface* screen;
-
 	const float timeUntilPathRefresh = 1000.0f;
 	float currentTimePath = 0.0f;
 
 	bool isFollowingPlayer = false;
-	bool isExploding = false;
+	bool isAttacking = false;
 	bool isDead = false;
-
-	newmath::ivec2 initOcupTile{ -1, -1 }, finOcupTile{ -1, -1 };
-
+	
 	std::vector <newmath::ivec2> path;
 	std::vector <Atile> nextTiles;
 	std::vector <Atile> passedTiles;
+
+private:
+
+public:
+
+	EnemyBase(Map::Room* newRoom, int entype)
+	{
+		currentRoom = newRoom;
+		data.type = entype;
+		finish = newmath::make_ivec2(0, 0);
+		
+		locf = drawLocf = 0;
+	}
+
+	~EnemyBase()
+	{
+		
+	}
+
+	
+	newmath::ivec2 initOcupTile{ -1, -1 }, finOcupTile{ -1, -1 };
 	Map::Room* currentRoom;
 	newmath::ivec2 finish;
 
-	int type;
+	int type = -1;
 	int currentState = 0;
 	int directionFacing = 0;
+
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_idle.png"), 1 };
 	Spritesheet currentSs{ "assets/Enemies/metalgift/metalgift_idle.png", 1, 1, &sprite };
-	GameSpace::vec2 locf, drawLocf;
+	GameSpace::vec2 locf = 0, drawLocf = 0;
 	newmath::chMove move;
 	newmath::ivec2 tilePos;
+
+	typeEn getData() { return data; };
 
 	newmath::ivec2 getCurrentPos(newmath::ivec2 posToGet);
 	virtual void init(int type);

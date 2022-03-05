@@ -10,28 +10,22 @@ namespace Weapon
 	void WeaponBase::Init(GameSpace::vec2 newDrawLocf, Character::Player* newPlayer)
 	{
 		player = newPlayer;
-		wpaths[1].path = "assets/Weapons/crossbow_down.png";
-		wpaths[2].path = "assets/Weapons/crossbow_left.png";
-		wpaths[3].path = "assets/Weapons/crossbow_up.png";
-		wpaths[4].path = "assets/Weapons/crossbow_right.png";
+		wpaths[0].path = "assets/Weapons/crossbow_down.png";
+		wpaths[1].path = "assets/Weapons/crossbow_left.png";
+		wpaths[2].path = "assets/Weapons/crossbow_up.png";
+		wpaths[3].path = "assets/Weapons/crossbow_right.png";
 
-		wpaths[5].path = "assets/Weapons/arrow_down.png";
-		wpaths[6].path = "assets/Weapons/arrow_left.png";
-		wpaths[7].path = "assets/Weapons/arrow_up.png";
-		wpaths[8].path = "assets/Weapons/arrow_right.png";
+		wpaths[4].path = "assets/Weapons/arrow_down.png";
+		wpaths[5].path = "assets/Weapons/arrow_left.png";
+		wpaths[6].path = "assets/Weapons/arrow_up.png";
+		wpaths[7].path = "assets/Weapons/arrow_right.png";
 
-		wpaths[5].frameTime = wpaths[6].frameTime = wpaths[7].frameTime = wpaths[8].frameTime = 30.0f;
+		wpaths[4].frameTime = wpaths[5].frameTime = wpaths[6].frameTime = wpaths[7].frameTime = 30.0f;
 
 		weaponType = 5;
 
 		drawLocf.x = newDrawLocf.x;
 		drawLocf.y = newDrawLocf.y;
-		
-		arrowCol[0] = newmath::make_Rect(27, 23, 22, 12);
-		arrowCol[1] = newmath::make_Rect(18, 31, 12, 22);
-		arrowCol[2] = newmath::make_Rect(25, 20, 22, 12);
-		arrowCol[3] = newmath::make_Rect(23, 31, 12, 22);
-		
 	}
 
 	void WeaponBase::reload(float deltaTime)
@@ -42,8 +36,8 @@ namespace Weapon
 
 	void WeaponBase::changeDirection(int direction)
 	{
-		directionFacing = direction - 1;
-		sprite.SetFile(new GameSpace::Surface(wpaths[direction + 1].path), 1, 0);
+		directionFacing = direction;
+		sprite.SetFile(new GameSpace::Surface(wpaths[direction].path), 1, 0);
 	}
 
 	void WeaponBase::changeVisibility(bool newVisible)
@@ -74,7 +68,7 @@ namespace Weapon
 
 	void WeaponBase::drawWeapon(float deltaTime)
 	{
-		sprite.Draw(player->screen, (int)player->drawLocf.x, (int)player->drawLocf.y);
+		sprite.Draw(player->screen, (int)player->getDrawLocation().x, (int)player->getDrawLocation().y);
 	}
 
 
@@ -86,12 +80,11 @@ namespace Weapon
 			if (reloading >= reloadTime)
 			{
 				reloading = 0;
-				Arrow* newArrow = new Arrow;
-				newArrow->Init(this);
+				Arrow* newArrow = new Arrow(player->getLocation(), player->currentRoom, directionFacing, this, wpaths[directionFacing + 4].path, arrowCol[directionFacing]);
 				arrows.push_back(newArrow);
 			}
 		}
-		sprite.Draw(player->screen, (int) player->drawLocf.x, (int)player->drawLocf.y);
+		drawWeapon(deltaTime);
 	}
 
 }

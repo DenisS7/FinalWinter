@@ -17,6 +17,7 @@ private:
 	GameSpace::Surface* screen;
 	newmath::ivec2 size;
 	GameSpace::vec2 drawLocf;
+
 public:
 	Button(const int type, GameSpace::Surface* screen, GameSpace::vec2 newDrawLocf)
 	{
@@ -44,17 +45,6 @@ public:
 			}
 			else drawLocf = newDrawLocf;
 		}
-		/*else if (type == pause)
-		{
-			sprite.SetFile(new GameSpace::Surface("assets/UI/pause.png"), 2, 0);
-			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight() / 2);
-			if (!newDrawLocf.length())
-			{
-				drawLocf.x = (float)screen->GetWidth() / 2 - (float)sprite.GetWidth() / 2;
-				drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 10;
-			}
-			else drawLocf = newDrawLocf;
-		}*/
 		else if (type == replay)
 		{
 			sprite.SetFile(new GameSpace::Surface("assets/UI/replay.png"), 2, 0);

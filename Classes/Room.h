@@ -21,19 +21,6 @@ class Room
 {
 	
 private:
-	
-	bool reachedEnd;
-	
-	
-	
-
-public:
-
-	int enemies;
-	
-	int roomNumber;
-	int level;
-	int type;
 
 	struct tile
 	{
@@ -44,28 +31,26 @@ public:
 		std::vector <Character::EnemyBase*> entitiesOnTile;
 	};
 
+	bool reachedEnd;
+	int roomNumber = -1;
+	int enemies = 0;
+	int level = 0;
+	int type = 0;
 	GameSpace::Surface tilemap{ "assets/Map/all_map.png" };
-
 	std::vector <tile> tiles;
-	std::vector <Character::EnemyBase*> enemiesInRoom;
-	
-	newmath::ivec2 size, offset, moveDir;
+	int nrdoors = 1;
+	int roomSize = 0;
 	GameSpace::vec2 locf;
+	newmath::ivec2 size, offset, moveDir;
+	std::vector <Character::EnemyBase*> enemiesInRoom;
+	Character::Player* player;
+	int tilesPerRow = 1;
+public:
 
 	Map::MapManager* manager;
 
-
-	int roomSize;
 	int tilesize = 32;
-
-	int nrdoors = 1;
-	int tilesPerRow = 0;
-
-	bool movedx = false;
-	bool movedy = false;
 	bool doors[4] = { false };
-
-
 
 	const int Fight = 0;
 	const int Rest = 1;
@@ -76,9 +61,9 @@ public:
 	const int portalInactive = 2;
 	const int portalActive = 3;
 
-	float speed;
+	float speed = 0.2f;
 
-	Character::Player* player;
+	
 
 	Room() 
 	{
@@ -86,7 +71,6 @@ public:
 		locf.x = locf.y = 0;
 		offset.x = offset.y = 0;
 		speed = 0.2f;
-		reachedEnd = false;
 		enemies = 0;
 	}
 
@@ -99,7 +83,16 @@ public:
 		newTile.colidable = colidable;
 		return newTile;
 	}
-	
+
+	int getRoomNumber() { return roomNumber; };
+	newmath::ivec2 getSize() { return size; };
+	tile getTile(int tileNr) { return tiles[tileNr]; };
+	GameSpace::vec2 getLocation() { return locf; };
+	Character::Player* getPlayer() { return player; };
+
+
+	void setLocation(GameSpace::vec2 newLocf) { locf = newLocf; };
+
 	void restart();
 	void initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, MapManager* newManager);
 	void inititateEnemies();

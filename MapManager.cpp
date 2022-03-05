@@ -63,7 +63,7 @@ namespace Map
 		{
 			std::ifstream ein(enemyPath[i]);
 			ein >> enemyTypes[i].type >> enemyTypes[i].health;
-			ein >> enemyTypes[i].damagePerAttack >> enemyTypes[i].damageOnCol >> enemyTypes[i].speed;
+			ein >> enemyTypes[i].damagePerAttack >> enemyTypes[i].damageOnCol >> enemyTypes[i].speed >> enemyTypes[i].points;
 			int x, y, h, w;
 			ein >> x >> y >> h >> w;
 			enemyTypes[i].col.collisionBox = newmath::make_Rect(x, y, h, w);

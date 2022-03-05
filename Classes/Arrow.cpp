@@ -12,33 +12,7 @@ namespace Weapon
 
 	void Arrow::Init(WeaponBase* newCrossbow)
 	{
-		crossbow = newCrossbow;
-		this->currentRoom = crossbow->player->currentRoom;
 
-		locf.x = crossbow->player->locf.x;
-		locf.y = crossbow->player->locf.y;
-
-		initialPosf = currentRoom->locf;
-
-		drawLocf = locf - currentRoom->locf;
-
-		direction = crossbow->player->directionFacing;
-
-		sprite.SetFile(new GameSpace::Surface(crossbow->wpaths[direction + 5].path), 1, 0);
-		
-		collision.collisionBox = newmath::make_Rect((int)locf.x, (int)locf.y, 0, 0) + crossbow->arrowCol[direction];
-		
-		
-		if (direction % 2 == 0)
-		{
-			move.x = 0;
-			move.y = - direction + 1;
-		}
-		else
-		{
-			move.x = direction - 2;
-			move.y = 0;
-		}
 	}
 
 	void Arrow::deleteArrow()
@@ -64,8 +38,8 @@ namespace Weapon
 				locf.x += speedf * deltaTime * move.x;
 				locf.y += speedf * deltaTime * move.y;
 
-				drawLocf.x = locf.x - currentRoom->locf.x;
-				drawLocf.y = locf.y - currentRoom->locf.y;
+				drawLocf.x = locf.x - currentRoom->getLocation().x;
+				drawLocf.y = locf.y - currentRoom->getLocation().y;
 
 				collision.collisionBox = newmath::make_Rect((int)locf.x, (int)locf.y, 0, 0) + crossbow->arrowCol[direction];
 				sprite.Draw(crossbow->player->screen, (int)drawLocf.x, (int)drawLocf.y);

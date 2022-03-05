@@ -11,11 +11,8 @@ namespace Weapon
 
 class Projectile
 {
-private:
 
-
-public:
-
+protected:
 	CollisionComponent collision;
 	Map::Room* currentRoom;
 	newmath::ivec2 move;
@@ -23,7 +20,7 @@ public:
 	float speedf = 0.4f;
 	int direction, damage, speed;
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Weapons/arrow_down.png"), 1 };
-	
+
 	Spritesheet currentSs{ "assets/Weapons/snowball_attack-blue_down.png", 1, 4, &sprite };
 
 	bool isExploding = false;
@@ -31,11 +28,19 @@ public:
 	float timePassed = 0.0f;
 
 	newmath::spriteData ppaths[6];
+private:
+
+
+public:
+
+	
 	
 
-	Projectile()
+	Projectile(GameSpace::vec2 newLocf, Map::Room* newRoom)
 	{
-
+		locf = newLocf;
+		currentRoom = newRoom;
+		drawLocf = newLocf - newRoom->getLocation();
 	}
 
 	~Projectile()

@@ -18,47 +18,69 @@ class Player
 {
 private:
 
-	
-
-public:
+	newmath::spriteData sspaths[5];
+	Healthbar healthbar;
 	Score score;
 	int points = 0;
+	newmath::ivec2 middleScreen = newmath::make_ivec2(0, 0);
+	GameSpace::vec2 locf = 0, drawLocf = 0;
+	CollisionComponent collisionBox;
+	bool isDead = false;
+	float health = 100;
+	newmath::chMove move;
+	Weapon::WeaponBase weapon;
+	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Player/player_idle.png"), 24 };
+	int currentState = 2;
+	int directionFacing = 0;
+	const Uint8* keystate;
+	bool isHoldingGun = false;
+	Spritesheet currentSs{ "assets/Player/player_idle.png", 4, 6, &sprite };
+
+public:
+
+	Player()
+	{
+		sspaths[1].path = "assets/Player/player_idle.png";
+		sspaths[1].columns = 6;
+		sspaths[1].frameTime = 100.0f;
+
+		sspaths[2].path = "assets/Player/player_run.png";
+		sspaths[2].columns = 8;
+		sspaths[2].frameTime = 100.0f;
+
+		sspaths[3].path = "assets/Player/player_dead.png";
+		sspaths[3].columns = 7;
+		sspaths[3].frameTime = 100.0f;
+
+		sspaths[4].path = "assets/Player/player_run_body.png";
+		sspaths[4].columns = 8;
+		sspaths[4].frameTime = 100.0f;
+
+		sspaths[1].rows = sspaths[2].rows = sspaths[3].rows = sspaths[4].rows = 4;
+	}
+	
 	const int nonCollide = 0;
 	const int collide = 1;
 	const int portalInactive = 2;
 	const int portalActive = 3;
 
-	newmath::ivec2 middleScreen;
-
-	GameSpace::vec2 locf, drawLocf;
-
-	CollisionComponent collisionBox;
-
-	bool isDead = false;
-	float health = 100;
 	const int run = 2, idle = 1, dead = 3, runWithGun = 4;
 	const int crossbow = 5, snowball = 6, snowman = 7;
 
-	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Player/player_idle.png"), 24 };
-	Weapon::WeaponBase weapon;
-
-	Healthbar healthbar;
-	
-	newmath::chMove move;
-
-	newmath::spriteData sspaths[10];
-
-	int currentState = 2;
-	int directionFacing = 0;
-	bool isHoldingGun = false;
-	bool isHoldingProjectile = false;
-
-	Spritesheet currentSs{ "assets/Player/player_idle.png", 4, 6, &sprite };
-	
-	const Uint8* keystate;
 	Map::Room* currentRoom;
 	Map::MapManager* mapManager;
 	GameSpace::Surface* screen;
+
+	GameSpace::vec2 getLocation() { return locf; };
+	GameSpace::vec2 getDrawLocation() { return drawLocf; };
+	int getDirectionFacing() { return directionFacing; };
+	int getCurrentFrame() { return currentSs.getCurrentFrame(); };
+	CollisionComponent getCollision() { return collisionBox; };
+	bool getDead() { return isDead; };
+	bool getHoldingGun() { return isHoldingGun; };
+	newmath::chMove getMove() { return move; };
+	newmath::ivec2 getSpriteSize() { return newmath::make_ivec2(sprite.GetWidth(), sprite.GetHeight()); };
+	
 
 	void restart();
 	void init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate);

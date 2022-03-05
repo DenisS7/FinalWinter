@@ -2,11 +2,10 @@
 #include "Classes/Room.h"
 #include <iostream>
 
-#include "MapManager.h"
-#include "Classes/Player.h"
+
 
 #include "Classes/Snowball.h"
-#include "Classes/StartScreen.h"
+
 
 #include "../Classes/CollisionCheck.h"
 #include "../Classes/CollisionComponent.h"
@@ -21,8 +20,7 @@ namespace GameSpace
 	// -----------------------------------------------------------
 
 	
-	Map::MapManager manager;
-	Character::Player player;
+	
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
 
 	float t = 0;
@@ -43,13 +41,13 @@ namespace GameSpace
 		vec2 s;
 		time_t t;
 		srand((unsigned)time(&t));
-		manager.setPlayer(&player);
-		manager.setScreen(screen);
-		manager.initiate();
-		manager.generateFirstRoom();
-		player.init(screen, &manager.rooms[manager.start.x + manager.start.y * manager.roomAm.x], &manager, keystate);
-		manager.initiateEnemiesInRooms();
-		player.equipWeapon(5);
+		manager->setPlayer(player);
+		manager->setScreen(screen);
+		manager->initiate();
+		manager->generateFirstRoom();
+		player->init(screen, &manager->rooms[manager->getStart().x + manager->getStart().y * manager->getRoomAm().x], manager, keystate);
+		manager->initiateEnemiesInRooms();
+		player->equipWeapon(5);
 	}
 
 	// -----------------------------------------------------------
@@ -67,14 +65,14 @@ namespace GameSpace
 		{
 			if (isPaused)
 			{	
-				manager.rooms[player.currentRoom->roomNumber].updateMap(0, screen);
-				player.drawPausePlayer(0);
+				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(0, screen);
+				player->drawPausePlayer(0);
 				pauseScreen->displayScreen();
 			}
 			else
 			{
-				manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
-				player.update(deltaTime);
+				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(deltaTime, screen);
+				player->update(deltaTime);
 			}
 		}
 		else
@@ -86,8 +84,9 @@ namespace GameSpace
 			}
 			else
 			{
-				manager.rooms[player.currentRoom->roomNumber].updateMap(deltaTime, screen);
-				player.drawPausePlayer(0);
+				
+				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(deltaTime, screen);
+				player->drawPausePlayer(0);
 				endScreen->displayScreen(won);
 			}
 		}
@@ -95,7 +94,7 @@ namespace GameSpace
 
 	void Game::StartGame()
 	{
-		player.currentRoom = &player.mapManager->rooms[player.mapManager->start.x + player.mapManager->roomAm.x * player.mapManager->start.y];
+		player->currentRoom = &player->mapManager->rooms[player->mapManager->getStart().x + player->mapManager->getRoomAm().x * player->mapManager->getStart().y];
 		isRunning = true;
 		isScreenFocus = false;
 	}
@@ -107,8 +106,8 @@ namespace GameSpace
 
 	void Game::Input(float deltaTime)
 	{
-		player.input(deltaTime);
-		player.mouseLoc(mouse.x, mouse.y);
+		player->input(deltaTime);
+		player->mouseLoc(mouse.x, mouse.y);
 	
 	}
 
@@ -127,11 +126,12 @@ namespace GameSpace
 				isPaused = true;
 				isRunning = false;
 				std::cout << "RESTART" << std::endl;
-				player.restart();
+				player->restart();
 				isScreenFocus = false;
 				isEndScreen = false;
 				isPaused = false;
 				isRunning = true;
+				won = false;
 			}
 		}
 	}
@@ -140,7 +140,7 @@ namespace GameSpace
 	{
 
 		int x;
-		if (player.isHoldingGun)
+		if (player->getHoldingGun())
 			x = 0;
 		else x = 5;
 		switch (key)
@@ -163,7 +163,7 @@ namespace GameSpace
 			break;
 		case SDL_SCANCODE_E:
 			if (!isPaused && isRunning)
-				player.equipWeapon(x), std::cout << "E SHOOT" << std::endl;
+				player->equipWeapon(x), std::cout << "E SHOOT" << std::endl;
 			break;
 		}
 
@@ -181,7 +181,7 @@ namespace GameSpace
 		case SDL_BUTTON_LEFT:
 			if (isScreenFocus)
 				PressButton(true, currentScreen);
-			player.shootProjectile(0);
+			player->shootProjectile(0);
 			break;
 		}
 	}
@@ -194,7 +194,7 @@ namespace GameSpace
 			if (isScreenFocus)
 				PressButton(false, currentScreen);
 			else if (isRunning && !isPaused)
-				player.shootProjectile(5);
+				player->shootProjectile(5);
 			break;
 		}
 	}
@@ -215,7 +215,7 @@ namespace GameSpace
 	{		
 		deltaTime = newmath::clampf(deltaTime, 0, 10.0f);
 		DrawScreen(deltaTime);
-		if (player.isDead && player.currentSs.getCurrentFrame() % 7 == 6)
+		if (player->getDead() && player->getCurrentFrame() % 7 == 6)
 		{
 			isScreenFocus = true;
 			currentScreen = endScreen;
@@ -224,7 +224,7 @@ namespace GameSpace
 		else if (isRunning && !isPaused)
 		{
 			Input(deltaTime);
-			if (player.isDead)
+			if (player->getDead())
 			{
 				won = false;
 				isEndScreen = true;

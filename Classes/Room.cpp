@@ -216,7 +216,7 @@ void Room::openPortals()
 void Room::hideEnemy(Character::EnemyBase* enemy)
 {
 	enemies--;
-	player->modifyPoints(enemy->data.points);
+	player->modifyPoints(enemy->getData().points);
 	if (enemies == 0)
 	{
 		player->modifyPoints(100);
@@ -235,7 +235,7 @@ void Room::deleteEnemy(Character::EnemyBase* enemy)
 {
 	removeEnemy(enemy);
 	enemies--;
-	player->modifyPoints(enemy->data.points);
+	player->modifyPoints(enemy->getData().points);
 	if (enemies == 0)
 	{
 		player->modifyPoints(100);
@@ -247,8 +247,8 @@ void Room::changeDir()
 {
 	//std::cout << player->move.side[0] << " " << player->move.side[1] << " " << player->move.side[2] << " " << player->move.side[3] << std::endl;
 	
-	moveDir.x = player->move.side[3] - player->move.side[1];
-	moveDir.y = player->move.side[0] - player->move.side[2];
+	moveDir.x = player->getMove().side[3] - player->getMove().side[1];
+	moveDir.y = player->getMove().side[0] - player->getMove().side[2];
 
 	if (locf.x == 0 || locf.x == (float)size.x * tilesize - 800)
 		moveDir.x = 0;

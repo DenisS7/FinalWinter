@@ -26,17 +26,17 @@ int CollisionCheck::isOverlapping(CollisionComponent actorCollision, GameSpace::
 
 	newmath::ivec2 startPos;
 
-	startPos.x = newmath::clamp(roomPos.x, radius, currentRoom->size.x - radius - 1);
-	startPos.y = newmath::clamp(roomPos.y, radius, currentRoom->size.y - radius - 1);
+	startPos.x = newmath::clamp(roomPos.x, radius, currentRoom->getSize().x - radius - 1);
+	startPos.y = newmath::clamp(roomPos.y, radius, currentRoom->getSize().y - radius - 1);
 
 
 
 	if (damageType != player)
 	{
 		
-		if (areColliding(actorCollision, currentRoom->player->collisionBox))
+		if (areColliding(actorCollision, currentRoom->getPlayer()->getCollision()))
 		{
-			currentRoom->player->takeDamage(damage);
+			currentRoom->getPlayer()->takeDamage(damage);
 			return collide;
 		}
 	}
@@ -45,22 +45,22 @@ int CollisionCheck::isOverlapping(CollisionComponent actorCollision, GameSpace::
 	{
 		for (int x = startPos.x - radius; x <= startPos.x + radius; x++)
 		{
-			const int tilepos = x + y * currentRoom->size.x;
-			if (currentRoom->tiles[tilepos].colidable)
+			const int tilepos = x + y * currentRoom->getSize().x;
+			if (currentRoom->getTile(tilepos).colidable)
 			{
 				CollisionComponent tileCol;
 				tileCol.collisionBox = newmath::make_Rect(x * 32, y * 32, 32, 32);
 				if (areColliding(actorCollision, tileCol))
-					collisionType = currentRoom->tiles[tilepos].type;
+					collisionType = currentRoom->getTile(tilepos).type;
 			}
 
-			if (!currentRoom->tiles[tilepos].entitiesOnTile.empty() && damageType == 5)
+			if (!currentRoom->getTile(tilepos).entitiesOnTile.empty() && damageType == 5)
 			{
-				for (int i = 0; i < currentRoom->tiles[tilepos].entitiesOnTile.size(); i++)
-					if (areColliding(actorCollision, currentRoom->tiles[tilepos].entitiesOnTile[i]->data.col) && !std::count(enemiesHit.begin(), enemiesHit.end(), currentRoom->tiles[tilepos].entitiesOnTile[i]))
+				for (int i = 0; i < currentRoom->getTile(tilepos).entitiesOnTile.size(); i++)
+					if (areColliding(actorCollision, currentRoom->getTile(tilepos).entitiesOnTile[i]->getData().col) && !std::count(enemiesHit.begin(), enemiesHit.end(), currentRoom->getTile(tilepos).entitiesOnTile[i]))
 					{
-						currentRoom->tiles[tilepos].entitiesOnTile[i]->takeDamage(damage);
-						enemiesHit.push_back(currentRoom->tiles[tilepos].entitiesOnTile[i]);
+						currentRoom->getTile(tilepos).entitiesOnTile[i]->takeDamage(damage);
+						enemiesHit.push_back(currentRoom->getTile(tilepos).entitiesOnTile[i]);
 						isEnemy = true;
 					}
 			}
@@ -89,8 +89,8 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 
 	newmath::ivec2 roomPos;
 
-	roomPos.x = (int)player->locf.x / currentRoom->tilesize + 1;
-	roomPos.y = (int)player->locf.y / currentRoom->tilesize + 1;
+	roomPos.x = (int)player->getLocation().x / currentRoom->tilesize + 1;
+	roomPos.y = (int)player->getLocation().y / currentRoom->tilesize + 1;
 
 	std::vector <int> enemyTiles;
 
@@ -98,33 +98,33 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 	
 	bool isEnemy = false;
 
-	startPos.x = newmath::clamp(roomPos.x, radius, currentRoom->size.x - radius - 1);
-	startPos.y = newmath::clamp(roomPos.y, radius, currentRoom->size.y - radius - 1);
+	startPos.x = newmath::clamp(roomPos.x, radius, currentRoom->getSize().x - radius - 1);
+	startPos.y = newmath::clamp(roomPos.y, radius, currentRoom->getSize().y - radius - 1);
 
 	for (int y = startPos.y - radius; y <= startPos.y + radius; y++)
 	{
 		for (int x = startPos.x - radius; x <= startPos.x + radius; x++)
 		{
-			const int tilepos = x + y * currentRoom->size.x;
-			if (currentRoom->tiles[tilepos].colidable)
+			const int tilepos = x + y * currentRoom->getSize().x;
+			if (currentRoom->getTile(tilepos).colidable)
 			{
 				CollisionComponent actor2Col;
 				actor2Col.collisionBox = newmath::make_Rect(x * 32, y * 32, 32, 32);
 
-				if (areColliding(player->collisionBox, actor2Col))
-					collisionType = currentRoom->tiles[tilepos].type;
+				if (areColliding(player->getCollision(), actor2Col))
+					collisionType = currentRoom->getTile(tilepos).type;
 
 				if (collisionType == portalActive)
 					isPortal = true;
 			}
-			if (!currentRoom->tiles[tilepos].entitiesOnTile.empty())
+			if (!currentRoom->getTile(tilepos).entitiesOnTile.empty())
 			{
-				for (int i = 0; i < currentRoom->tiles[tilepos].entitiesOnTile.size(); i++)
-					if (areColliding(player->collisionBox, currentRoom->tiles[tilepos].entitiesOnTile[i]->data.col))
+				for (int i = 0; i < currentRoom->getTile(tilepos).entitiesOnTile.size(); i++)
+					if (areColliding(player->getCollision(), currentRoom->getTile(tilepos).entitiesOnTile[i]->getData().col))
 					{
 						//std::cout << "ENEMY COLLISION" << std::endl;
 						//currentRoom->tiles[tilepos].entitiesOnTile[i]->takeDamage(damage);
-						if (currentRoom->tiles[tilepos].entitiesOnTile[i]->data.type == 1)
+						if (currentRoom->getTile(tilepos).entitiesOnTile[i]->getData().type == 1)
 							isEnemy = true;
 					}
 			}

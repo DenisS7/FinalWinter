@@ -20,16 +20,17 @@ private:
 	GameSpace::vec2 destination, initial, moveDirection;
 	Character::enemy_snowman* owner;
 public:
-	Snowball(Map::Room* newCurrentRoom, GameSpace::vec2 newDestination, GameSpace::vec2 newInitial)
+	Snowball(Map::Room* newCurrentRoom, GameSpace::vec2 newDestination, GameSpace::vec2 newInitial, Character::enemy_snowman* newOwner) :
+		Projectile (newInitial, newCurrentRoom)
 	{
+		owner = newOwner;
 		timeToExplode = 1000;
-		this->currentRoom = newCurrentRoom;
 		destination = newDestination;
-		locf = newInitial;
 		moveDirection = GameSpace::vec2::normalize(destination - locf);
 		collision.offset = newmath::make_ivec2(22, 22);
 		collision.collisionBox = newmath::make_Rect((int)locf.x + 22, (int)locf.y + 22, 20, 20);
 		speedf = 0.2f;
+		currentSs.freezeFrame(0, true);
 
 		if (abs(moveDirection.x) <= abs(moveDirection.y))
 		{

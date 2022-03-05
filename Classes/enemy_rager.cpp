@@ -8,13 +8,12 @@ namespace Character
 
 	void enemy_rager::init()
 	{
-		data.points = 20;
 		EnemyBase::init(2);
-		currentSs.setDirection(0);
+		
 		EnemyBase::changeActionSprite(0, 0);
 		currentState = 0;
-		drawLocf = locf - currentRoom->locf;
-		findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->player->getCurrentPos());
+		drawLocf = locf - currentRoom->getLocation();
+		findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 	}
 
 	void enemy_rager::attack()
@@ -54,8 +53,8 @@ namespace Character
 				data.col.collisionBox.x = (int)locf.x + data.col.offset.x;
 				data.col.collisionBox.y = (int)locf.y + data.col.offset.y;
 
-				drawLocf.x = locf.x - currentRoom->locf.x;
-				drawLocf.y = locf.y - currentRoom->locf.y;
+				drawLocf.x = locf.x - currentRoom->getLocation().x;
+				drawLocf.y = locf.y - currentRoom->getLocation().y;
 			}
 			else
 			{
@@ -76,8 +75,8 @@ namespace Character
 						data.col.collisionBox.x = (int)locf.x + data.col.offset.x;
 					data.col.collisionBox.y = (int)locf.y + data.col.offset.y;
 
-					drawLocf.x = locf.x - currentRoom->locf.x;
-					drawLocf.y = locf.y - currentRoom->locf.y;
+					drawLocf.x = locf.x - currentRoom->getLocation().x;
+					drawLocf.y = locf.y - currentRoom->getLocation().y;
 				}
 			}
 			if (dir.x)
@@ -100,7 +99,7 @@ namespace Character
 		//std::cout << currentState << std::endl;
 		if (isDead)
 		{
-			drawLocf = locf - currentRoom->locf;
+			drawLocf = locf - currentRoom->getLocation();
 			if (currentState != 3)
 			{
 				changeActionSprite(3, directionFacing);
@@ -112,15 +111,15 @@ namespace Character
 		}
 		else
 		{
-			drawLocf = locf - currentRoom->locf;
-			if (path.size() <= 1 && !isExploding)
+			drawLocf = locf - currentRoom->getLocation();
+			if (path.size() <= 1 && !isAttacking)
 			{
 				//std::cout << "ATTACK \n";
 				currentState = 2;
-				isExploding = true;
+				isAttacking = true;
 				attack();
 			}
-			else if ((isFollowingPlayer || path.size() <= 7) && !isExploding)
+			else if ((isFollowingPlayer || path.size() <= 7) && !isAttacking)
 			{
 				//std::cout << "FOLLOW \n";
 				currentState = 1;
@@ -129,7 +128,7 @@ namespace Character
 				addMovement(deltaTime);
 				isFollowingPlayer = true;
 			}
-			else if (isExploding)
+			else if (isAttacking)
 			{
 				std::cout << dealDamage << " " << currentSs.getCurrentFrame() % 12 << std::endl;
 				if (currentSs.getCurrentFrame() % 12 == 11)
@@ -138,7 +137,7 @@ namespace Character
 					std::cout << "ENDATTACK \n";
 					currentState = 1;
 					changeActionSprite(1, directionFacing);
-					isExploding = false;
+					isAttacking = false;
 				}
 				else if (currentSs.getCurrentFrame() % 12 > 7 && !dealDamage)
 				{
@@ -146,11 +145,11 @@ namespace Character
 					CollisionComponent attackCollision = *attackCol;
 					attackCollision.collisionBox.x += data.col.collisionBox.x + directionFacing * 50;
 					attackCollision.collisionBox.y += data.col.collisionBox.y;
-					//screen->Box(attackCollision.collisionBox.x - currentRoom->locf.x, attackCollision.collisionBox.y - currentRoom->locf.y, attackCollision.collisionBox.x + attackCollision.collisionBox.width - currentRoom->locf.x, attackCollision.collisionBox.y + attackCollision.collisionBox.height - currentRoom->locf.y, 0xff0000);
-					if (CollisionCheck::areColliding(attackCollision, currentRoom->player->collisionBox))
+					//screen->Box(attackCollision.collisionBox.x - currentRoom->getLocation().x, attackCollision.collisionBox.y - currentRoom->getLocation().y, attackCollision.collisionBox.x + attackCollision.collisionBox.width - currentRoom->getLocation().x, attackCollision.collisionBox.y + attackCollision.collisionBox.height - currentRoom->getLocation().y, 0xff0000);
+					if (CollisionCheck::areColliding(attackCollision, currentRoom->getPlayer()->getCollision()))
 					{
 						dealDamage = true;
-						currentRoom->player->takeDamage(data.damagePerAttack);
+						currentRoom->getPlayer()->takeDamage(data.damagePerAttack);
 					}
 				}
 				
@@ -158,9 +157,9 @@ namespace Character
 			}
 			else
 			{
-				drawLocf = locf - currentRoom->locf;
+				drawLocf = locf - currentRoom->getLocation();
 			}
-			findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->player->getCurrentPos());
+			findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 		}
 	}
 }

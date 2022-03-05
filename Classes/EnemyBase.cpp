@@ -16,7 +16,7 @@ namespace Character
 
 	void EnemyBase::changeDrawLoc()
 	{
-		drawLocf = locf - currentRoom->locf;
+		drawLocf = locf - currentRoom->getLocation();
 	}
 
 	void EnemyBase::triggerFollowPlayer()
@@ -26,24 +26,25 @@ namespace Character
 
 	void EnemyBase::init(int type)
 	{
-		screen = currentRoom->player->screen;
+		screen = currentRoom->getPlayer()->screen;
 		data.type = type;
-		data.health= currentRoom->manager->enemyTypes[data.type].health;
-		data.damagePerAttack = currentRoom->manager->enemyTypes[data.type].damagePerAttack;
-		data.damageOnCol = currentRoom->manager->enemyTypes[data.type].damageOnCol;
-		data.speed = currentRoom->manager->enemyTypes[data.type].speed;
-		data.col.offset.x = currentRoom->manager->enemyTypes[data.type].col.collisionBox.x;
-		data.col.offset.y = currentRoom->manager->enemyTypes[data.type].col.collisionBox.y;
+		data.health= currentRoom->manager->getEnemyType(data.type).health;
+		data.damagePerAttack = currentRoom->manager->getEnemyType(data.type).damagePerAttack;
+		data.damageOnCol = currentRoom->manager->getEnemyType(data.type).damageOnCol;
+		data.speed = currentRoom->manager->getEnemyType(data.type).speed;
+		data.points = currentRoom->manager->getEnemyType(data.type).points;
+		data.col.offset.x = currentRoom->manager->getEnemyType(data.type).col.collisionBox.x;
+		data.col.offset.y = currentRoom->manager->getEnemyType(data.type).col.collisionBox.y;
 
-		data.col.collisionBox.width = currentRoom->manager->enemyTypes[data.type].col.collisionBox.width;
-		data.col.collisionBox.height = currentRoom->manager->enemyTypes[data.type].col.collisionBox.height;
+		data.col.collisionBox.width = currentRoom->manager->getEnemyType(data.type).col.collisionBox.width;
+		data.col.collisionBox.height = currentRoom->manager->getEnemyType(data.type).col.collisionBox.height;
 
-		data.spritesheetsNr = currentRoom->manager->enemyTypes[data.type].spritesheetsNr;
+		data.spritesheetsNr = currentRoom->manager->getEnemyType(data.type).spritesheetsNr;
 		for(int i = 0; i < data.spritesheetsNr; i++)
-			data.epaths[i] = currentRoom->manager->enemyTypes[data.type].epaths[i];
+			data.epaths[i] = currentRoom->manager->getEnemyType(data.type).epaths[i];
 
-		locf.x = (float)IRand((currentRoom->size.x - sprite.GetWidth() / currentRoom->tilesize - 1) * currentRoom->tilesize);
-		locf.y = (float)IRand((currentRoom->size.y - sprite.GetHeight() / currentRoom->tilesize - 1) * currentRoom->tilesize);
+		locf.x = (float)IRand((currentRoom->getSize().x - sprite.GetWidth() / currentRoom->tilesize - 1) * currentRoom->tilesize);
+		locf.y = (float)IRand((currentRoom->getSize().y - sprite.GetHeight() / currentRoom->tilesize - 1) * currentRoom->tilesize);
 
 		data.col.collisionBox.x = data.col.offset.x + (int)locf.x;
 		data.col.collisionBox.y = data.col.offset.y + (int)locf.y;
@@ -55,14 +56,16 @@ namespace Character
 		initOcupTile = getCurrentPos(newmath::make_ivec2(0, 0));
 		finOcupTile = getCurrentPos(newmath::make_ivec2(sprite.GetWidth(), sprite.GetHeight()));
 
-		for (int x = initOcupTile.x; x <= finOcupTile.x && x < currentRoom->size.x; x++)
+		for (int x = initOcupTile.x; x <= finOcupTile.x && x < currentRoom->getSize().x; x++)
 		{
-			for (int y = initOcupTile.y; y <= finOcupTile.y && y < currentRoom->size.y; y++)
+			for (int y = initOcupTile.y; y <= finOcupTile.y && y < currentRoom->getSize().y; y++)
 			{
-				int tileNr = x + y * currentRoom->size.x;
+				int tileNr = x + y * currentRoom->getSize().x;
 				currentRoom->addEnemyToTile(this, tileNr);
 			}
 		}
+
+		currentSs.setDirection(0);
 
 	}
 
@@ -105,11 +108,11 @@ namespace Character
 
 	bool EnemyBase::isTileValid(const newmath::ivec2& tilePos)
 	{
-		if (tilePos.x >= 0 && tilePos.x < currentRoom->size.x)
-			if (tilePos.y >= 0 && tilePos.y < currentRoom->size.y)
+		if (tilePos.x >= 0 && tilePos.x < currentRoom->getSize().x)
+			if (tilePos.y >= 0 && tilePos.y < currentRoom->getSize().y)
 			{
 				
-				if (!currentRoom->tiles[tilePos.x + tilePos.y * currentRoom->size.x].colidable)
+				if (!currentRoom->getTile(tilePos.x + tilePos.y * currentRoom->getSize().x).colidable)
 					return true;
 				//else std::cout << "COLIDABLE: " << tilePos.x << " " << tilePos.y << std::endl;
 			}
@@ -120,7 +123,7 @@ namespace Character
 	void EnemyBase::getAdjTile(const Atile& tile, const newmath::ivec2& nextTile)
 	{
 		newmath::ivec2 newpos = tile.position + nextTile;
-		int newIndex = newpos.x + newpos.y * currentRoom->size.x;
+		int newIndex = newpos.x + newpos.y * currentRoom->getSize().x;
 		//std::cout << newpos.x << " " << newpos.y << " " << newIndex << std::endl;
 
 		if (isTileValid(newpos))
@@ -172,11 +175,11 @@ namespace Character
 		Atile startTile(start, 0);
 		startTile.h = starth;
 		startTile.f = startTile.g + startTile.h;
-		visited[start.x + start.y * currentRoom->size.x] = true;
+		visited[start.x + start.y * currentRoom->getSize().x] = true;
 
 		nextTiles.push_back(startTile);
 
-		parents[start.x + start.y * currentRoom->size.x] = startTile;
+		parents[start.x + start.y * currentRoom->getSize().x] = startTile;
 
 		bool pathFound = false;
 
@@ -214,7 +217,7 @@ namespace Character
 			while (current.position != startTile.position)
 			{
 				//std::cout << current.position.x << " " << current.position.y << std::endl;
-				int tileIndex = current.position.x + current.position.y * currentRoom->size.x;
+				int tileIndex = current.position.x + current.position.y * currentRoom->getSize().x;
 				current = parents[tileIndex];
 				path.insert(path.begin(), current.position);
 			}
@@ -222,7 +225,7 @@ namespace Character
 			//for (int i = 0; i < path.size(); i++)
 			{
 				//std::cout << path[i].x << " " << path[i].y << std::endl;
-				//currentRoom->player->screen->Box(path[i].x * 32, path[i].y * 32, path[i].x * 32 + 32, path[i].y * 32 + 32, 0xff0000);
+				//currentRoom->getPlayer()->screen->Box(path[i].x * 32, path[i].y * 32, path[i].x * 32 + 32, path[i].y * 32 + 32, 0xff0000);
 			}
 		}
 		resetAPath();

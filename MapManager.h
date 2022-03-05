@@ -19,7 +19,7 @@ class MapManager
 {
 private:
 	
-	int length;
+	int length = -1;
 	
 	int nrRooms = 49;
 	
@@ -36,38 +36,7 @@ private:
 	int currentGen = 0;
 
 	int aux[100] = { 0 };
-	
-
 	bool goingBack = false;
-
-public:
-	Character::Player* player;
-	int graph[100][100] = { 0 };
-	int actualRooms = 0;
-	int generatedOrder[100] = { 0 };
-	int parentRoom[100] = { 0 };
-	const int closedDoor[2] = { 40, 67 };
-	const int openDoor[2] = { 164, 191 };
-
-	newmath::ivec2 start, finish, roomAm;
-
-	int nrColTiles, nrPortalTiles;
-	std::vector <int> collisionTiles;
-	std::vector <int> portalTiles;
-
-
-
-	struct typeEn
-	{
-		int type = 0;
-		float health = 100;
-		float damagePerAttack = 0;
-		float damageOnCol = 0;
-		float speed = 0.2;
-		CollisionComponent col;
-		int spritesheetsNr = 0;
-		newmath::spriteData epaths[9];
-	} enemyTypes[5];
 
 	const char* enemyPath[5] = {
 	"Classes/Enemies/metalbox.txt",
@@ -76,12 +45,56 @@ public:
 	"Classes/Enemies/reindeer.txt"
 	};
 
+	int graph[100][100] = { 0 };
+	int generatedOrder[100] = { 0 };
+	int parentRoom[100] = { 0 };
+	int actualRooms = 0;
+
 	const int typesOfEnemies = 3;
+	newmath::ivec2 start, finish, roomAm;
+	struct typeEn
+	{
+		int type = 0;
+		float health = 100;
+		float damagePerAttack = 0;
+		float damageOnCol = 0;
+		float speed = 0.2f;
+		int points = 0;
+		CollisionComponent col;
+		int spritesheetsNr = 0;
+		newmath::spriteData epaths[9];
+	} enemyTypes[5];
+	int nrColTiles, nrPortalTiles;
+
+public:
+
+	MapManager()
+	{
+		start = finish = roomAm = newmath::make_ivec2(0, 0);
+		nrColTiles = nrPortalTiles = 0;
+	}
+	Character::Player* player;
+
+
+	
+	
+	const int closedDoor[2] = { 40, 67 };
+	const int openDoor[2] = { 164, 191 };
+
+	
+
+	
+	std::vector <int> collisionTiles;
+	std::vector <int> portalTiles;
 
 	GameSpace::Surface* screen;
 
 	Room rooms[100];
-	
+
+	newmath::ivec2 getStart() { return start; };
+	newmath::ivec2 getRoomAm() { return roomAm; };
+	typeEn getEnemyType(int type) { return enemyTypes[type]; };
+
 	void restart();
 
 	void setScreen(GameSpace::Surface* newScreen) { screen = newScreen; };

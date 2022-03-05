@@ -3,6 +3,9 @@
 #include "Classes/StartScreen.h"
 #include "Classes/PauseScreen.h"
 #include "Classes/EndScreen.h"
+#include "MapManager.h"
+#include "Classes/Player.h"
+
 
 namespace GameSpace {
 
@@ -15,14 +18,21 @@ private:
 	UI::EndScreen* endScreen;
 	UI::PauseScreen* pauseScreen;
 	UI::ScreenBase* currentScreen;
-	bool isScreenFocus = true;
+	
 
-public:
+	Character::Player* player = new Character::Player();
+	Map::MapManager* manager = new Map::MapManager;
+
+	bool isScreenFocus = true;
 	bool isRunning = false;
 	bool isPaused = false;
 	bool isEndScreen = false;
 	bool won = false;
+
 	newmath::ivec2 mouse;
+
+public:
+	
 
 	void Restart();
 	void Pause();

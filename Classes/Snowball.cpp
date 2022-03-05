@@ -10,8 +10,7 @@ namespace Weapon
 {
 	void Snowball::Init(Character::enemy_snowman* newOwner)
 	{
-		owner = newOwner;
-		currentSs.freezeFrame(0, true);
+
 	}
 
 	void Snowball::deleteProjectile()
@@ -29,7 +28,7 @@ namespace Weapon
 
 	void Snowball::Move(float deltaTime)
 	{
-		if (CollisionCheck::isOverlapping(collision, locf, currentRoom, 20, 4, currentRoom->player->screen) == 1)
+		if (CollisionCheck::isOverlapping(collision, locf, currentRoom, 20, 4, currentRoom->getPlayer()->screen) == 1)
 		{
 			deleteProjectile();
 		}
@@ -51,10 +50,10 @@ namespace Weapon
 			{
 				locf.x += deltaTime * moveDirection.x * speedf;
 				locf.y += deltaTime * moveDirection.y * speedf;
-				drawLocf = locf - currentRoom->locf;
+				drawLocf = locf - currentRoom->getLocation();
 				collision.collisionBox.x = (int)locf.x + collision.offset.x;
 				collision.collisionBox.y = (int)locf.y + collision.offset.y;
-				currentSs.drawNextSprite(deltaTime, currentRoom->player->screen, drawLocf);
+				currentSs.drawNextSprite(deltaTime, currentRoom->getPlayer()->screen, drawLocf);
 			}
 		}
 	}

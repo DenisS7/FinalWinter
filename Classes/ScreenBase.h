@@ -12,9 +12,9 @@ protected:
 	const int start = 0, quit = 1, scores = 2, replay = 3;
 	std::vector <Button*> buttons;
 	GameSpace::Sprite* title;
-	
-public:
 	int screenType = 0;
+public:
+	
 	ScreenBase(GameSpace::Surface* screen)
 	{
 		this->screen = screen;

@@ -33,7 +33,12 @@ private:
 public:
 
 
-	newmath::Rect arrowCol[4];
+	const newmath::Rect arrowCol[4] = {
+		newmath::make_Rect(27, 23, 22, 12),
+		newmath::make_Rect(18, 31, 12, 22),
+		newmath::make_Rect(25, 20, 22, 12),
+		newmath::make_Rect(23, 31, 12, 22)
+	};
 	Character::Player* player;
 	bool visible = false;
 	std::vector <Arrow*> arrows;

@@ -7,15 +7,12 @@ namespace Character
 {
 	void enemy_snowman::init()
 	{
-		data.points = 25;
 		EnemyBase::init(1);
-		currentSs.setDirection(0);
+	
 		EnemyBase::changeActionSprite(1, 0);
 		currentState = 1;
 		currentSs.freezeFrame(0, true);
-		drawLocf = locf - currentRoom->locf;
-		if (currentRoom->roomNumber == 39)
-			std::cout << "Snowman " << drawLocf.x << " " << drawLocf.y << std::endl;
+		drawLocf = locf - currentRoom->getLocation();
 	}
 
 	void enemy_snowman::changeDirection(int newDirection)
@@ -27,10 +24,10 @@ namespace Character
 
 	void enemy_snowman::turnToPlayer()
 	{
-		GameSpace::vec2 dif = currentRoom->player->drawLocf  - this->drawLocf;
+		GameSpace::vec2 dif = currentRoom->getPlayer()->getDrawLocation() - this->drawLocf;
 
-		dif.x += (currentRoom->player->sprite.GetWidth() - this->sprite.GetWidth()) / 2;
-		dif.y += (currentRoom->player->sprite.GetHeight() - this->sprite.GetHeight()) / 2;
+		dif.x += (float)(currentRoom->getPlayer()->getSpriteSize().x - this->sprite.GetWidth()) / 2;
+		dif.y += (float)(currentRoom->getPlayer()->getSpriteSize().y - this->sprite.GetHeight()) / 2;
 
 		const GameSpace::vec2 range(100.0f, 100.0f);
 	
@@ -96,8 +93,7 @@ namespace Character
 	void enemy_snowman::attack()
 	{
 		const GameSpace::vec2 snowballLocf(locf.x + snowballPos[directionFacing].x, locf.y + snowballPos[directionFacing].y);
-		Weapon::Snowball* newSnowball = new Weapon::Snowball(currentRoom, currentRoom->player->locf, snowballLocf);
-		newSnowball->Init(this);
+		Weapon::Snowball* newSnowball = new Weapon::Snowball(currentRoom, currentRoom->getPlayer()->getLocation(), snowballLocf, this);
 		snowballs.push_back(newSnowball);
 	}
 
@@ -112,7 +108,7 @@ namespace Character
 	{
 		//std::cout << "Snowman " << data.health << std::endl;
 		EnemyBase::update(deltaTime);
-		drawLocf = locf - currentRoom->locf;
+		drawLocf = locf - currentRoom->getLocation();
 		for (int i = 0; i < snowballs.size(); i++)
 			snowballs[i]->Move(deltaTime);
 		if (isDead)
@@ -141,7 +137,7 @@ namespace Character
 			{
 				currentState = 3;
 				changeActionSprite(3, 0);
-				isExploding = false;
+				isAttacking = false;
 				isFollowingPlayer = false;
 			}
 		}
@@ -149,7 +145,7 @@ namespace Character
 		{
 			if (!isFollowingPlayer)
 			{
-				EnemyBase::findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->player->getCurrentPos());
+				EnemyBase::findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 				if (path.size() <= 9)
 				{
 					currentSs.freezeFrame(0, false);
@@ -164,9 +160,9 @@ namespace Character
 			}
 			if (currentState == 0)
 			{
-				if (GameSpace::vec2::dist(this->locf, currentRoom->player->locf) < 300 && !isExploding)
+				if (GameSpace::vec2::dist(this->locf, currentRoom->getPlayer()->getLocation()) < 300 && !isAttacking)
 				{
-					isExploding = true;
+					isAttacking = true;
 					currentState = 2;
 					changeActionSprite(2, directionFacing);
 					attack();
@@ -176,7 +172,7 @@ namespace Character
 			if (currentState == 2 && (currentSs.getCurrentFrame() % 7) == 6)
 			{
 				//std::cout << "Stop: " << currentSs.getCurrentFrame() << std::endl;
-				isExploding = false;
+				isAttacking = false;
 				currentState = 0;
 				changeActionSprite(0, directionFacing);
 				turnToPlayer();

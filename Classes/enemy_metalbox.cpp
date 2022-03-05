@@ -7,11 +7,10 @@ namespace Character
 {
 	void enemy_metalbox::init()
 	{
-		data.points = 15;
 		EnemyBase::init(0);
-		currentSs.setDirection(0);
+		
 		tilePos = EnemyBase::getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2));
-		findPath(tilePos, currentRoom->player->getCurrentPos());
+		findPath(tilePos, currentRoom->getPlayer()->getCurrentPos());
 	}
 
 	void enemy_metalbox::explode()
@@ -25,7 +24,7 @@ namespace Character
 		if (!isFollowingPlayer)
 			changeActionSprite(1, directionFacing);
 		isFollowingPlayer = true;
-		isExploding = false;
+		isAttacking = false;
 	}
 
 	void enemy_metalbox::addMovement(float deltaTime)
@@ -47,8 +46,8 @@ namespace Character
 				data.col.collisionBox.x = (int)locf.x + data.col.offset.x;
 				data.col.collisionBox.y = (int)locf.y + data.col.offset.y;
 
-				drawLocf.x = locf.x - currentRoom->locf.x;
-				drawLocf.y = locf.y - currentRoom->locf.y;
+				drawLocf.x = locf.x - currentRoom->getLocation().x;
+				drawLocf.y = locf.y - currentRoom->getLocation().y;
 			}
 			else
 			{
@@ -69,8 +68,8 @@ namespace Character
 					data.col.collisionBox.x = (int)locf.x + data.col.offset.x;
 					data.col.collisionBox.y = (int)locf.y + data.col.offset.y;
 					
-					drawLocf.x = locf.x - currentRoom->locf.x;
-					drawLocf.y = locf.y - currentRoom->locf.y;
+					drawLocf.x = locf.x - currentRoom->getLocation().x;
+					drawLocf.y = locf.y - currentRoom->getLocation().y;
 				}
 			}
 			if (dir.x)
@@ -100,14 +99,14 @@ namespace Character
 		
 		EnemyBase::update(deltaTime);
 	
-		if ((path.size() <= 1 || isDead) && !isExploding)
+		if ((path.size() <= 1 || isDead) && !isAttacking)
 		{
 			std::cout << "EXPLODE" << std::endl;
 			isFollowingPlayer = false;
-			isExploding = true;
+			isAttacking = true;
 			explode();
 		}
-		else if ((isFollowingPlayer || path.size() <= 7) && !isExploding)
+		else if ((isFollowingPlayer || path.size() <= 7) && !isAttacking)
 		{
 			data.speed += (float)0.000002 * deltaTime;
 			triggerFollowPlayer();
@@ -116,18 +115,18 @@ namespace Character
 		}
 		else 
 		{
-			drawLocf = locf - currentRoom->locf;
+			drawLocf = locf - currentRoom->getLocation();
 		}
-		findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->player->getCurrentPos());
+		findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 
-		if (isExploding)
+		if (isAttacking)
 		{
 			if (currentSs.getCurrentFrame() == 8 && !exploded)
 			{
 				exploded = true;
 				data.col.extendCollision(explosionRange, explosionRange);
-				if (CollisionCheck::areColliding(this->data.col, currentRoom->player->collisionBox))
-					currentRoom->player->takeDamage(data.damagePerAttack);
+				if (CollisionCheck::areColliding(this->data.col, currentRoom->getPlayer()->getCollision()))
+					currentRoom->getPlayer()->takeDamage(data.damagePerAttack);
 			}
 			if (currentSs.getCurrentFrame() == 12)
 				EnemyBase::die();
