@@ -115,6 +115,7 @@ namespace Character
 			if (path.size() <= 1 && !isAttacking)
 			{
 				//std::cout << "ATTACK \n";
+
 				currentState = 2;
 				isAttacking = true;
 				attack();
@@ -122,6 +123,7 @@ namespace Character
 			else if ((isFollowingPlayer || path.size() <= 7) && !isAttacking)
 			{
 				//std::cout << "FOLLOW \n";
+				findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 				currentState = 1;
 				data.speed += (float)0.000001 * deltaTime;
 				triggerFollowPlayer();
@@ -138,6 +140,8 @@ namespace Character
 					currentState = 1;
 					changeActionSprite(1, directionFacing);
 					isAttacking = false;
+					findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
+
 				}
 				else if (currentSs.getCurrentFrame() % 12 > 7 && !dealDamage)
 				{
@@ -155,9 +159,10 @@ namespace Character
 			}
 			else
 			{
+				findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
+
 				drawLocf = locf - currentRoom->getLocation();
 			}
-			findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 		}
 		screen->Box(drawLocf.x, drawLocf.y, drawLocf.x + data.col.collisionBox.width, drawLocf.y + data.col.collisionBox.height, 0xff0000);
 	}

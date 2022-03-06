@@ -12,9 +12,9 @@ namespace Character
 {
 	void Player::restart()
 	{
-		std::cout << "\n Player RESTART \n";
-		locf.x = drawLocf.x = (float)middleScreen.x - 1;
-		locf.y = drawLocf.y = (float)middleScreen.y - 1;
+		
+		locf.x = drawLocf.x = (float)middleScreen.x - 50;
+		locf.y = drawLocf.y = (float)middleScreen.y - 50;
 		collisionBox.setOffset(14, 14);
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		won = false;
@@ -32,8 +32,8 @@ namespace Character
 		currentRoom = &mapManager->rooms[mapManager->getStart().x + mapManager->getRoomAm().x * mapManager->getStart().y];
 		points = 0;
 		SDL_Delay(100);
-		locf.x = drawLocf.x = (float)middleScreen.x - 10;
-		locf.y = drawLocf.y = (float)middleScreen.y - 10;	
+		locf.x = drawLocf.x = (float)middleScreen.x - 50;
+		locf.y = drawLocf.y = (float)middleScreen.y - 50;	
 	}
 
 	void Player::init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate)
@@ -83,8 +83,8 @@ namespace Character
 
 	newmath::ivec2 Player::getCurrentPos()
 	{
-		int x = ((int)locf.x + sprite.GetWidth() / 2) / currentRoom->tilesize;
-		int y = ((int)locf.y + sprite.GetHeight() / 2) / currentRoom->tilesize;
+		int x = ((int)locf.x + sprite.GetWidth() / 2) / 32;
+		int y = ((int)locf.y + sprite.GetHeight() / 2) / 32;
 		newmath::ivec2 pos = newmath::make_ivec2(x, y);
 		return pos;
 	}
@@ -137,8 +137,8 @@ namespace Character
 		middleScreen.x = screen->GetWidth() / 2 - sprite.GetWidth() / 2;
 		middleScreen.y = screen->GetHeight() / 2 - sprite.GetHeight() / 2;
 	
-		locf.x = drawLocf.x = (float)middleScreen.x - 10;
-		locf.y = drawLocf.y = (float)middleScreen.y - 10;
+		locf.x = drawLocf.x = (float)middleScreen.x - 50;
+		locf.y = drawLocf.y = (float)middleScreen.y - 50;
 
 
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
@@ -323,7 +323,7 @@ namespace Character
 
 		if (nextTile == nonCollide) //no collision
 		{
-			//
+			std::cout << drawLocf.x << " " << drawLocf.y << "\n";
 			if ((x && newmath::inRangef(drawLocf.x, (float)middleScreen.x - 10, (float)middleScreen.x + 10)) || ((y && newmath::inRangef(drawLocf.y, (float)middleScreen.y - 10, (float)middleScreen.y + 10))))
 				currentRoom->moveMap(x, y, deltaTime);
 			

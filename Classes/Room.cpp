@@ -20,15 +20,16 @@ namespace Map
 	{
 		locf = 0;
 		level = 0;
-		enemies = 0;
-		for (int i = 0; i < enemiesInRoom.size(); i++)
-			deleteEnemy(enemiesInRoom[i]);
+		
+		for (int i = 0; i < enemiesInRoom.size();)
+			enemiesInRoom[i]->die();
 		resetDoors();
-
+		enemies = 0;
 		tiles.clear();
 		nrdoors = 1;
 		//changeDoorsToWalls();
 	}
+
 
 	void Room::initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, Map::MapManager* newManager)
 	{	
@@ -62,9 +63,11 @@ namespace Map
 		moveDir.x = moveDir.y = 0;
 	}
 
+	
+
 void Room::inititateEnemies()
 {
-	enemies = 1;
+	enemies = 10;
 	int enemyType = 0;
 	for (int i = 0; i < enemies; i++)
 	{
@@ -329,14 +332,14 @@ void Room::changeDoorsToWalls()
 	tiles[size.x / 2 - 1 + size.x].type = 0;
 	tiles[size.x / 2 - 1 + size.x].colidable = true;
 
-	tiles[(size.y / 2) * size.x].drawIndex = 82;
-	tiles[(size.y / 2) * size.x + 1].drawIndex = 83;
+	tiles[(size.y / 2) * size.x].drawIndex = 86;
+	tiles[(size.y / 2) * size.x + 1].drawIndex = 85;
 
 	tiles[(size.y / 2) * size.x].type = 0;
 	tiles[(size.y / 2) * size.x].colidable = true;
 
-	tiles[(size.y / 2) * size.x + size.x - 1].drawIndex = 86;
-	tiles[(size.y / 2) * size.x + size.x - 2].drawIndex = 85;
+	tiles[(size.y / 2) * size.x + size.x - 1].drawIndex = 82;
+	tiles[(size.y / 2) * size.x + size.x - 2].drawIndex = 83;
 
 	tiles[(size.y / 2) * size.x + size.x - 1].type = 0;
 	tiles[(size.y / 2) * size.x + size.x - 1].colidable = true;
@@ -365,7 +368,6 @@ void Room::changeDoorLayout(bool isOpen)
 
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = 0;
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].colidable = true;
-		//tiles[size.x / 2 - 1 + (size.y - 2) * size.x].type = portalActive;
 
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].rotate = tiles[size.x / 2 - 1 + (size.y - 2) * size.x].rotate = 2;
 	}
@@ -377,7 +379,6 @@ void Room::changeDoorLayout(bool isOpen)
 
 		tiles[size.x / 2 - 1 + size.x].type = type;
 		tiles[size.x / 2 - 1 + size.x].colidable = true;
-		//tiles[size.x / 2 - 1 + 2 * size.x].type = portalActive;
 	}
 	
 	if (doors[1]) //left
@@ -387,7 +388,6 @@ void Room::changeDoorLayout(bool isOpen)
 
 		tiles[(size.y / 2) * size.x].type = type;
 		tiles[(size.y / 2) * size.x].colidable = true;
-		//tiles[(size.y / 2) * size.x + 1].type = portalActive;
 
 		tiles[(size.y / 2) * size.x].rotate = tiles[(size.y / 2) * size.x + 1].rotate = 1;
 	}
@@ -399,31 +399,20 @@ void Room::changeDoorLayout(bool isOpen)
 
 		tiles[(size.y / 2) * size.x + size.x - 1].type = type;
 		tiles[(size.y / 2) * size.x + size.x - 1].colidable = true;
-		//tiles[(size.y / 2) * size.x + size.x - 2].type = portalActive;
 
 		tiles[(size.y / 2) * size.x + size.x - 1].rotate = tiles[(size.y / 2) * size.x + size.x - 2].rotate = 3;
 	}
-	else
-	{
-		
-		//tiles[(size.y / 2) * size.x + size.x - 2].type = portalActive;
-
-		tiles[(size.y / 2) * size.x + size.x - 1].rotate = tiles[(size.y / 2) * size.x + size.x - 2].rotate = 3;
-	}
+	
 }	
 
 void Room::calculateDoors(int startDoor, bool CanClose, int beforeRoom)
 {
 	doors[startDoor] = true;
 	
-	//std::cout << "Calculating Doors Before " << beforeRoom << " " << roomNumber << " " << nrdoors << std::endl;
-
 	nrdoors += IRand(4);
 	if (nrdoors == 1 && CanClose == false)
 		nrdoors = 2;
 	
-	//std::cout << "Calculating Doors After " << nrdoors << std::endl;
-		
 	for (int i = 0; i < nrdoors - 1; i++)
 	{
 		int n = IRand(4);

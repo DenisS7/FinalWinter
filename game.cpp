@@ -166,7 +166,7 @@ namespace GameSpace
 			break;
 		case SDL_SCANCODE_E:
 			if (!isPaused && isRunning)
-				player->equipWeapon(x), std::cout << "E SHOOT" << std::endl;
+				player->equipWeapon(x);
 			break;
 		}
 
@@ -184,7 +184,8 @@ namespace GameSpace
 		case SDL_BUTTON_LEFT:
 			if (isScreenFocus)
 				PressButton(true, currentScreen);
-			player->shootProjectile(0, 0 ,0);
+			else 
+				player->shootProjectile(0, 0 ,0);
 			break;
 		}
 	}

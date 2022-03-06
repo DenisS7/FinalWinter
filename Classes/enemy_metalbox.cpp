@@ -108,6 +108,7 @@ namespace Character
 		}
 		else if ((isFollowingPlayer || path.size() <= 7) && !isAttacking)
 		{
+			findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 			data.speed += (float)0.000002 * deltaTime;
 			triggerFollowPlayer();
 			addMovement(deltaTime);
@@ -115,9 +116,9 @@ namespace Character
 		}
 		else 
 		{
+			findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 			drawLocf = locf - currentRoom->getLocation();
 		}
-		findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 
 		if (isAttacking)
 		{

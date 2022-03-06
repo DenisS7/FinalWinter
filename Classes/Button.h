@@ -67,7 +67,7 @@ public:
 			}
 			else drawLocf = newDrawLocf;
 		}
-		std::cout << "ButtonType: " << type << " Size: " << size.x << " " << size.y << " " << drawLocf.x << " " << drawLocf.y << "\n";
+		//std::cout << "ButtonType: " << type << " Size: " << size.x << " " << size.y << " " << drawLocf.x << " " << drawLocf.y << "\n";
 	}
 
 	bool isButtonPressed(GameSpace::vec2 mouse);

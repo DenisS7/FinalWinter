@@ -68,6 +68,7 @@ public:
 	Room() 
 	{
 		//InitiateRoom(0);
+		tilesize = 32;
 		locf.x = locf.y = 0;
 		offset.x = offset.y = 0;
 		speed = 0.2f;
@@ -94,6 +95,7 @@ public:
 	void setLocation(GameSpace::vec2 newLocf) { locf = newLocf; };
 
 	void restart();
+	void resetRoom();
 	void initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, MapManager* newManager);
 	void inititateEnemies();
 	void removeEnemyFromTile(const Character::EnemyBase* enemy, int tileNr);
