@@ -17,7 +17,6 @@ namespace Weapon
 
 	void Arrow::deleteArrow()
 	{
-		//std::cout << time << std::endl;
 		crossbow->deleteArrow(this);
 		delete this;
 	}
@@ -35,8 +34,8 @@ namespace Weapon
 			}
 			else
 			{
-				locf.x += speedf * deltaTime * move.x;
-				locf.y += speedf * deltaTime * move.y;
+				locf.x += speedf * deltaTime * moveDirection.x;
+				locf.y += speedf * deltaTime * moveDirection.y;
 
 				drawLocf.x = locf.x - currentRoom->getLocation().x;
 				drawLocf.y = locf.y - currentRoom->getLocation().y;

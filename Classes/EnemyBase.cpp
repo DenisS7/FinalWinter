@@ -90,7 +90,6 @@ namespace Character
 
 		for (int i = 0; i < nextTiles.size(); i++)
 		{
-			//std::cout << minf << " " << nextTiles[i].position.x << " " << nextTiles[i].position.y << " " << nextTiles[i].f << " " << nextTiles[i].g << " " << nextTiles[i].h << std::endl;
 			if (nextTiles[i].f <= minf)
 				index = i, minf = nextTiles[i].f;
 		}
@@ -114,9 +113,7 @@ namespace Character
 				
 				if (!currentRoom->getTile(tilePos.x + tilePos.y * currentRoom->getSize().x).colidable)
 					return true;
-				//else std::cout << "COLIDABLE: " << tilePos.x << " " << tilePos.y << std::endl;
 			}
-		//std::cout << tilePos.x + tilePos.y * 44 << std::endl;
 		return false;
 	}
 
@@ -124,7 +121,6 @@ namespace Character
 	{
 		newmath::ivec2 newpos = tile.position + nextTile;
 		int newIndex = newpos.x + newpos.y * currentRoom->getSize().x;
-		//std::cout << newpos.x << " " << newpos.y << " " << newIndex << std::endl;
 
 		if (isTileValid(newpos))
 		{
@@ -140,7 +136,6 @@ namespace Character
 			else if (visited[newIndex])
 			{
 				int index = getIndex(passedTiles, newpos);
-				//std::cout << "visited index: " << newpos.x << " " << newpos.y << " " << visited[newIndex] << " " << index << std::endl;
 				int newgValue = tile.g + 1;
 				if (index != -1)
 					if (newgValue <= passedTiles[index].g)
@@ -149,8 +144,6 @@ namespace Character
 						passedTiles[index].f = passedTiles[index].g + passedTiles[index].h;
 						parents[index] = tile;
 					}
-				//if (index == -1)
-					//std::cout << "visited index: " << newpos.x << " " << newpos.y << " " << visited[newIndex] << " " << index << std::endl;
 			}
 		}
 	}
@@ -192,9 +185,6 @@ namespace Character
 			currentIndex = getClosestTile();
 			current = nextTiles[currentIndex];
 
-			//std::cout << current.position.x << " " << current.position.y << " " << currentIndex << std::endl;
-			//std::cout << "F: " << current.f << " G: " << current.g << " H: " << current.h << std::endl << std::endl;
-
 			nextTiles.erase(nextTiles.begin() + currentIndex);
 			passedTiles.push_back(current);
 
@@ -216,16 +206,9 @@ namespace Character
 
 			while (current.position != startTile.position)
 			{
-				//std::cout << current.position.x << " " << current.position.y << std::endl;
 				int tileIndex = current.position.x + current.position.y * currentRoom->getSize().x;
 				current = parents[tileIndex];
 				path.insert(path.begin(), current.position);
-			}
-			//std::cout << std::endl << "NEW PATH: " << std::endl;
-			//for (int i = 0; i < path.size(); i++)
-			{
-				//std::cout << path[i].x << " " << path[i].y << std::endl;
-				//currentRoom->getPlayer()->screen->Box(path[i].x * 32, path[i].y * 32, path[i].x * 32 + 32, path[i].y * 32 + 32, 0xff0000);
 			}
 		}
 		resetAPath();
@@ -240,7 +223,6 @@ namespace Character
 			{
 				currentSs.setDirection(newDirection);
 				directionFacing = newDirection;
-				//std::cout << "Direction Changed" << std::endl;
 			}
 		}
 	}
@@ -260,7 +242,6 @@ namespace Character
 	{
 		//increase score
 		currentRoom->deleteEnemy(this);
-		//std::cout << "Delete" << std::endl;
 		delete this;
 	}
 

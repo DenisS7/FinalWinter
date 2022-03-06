@@ -101,7 +101,6 @@ namespace Character
 	
 		if ((path.size() <= 1 || isDead) && !isAttacking)
 		{
-			std::cout << "EXPLODE" << std::endl;
 			isFollowingPlayer = false;
 			isAttacking = true;
 			explode();

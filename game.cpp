@@ -117,7 +117,6 @@ namespace GameSpace
 	void Game::PressButton(bool down, UI::ScreenBase* currentScreen)
 	{
 		int k = currentScreen->isButtonPressed(vec2((float)mouse.x, (float)mouse.y));
-		std::cout << k << std::endl;
 		if (k != -1)
 		{
 			if (k == 0 && !isRunning && down)
@@ -128,7 +127,6 @@ namespace GameSpace
 			{
 				isPaused = true;
 				isRunning = false;
-				std::cout << "RESTART" << std::endl;
 				player->restart();
 				isScreenFocus = false;
 				isEndScreen = false;

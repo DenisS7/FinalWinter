@@ -87,7 +87,6 @@ void Room::inititateEnemies()
 		else if (enemyType == 2)
 		{
 			Character::enemy_rager* newEnemy = new Character::enemy_rager(this, 2);
-			//std::cout << manager->enemyTypes[2].spritesheetsNr<< std::endl;
 			newEnemy->init();
 			enemiesInRoom.push_back(newEnemy);
 		}
@@ -104,14 +103,12 @@ void Room::removeEnemyFromTile(const Character::EnemyBase* enemy, int tileNr)
 		position = std::find(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy);
 	if (position != tiles[tileNr].entitiesOnTile.end())
 		tiles[tileNr].entitiesOnTile.erase(position);
-	//else std::cout << "WRONG TILE" << std::endl;
 }
 
 void Room::addEnemyToTile(Character::EnemyBase* enemy, int tileNr)
 {
 	if (!std::count(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy))
 		tiles[tileNr].entitiesOnTile.push_back(enemy);
-	//else std::cout << "ALREADY " << std::endl;
 }
 
 void Room::enemyOnTiles(Character::EnemyBase* enemy)
@@ -297,9 +294,7 @@ void Room::deleteEnemy(Character::EnemyBase* enemy)
 }
 
 void Room::changeDir()
-{
-	//std::cout << player->move.side[0] << " " << player->move.side[1] << " " << player->move.side[2] << " " << player->move.side[3] << std::endl;
-	
+{	
 	moveDir.x = player->getMove().side[3] - player->getMove().side[1];
 	moveDir.y = player->getMove().side[0] - player->getMove().side[2];
 
@@ -366,7 +361,7 @@ void Room::changeDoorLayout(bool isOpen)
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].drawIndex = door[0];
 		tiles[size.x / 2 - 1 + (size.y - 2) * size.x].drawIndex = door[1];
 
-		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = 0;
+		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = type;
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].colidable = true;
 
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].rotate = tiles[size.x / 2 - 1 + (size.y - 2) * size.x].rotate = 2;
@@ -626,7 +621,6 @@ void Room::updateMap(float deltaTime, GameSpace::Surface* GameScreen)
 {
 	changeDir();
 	
-	//std::cout << moveDir.x << " " << moveDir.y << std::endl;
 	drawMap(GameScreen);
 	drawEnemies(deltaTime);
 	updateTiles();

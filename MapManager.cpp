@@ -357,7 +357,7 @@ namespace Map
 		{
 			goingBack = true;
 			if (goBack > 7)
-				restart(), std::cout << "RESTART \n";
+				restart();
 			else if (goBack > 1)
 			{
 				for (int i = aux[goBack - 2]; i < newRooms; i++)
@@ -374,7 +374,6 @@ namespace Map
 			}
 			else if (goBack == 1)
 			{
-				std::cout << "\n Generate First Room \n";
 				for (int i = 0; i < newRooms; i++)
 				{
 					exists[nextRooms[i][0] + nextRooms[i][1] * roomAm.x] = false;
@@ -399,7 +398,6 @@ namespace Map
 	Room* MapManager::switchRoom(int x, int y)
 	{
 		calculateRoute(x + y * roomAm.x);
-		std::cout << x + y * roomAm.x;
 		return &rooms[x + y * roomAm.x];
 	}
 

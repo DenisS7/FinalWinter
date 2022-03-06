@@ -122,7 +122,6 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 				for (int i = 0; i < currentRoom->getTile(tilepos).entitiesOnTile.size(); i++)
 					if (areColliding(player->getCollision(), currentRoom->getTile(tilepos).entitiesOnTile[i]->getData().col))
 					{
-						//std::cout << "ENEMY COLLISION" << std::endl;
 						//currentRoom->tiles[tilepos].entitiesOnTile[i]->takeDamage(damage);
 						if (currentRoom->getTile(tilepos).entitiesOnTile[i]->getData().type == 1)
 							isEnemy = true;

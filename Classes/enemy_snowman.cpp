@@ -19,7 +19,6 @@ namespace Character
 	{
 		directionFacing = newDirection;
 		currentSs.setDirection(newDirection);
-		//std::cout << "Snowman Direction Changed" << std::endl;
 	}
 
 	void enemy_snowman::turnToPlayer()
@@ -106,7 +105,6 @@ namespace Character
 
 	void enemy_snowman::update(float deltaTime)
 	{
-		//std::cout << "Snowman " << data.health << std::endl;
 		EnemyBase::update(deltaTime);
 		drawLocf = locf - currentRoom->getLocation();
 		for (int i = 0; i < snowballs.size(); i++)
@@ -171,7 +169,6 @@ namespace Character
 			}
 			if (currentState == 2 && (currentSs.getCurrentFrame() % 7) == 6)
 			{
-				//std::cout << "Stop: " << currentSs.getCurrentFrame() << std::endl;
 				isAttacking = false;
 				currentState = 0;
 				changeActionSprite(0, directionFacing);

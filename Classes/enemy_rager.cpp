@@ -96,7 +96,6 @@ namespace Character
 	void enemy_rager::update(float deltaTime)
 	{
 		EnemyBase::update(deltaTime);
-		//std::cout << currentState << std::endl;
 		if (isDead)
 		{
 			drawLocf = locf - currentRoom->getLocation();
@@ -114,15 +113,12 @@ namespace Character
 			drawLocf = locf - currentRoom->getLocation();
 			if (path.size() <= 1 && !isAttacking)
 			{
-				//std::cout << "ATTACK \n";
-
 				currentState = 2;
 				isAttacking = true;
 				attack();
 			}
 			else if ((isFollowingPlayer || path.size() <= 7) && !isAttacking)
 			{
-				//std::cout << "FOLLOW \n";
 				findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 				currentState = 1;
 				data.speed += (float)0.000001 * deltaTime;
@@ -132,11 +128,9 @@ namespace Character
 			}
 			else if (isAttacking)
 			{
-				std::cout << dealDamage << " " << currentSs.getCurrentFrame() % 12 << std::endl;
 				if (currentSs.getCurrentFrame() % 12 == 11)
 				{
 					dealDamage = false;
-					std::cout << "ENDATTACK \n";
 					currentState = 1;
 					changeActionSprite(1, directionFacing);
 					isAttacking = false;
@@ -145,7 +139,6 @@ namespace Character
 				}
 				else if (currentSs.getCurrentFrame() % 12 > 7 && !dealDamage)
 				{
-					std::cout << "DEALDAMAGE \n";
 					CollisionComponent attackCollision = *attackCol;
 					attackCollision.collisionBox.x += data.col.collisionBox.x + directionFacing * 50;
 					attackCollision.collisionBox.y += data.col.collisionBox.y;
@@ -164,6 +157,6 @@ namespace Character
 				drawLocf = locf - currentRoom->getLocation();
 			}
 		}
-		screen->Box(drawLocf.x, drawLocf.y, drawLocf.x + data.col.collisionBox.width, drawLocf.y + data.col.collisionBox.height, 0xff0000);
+		//screen->Box(drawLocf.x, drawLocf.y, drawLocf.x + data.col.collisionBox.width, drawLocf.y + data.col.collisionBox.height, 0xff0000);
 	}
 }

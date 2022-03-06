@@ -23,7 +23,7 @@ private:
 	Score score;
 	int points = 0;
 	newmath::ivec2 middleScreen = newmath::make_ivec2(0, 0);
-	GameSpace::vec2 locf = 0, drawLocf = 0;
+	GameSpace::vec2 locf = 0, drawLocf = 0, mousePosition = 0;
 	CollisionComponent collisionBox;
 	bool isDead = false;
 	bool won = false;
@@ -71,7 +71,8 @@ public:
 	Map::Room* currentRoom;
 	Map::MapManager* mapManager;
 	GameSpace::Surface* screen;
-
+	
+	GameSpace::vec2 getMousePosition() { return mousePosition; };
 	GameSpace::vec2 getLocation() { return locf; };
 	GameSpace::vec2 getDrawLocation() { return drawLocf; };
 	int getDirectionFacing() { return directionFacing; };

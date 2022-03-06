@@ -30,7 +30,6 @@ void Spritesheet::changeSpritesheet(char* path, int row, int column, int newCurr
     currentRow = newCurrentRow;
     currentFrame = currentRow * column;
     columns = column;
-    //std::cout << "State Change " << row << " " << column << " " << currentFrame << std::endl;
     sprite = newSprite;
     image->SetFile(path);
 }
@@ -43,7 +42,6 @@ void Spritesheet::setFrameTime(float newFrameTime)
 void Spritesheet::setDirection(int newRow)
 {
     currentFrame = newRow * columns + currentFrame;
-    //std::cout << "New Direction " << newRow << " " << currentFrame << std::endl;
     currentRow = newRow;
 }
 
@@ -66,8 +64,6 @@ void Spritesheet::freezeFrame(int frame, bool isFreezed)
 
 void Spritesheet::calculateNextFrame()
 {
-    //if (columns == 10)
-        //std::cout << currentRow << std::endl;
     currentFrame = (currentFrame + 1 * freezedColumn) % columns + columns * currentRow;
 }
 
@@ -81,11 +77,8 @@ void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface* screen, Ga
     if (visible)
     {
         currentTime += deltaTime * freezedColumn;
-        //std::cout << currentFrame << std::endl;
         if (currentTime >= frameTime)
         {
-            //if (currentFrame < 6)
-            //std::cout << currentFrame << std::endl;
             calculateNextFrame();
             currentTime -= frameTime;
             sprite->SetFrame(currentFrame);

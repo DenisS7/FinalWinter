@@ -96,13 +96,7 @@ public:
 	int getFinish() { return finish.x + finish.y * roomAm.x; };
 	newmath::ivec2 getRoomAm() { return roomAm; };
 	typeEn getEnemyType(int type) { return enemyTypes[type]; };
-	bool isLastRoom(int roomNumber) 
-	{ 
-		std::cout << roomNumber << " " << finish.x + roomAm.x * finish.y << "\n"; 
-		std::cout << graph[finish.x + roomAm.x * finish.y - 1][finish.x + roomAm.x * finish.y] << " " << graph[finish.x + roomAm.x * finish.y + 1][finish.x + roomAm.x * finish.y] << " ";
-		std::cout << graph[finish.x + roomAm.x * finish.y - 7][finish.x + roomAm.x * finish.y] << " " << graph[finish.x + roomAm.x * finish.y + 7][finish.x + roomAm.x * finish.y] << "\n";
-		return graph[roomNumber][finish.x + roomAm.x * finish.y]; 
-	};
+	bool isLastRoom(int roomNumber) { return graph[roomNumber][finish.x + roomAm.x * finish.y]; };
 
 	void restart();
 

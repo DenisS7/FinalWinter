@@ -48,7 +48,6 @@ namespace Weapon
 	void WeaponBase::shootArrows()
 	{
 		isShooting = true;
-		//std::cout << "SHOOT ARROW " << arrows.size() << " " << &newArrow << std::endl;
 	}
 
 	void WeaponBase::stopShooting()
@@ -59,7 +58,6 @@ namespace Weapon
 	void WeaponBase::deleteArrow(Arrow* endArrow)
 	{	
 		/* https://stackoverflow.com/questions/3385229/c-erase-vector-element-by-value-rather-than-by-position */
-		//std::cout << "deleteArrow" << std::endl;
 		std::vector<Arrow*>::iterator position = std::find(arrows.begin(), arrows.end(), endArrow);
 		if (position != arrows.end())
 			arrows.erase(position);
@@ -80,7 +78,7 @@ namespace Weapon
 			if (reloading >= reloadTime)
 			{
 				reloading = 0;
-				Arrow* newArrow = new Arrow(player->getLocation(), player->currentRoom, player->getDirectionFacing(), this, wpaths[player->getDirectionFacing() + 4].path, arrowCol[player->getDirectionFacing()]);
+				Arrow* newArrow = new Arrow(player->getLocation(), player->currentRoom, player->getDirectionFacing(), player->getMousePosition(), this, wpaths[player->getDirectionFacing() + 4].path, arrowCol[player->getDirectionFacing()]);
 				arrows.push_back(newArrow);
 			}
 		}
