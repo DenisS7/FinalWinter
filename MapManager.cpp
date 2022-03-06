@@ -54,7 +54,7 @@ namespace Map
 			start.x = newmath::clamp(start.x, 0, roomAm.x - 1);
 			start.y = newmath::clamp(start.y, 0, roomAm.y - 1);
 			finish.x = newmath::clamp(finish.x, 0, roomAm.x - 1);
-			finish.x = newmath::clamp(finish.y, 0, roomAm.y - 1);
+			finish.y = newmath::clamp(finish.y, 0, roomAm.y - 1);
 		}
 
 		std::cout << start.x << " " << start.y << " " << finish.x << " " << finish.y << std::endl;
@@ -128,6 +128,8 @@ namespace Map
 		finish.x = IRand(roomAm.x);
 		finish.y = IRand(roomAm.y);
 
+		
+
 		int dist = newmath::manhattanDist(start, finish);
 
 		if (dist <= 3)
@@ -144,9 +146,8 @@ namespace Map
 			start.x = newmath::clamp(start.x, 0, roomAm.x - 1);
 			start.y = newmath::clamp(start.y, 0, roomAm.y - 1);
 			finish.x = newmath::clamp(finish.x, 0, roomAm.x - 1);
-			finish.x = newmath::clamp(finish.y, 0, roomAm.y - 1);
+			finish.y = newmath::clamp(finish.y, 0, roomAm.y - 1);
 		}
-
 
 		std::cout << start.x << " " << start.y << " " << finish.x << " " << finish.y << std::endl;
 
@@ -250,10 +251,14 @@ namespace Map
 			lf++;
 		} 
 		int j = finish.x + finish.y * roomAm.x;
+
+		std::cout << "NEWROOM: " << room << "\n";
+		for (int i = 0; i < 49; i++)
+			std::cout << i << " " << parentRoom[i] << "\n";
 		
 		while (j != room && dist < roomAm.x * roomAm.y)
 		{
-			std::cout << t[j] << std::endl;
+			//std::cout << j << std::endl;
 			j = t[j] - 1;
 			dist++;
 		}
@@ -364,7 +369,7 @@ namespace Map
 				{
 					exists[nextRooms[i][0] + nextRooms[i][1] * roomAm.x] = false;
 					rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].resetDoors();
-					rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].changeDoorsToWalls();
+					//rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].changeDoorsToWalls();
 					actualRooms--;
 				}
 				goBack--;
@@ -378,7 +383,7 @@ namespace Map
 				{
 					exists[nextRooms[i][0] + nextRooms[i][1] * roomAm.x] = false;
 					rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].resetDoors();
-					rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].changeDoorsToWalls();
+					//rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].changeDoorsToWalls();
 					actualRooms--;
 				}
 				goBack--;
@@ -388,6 +393,7 @@ namespace Map
 			}
 			else
 			{
+				std::cout << "FirstRoom" << std::endl;
 				generateFirstRoom();
 			}
 			
@@ -397,6 +403,7 @@ namespace Map
 
 	Room* MapManager::switchRoom(int x, int y)
 	{
+		
 		calculateRoute(x + y * roomAm.x);
 		return &rooms[x + y * roomAm.x];
 	}

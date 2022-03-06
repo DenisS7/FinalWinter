@@ -49,7 +49,7 @@ public:
 
 	Map::MapManager* manager;
 
-	int tilesize = 32;
+	const int tilesize = 32;
 	bool doors[4] = { false };
 
 	const int Fight = 0;
@@ -67,8 +67,6 @@ public:
 
 	Room() 
 	{
-		//InitiateRoom(0);
-		tilesize = 32;
 		locf.x = locf.y = 0;
 		offset.x = offset.y = 0;
 		speed = 0.2f;

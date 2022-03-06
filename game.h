@@ -23,11 +23,15 @@ private:
 	Character::Player* player = new Character::Player();
 	Map::MapManager* manager = new Map::MapManager;
 
+	const int start = 0, play = 1, pause = 2, end = 3;
+
 	bool isScreenFocus = true;
 	bool isRunning = false;
 	bool isPaused = false;
 	bool isEndScreen = false;
 	bool won = false;
+	bool isMouseDown = false;
+	int currentScreenType = 0;
 
 	newmath::ivec2 mouse;
 

@@ -37,15 +37,13 @@ namespace Map
 		type = Fight;
 		level = 2;
 
-		enemies = 4;
-	
-
+		enemies = IRand(5) + 3;
 		manager = newManager;
 		player = newManager->player;
 	
 		std::ifstream fin("Classes/RoomLayout/Room2.txt");
+		
 		fin >> size.x >> size.y;
-
 		roomSize = size.x * size.y;
 
 		for (int i = 0; i < roomSize; i++)
@@ -90,8 +88,6 @@ void Room::inititateEnemies()
 			newEnemy->init();
 			enemiesInRoom.push_back(newEnemy);
 		}
-		
-	
 	}
 }
 

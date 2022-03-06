@@ -62,18 +62,20 @@ namespace GameSpace
 
 	void Game::DrawScreen(float deltaTime)
 	{
-		
+		int newScreenType = currentScreenType;
 		screen->Clear(0);
 		if (isRunning)
 		{
 			if (isPaused)
 			{	
+				newScreenType = pause;
 				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(0, screen);
 				player->drawPausePlayer(0);
 				pauseScreen->displayScreen();
 			}
 			else
 			{
+				newScreenType = play;
 				Input(deltaTime);
 				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(deltaTime, screen);
 				player->update(deltaTime);
@@ -83,16 +85,20 @@ namespace GameSpace
 		{
 			if (!isEndScreen)
 			{
+				newScreenType = start;
 				screen->Clear(0);
 				startScreen->displayScreen();
 			}
 			else
 			{
+				newScreenType = end;
 				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(deltaTime, screen);
 				player->drawPausePlayer(0);
 				endScreen->displayScreen(player->getWon());
 			}
 		}
+		if (currentScreenType != newScreenType)
+			isMouseDown = false, currentScreenType = newScreenType;
 		cursor.Draw(screen, mouse.x - 16, mouse.y - 16);
 	}
 
@@ -177,19 +183,23 @@ namespace GameSpace
 
 	void Game::MouseUp(int button)
 	{
+		
 		switch (button)
 		{
 		case SDL_BUTTON_LEFT:
-			if (isScreenFocus)
+			if (isScreenFocus && isMouseDown)
 				PressButton(true, currentScreen);
-			else 
-				player->shootProjectile(0, 0 ,0);
+			else
+				player->shootProjectile(0, 0, 0);
+		
 			break;
 		}
+		isMouseDown = false;
 	}
 
 	void Game::MouseDown(int button)
 	{
+		isMouseDown = true;
 		switch (button)
 		{
 		case SDL_BUTTON_LEFT:
