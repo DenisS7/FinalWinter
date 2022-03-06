@@ -26,6 +26,7 @@ private:
 	GameSpace::vec2 locf = 0, drawLocf = 0;
 	CollisionComponent collisionBox;
 	bool isDead = false;
+	bool won = false;
 	float health = 100;
 	newmath::chMove move;
 	Weapon::WeaponBase weapon;
@@ -58,7 +59,7 @@ public:
 
 		sspaths[1].rows = sspaths[2].rows = sspaths[3].rows = sspaths[4].rows = 4;
 	}
-	
+	float t = 0;
 	const int nonCollide = 0;
 	const int collide = 1;
 	const int portalInactive = 2;
@@ -77,6 +78,7 @@ public:
 	int getCurrentFrame() { return currentSs.getCurrentFrame(); };
 	CollisionComponent getCollision() { return collisionBox; };
 	bool getDead() { return isDead; };
+	bool getWon() { return won; };
 	bool getHoldingGun() { return isHoldingGun; };
 	newmath::chMove getMove() { return move; };
 	newmath::ivec2 getSpriteSize() { return newmath::make_ivec2(sprite.GetWidth(), sprite.GetHeight()); };
@@ -104,7 +106,7 @@ public:
 	void changeActionSprite(int x); // 1 - idle, 2 - run, 3 - dead
 	void addMovement(int x, int y, float deltaTime);
 	void equipWeapon(int type);
-	void shootProjectile(int type);
+	void shootProjectile(int type, int mousex, int mousey);
 	void drawUI();
 	void drawPausePlayer(float deltaTime);
 	void update(float deltaTime);

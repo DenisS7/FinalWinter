@@ -17,7 +17,7 @@ namespace Character
 		locf.y = drawLocf.y = (float)middleScreen.y - 1;
 		collisionBox.setOffset(14, 14);
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
-		 
+		won = false;
 		currentState = 1;
 		directionFacing = 0;
 		isHoldingGun = false;
@@ -29,11 +29,11 @@ namespace Character
 			weapon.deleteArrow(weapon.arrows[i]);
 		weapon.changeDirection(0);
 		mapManager->restart();
-		currentRoom = &mapManager->rooms[mapManager->getStart().x + mapManager->getRoomAm().x + mapManager->getStart().y];
+		currentRoom = &mapManager->rooms[mapManager->getStart().x + mapManager->getRoomAm().x * mapManager->getStart().y];
 		points = 0;
 		SDL_Delay(100);
-		locf.x = drawLocf.x = (float)middleScreen.x - 1;
-		locf.y = drawLocf.y = (float)middleScreen.y - 1;	
+		locf.x = drawLocf.x = (float)middleScreen.x - 10;
+		locf.y = drawLocf.y = (float)middleScreen.y - 10;	
 	}
 
 	void Player::init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate)
@@ -116,10 +116,12 @@ namespace Character
 		{
 			if((move.side[n] && !move.side[directionFacing]) || weapon.isShooting)
 			{ 
+				
 				weapon.changeDirection(n);
 				currentSs.setDirection(n);
 				directionFacing = n;
 				weapon.reloading = weapon.reloadTime;
+				std::cout << t << " " << directionFacing << std::endl;
 			}
 		}
 	}
@@ -135,8 +137,8 @@ namespace Character
 		middleScreen.x = screen->GetWidth() / 2 - sprite.GetWidth() / 2;
 		middleScreen.y = screen->GetHeight() / 2 - sprite.GetHeight() / 2;
 	
-		locf.x = drawLocf.x = (float)middleScreen.x - 1;
-		locf.y = drawLocf.y = (float)middleScreen.y - 1;
+		locf.x = drawLocf.x = (float)middleScreen.x - 10;
+		locf.y = drawLocf.y = (float)middleScreen.y - 10;
 
 
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
@@ -156,7 +158,6 @@ namespace Character
 	{
 		if (!isDead)
 		{
-			std::cout << "\n is MOVING " << deltaTime << " \n";
 			moveDown(keystate[SDL_SCANCODE_S], deltaTime);
 			moveLeft(keystate[SDL_SCANCODE_A], deltaTime);
 			moveUp(keystate[SDL_SCANCODE_W], deltaTime);
@@ -277,7 +278,7 @@ namespace Character
 
 			checkIdle();
 		}
-		else if (type)
+		else if (type && !isHoldingGun)
 		{
 			move.speed = 0.2f;
 			currentRoom->speed = 0.2f;
@@ -287,18 +288,21 @@ namespace Character
 
 			checkIdle();
 		}
+
 	}
 
-	void Player::shootProjectile(int type)
+	void Player::shootProjectile(int type, int mousex, int mousey)
 	{
 		if (type)
 		{
+			
+			std::cout << t << " " << directionFacing << " " << "IS SHOOTING \n";
 			equipWeapon(crossbow);
 			weapon.shootArrows();
-			std::cout << "SHOOT";
 		}
 		else
 		{
+			std::cout << t << " " << directionFacing << " " << "STOP SHOOTING \n";
 			if (weapon.reloading < weapon.reloadTime / 2)
 				weapon.reloading = weapon.reloadTime / 2;
 			weapon.stopShooting();
@@ -320,7 +324,7 @@ namespace Character
 		if (nextTile == nonCollide) //no collision
 		{
 			//
-			if ((x && newmath::inRangef(drawLocf.x, (float)middleScreen.x - 4, (float)middleScreen.x + 4)) || ((y && newmath::inRangef(drawLocf.y, (float)middleScreen.y - 4, (float)middleScreen.y + 4))))
+			if ((x && newmath::inRangef(drawLocf.x, (float)middleScreen.x - 10, (float)middleScreen.x + 10)) || ((y && newmath::inRangef(drawLocf.y, (float)middleScreen.y - 10, (float)middleScreen.y + 10))))
 				currentRoom->moveMap(x, y, deltaTime);
 			
 			drawLocf.x = locf.x - currentRoom->getLocation().x;
@@ -329,17 +333,16 @@ namespace Character
 		else if (nextTile == collide || nextTile == portalInactive)
 		{
 
-			std::cout << "\n COLLIDE \n";
 			locf.x -= move.speed * deltaTime * x;
 			locf.y -= move.speed * deltaTime * y;
 
-			
 			collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		}
 		else if (nextTile == portalActive)
 		{
 			//std::cout << "PORTAL" << std::endl;
 			GameSpace::vec2 newRoomLocation;
+			Map::Room* pastRoom = currentRoom;
 			if (x > 0 && locf.x > (currentRoom->getSize().x - 4) * currentRoom->tilesize)
 			{
 				//std::cout << "Going Right: " << currentRoom->getRoomNumber() << " New x: " << currentRoom->getRoomNumber() % mapManager->getRoomAm().x + 1 << std::endl;
@@ -447,6 +450,13 @@ namespace Character
 					//std::cout << currentRoom->doors[i] << " ";
 				//std::cout << std::endl;
 			}
+			if (currentRoom->getRoomNumber() == mapManager->getFinish())
+			{
+				currentSs.changeVisiblity(false);
+				weapon.changeVisibility(false);
+				won = true;
+				currentRoom = pastRoom;
+			}
 			currentRoom->speed = move.speed;
 			//std::cout << "Entered PORTAL" << std::endl;
 		}	
@@ -482,6 +492,7 @@ namespace Character
 
 	void Player::update(float deltaTime)
 	{
+		t += deltaTime;
 		drawUI();
 		if (directionFacing == 0)
 		{

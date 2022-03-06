@@ -37,6 +37,7 @@ namespace GameSpace
 
 	void Game::Init()
 	{
+		SDL_ShowCursor(false);
 		startScreen->displayScreen();
 		vec2 s;
 		time_t t;
@@ -47,7 +48,8 @@ namespace GameSpace
 		manager->generateFirstRoom();
 		player->init(screen, &manager->rooms[manager->getStart().x + manager->getStart().y * manager->getRoomAm().x], manager, keystate);
 		manager->initiateEnemiesInRooms();
-		player->equipWeapon(5);
+		
+		//player->equipWeapon(5);
 	}
 
 	// -----------------------------------------------------------
@@ -60,6 +62,7 @@ namespace GameSpace
 
 	void Game::DrawScreen(float deltaTime)
 	{
+		
 		screen->Clear(0);
 		if (isRunning)
 		{
@@ -71,6 +74,7 @@ namespace GameSpace
 			}
 			else
 			{
+				Input(deltaTime);
 				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(deltaTime, screen);
 				player->update(deltaTime);
 			}
@@ -84,12 +88,12 @@ namespace GameSpace
 			}
 			else
 			{
-				
 				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(deltaTime, screen);
 				player->drawPausePlayer(0);
-				endScreen->displayScreen(won);
+				endScreen->displayScreen(player->getWon());
 			}
 		}
+		cursor.Draw(screen, mouse.x - 16, mouse.y - 16);
 	}
 
 	void Game::StartGame()
@@ -106,9 +110,8 @@ namespace GameSpace
 
 	void Game::Input(float deltaTime)
 	{
-		player->input(deltaTime);
 		player->mouseLoc(mouse.x, mouse.y);
-	
+		player->input(deltaTime);
 	}
 
 	void Game::PressButton(bool down, UI::ScreenBase* currentScreen)
@@ -181,7 +184,7 @@ namespace GameSpace
 		case SDL_BUTTON_LEFT:
 			if (isScreenFocus)
 				PressButton(true, currentScreen);
-			player->shootProjectile(0);
+			player->shootProjectile(0, 0 ,0);
 			break;
 		}
 	}
@@ -194,36 +197,32 @@ namespace GameSpace
 			if (isScreenFocus)
 				PressButton(false, currentScreen);
 			else if (isRunning && !isPaused)
-				player->shootProjectile(5);
+				player->shootProjectile(5, mouse.x, mouse.y);
 			break;
 		}
 	}
-
-
-
-	
 
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
 
 	std::ofstream fout("Scores/scores.txt");
-	Sprite gameOver(new Surface("assets/Font/game_over.png"), 1);
-	Surface* image = new Surface("assets/Thumbnail/thumbnailUP.png");
+
 
 	void Game::Tick(float deltaTime)
 	{		
 		deltaTime = newmath::clampf(deltaTime, 0, 10.0f);
 		DrawScreen(deltaTime);
-		if (player->getDead() && player->getCurrentFrame() % 7 == 6)
+		if ((player->getDead() && player->getCurrentFrame() % 7 == 6) || player->getWon())
 		{
+			isEndScreen = true;
 			isScreenFocus = true;
 			currentScreen = endScreen;
 			StopGame();
 		}
 		else if (isRunning && !isPaused)
 		{
-			Input(deltaTime);
+			
 			if (player->getDead())
 			{
 				won = false;

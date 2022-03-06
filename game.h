@@ -19,7 +19,7 @@ private:
 	UI::PauseScreen* pauseScreen;
 	UI::ScreenBase* currentScreen;
 	
-
+	Sprite cursor{ new Surface("assets/UI/cursor.png"), 1 };
 	Character::Player* player = new Character::Player();
 	Map::MapManager* manager = new Map::MapManager;
 

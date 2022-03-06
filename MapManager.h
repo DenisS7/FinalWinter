@@ -4,6 +4,7 @@
 #include "../Classes/newmath.h"
 #include <vector>
 #include "../Classes/CollisionComponent.h"
+#include <iostream>
 
 
 namespace Character
@@ -80,7 +81,7 @@ public:
 	
 	const int closedDoor[2] = { 40, 67 };
 	const int openDoor[2] = { 164, 191 };
-
+	const int finalDoor[2] = { 93, 120 };
 	
 
 	
@@ -92,8 +93,16 @@ public:
 	Room rooms[100];
 
 	newmath::ivec2 getStart() { return start; };
+	int getFinish() { return finish.x + finish.y * roomAm.x; };
 	newmath::ivec2 getRoomAm() { return roomAm; };
 	typeEn getEnemyType(int type) { return enemyTypes[type]; };
+	bool isLastRoom(int roomNumber) 
+	{ 
+		std::cout << roomNumber << " " << finish.x + roomAm.x * finish.y << "\n"; 
+		std::cout << graph[finish.x + roomAm.x * finish.y - 1][finish.x + roomAm.x * finish.y] << " " << graph[finish.x + roomAm.x * finish.y + 1][finish.x + roomAm.x * finish.y] << " ";
+		std::cout << graph[finish.x + roomAm.x * finish.y - 7][finish.x + roomAm.x * finish.y] << " " << graph[finish.x + roomAm.x * finish.y + 7][finish.x + roomAm.x * finish.y] << "\n";
+		return graph[roomNumber][finish.x + roomAm.x * finish.y]; 
+	};
 
 	void restart();
 

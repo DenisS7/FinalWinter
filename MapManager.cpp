@@ -11,8 +11,6 @@ namespace Map
 
 	void MapManager::restart()
 	{
-		collisionTiles.clear();
-		portalTiles.clear();
 		for (int i = 0; i < roomAm.x * roomAm.y; i++)
 		{
 			rooms[i].restart();
@@ -32,7 +30,13 @@ namespace Map
 		currentGen = 0;
 		goingBack = false;
 		newRooms = 0;
-		initiate();
+		start.x = 1;
+		start.y = 1;
+		finish.x = 4;
+		finish.y = 5;
+		//initiate();
+		for (int i = 0; i < 49; i++)
+			rooms[i].initiateRoom(i, collisionTiles, portalTiles, this);
 		generateFirstRoom();
 		initiateEnemiesInRooms();
 	}
@@ -94,16 +98,16 @@ namespace Map
 		roomAm.x = 7;
 		roomAm.y = 7;
 
-		start.x = 4;
-		start.y = 5;
-		finish.x = 1;
-		finish.y = 1;
+		start.x = 1;
+		start.y = 1;
+		finish.x = 4;
+		finish.y = 5;
 
-		start.x = IRand(7);
-		start.y = IRand(7);
+		//start.x = IRand(7);
+		//start.y = IRand(7);
 
-		finish.x = IRand(7);
-		finish.y = IRand(7);
+		//finish.x = IRand(7);
+		//finish.y = IRand(7);
 
 		for (int i = 0; i < 49; i++)
 			rooms[i].initiateRoom(i, collisionTiles, portalTiles, this);
@@ -337,11 +341,11 @@ namespace Map
 			//std::cout << "EXIT NOT FOUND" << std::endl;
 			if (goBack > 1)
 			{
-				
 				for (int i = aux[goBack - 2]; i < newRooms; i++)
 				{
 					exists[nextRooms[i][0] + nextRooms[i][1] * roomAm.x] = false;
 					rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].resetDoors();
+					rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].changeDoorsToWalls();
 					actualRooms--;
 				}
 				goBack--;
@@ -379,7 +383,8 @@ namespace Map
 
 	Room* MapManager::switchRoom(int x, int y)
 	{
-		calculateRoute(x + y * 7);
+		calculateRoute(x + y * roomAm.x);
+		std::cout << x + y * roomAm.x;
 		return &rooms[x + y * roomAm.x];
 	}
 

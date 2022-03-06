@@ -24,46 +24,47 @@ namespace Map
 		for (int i = 0; i < enemiesInRoom.size(); i++)
 			deleteEnemy(enemiesInRoom[i]);
 		resetDoors();
-		enemiesInRoom.clear();
+
 		tiles.clear();
 		nrdoors = 1;
+		//changeDoorsToWalls();
 	}
 
 	void Room::initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, Map::MapManager* newManager)
-{	
-	roomNumber = number;
-	type = Fight;
-	level = 2;
+	{	
+		roomNumber = number;
+		type = Fight;
+		level = 2;
 
-	enemies = 4;
+		enemies = 4;
 	
 
-	manager = newManager;
-	player = newManager->player;
+		manager = newManager;
+		player = newManager->player;
 	
-	std::ifstream fin("Classes/RoomLayout/Room2.txt");
-	fin >> size.x >> size.y;
+		std::ifstream fin("Classes/RoomLayout/Room2.txt");
+		fin >> size.x >> size.y;
 
-	roomSize = size.x * size.y;
+		roomSize = size.x * size.y;
 
-	for (int i = 0; i < roomSize; i++)
-	{
-		int x;
-		fin >> x;
-		if (std::find(collisionTiles.begin(), collisionTiles.end(), x) != collisionTiles.end())
-			tiles.push_back(makeTile(x, collide, 0, true));
-		else tiles.push_back(makeTile(x, nonCollide, 0, false));
+		for (int i = 0; i < roomSize; i++)
+		{
+			int x;
+			fin >> x;
+			if (std::find(collisionTiles.begin(), collisionTiles.end(), x) != collisionTiles.end())
+				tiles.push_back(makeTile(x, collide, 0, true));
+			else tiles.push_back(makeTile(x, nonCollide, 0, false));
+		}
+
+		fin.close();
+
+		tilesPerRow = tilemap.GetPitch() / tilesize;
+		moveDir.x = moveDir.y = 0;
 	}
-
-	fin.close();
-
-	tilesPerRow = tilemap.GetPitch() / tilesize;
-	moveDir.x = moveDir.y = 0;
-}
 
 void Room::inititateEnemies()
 {
-	enemies = 5;
+	enemies = 1;
 	int enemyType = 0;
 	for (int i = 0; i < enemies; i++)
 	{
@@ -211,6 +212,55 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 void Room::openPortals()
 {
 	changeDoorLayout(true);
+	if (manager->isLastRoom(roomNumber) == 1)
+	{
+		type = portalActive;
+		int door[2] = { manager->finalDoor[0], manager->finalDoor[1] };
+
+		if (roomNumber - manager->getFinish() == -manager->getRoomAm().x) // final room is down
+		{
+			tiles[size.x / 2 - 1 + (size.y - 1) * size.x].drawIndex = door[0];
+			tiles[size.x / 2 - 1 + (size.y - 2) * size.x].drawIndex = door[1];
+
+			tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = type;
+			tiles[size.x / 2 - 1 + (size.y - 1) * size.x].colidable = true;
+			//tiles[size.x / 2 - 1 + (size.y - 2) * size.x].type = portalActive;
+
+			tiles[size.x / 2 - 1 + (size.y - 1) * size.x].rotate = tiles[size.x / 2 - 1 + (size.y - 2) * size.x].rotate = 2;
+		}
+		else if (roomNumber - manager->getFinish() == 1) //final room is left
+		{
+			tiles[(size.y / 2) * size.x].drawIndex = door[0];
+			tiles[(size.y / 2) * size.x + 1].drawIndex = door[1];
+
+			tiles[(size.y / 2) * size.x].type = type;
+			tiles[(size.y / 2) * size.x].colidable = true;
+			//tiles[(size.y / 2) * size.x + 1].type = portalActive;
+
+			tiles[(size.y / 2) * size.x].rotate = tiles[(size.y / 2) * size.x + 1].rotate = 1;
+		}
+		else if (roomNumber - manager->getFinish() == manager->getRoomAm().x) //final room is up
+		{
+			tiles[size.x / 2 - 1 + size.x].drawIndex = door[0];
+			tiles[size.x / 2 - 1 + 2 * size.x].drawIndex = door[1];
+
+			tiles[size.x / 2 - 1 + size.x].type = type;
+			tiles[size.x / 2 - 1 + size.x].colidable = true;
+			//tiles[size.x / 2 - 1 + 2 * size.x].type = portalActive;
+		}
+		else if (roomNumber - manager->getFinish() == -1) //final room is right
+		{
+			tiles[(size.y / 2) * size.x + size.x - 1].drawIndex = door[0];
+			tiles[(size.y / 2) * size.x + size.x - 2].drawIndex = door[1];
+
+			tiles[(size.y / 2) * size.x + size.x - 1].type = type;
+			tiles[(size.y / 2) * size.x + size.x - 1].colidable = true;
+			//tiles[(size.y / 2) * size.x + size.x - 2].type = portalActive;
+
+			tiles[(size.y / 2) * size.x + size.x - 1].rotate = tiles[(size.y / 2) * size.x + size.x - 2].rotate = 3;
+		}
+		
+	}
 }
 
 void Room::hideEnemy(Character::EnemyBase* enemy)
@@ -265,6 +315,33 @@ void Room::moveMap(int x, int y, float deltaTime)
 	locf.y = newmath::clampf(locf.y, 0.0, (float)size.y * tilesize - ScreenHeight);
 }
 
+void Room::changeDoorsToWalls()
+{
+	tiles[size.x / 2 - 1 + (size.y - 1) * size.x].drawIndex = 111;
+	tiles[size.x / 2 - 1 + (size.y - 2) * size.x].drawIndex = 84;
+
+	tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = 0;
+	tiles[size.x / 2 - 1 + (size.y - 1) * size.x].colidable = true;
+
+	tiles[size.x / 2 - 1 + size.x].drawIndex = 30;
+	tiles[size.x / 2 - 1 + 2 * size.x].drawIndex = 57;
+
+	tiles[size.x / 2 - 1 + size.x].type = 0;
+	tiles[size.x / 2 - 1 + size.x].colidable = true;
+
+	tiles[(size.y / 2) * size.x].drawIndex = 82;
+	tiles[(size.y / 2) * size.x + 1].drawIndex = 83;
+
+	tiles[(size.y / 2) * size.x].type = 0;
+	tiles[(size.y / 2) * size.x].colidable = true;
+
+	tiles[(size.y / 2) * size.x + size.x - 1].drawIndex = 86;
+	tiles[(size.y / 2) * size.x + size.x - 2].drawIndex = 85;
+
+	tiles[(size.y / 2) * size.x + size.x - 1].type = 0;
+	tiles[(size.y / 2) * size.x + size.x - 1].colidable = true;
+}
+
 void Room::changeDoorLayout(bool isOpen)
 {
 	int door[2] = { 40, 67 };
@@ -286,12 +363,13 @@ void Room::changeDoorLayout(bool isOpen)
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].drawIndex = door[0];
 		tiles[size.x / 2 - 1 + (size.y - 2) * size.x].drawIndex = door[1];
 
-		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = type;
+		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = 0;
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].colidable = true;
 		//tiles[size.x / 2 - 1 + (size.y - 2) * size.x].type = portalActive;
 
 		tiles[size.x / 2 - 1 + (size.y - 1) * size.x].rotate = tiles[size.x / 2 - 1 + (size.y - 2) * size.x].rotate = 2;
 	}
+	
 	if (doors[2]) // up
 	{
 		tiles[size.x / 2 - 1 + size.x].drawIndex = door[0];
@@ -301,6 +379,7 @@ void Room::changeDoorLayout(bool isOpen)
 		tiles[size.x / 2 - 1 + size.x].colidable = true;
 		//tiles[size.x / 2 - 1 + 2 * size.x].type = portalActive;
 	}
+	
 	if (doors[1]) //left
 	{
 		tiles[(size.y / 2) * size.x].drawIndex = door[0];
@@ -312,6 +391,7 @@ void Room::changeDoorLayout(bool isOpen)
 
 		tiles[(size.y / 2) * size.x].rotate = tiles[(size.y / 2) * size.x + 1].rotate = 1;
 	}
+	
 	if (doors[3]) //right
 	{
 		tiles[(size.y / 2) * size.x + size.x - 1].drawIndex = door[0];
@@ -319,6 +399,13 @@ void Room::changeDoorLayout(bool isOpen)
 
 		tiles[(size.y / 2) * size.x + size.x - 1].type = type;
 		tiles[(size.y / 2) * size.x + size.x - 1].colidable = true;
+		//tiles[(size.y / 2) * size.x + size.x - 2].type = portalActive;
+
+		tiles[(size.y / 2) * size.x + size.x - 1].rotate = tiles[(size.y / 2) * size.x + size.x - 2].rotate = 3;
+	}
+	else
+	{
+		
 		//tiles[(size.y / 2) * size.x + size.x - 2].type = portalActive;
 
 		tiles[(size.y / 2) * size.x + size.x - 1].rotate = tiles[(size.y / 2) * size.x + size.x - 2].rotate = 3;

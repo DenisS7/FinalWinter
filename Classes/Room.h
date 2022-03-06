@@ -36,7 +36,7 @@ private:
 	int enemies = 0;
 	int level = 0;
 	int type = 0;
-	GameSpace::Surface tilemap{ "assets/Map/all_map.png" };
+	GameSpace::Surface tilemap{ "assets/Map/all_map-1.png" };
 	std::vector <tile> tiles;
 	int nrdoors = 1;
 	int roomSize = 0;
@@ -105,6 +105,7 @@ public:
 	void deleteEnemy(Character::EnemyBase* enemy);
 	void changeDir();
 	void moveMap(int x, int y, float deltaTime);
+	void changeDoorsToWalls();
 	void changeDoorLayout(bool isOpen);
 	void calculateDoors(int startDoor, bool CanClose, int beforeRoom);
 	void resetDoors();

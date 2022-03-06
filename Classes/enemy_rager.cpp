@@ -152,8 +152,6 @@ namespace Character
 						currentRoom->getPlayer()->takeDamage(data.damagePerAttack);
 					}
 				}
-				
-
 			}
 			else
 			{
@@ -161,5 +159,6 @@ namespace Character
 			}
 			findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 		}
+		screen->Box(drawLocf.x, drawLocf.y, drawLocf.x + data.col.collisionBox.width, drawLocf.y + data.col.collisionBox.height, 0xff0000);
 	}
 }
