@@ -27,7 +27,7 @@ namespace Weapon
 	{
 		if (!isExploding)
 		{
-			if (CollisionCheck::isOverlapping(collision, locf, currentRoom, 35, 5, crossbow->player->screen))
+			if (CollisionCheck::isOverlapping(collision, locf, currentRoom, damage, 5, crossbow->player->screen))
 			{
 				isExploding = true;
 				deleteArrow();

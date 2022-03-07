@@ -3,7 +3,9 @@
 #include "../template.h"
 #include "../Classes/newmath.h"
 #include "../Classes/CollisionComponent.h"
-
+#include "../Classes/ItemBase.h"
+#include "../Classes/Gift.h"
+#include "../Classes/Potion.h"
 #include <vector>
 
 
@@ -28,7 +30,13 @@ private:
 		int type = 0;
 		int rotate = 0;
 		bool colidable = 0;
-		std::vector <Character::EnemyBase*> entitiesOnTile;
+		std::vector <Character::EnemyBase*> enemiesOnTile;
+	};
+
+	struct decorationTile
+	{
+		int drawIndex = 0;
+
 	};
 
 	bool reachedEnd;
@@ -37,16 +45,20 @@ private:
 	int level = 0;
 	int type = 0;
 	GameSpace::Surface tilemap{ "assets/Map/all_map-1.png" };
-	std::vector <tile> tiles;
+	GameSpace::Surface* screen;
+	std::vector <tile> decorations;
 	int nrdoors = 1;
 	int roomSize = 0;
 	GameSpace::vec2 locf;
 	newmath::ivec2 size, offset, moveDir;
 	std::vector <Character::EnemyBase*> enemiesInRoom;
+	std::vector <Item::ItemBase*> itemsInRoom;
 	Character::Player* player;
+	
 	int tilesPerRow = 1;
-public:
 
+public:
+	std::vector <tile> tiles;
 	Map::MapManager* manager;
 
 	const int tilesize = 32;
@@ -60,6 +72,13 @@ public:
 	const int collide = 1;
 	const int portalInactive = 2;
 	const int portalActive = 3;
+	
+	const int tree = 0;
+	const int rock = 1;
+	const int bush = 2;
+
+	const int gift = 0;
+	const int potion = 1;
 
 	float speed = 0.2f;
 
@@ -86,15 +105,21 @@ public:
 	int getRoomNumber() { return roomNumber; };
 	newmath::ivec2 getSize() { return size; };
 	tile getTile(int tileNr) { return tiles[tileNr]; };
+	std::vector <tile> getTileMap() { return tiles; };
+	std::vector <Item::ItemBase*> getItems() { return itemsInRoom; };
+	void setTileMap(const newmath::ivec2 newSize, const std::vector <tile> newTileMap) { size = newSize; tiles = newTileMap; };
 	GameSpace::vec2 getLocation() { return locf; };
 	Character::Player* getPlayer() { return player; };
 
-
-	void setLocation(GameSpace::vec2 newLocf) { locf = newLocf; };
-
+	void addItem(int type, GameSpace::vec2 locf);
+	void removeItem(Item::ItemBase* item);
+	void setLocation(const GameSpace::vec2 newLocf) { locf = newLocf; };
+	void spawnGifts();
+	void readRoomLayout(const std::vector <int> collisionTiles, const std::vector <int> portalTiles);
 	void restart();
-	void resetRoom();
-	void initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, MapManager* newManager);
+	void spawnDecorations(int nr, int type);
+	void createDecorations();
+	void initiateRoom(const int number, MapManager* newManager, GameSpace::Surface* newScreen);
 	void inititateEnemies();
 	void removeEnemyFromTile(const Character::EnemyBase* enemy, int tileNr);
 	void addEnemyToTile(Character::EnemyBase* enemy, int tileNr);
@@ -112,14 +137,15 @@ public:
 	int doorNumber();
 	void getMap();
 	int checkCollision(int x, int y);
-	void drawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy, int rotate);
-	void drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy);
-	void drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy);
-	void drawMap(GameSpace::Surface* GameScreen);
+	void drawRotatedTile(int tx, int ty, int dx, int dy, int rotate);
+	void drawTile(int tx, int ty, int dx, int dy);
+	void drawSpriteTile(int tx, int ty, int dx, int dy);
+	void drawMap();
 	void updateEnemies();
 	void updateTiles();
 	void drawEnemies(float deltaTime);
-	void updateMap(float deltaTime, GameSpace::Surface* GameScreen);
+	void drawItems(float deltaTime);
+	void updateMap(float deltaTime);
 };
 
 };

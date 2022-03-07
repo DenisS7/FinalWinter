@@ -26,9 +26,7 @@ private:
 	const int crossbow = 5, snowball = 6, snowman = 7;
 	int weaponType = 5;
 	int speed = 1;
-	
-
-	
+	int damage = 25;
 
 public:
 
@@ -50,7 +48,8 @@ public:
 
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Weapons/crossbow_down.png"), 1 };
 	
-
+	void setReloadTime(float newReloadTime) { reloadTime = newReloadTime; };
+	void setDamage(int newDamage) { damage = newDamage; };
 	void Init(GameSpace::vec2 newDrawLocf, Character::Player* newPlayer);
 	void reload(float deltaTime);
 	void changeDirection(int direction);

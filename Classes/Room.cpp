@@ -27,22 +27,71 @@ namespace Map
 		enemies = 0;
 		tiles.clear();
 		nrdoors = 1;
+		for (int i = 0; i < itemsInRoom.size();)
+			itemsInRoom[i]->deleteItem();
 		//changeDoorsToWalls();
 	}
 
+	void Room::spawnDecorations(int nr, int type)
+	{
 
-	void Room::initiateRoom(int number, const std::vector <int> collisionTiles, const std::vector <int> portalTiles, Map::MapManager* newManager)
-	{	
-		roomNumber = number;
-		type = Fight;
-		level = 2;
+	}
 
-		enemies = IRand(5) + 3;
-		manager = newManager;
-		player = newManager->player;
-	
-		std::ifstream fin("Classes/RoomLayout/Room2.txt");
+
+	void Room::createDecorations()
+	{
 		
+		int trees = IRand(3) + 2;
+		int rocks = IRand(2) + 2;
+		int bushes = IRand(4) + 1;
+
+	
+
+	}
+
+	void Room::addItem(int type, GameSpace::vec2 locf)
+	{
+		if (type == gift)
+		{
+			Item::Gift* newGift = new Item::Gift(this, gift, screen, locf);
+			itemsInRoom.push_back(newGift);
+			newGift->init();
+			std::cout << newGift->getCollision().collisionBox.x << " " << newGift->getCollision().collisionBox.y << std::endl;
+		}
+		else if (type == potion)
+		{
+			int potionType = IRand(5);
+			Item::Potion* newPotion = new Item::Potion(this, potion, screen, potionType, locf);
+			itemsInRoom.push_back(newPotion);
+			newPotion->init();
+		}
+	}
+
+	void Room::removeItem(Item::ItemBase* item)
+	{
+		std::vector<Item::ItemBase*>::iterator position = std::find(itemsInRoom.begin(), itemsInRoom.end(), item);
+		if (position != itemsInRoom.end())
+			itemsInRoom.erase(position);
+	}
+
+	void Room::spawnGifts()
+	{
+		int gifts = IRand(3) + 1;
+		for (int i = 0; i < gifts; i++)
+		{
+			GameSpace::vec2 giftLocf;
+			giftLocf.x = (float)IRand((size.x - 6) * tilesize) + 3 * tilesize;
+			giftLocf.y = (float)IRand((size.y - 6) * tilesize) + 3 * tilesize;
+			//std::cout << size.x << " " << tilesize << " " << giftLocf.x << " " << giftLocf.y << " \n";
+			addItem(gift, giftLocf); 
+		
+		}
+	}
+
+	void Room::readRoomLayout(const std::vector <int> collisionTiles, const std::vector <int> portalTiles)
+	{
+		std::ifstream fin("Classes/RoomLayout/Room2.txt");
+
 		fin >> size.x >> size.y;
 		roomSize = size.x * size.y;
 
@@ -56,7 +105,20 @@ namespace Map
 		}
 
 		fin.close();
+	}
 
+	void Room::initiateRoom(const int number, Map::MapManager* newManager, GameSpace::Surface* newScreen)
+	{	
+		roomNumber = number;
+		type = Fight;
+		level = 2;
+
+		enemies = IRand(5) + 3;
+		manager = newManager;
+		player = newManager->player;
+		screen = newScreen;
+		spawnGifts();
+		std::cout << "items: "<< itemsInRoom.size() << "\n";
 		tilesPerRow = tilemap.GetPitch() / tilesize;
 		moveDir.x = moveDir.y = 0;
 	}
@@ -65,7 +127,7 @@ namespace Map
 
 void Room::inititateEnemies()
 {
-	enemies = 10;
+	enemies = 1;
 	int enemyType = 0;
 	for (int i = 0; i < enemies; i++)
 	{
@@ -94,17 +156,17 @@ void Room::inititateEnemies()
 void Room::removeEnemyFromTile(const Character::EnemyBase* enemy, int tileNr)
 {
 	newmath::clamp(tileNr, 0, roomSize - 1);
-	std::vector<Character::EnemyBase*>::iterator position = tiles[tileNr].entitiesOnTile.end();
-	if (std::count(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy))
-		position = std::find(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy);
-	if (position != tiles[tileNr].entitiesOnTile.end())
-		tiles[tileNr].entitiesOnTile.erase(position);
+	std::vector<Character::EnemyBase*>::iterator position = tiles[tileNr].enemiesOnTile.end();
+	if (std::count(tiles[tileNr].enemiesOnTile.begin(), tiles[tileNr].enemiesOnTile.end(), enemy))
+		position = std::find(tiles[tileNr].enemiesOnTile.begin(), tiles[tileNr].enemiesOnTile.end(), enemy);
+	if (position != tiles[tileNr].enemiesOnTile.end())
+		tiles[tileNr].enemiesOnTile.erase(position);
 }
 
 void Room::addEnemyToTile(Character::EnemyBase* enemy, int tileNr)
 {
-	if (!std::count(tiles[tileNr].entitiesOnTile.begin(), tiles[tileNr].entitiesOnTile.end(), enemy))
-		tiles[tileNr].entitiesOnTile.push_back(enemy);
+	if (!std::count(tiles[tileNr].enemiesOnTile.begin(), tiles[tileNr].enemiesOnTile.end(), enemy))
+		tiles[tileNr].enemiesOnTile.push_back(enemy);
 }
 
 void Room::enemyOnTiles(Character::EnemyBase* enemy)
@@ -440,7 +502,7 @@ int Room::checkCollision(int x, int y)
 	return 0;
 }
 
-void Room::drawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy, int rotate)
+void Room::drawRotatedTile(int tx, int ty, int dx, int dy, int rotate)
 {
 	newmath::ivec2 rot, loop, add;
 	rot.x = rot.y = 0;
@@ -475,7 +537,7 @@ void Room::drawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int d
 	}
 
 	GameSpace::Pixel* src = tilemap.GetBuffer() + tx * tilesize + ty * tilesize * tilemap.GetPitch();
-	GameSpace::Pixel* dst = GameScreen->GetBuffer() + dx - offset.x + (dy - offset.y) * GameScreen->GetPitch();
+	GameSpace::Pixel* dst = screen->GetBuffer() + dx - offset.x + (dy - offset.y) * screen->GetPitch();
 
 	int yStartOffset = dy - offset.y;
 
@@ -484,29 +546,29 @@ void Room::drawRotatedTile(int tx, int ty, GameSpace::Surface* GameScreen, int d
 		yStartOffset++;
 		rot.y += add.y;
 		rot.x += add.x;
-		dst += GameScreen->GetPitch();
+		dst += screen->GetPitch();
 	}
 
-	for (int i = 0; i < tilesize && yStartOffset < GameScreen->GetHeight(); i++, yStartOffset++)
+	for (int i = 0; i < tilesize && yStartOffset < screen->GetHeight(); i++, yStartOffset++)
 	{
 		newmath::ivec2 rem;
 		rem.x = rot.x;
 		rem.y = rot.y;
 		for (int j = 0; j < tilesize; j++, rem.x += loop.x, rem.y += loop.y)
-			if (j + dx >= offset.x && j + dx < GameScreen->GetPitch() + offset.x)
+			if (j + dx >= offset.x && j + dx < screen->GetPitch() + offset.x)
 				dst[j] = src[rem.x + rem.y * tilemap.GetPitch()];
 		rot.x += add.x;
 		rot.y += add.y;
 		
 		//src += tilemap.GetPitch() * yAdd;
-		dst += GameScreen->GetPitch();
+		dst += screen->GetPitch();
 	}
 }
 
-void Room::drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy)
+void Room::drawTile(int tx, int ty, int dx, int dy)
 {
 	GameSpace::Pixel* src = tilemap.GetBuffer() + tx * tilesize + ty * tilesize * tilemap.GetPitch();
-	GameSpace::Pixel* dst = GameScreen->GetBuffer() + dx - offset.x + (dy - offset.y) * GameScreen->GetPitch();
+	GameSpace::Pixel* dst = screen->GetBuffer() + dx - offset.x + (dy - offset.y) * screen->GetPitch();
 
 	int yStartOffset = dy - offset.y;
 
@@ -514,22 +576,22 @@ void Room::drawTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int 
 	{
 		yStartOffset++;
 		src += tilemap.GetPitch();
-		dst += GameScreen->GetPitch();
+		dst += screen->GetPitch();
 	}
 
-	for (int i = 0; i < tilesize && yStartOffset < GameScreen->GetHeight(); i++, yStartOffset++)
+	for (int i = 0; i < tilesize && yStartOffset < screen->GetHeight(); i++, yStartOffset++)
 	{
 		for (int j = 0; j < tilesize; j++)
-			if (j + dx >= offset.x && j + dx < GameScreen->GetPitch() + offset.x)
+			if (j + dx >= offset.x && j + dx < screen->GetPitch() + offset.x)
 				dst[j] = src[j];
-		src += tilemap.GetPitch(), dst += GameScreen->GetPitch();
+		src += tilemap.GetPitch(), dst += screen->GetPitch();
 	}
 }
 
-void Room::drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx, int dy)
+void Room::drawSpriteTile(int tx, int ty, int dx, int dy)
 {
 	GameSpace::Pixel* src = tilemap.GetBuffer() + tx * tilesize + ty * tilesize * tilemap.GetPitch();
-	GameSpace::Pixel* dst = GameScreen->GetBuffer() + dx - offset.x + (dy - offset.y) * GameScreen->GetPitch();
+	GameSpace::Pixel* dst = screen->GetBuffer() + dx - offset.x + (dy - offset.y) * screen->GetPitch();
 
 	int yStartOffset = dy - offset.y;
 
@@ -537,19 +599,19 @@ void Room::drawSpriteTile(int tx, int ty, GameSpace::Surface* GameScreen, int dx
 	{
 		yStartOffset++;
 		src += tilemap.GetPitch();
-		dst += GameScreen->GetPitch();
+		dst += screen->GetPitch();
 	}
 
-	for (int i = 0; i < tilesize && yStartOffset < GameScreen->GetHeight(); i++, yStartOffset++)
+	for (int i = 0; i < tilesize && yStartOffset < screen->GetHeight(); i++, yStartOffset++)
 	{
 		for (int j = 0; j < tilesize; j++)
-			if (j + dx >= offset.x && j + dx < GameScreen->GetPitch() + offset.x && src[j])
+			if (j + dx >= offset.x && j + dx < screen->GetPitch() + offset.x && src[j])
 				dst[j] = src[j];
-		src += tilemap.GetPitch(), dst += GameScreen->GetPitch();
+		src += tilemap.GetPitch(), dst += screen->GetPitch();
 	}
 }
 
-void Room::drawMap(GameSpace::Surface* GameScreen)
+void Room::drawMap()
 {
 	offset.x = (int)locf.x % tilesize;
 	offset.y = (int)locf.y % tilesize;
@@ -565,9 +627,9 @@ void Room::drawMap(GameSpace::Surface* GameScreen)
 	if (start.y < 0)
 		start.y = 0;
 	
-	for (int y = start.y; y <= GameScreen->GetHeight() / tilesize + start.y && y < size.y; y++)
+	for (int y = start.y; y <= screen->GetHeight() / tilesize + start.y && y < size.y; y++)
 	{
-		for (int x = start.x; x <= GameScreen->GetWidth() / tilesize + start.x && x < size.x; x++)
+		for (int x = start.x; x <= screen->GetWidth() / tilesize + start.x && x < size.x; x++)
 		{
 			int tx = (tiles[y  * 44 + x].drawIndex - 1) % tilesPerRow;
 			int ty = (tiles[y  * 44 + x].drawIndex - 1) / tilesPerRow;
@@ -577,11 +639,11 @@ void Room::drawMap(GameSpace::Surface* GameScreen)
 
 			if (!tiles[y * 44 + x].rotate)
 			{
-				drawTile(tx, ty, GameScreen, xDrawLoc, yDrawLoc);
+				drawTile(tx, ty, xDrawLoc, yDrawLoc);
 			}
 			else 
 			{
-				drawRotatedTile(tx, ty, GameScreen, xDrawLoc, yDrawLoc, tiles[y * 44 + x].rotate);
+				drawRotatedTile(tx, ty, xDrawLoc, yDrawLoc, tiles[y * 44 + x].rotate);
 			}
 	
 		}
@@ -613,12 +675,18 @@ void Room::drawEnemies(float deltaTime)
 	}
 }
 
-void Room::updateMap(float deltaTime, GameSpace::Surface* GameScreen)
+void Room::drawItems(float deltaTime)
+{
+	for (int i = 0; i < itemsInRoom.size(); i++)
+		itemsInRoom[i]->update(deltaTime);
+}
+
+void Room::updateMap(float deltaTime)
 {
 	changeDir();
-	
-	drawMap(GameScreen);
+	drawMap();
 	drawEnemies(deltaTime);
+	drawItems(deltaTime);
 	updateTiles();
 }
 

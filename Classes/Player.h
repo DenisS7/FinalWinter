@@ -37,6 +37,11 @@ private:
 	bool isHoldingGun = false;
 	Spritesheet currentSs{ "assets/Player/player_idle.png", 4, 6, &sprite };
 
+	const int healing = 0, speed = 1, firerate = 2, shield = 3, damage = 4;
+	float potionTimers[5] = { 0 };
+
+	
+
 public:
 
 	Player()
@@ -59,7 +64,10 @@ public:
 
 		sspaths[1].rows = sspaths[2].rows = sspaths[3].rows = sspaths[4].rows = 4;
 	}
-	float t = 0;
+	
+
+
+
 	const int nonCollide = 0;
 	const int collide = 1;
 	const int portalInactive = 2;
@@ -81,14 +89,20 @@ public:
 	bool getDead() { return isDead; };
 	bool getWon() { return won; };
 	bool getHoldingGun() { return isHoldingGun; };
+	bool isPotionUsed(int potion) { if (potionTimers[potion]) return true; return false; }
 	newmath::chMove getMove() { return move; };
 	newmath::ivec2 getSpriteSize() { return newmath::make_ivec2(sprite.GetWidth(), sprite.GetHeight()); };
+	float getHealth() { return health; };
 	
-
 	void restart();
 	void init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate);
 	void checkIdle();
 	newmath::ivec2 Player::getCurrentPos();
+	void speedBoost();
+	void damageBoost();
+	void firerateBoost();
+	void createShield();
+	void checkPotions(float deltaTime);
 	void die();
 	void modifyPoints(int newPoints);
 	int getPoints() { return points; };

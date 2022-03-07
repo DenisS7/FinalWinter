@@ -231,10 +231,13 @@
     <ClCompile Include="Classes\enemy_metalbox.cpp" />
     <ClCompile Include="Classes\enemy_rager.cpp" />
     <ClCompile Include="Classes\enemy_snowman.cpp" />
+    <ClCompile Include="Classes\Gift.cpp" />
     <ClCompile Include="Classes\Healthbar.cpp" />
+    <ClCompile Include="Classes\ItemBase.cpp" />
     <ClCompile Include="Classes\newmath.cpp" />
     <ClCompile Include="Classes\PauseScreen.cpp" />
     <ClCompile Include="Classes\Player.cpp" />
+    <ClCompile Include="Classes\Potion.cpp" />
     <ClCompile Include="Classes\Projectile.cpp" />
     <ClCompile Include="Classes\Room.cpp" />
     <ClCompile Include="Classes\Score.cpp" />
@@ -259,10 +262,13 @@
     <ClInclude Include="Classes\enemy_metalbox.h" />
     <ClInclude Include="Classes\enemy_rager.h" />
     <ClInclude Include="Classes\enemy_snowman.h" />
+    <ClInclude Include="Classes\Gift.h" />
     <ClInclude Include="Classes\Healthbar.h" />
+    <ClInclude Include="Classes\ItemBase.h" />
     <ClInclude Include="Classes\newmath.h" />
     <ClInclude Include="Classes\PauseScreen.h" />
     <ClInclude Include="Classes\Player.h" />
+    <ClInclude Include="Classes\Potion.h" />
     <ClInclude Include="Classes\Projectile.h" />
     <ClInclude Include="Classes\Room.h" />
     <ClInclude Include="Classes\Score.h" />

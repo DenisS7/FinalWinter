@@ -78,7 +78,7 @@ namespace Weapon
 			if (reloading >= reloadTime)
 			{
 				reloading = 0;
-				Arrow* newArrow = new Arrow(player->getLocation(), player->currentRoom, player->getDirectionFacing(), player->getMousePosition(), this, wpaths[player->getDirectionFacing() + 4].path, arrowCol[player->getDirectionFacing()]);
+				Arrow* newArrow = new Arrow(player->getLocation(), player->currentRoom, player->getDirectionFacing(), player->getMousePosition(), this, wpaths[player->getDirectionFacing() + 4].path, arrowCol[player->getDirectionFacing()], damage);
 				arrows.push_back(newArrow);
 			}
 		}

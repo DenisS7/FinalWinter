@@ -46,6 +46,8 @@ private:
 	"Classes/Enemies/reindeer.txt"
 	};
 
+	
+
 	int graph[100][100] = { 0 };
 	int generatedOrder[100] = { 0 };
 	int parentRoom[100] = { 0 };
@@ -76,7 +78,13 @@ public:
 	}
 	Character::Player* player;
 
-
+	char* potionPath[6] = {
+	"assets/Items/heal_potion.png",
+	"assets/Items/speed_potion.png",
+	"assets/Items/firerate_potion.png",
+	"assets/Items/shield_potion.png",
+	"assets/Items/damage_potion.png"
+	};
 	
 	
 	const int closedDoor[2] = { 40, 67 };
@@ -90,7 +98,7 @@ public:
 
 	GameSpace::Surface* screen;
 
-	Room rooms[100];
+	Room rooms[50];
 
 	newmath::ivec2 getStart() { return start; };
 	int getFinish() { return finish.x + finish.y * roomAm.x; };

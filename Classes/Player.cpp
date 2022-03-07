@@ -45,6 +45,7 @@ namespace Character
 		updateMapManager(newMapManager);
 		updateKeystate(newKeystate);
 
+		move.speed = currentRoom->speed = 0.2f;
 		collisionBox.setOffset(14, 14);
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		
@@ -81,12 +82,80 @@ namespace Character
 		}
 	}
 
+	
+
 	newmath::ivec2 Player::getCurrentPos()
 	{
 		int x = ((int)locf.x + sprite.GetWidth() / 2) / 32;
 		int y = ((int)locf.y + sprite.GetHeight() / 2) / 32;
 		newmath::ivec2 pos = newmath::make_ivec2(x, y);
 		return pos;
+	}
+
+	void Player::speedBoost()
+	{
+		move.speed = 0.3f;
+		currentRoom->speed = 0.3f;
+		potionTimers[speed] = 9000;
+	}
+
+	void Player::damageBoost()
+	{
+		weapon.setDamage(35);
+		potionTimers[damage] = 5000;
+	
+	}
+
+	void Player::firerateBoost()
+	{
+		weapon.setReloadTime(100.0f);
+		potionTimers[firerate] = 5000;
+	
+	}
+
+	void Player::createShield()
+	{
+	}
+
+	void Player::checkPotions(float deltaTime)
+	{
+		if (potionTimers[speed])
+		{
+			potionTimers[speed] -= deltaTime;
+			if (potionTimers[speed] <= 0)
+			{
+				potionTimers[speed] = 0;
+				if (isHoldingGun)
+				{
+					move.speed = 0.2f;
+					currentRoom->speed = 0.2f;
+				}
+				else
+				{
+					move.speed = 0.25f;
+					currentRoom->speed = 0.2f;
+				}
+			}
+		}
+		if (potionTimers[firerate])
+		{
+			potionTimers[firerate] -= deltaTime;
+			if (potionTimers[firerate] <= 0)
+			{
+				potionTimers[firerate] = 0;
+				weapon.setReloadTime(300.0f);
+			}
+		}
+		if (potionTimers[damage])
+		{
+			potionTimers[damage] -= deltaTime;
+			if (potionTimers[damage] <= 0)
+			{
+				potionTimers[damage] = 0;
+				weapon.setDamage(25);
+			}
+		}
+
 	}
 
 	void Player::die()
@@ -96,17 +165,21 @@ namespace Character
 		changeActionSprite(dead);
 	}
 
+	
+
 	void Player::modifyPoints(int newPoints)
 	{
 		points += newPoints;
 	}
 
+	
+
 	void Player::takeDamage(float damage)
 	{
-
 		health -= damage;
 		if (health <= 0 && !isDead)
 			die();
+		health = newmath::clampf(health, 0, 100);
 	}
 
 	void Player::checkDirection(int n)
@@ -262,8 +335,8 @@ namespace Character
 	{
 		if (!type)
 		{
-			move.speed = 0.25f;
-			currentRoom->speed = 0.25f;
+			move.speed += 0.05f;
+			currentRoom->speed += 0.05f;
 
 			isHoldingGun = false;
 			
@@ -273,8 +346,8 @@ namespace Character
 		}
 		else if (type && !isHoldingGun)
 		{
-			move.speed = 0.2f;
-			currentRoom->speed = 0.2f;
+			move.speed -= 0.05f;
+			currentRoom->speed -= 0.05f;
 			isHoldingGun = true;
 
 			weapon.changeVisibility(true);
@@ -422,9 +495,10 @@ namespace Character
 
 	}
 
+
 	void Player::drawUI()
 	{
-		healthbar.drawHealthbar(health, screen);
+		healthbar.drawHealthbar((int)health, screen);
 		score.printScore(screen, screen->GetPitch() - screen->GetPitch() / 40, screen->GetHeight() / 45, points);
 	}
 
@@ -451,7 +525,7 @@ namespace Character
 
 	void Player::update(float deltaTime)
 	{
-		t += deltaTime;
+		checkPotions(deltaTime);
 		drawUI();
 		if (directionFacing == 0)
 		{

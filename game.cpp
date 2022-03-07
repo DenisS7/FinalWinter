@@ -69,7 +69,7 @@ namespace GameSpace
 			if (isPaused)
 			{	
 				newScreenType = pause;
-				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(0, screen);
+				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(0);
 				player->drawPausePlayer(0);
 				pauseScreen->displayScreen();
 			}
@@ -77,7 +77,7 @@ namespace GameSpace
 			{
 				newScreenType = play;
 				Input(deltaTime);
-				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(deltaTime, screen);
+				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(deltaTime);
 				player->update(deltaTime);
 			}
 		}
@@ -92,7 +92,7 @@ namespace GameSpace
 			else
 			{
 				newScreenType = end;
-				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(deltaTime, screen);
+				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(deltaTime);
 				player->drawPausePlayer(0);
 				endScreen->displayScreen(player->getWon());
 			}

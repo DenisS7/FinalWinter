@@ -77,6 +77,13 @@
     <ClCompile Include="Classes\PauseScreen.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\ItemBase.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Gift.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Potion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Player.h">
@@ -155,6 +162,13 @@
     <ClInclude Include="Classes\PauseScreen.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\ItemBase.h">
+      <Filter>Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Gift.h">
+      <Filter>Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Potion.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />
@@ -213,6 +227,9 @@
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{f278f2c1-876d-429d-a884-997e3051c101}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Items">
+      <UniqueIdentifier>{f06ed60c-93cc-46a3-bb36-f265f8790d15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

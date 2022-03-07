@@ -59,14 +59,20 @@ namespace Map
 
 		std::cout << start.x << " " << start.y << " " << finish.x << " " << finish.y << std::endl;
 
+		rooms[0].readRoomLayout(collisionTiles, portalTiles);
+		rooms[0].initiateRoom(0, this, screen);
 		for (int i = 0; i < 49; i++)
-			rooms[i].initiateRoom(i, collisionTiles, portalTiles, this);
+		{
+			rooms[i].setTileMap(rooms[0].getSize(), rooms[0].getTileMap());
+			rooms[i].initiateRoom(i, this, screen);
+		}
 		generateFirstRoom();
 		initiateEnemiesInRooms();
 	}
 
 	void MapManager::initiate()
 	{
+		
 		std::ifstream fin("Classes/RoomLayout/Collisions.txt");
 		fin >> nrColTiles;
 		for (int i = 0; i < nrColTiles; i++)
@@ -151,8 +157,14 @@ namespace Map
 
 		std::cout << start.x << " " << start.y << " " << finish.x << " " << finish.y << std::endl;
 
+		rooms[0].readRoomLayout(collisionTiles, portalTiles);
+		rooms[0].initiateRoom(0, this, screen);
 		for (int i = 0; i < 49; i++)
-			rooms[i].initiateRoom(i, collisionTiles, portalTiles, this);
+		{
+			rooms[i].setTileMap(rooms[0].getSize(), rooms[0].getTileMap());
+			rooms[i].initiateRoom(i, this, screen);
+		}
+			
 	}
 
 	void MapManager::setPlayer(Character::Player* newPlayer)
