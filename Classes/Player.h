@@ -31,15 +31,17 @@ private:
 	newmath::chMove move;
 	Weapon::WeaponBase weapon;
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Player/player_idle.png"), 24 };
+	GameSpace::Sprite shieldSprite{ new GameSpace::Surface("assets/Weapons/IceShield.png"), 22 };
 	int currentState = 2;
 	int directionFacing = 0;
 	const Uint8* keystate;
 	bool isHoldingGun = false;
 	Spritesheet currentSs{ "assets/Player/player_idle.png", 4, 6, &sprite };
+	Spritesheet shieldSs{ "assets/Weapons/IceShield.png", 2, 11, &shieldSprite };
 
 	const int healing = 0, speed = 1, firerate = 2, shield = 3, damage = 4;
 	float potionTimers[5] = { 0 };
-
+	int isShieldCreating = 0;
 	
 
 public:
@@ -63,6 +65,10 @@ public:
 		sspaths[4].frameTime = 100.0f;
 
 		sspaths[1].rows = sspaths[2].rows = sspaths[3].rows = sspaths[4].rows = 4;
+
+		shieldSs.freezeFrame(0, true);
+		shieldSs.changeVisiblity(false);
+		shieldSs.setFrameTime(100.0f);
 	}
 	
 

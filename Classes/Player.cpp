@@ -12,6 +12,8 @@ namespace Character
 {
 	void Player::restart()
 	{
+		for (int i = 0; i < 5; i++)
+			potionTimers[i] = 0;
 		
 		locf.x = drawLocf.x = (float)middleScreen.x - 50;
 		locf.y = drawLocf.y = (float)middleScreen.y - 50;
@@ -31,9 +33,12 @@ namespace Character
 		mapManager->restart();
 		currentRoom = &mapManager->rooms[mapManager->getStart().x + mapManager->getRoomAm().x * mapManager->getStart().y];
 		points = 0;
-		SDL_Delay(100);
+		///SDL_Delay(100);
 		locf.x = drawLocf.x = (float)middleScreen.x - 50;
-		locf.y = drawLocf.y = (float)middleScreen.y - 50;	
+		locf.y = drawLocf.y = (float)middleScreen.y - 50;
+		equipWeapon(0);
+		move.speed = currentRoom->speed = 0.25f;
+		currentSs.changeVisiblity(true);
 	}
 
 	void Player::init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate)
@@ -45,7 +50,7 @@ namespace Character
 		updateMapManager(newMapManager);
 		updateKeystate(newKeystate);
 
-		move.speed = currentRoom->speed = 0.2f;
+		move.speed = currentRoom->speed = 0.25f;
 		collisionBox.setOffset(14, 14);
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		
@@ -82,8 +87,6 @@ namespace Character
 		}
 	}
 
-	
-
 	newmath::ivec2 Player::getCurrentPos()
 	{
 		int x = ((int)locf.x + sprite.GetWidth() / 2) / 32;
@@ -94,8 +97,8 @@ namespace Character
 
 	void Player::speedBoost()
 	{
-		move.speed = 0.3f;
-		currentRoom->speed = 0.3f;
+		move.speed = 0.4f;
+		currentRoom->speed = 0.4f;
 		potionTimers[speed] = 9000;
 	}
 
@@ -115,6 +118,10 @@ namespace Character
 
 	void Player::createShield()
 	{
+		potionTimers[shield] = 1;
+		shieldSs.changeVisiblity(true);
+		shieldSs.freezeFrame(0, false);
+		isShieldCreating = 1;
 	}
 
 	void Player::checkPotions(float deltaTime)
@@ -165,21 +172,28 @@ namespace Character
 		changeActionSprite(dead);
 	}
 
-	
-
 	void Player::modifyPoints(int newPoints)
 	{
 		points += newPoints;
 	}
 
-	
-
 	void Player::takeDamage(float damage)
 	{
-		health -= damage;
-		if (health <= 0 && !isDead)
-			die();
-		health = newmath::clampf(health, 0, 100);
+		if (!potionTimers[shield])
+		{
+			health -= damage;
+			if (health <= 0 && !isDead)
+				die();
+			health = newmath::clampf(health, 0, 100);
+		}
+		else
+		{
+			shieldSs.freezeFrame(11, false);
+			shieldSs.setFrame(11);
+			shieldSs.setDirection(1);
+			isShieldCreating = 1;
+			potionTimers[shield] = 0;
+		}
 	}
 
 	void Player::checkDirection(int n)
@@ -495,7 +509,6 @@ namespace Character
 
 	}
 
-
 	void Player::drawUI()
 	{
 		healthbar.drawHealthbar((int)health, screen);
@@ -525,11 +538,28 @@ namespace Character
 
 	void Player::update(float deltaTime)
 	{
+		std::cout << shieldSs.getCurrentFrame() << std::endl;
 		checkPotions(deltaTime);
 		drawUI();
 		if (directionFacing == 0)
 		{
 			currentSs.drawNextSprite(deltaTime, screen, drawLocf);
+			if (potionTimers[shield] || isShieldCreating)
+			{
+				shieldSs.drawNextSprite(deltaTime, screen, drawLocf);
+				if (shieldSs.getCurrentFrame() == 10)
+				{
+					shieldSs.freezeFrame(10, true);
+					isShieldCreating = 2;
+				}
+				else if (shieldSs.getCurrentFrame() == 21)
+				{
+					shieldSs.setDirection(0);
+					shieldSs.freezeFrame(0, true);
+					isShieldCreating = 0;
+					potionTimers[shield] = 0;
+				}
+			}
 			if (weapon.visible)
 				weapon.update(deltaTime);
 			for (int i = 0; i < weapon.arrows.size(); i++)
@@ -542,6 +572,22 @@ namespace Character
 			for (int i = 0; i < weapon.arrows.size(); i++)
 				weapon.arrows[i]->UpdatePosition(deltaTime);
 			currentSs.drawNextSprite(deltaTime, screen, drawLocf);
+			if (potionTimers[shield] || isShieldCreating)
+			{
+				shieldSs.drawNextSprite(deltaTime, screen, drawLocf);
+				if (shieldSs.getCurrentFrame() == 10)
+				{
+					shieldSs.freezeFrame(10, true);
+					isShieldCreating = 2;
+				}
+				else if (shieldSs.getCurrentFrame() == 21)
+				{
+					shieldSs.setDirection(0);
+					shieldSs.freezeFrame(0, true);
+					isShieldCreating = 0;
+					potionTimers[shield] = 0;
+				}
+			}
 		}
 	}
 	

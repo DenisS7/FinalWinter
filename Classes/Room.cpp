@@ -56,7 +56,7 @@ namespace Map
 			Item::Gift* newGift = new Item::Gift(this, gift, screen, locf);
 			itemsInRoom.push_back(newGift);
 			newGift->init();
-			std::cout << newGift->getCollision().collisionBox.x << " " << newGift->getCollision().collisionBox.y << std::endl;
+			//std::cout << newGift->getCollision().collisionBox.x << " " << newGift->getCollision().collisionBox.y << std::endl;
 		}
 		else if (type == potion)
 		{

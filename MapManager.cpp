@@ -264,9 +264,9 @@ namespace Map
 		} 
 		int j = finish.x + finish.y * roomAm.x;
 
-		std::cout << "NEWROOM: " << room << "\n";
-		for (int i = 0; i < 49; i++)
-			std::cout << i << " " << parentRoom[i] << "\n";
+		//std::cout << "NEWROOM: " << room << "\n";
+		//for (int i = 0; i < 49; i++)
+			//std::cout << i << " " << parentRoom[i] << "\n";
 		
 		while (j != room && dist < roomAm.x * roomAm.y)
 		{
@@ -405,7 +405,7 @@ namespace Map
 			}
 			else
 			{
-				std::cout << "FirstRoom" << std::endl;
+				//std::cout << "FirstRoom" << std::endl;
 				generateFirstRoom();
 			}
 			
