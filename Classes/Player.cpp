@@ -538,7 +538,6 @@ namespace Character
 
 	void Player::update(float deltaTime)
 	{
-		std::cout << shieldSs.getCurrentFrame() << std::endl;
 		checkPotions(deltaTime);
 		drawUI();
 		if (directionFacing == 0)

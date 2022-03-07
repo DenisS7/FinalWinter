@@ -40,10 +40,10 @@ private:
 	bool goingBack = false;
 
 	const char* enemyPath[5] = {
-	"Classes/Enemies/metalbox.txt",
-	"Classes/Enemies/snowman.txt",
-	"Classes/Enemies/rager.txt",
-	"Classes/Enemies/reindeer.txt"
+	"ReadFiles/Enemies/metalbox.txt",
+	"ReadFiles/Enemies/snowman.txt",
+	"ReadFiles/Enemies/rager.txt",
+	"ReadFiles/Enemies/reindeer.txt"
 	};
 
 	

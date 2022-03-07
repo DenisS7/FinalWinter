@@ -56,7 +56,6 @@ namespace Map
 			Item::Gift* newGift = new Item::Gift(this, gift, screen, locf);
 			itemsInRoom.push_back(newGift);
 			newGift->init();
-			//std::cout << newGift->getCollision().collisionBox.x << " " << newGift->getCollision().collisionBox.y << std::endl;
 		}
 		else if (type == potion)
 		{
@@ -82,7 +81,6 @@ namespace Map
 			GameSpace::vec2 giftLocf;
 			giftLocf.x = (float)IRand((size.x - 6) * tilesize) + 3 * tilesize;
 			giftLocf.y = (float)IRand((size.y - 6) * tilesize) + 3 * tilesize;
-			//std::cout << size.x << " " << tilesize << " " << giftLocf.x << " " << giftLocf.y << " \n";
 			addItem(gift, giftLocf); 
 		
 		}
@@ -90,7 +88,7 @@ namespace Map
 
 	void Room::readRoomLayout(const std::vector <int> collisionTiles, const std::vector <int> portalTiles)
 	{
-		std::ifstream fin("Classes/RoomLayout/Room2.txt");
+		std::ifstream fin("ReadFiles/RoomLayout/Room2.txt");
 
 		fin >> size.x >> size.y;
 		roomSize = size.x * size.y;
@@ -118,7 +116,6 @@ namespace Map
 		player = newManager->player;
 		screen = newScreen;
 		spawnGifts();
-		std::cout << "items: "<< itemsInRoom.size() << "\n";
 		tilesPerRow = tilemap.GetPitch() / tilesize;
 		moveDir.x = moveDir.y = 0;
 	}
@@ -127,7 +124,7 @@ namespace Map
 
 void Room::inititateEnemies()
 {
-	enemies = 1;
+	enemies = 8;
 	int enemyType = 0;
 	for (int i = 0; i < enemies; i++)
 	{

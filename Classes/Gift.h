@@ -9,7 +9,7 @@ class Gift :
 {
 private:
     const int heal = 0, speed = 1, firerate = 2, shield = 3, damage = 4;
-    float health = 100;
+    float health = 75;
     int giftSprite = 0;
     int potionType = 0;
 public:
@@ -22,7 +22,7 @@ public:
         currentSs.freezeFrame(giftSprite, true);
         health = 100;
         potionType = IRand(5);
-        col.setCollisionBox(3 + (int)locf.x, 4 + (int)locf.y, 58, 56);
+        col.setCollisionBox(3 + (int)locf.x, 4 + (int)locf.y, 50, 56);
         col.setOffset(3, 4);
     }
 

@@ -40,21 +40,17 @@ int CollisionCheck::isOverlapping(CollisionComponent actorCollision, GameSpace::
 			return collide;
 		}
 	}
-	else
-	{
-		const int gift = 0, potion = 1;
-		for (int i = 0; i < currentRoom->getItems().size(); i++)
-			if (areColliding(actorCollision, currentRoom->getItems()[i]->getCollision()))
-			{
-				if (currentRoom->getItems()[i]->getType() == gift)
-				{
-					collisionType = collide;
-					currentRoom->getItems()[i]->takeDamage(damage);
 
-				}
-				
-			}
-	}
+	const int gift = 0, potion = 1;
+	for (int i = 0; i < currentRoom->getItems().size(); i++)
+		if (areColliding(actorCollision, currentRoom->getItems()[i]->getCollision()))
+		{
+			if (currentRoom->getItems()[i]->getType() == gift)
+			{
+				collisionType = collide;
+				currentRoom->getItems()[i]->takeDamage(damage);
+			}	
+		}
 
 	for (int y = startPos.y - radius; y <= startPos.y + radius; y++)
 	{

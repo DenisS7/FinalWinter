@@ -47,7 +47,6 @@ private:
 	GameSpace::Surface tilemap{ "assets/Map/all_map-1.png" };
 	GameSpace::Surface* screen;
 	std::vector <tile> decorations;
-	int nrdoors = 1;
 	int roomSize = 0;
 	GameSpace::vec2 locf;
 	newmath::ivec2 size, offset, moveDir;
@@ -58,6 +57,8 @@ private:
 	int tilesPerRow = 1;
 
 public:
+	int nrdoors = 1;
+
 	std::vector <tile> tiles;
 	Map::MapManager* manager;
 
@@ -107,7 +108,7 @@ public:
 	tile getTile(int tileNr) { return tiles[tileNr]; };
 	std::vector <tile> getTileMap() { return tiles; };
 	std::vector <Item::ItemBase*> getItems() { return itemsInRoom; };
-	void setTileMap(const newmath::ivec2 newSize, const std::vector <tile> newTileMap) { size = newSize; tiles = newTileMap; };
+	void setTileMap(const newmath::ivec2 newSize, const std::vector <tile> newTileMap) { size = newSize; roomSize = size.x * size.y; tiles = newTileMap; };
 	GameSpace::vec2 getLocation() { return locf; };
 	Character::Player* getPlayer() { return player; };
 

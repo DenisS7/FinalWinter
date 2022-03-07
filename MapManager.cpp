@@ -40,16 +40,16 @@ namespace Map
 		int dist = newmath::manhattanDist(start, finish);
 
 
-		if (dist <= 3)
+		if (dist <= 1)
 		{
 			int ax = newmath::getSign(start.x - finish.x);
 			int ay = newmath::getSign(start.y - finish.y);
 
-			start.x += ax * (abs(dist - 3));
-			start.y += ay * (abs(dist - 3));
+			start.x += ax * (abs(dist - 1));
+			start.y += ay * (abs(dist - 1));
 
-			finish.x -= ax * (abs(dist - 3));
-			finish.y -= ay * (abs(dist - 3));
+			finish.x -= ax * (abs(dist - 1));
+			finish.y -= ay * (abs(dist - 1));
 
 			start.x = newmath::clamp(start.x, 0, roomAm.x - 1);
 			start.y = newmath::clamp(start.y, 0, roomAm.y - 1);
@@ -57,7 +57,9 @@ namespace Map
 			finish.y = newmath::clamp(finish.y, 0, roomAm.y - 1);
 		}
 
-		std::cout << start.x << " " << start.y << " " << finish.x << " " << finish.y << std::endl;
+
+		if (start.y == 6)
+			start.y = 5;
 
 		rooms[0].readRoomLayout(collisionTiles, portalTiles);
 		rooms[0].initiateRoom(0, this, screen);
@@ -138,16 +140,16 @@ namespace Map
 
 		int dist = newmath::manhattanDist(start, finish);
 
-		if (dist <= 3)
+		if (dist <= 1)
 		{
 			int ax = newmath::getSign(start.x - finish.x);
 			int ay = newmath::getSign(start.y - finish.y);
 
-			start.x += ax * (abs(dist - 3));
-			start.y += ay * (abs(dist - 3));
+			start.x += ax * (abs(dist - 1));
+			start.y += ay * (abs(dist - 1));
 
-			finish.x -= ax * (abs(dist - 3));
-			finish.y -= ay * (abs(dist - 3));
+			finish.x -= ax * (abs(dist - 1));
+			finish.y -= ay * (abs(dist - 1));
 
 			start.x = newmath::clamp(start.x, 0, roomAm.x - 1);
 			start.y = newmath::clamp(start.y, 0, roomAm.y - 1);
@@ -155,7 +157,8 @@ namespace Map
 			finish.y = newmath::clamp(finish.y, 0, roomAm.y - 1);
 		}
 
-		std::cout << start.x << " " << start.y << " " << finish.x << " " << finish.y << std::endl;
+		if (start.y == 6)
+			start.y = 5;
 
 		rooms[0].readRoomLayout(collisionTiles, portalTiles);
 		rooms[0].initiateRoom(0, this, screen);
@@ -263,14 +266,9 @@ namespace Map
 			lf++;
 		} 
 		int j = finish.x + finish.y * roomAm.x;
-
-		//std::cout << "NEWROOM: " << room << "\n";
-		//for (int i = 0; i < 49; i++)
-			//std::cout << i << " " << parentRoom[i] << "\n";
 		
 		while (j != room && dist < roomAm.x * roomAm.y)
 		{
-			//std::cout << j << std::endl;
 			j = t[j] - 1;
 			dist++;
 		}
@@ -289,6 +287,7 @@ namespace Map
 				calcNewRoom(i, start.x, start.y, false, generated);
 				if (!generated)
 				{
+					rooms[start.x + start.y * roomAm.x].nrdoors--;
 					rooms[start.x + start.y * roomAm.x].doors[i] = false;
 					possible[i] = false;
 					for (int j = 0; j < 4; j++)
@@ -297,6 +296,7 @@ namespace Map
 							calcNewRoom(j, start.x, start.y, false, generated);
 						if (generated)
 						{
+							rooms[start.x + start.y * roomAm.x].nrdoors++;
 							rooms[start.x + start.y * roomAm.x].doors[j] = true;
 							break;
 						}
@@ -405,8 +405,7 @@ namespace Map
 			}
 			else
 			{
-				//std::cout << "FirstRoom" << std::endl;
-				generateFirstRoom();
+				restart();
 			}
 			
 		}
