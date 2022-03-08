@@ -3,6 +3,7 @@
 #include "Player.h"
 #include <iostream>
 #include "../template.h"
+#include "Sprites.h"
 
 namespace Weapon
 {
@@ -37,7 +38,7 @@ namespace Weapon
 	void WeaponBase::changeDirection(int direction)
 	{
 		directionFacing = direction;
-		sprite.SetFile(new GameSpace::Surface(wpaths[direction].path), 1, 0);
+		sprite.SetFile(wpaths[direction].path, 1, 0);
 	}
 
 	void WeaponBase::changeVisibility(bool newVisible)

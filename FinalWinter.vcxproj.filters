@@ -83,7 +83,9 @@
     <ClCompile Include="Classes\Gift.cpp">
       <Filter>Items</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Potion.cpp" />
+    <ClCompile Include="Classes\Potion.cpp">
+      <Filter>Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Player.h">
@@ -168,7 +170,9 @@
     <ClInclude Include="Classes\Gift.h">
       <Filter>Items</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Potion.h" />
+    <ClInclude Include="Classes\Potion.h">
+      <Filter>Items</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />

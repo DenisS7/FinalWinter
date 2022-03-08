@@ -5,6 +5,11 @@
 
 namespace Weapon
 {
+	Arrow::~Arrow()
+	{
+		//delete crossbow;
+	}
+
 	void Arrow::drawProjectile(GameSpace::Surface* screen, float deltaTime)
 	{
 		sprite.Draw(screen, (int)drawLocf.x, (int)drawLocf.y);

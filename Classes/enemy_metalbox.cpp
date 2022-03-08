@@ -127,6 +127,7 @@ namespace Character
 				data.col.extendCollision(explosionRange, explosionRange);
 				if (CollisionCheck::areColliding(this->data.col, currentRoom->getPlayer()->getCollision()))
 					currentRoom->getPlayer()->takeDamage(data.damagePerAttack);
+				
 			}
 			if (currentSs.getCurrentFrame() == 12)
 				EnemyBase::die();

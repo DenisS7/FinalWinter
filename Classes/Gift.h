@@ -9,7 +9,7 @@ class Gift :
 {
 private:
     const int heal = 0, speed = 1, firerate = 2, shield = 3, damage = 4;
-    float health = 75;
+    float health = 30;
     int giftSprite = 0;
     int potionType = 0;
 public:

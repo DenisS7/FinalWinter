@@ -35,17 +35,23 @@ public:
 		if (abs(moveDirection.x) <= abs(moveDirection.y))
 		{
 			if (moveDirection.y <= 0)
-				sprite.SetFile(new GameSpace::Surface("assets/Weapons/snowball_attack-blue_down.png"), 4, 0);
-			else sprite.SetFile(new GameSpace::Surface("assets/Weapons/snowball_attack-blue_up.png"), 4, 0);
+				sprite.SetFile("assets/Weapons/snowball_attack-blue_down.png", 4, 0);
+			else sprite.SetFile("assets/Weapons/snowball_attack-blue_up.png", 4, 0);
 		}
 		else
 		{
 			if (moveDirection.x <= 0)
-				sprite.SetFile(new GameSpace::Surface("assets/Weapons/snowball_attack-blue_right.png"), 4, 0);
+				sprite.SetFile("assets/Weapons/snowball_attack-blue_right.png", 4, 0);
 			else
-				sprite.SetFile(new GameSpace::Surface("assets/Weapons/snowball_attack-blue_left.png"), 4, 0);
+				sprite.SetFile("assets/Weapons/snowball_attack-blue_left.png", 4, 0);
 		}
 	}
+
+	~Snowball()
+	{
+
+	}
+
 	void Init(Character::enemy_snowman* newOwner);
 	void deleteProjectile() override;
 	void explode();

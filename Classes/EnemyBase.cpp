@@ -42,7 +42,8 @@ namespace Character
 		data.spritesheetsNr = currentRoom->manager->getEnemyType(data.type).spritesheetsNr;
 		for(int i = 0; i < data.spritesheetsNr; i++)
 			data.epaths[i] = currentRoom->manager->getEnemyType(data.type).epaths[i];
-
+			
+		
 		locf.x = (float)IRand((currentRoom->getSize().x - sprite.GetWidth() / currentRoom->tilesize - 1) * currentRoom->tilesize);
 		locf.y = (float)IRand((currentRoom->getSize().y - sprite.GetHeight() / currentRoom->tilesize - 1) * currentRoom->tilesize);
 
@@ -71,7 +72,7 @@ namespace Character
 
 	void EnemyBase::changeActionSprite(int x, int newCurrentRow)
 	{
-		sprite.SetFile(new GameSpace::Surface(data.epaths[x].path), data.epaths[x].rows * data.epaths[x].columns, directionFacing * data.epaths[x].columns);
+		sprite.SetFile(data.epaths[x].path, data.epaths[x].rows * data.epaths[x].columns, directionFacing * data.epaths[x].columns);
 		currentSs.changeSpritesheet(data.epaths[x].path, data.epaths[x].rows, data.epaths[x].columns, newCurrentRow, &sprite);
 		currentSs.setFrameTime(data.epaths[x].frameTime);
 	}
@@ -241,6 +242,7 @@ namespace Character
 	void EnemyBase::die()
 	{
 		//increase score
+		data.col.setCollisionBox(0, 0, 0, 0);
 		currentRoom->deleteEnemy(this);
 		delete this;
 	}

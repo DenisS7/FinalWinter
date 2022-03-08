@@ -340,7 +340,7 @@ namespace Character
 
 	void Player::changeActionSprite(int x)
 	{
-		sprite.SetFile(new GameSpace::Surface(sspaths[x].path), sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
+		sprite.SetFile(sspaths[x].path, sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
 		currentSs.changeSpritesheet(sspaths[x].path, sspaths[x].rows, sspaths[x].columns, directionFacing, &sprite);
 		currentSs.setFrameTime(sspaths[x].frameTime);
 	}	

@@ -4,6 +4,7 @@
 #include "../template.h"
 #include "Room.h"
 #include "Spritesheet.h"
+#include "Sprites.h"
 #include "CollisionComponent.h"
 
 namespace Weapon 
@@ -43,9 +44,10 @@ public:
 		drawLocf = newLocf - newRoom->getLocation();
 	}
 
-	~Projectile()
+	virtual ~Projectile()
 	{
-		
+		//delete currentRoom;
+		//delete sprite.GetSurface();
 	}
 
 	virtual void drawProjectile(GameSpace::Surface* screen, float deltaTime);

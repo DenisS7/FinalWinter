@@ -22,6 +22,11 @@ public:
         
     }
 
+    ~enemy_metalbox()
+    {
+
+    }
+
     void init();
     void explode();
     void triggerFollowPlayer() override;

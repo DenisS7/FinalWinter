@@ -25,7 +25,7 @@ public:
 		buttonType = type;
 		if (type == start)
 		{
-			sprite.SetFile( new GameSpace::Surface("assets/UI/play_full.png"), 2, 0);
+			sprite.SetFile("assets/UI/play_full.png", 2, 0);
 			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight());
 			if (!newDrawLocf.length())
 			{
@@ -36,7 +36,7 @@ public:
 		}
 		else if (type == quit)
 		{
-			sprite.SetFile(new GameSpace::Surface("assets/UI/exit_full.png"), 2, 0);
+			sprite.SetFile("assets/UI/exit_full.png", 2, 0);
 			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight());
 			if (!newDrawLocf.length())
 			{
@@ -47,7 +47,7 @@ public:
 		}
 		else if (type == replay)
 		{
-			sprite.SetFile(new GameSpace::Surface("assets/UI/replay.png"), 2, 0);
+			sprite.SetFile("assets/UI/replay.png", 2, 0);
 			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight());
 			if (!newDrawLocf.length())
 			{
@@ -58,7 +58,7 @@ public:
 		}
 		else if (type == scores)
 		{
-			sprite.SetFile(new GameSpace::Surface("assets/UI/scores.png"), 2, 0);
+			sprite.SetFile("assets/UI/scores.png", 2, 0);
 			size = newmath::make_ivec2(sprite.GetSurface()->GetWidth() / 2, sprite.GetSurface()->GetHeight());
 			if (!newDrawLocf.length())
 			{

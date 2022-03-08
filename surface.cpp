@@ -438,11 +438,16 @@ Sprite::~Sprite()
 	delete[] m_Start;
 }
 
-void Sprite::SetFile(Surface* a_Surface, unsigned int a_NumFrames, unsigned int a_CurrentFrame)
+void Sprite::SetFile(char* a_File, unsigned int a_NumFrames, unsigned int a_CurrentFrame)
 {
-	m_Surface = a_Surface;
+	delete m_Surface;
+	m_Surface = new Surface(a_File);
 	m_Width = m_Surface->GetWidth() / a_NumFrames;
 	m_Height = m_Surface->GetHeight();
+
+	for (unsigned int i = 0; i < m_NumFrames; i++) 
+		delete m_Start[i];
+	delete[] m_Start;
 
 	m_Pitch = m_Surface->GetWidth();
 	m_NumFrames = a_NumFrames;

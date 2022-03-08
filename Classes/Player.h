@@ -9,6 +9,7 @@
 #include "../Classes/CollisionComponent.h"
 #include "Healthbar.h"
 #include "Score.h"
+#include "Sprites.h"
 
 namespace Character
 {
@@ -71,7 +72,13 @@ public:
 		shieldSs.setFrameTime(100.0f);
 	}
 	
-
+	~Player()
+	{
+		delete currentRoom;
+		delete mapManager;
+		delete screen;
+		delete keystate;
+	}
 
 
 	const int nonCollide = 0;

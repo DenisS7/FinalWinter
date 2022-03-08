@@ -8,7 +8,7 @@ namespace Item
 	void Potion::init()
 	{
 		drawLocf = locf - currentRoom->getLocation();
-		sprite.SetFile(new GameSpace::Surface(currentRoom->manager->potionPath[type]), 12, 0);
+		sprite.SetFile(currentRoom->manager->potionPath[type], 12, 0);
 		currentSs.changeSpritesheet(currentRoom->manager->potionPath[type], 0, 12, 0, &sprite);
 	}
 

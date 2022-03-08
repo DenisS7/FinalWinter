@@ -17,6 +17,11 @@ namespace Character
 
         }
 
+        ~enemy_rager()
+        {
+            delete attackCol;
+        }
+
         void init();
         void attack();
         void changeDirection(int newDirection) override;

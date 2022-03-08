@@ -34,6 +34,11 @@ public:
 
     }
 
+    ~enemy_snowman() 
+    {
+      
+    }
+
     void init();
     void changeDirection(int newDirection) override;
     void turnToPlayer();

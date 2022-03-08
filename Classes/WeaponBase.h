@@ -30,6 +30,13 @@ private:
 
 public:
 
+	~WeaponBase()
+	{
+		for (int i = 0; i < arrows.size(); i++)
+			delete arrows[i];
+		delete sprite.GetSurface();
+	}
+
 
 	const newmath::Rect arrowCol[4] = {
 		newmath::make_Rect(27, 23, 22, 12),

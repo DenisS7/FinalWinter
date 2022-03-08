@@ -8,6 +8,7 @@
 
 namespace Weapon
 {
+
 	void Snowball::Init(Character::enemy_snowman* newOwner)
 	{
 

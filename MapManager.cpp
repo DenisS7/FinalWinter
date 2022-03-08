@@ -75,7 +75,7 @@ namespace Map
 	void MapManager::initiate()
 	{
 		
-		std::ifstream fin("Classes/RoomLayout/Collisions.txt");
+		std::ifstream fin("ReadFiles/RoomLayout/Collisions.txt");
 		fin >> nrColTiles;
 		for (int i = 0; i < nrColTiles; i++)
 		{
@@ -85,7 +85,7 @@ namespace Map
 		}
 		fin.close();
 
-		std::ifstream pin("Classes/RoomLayout/Portals.txt");
+		std::ifstream pin("ReadFiles/RoomLayout/Portals.txt");
 		pin >> nrPortalTiles;
 		for (int i = 0; i < nrPortalTiles; i++)
 		{
@@ -200,8 +200,11 @@ namespace Map
 
 	void MapManager::initiateEnemiesInRooms()
 	{
+		std::cout << newRooms << std::endl;
 		for (int i = 0; i < roomAm.x * roomAm.y; i++)
-			rooms[i].inititateEnemies();
+			if (i != start.x + start.y * roomAm.x)
+				rooms[i].inititateEnemies();
+		rooms[start.x + start.y * roomAm.x].openPortals();
 	}
 
 	void MapManager::calcNewRoom(int i, int x, int y, bool canClose, bool& generated)

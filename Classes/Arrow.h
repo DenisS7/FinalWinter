@@ -21,13 +21,17 @@ public:
         crossbow = newCrossbow;
         direction = newDirection;
         destination = newDestination;
-        sprite.SetFile(new GameSpace::Surface(spritePath), 1, 0);
+        
+        sprite.SetFile(spritePath, 1, 0);
         collision.collisionBox = newmath::make_Rect((int)locf.x, (int)locf.y, 0, 0) + arrowCol;
         moveDirection = GameSpace::vec2::normalize(currentRoom->getLocation() + destination - locf - 32);
         speedf = 0.3f;
         damage = newDamage;
         
     }
+
+    ~Arrow();
+
     const int enemy = 4;
 
        

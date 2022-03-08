@@ -80,9 +80,11 @@ public:
 		locf = drawLocf = 0;
 	}
 
-	~EnemyBase()
+	virtual ~EnemyBase()
 	{
-		
+		//delete currentRoom;
+		//delete sprite.GetSurface();
+		//delete screen;
 	}
 
 	
