@@ -12,8 +12,8 @@ namespace Item
 
 	void ItemBase::init()
 	{
-		locf.x = (float)IRand((currentRoom->getSize().x - sprite.GetWidth() / currentRoom->tilesize - 4) * currentRoom->tilesize + 2 * currentRoom->tilesize);
-		locf.y = (float)IRand((currentRoom->getSize().y - sprite.GetHeight() / currentRoom->tilesize - 1) * currentRoom->tilesize + 2 * currentRoom->tilesize);
+		locf.x = (float)IRand((currentRoom->getSize().x - sprite->GetWidth() / currentRoom->tilesize - 4) * currentRoom->tilesize + 2 * currentRoom->tilesize);
+		locf.y = (float)IRand((currentRoom->getSize().y - sprite->GetHeight() / currentRoom->tilesize - 1) * currentRoom->tilesize + 2 * currentRoom->tilesize);
 		drawLocf = locf - currentRoom->getLocation();
 	}
 

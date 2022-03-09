@@ -35,15 +35,15 @@ public:
 		if (abs(moveDirection.x) <= abs(moveDirection.y))
 		{
 			if (moveDirection.y <= 0)
-				sprite.SetFile("assets/Weapons/snowball_attack-blue_down.png", 4, 0);
-			else sprite.SetFile("assets/Weapons/snowball_attack-blue_up.png", 4, 0);
+				*sprite = *Sprites::get().snowball[0];
+			else *sprite = *Sprites::get().snowball[2];
 		}
 		else
 		{
 			if (moveDirection.x <= 0)
-				sprite.SetFile("assets/Weapons/snowball_attack-blue_right.png", 4, 0);
+				*sprite = *Sprites::get().snowball[3];
 			else
-				sprite.SetFile("assets/Weapons/snowball_attack-blue_left.png", 4, 0);
+				*sprite = *Sprites::get().snowball[1];
 		}
 	}
 

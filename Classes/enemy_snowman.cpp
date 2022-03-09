@@ -15,6 +15,12 @@ namespace Character
 		drawLocf = locf - currentRoom->getLocation();
 	}
 
+	void enemy_snowman::changeActionSprite(int x, int newCurrentRow)
+	{
+		*sprite = *Sprites::get().snowball[x];
+		EnemyBase::changeActionSprite(x, newCurrentRow);
+	}
+
 	void enemy_snowman::changeDirection(int newDirection)
 	{
 		directionFacing = newDirection;
@@ -25,8 +31,8 @@ namespace Character
 	{
 		GameSpace::vec2 dif = currentRoom->getPlayer()->getDrawLocation() - this->drawLocf;
 
-		dif.x += (float)(currentRoom->getPlayer()->getSpriteSize().x - this->sprite.GetWidth()) / 2;
-		dif.y += (float)(currentRoom->getPlayer()->getSpriteSize().y - this->sprite.GetHeight()) / 2;
+		dif.x += (float)(currentRoom->getPlayer()->getSpriteSize().x - this->sprite->GetWidth()) / 2;
+		dif.y += (float)(currentRoom->getPlayer()->getSpriteSize().y - this->sprite->GetHeight()) / 2;
 
 		const GameSpace::vec2 range(100.0f, 100.0f);
 	
@@ -143,7 +149,7 @@ namespace Character
 		{
 			if (!isFollowingPlayer)
 			{
-				EnemyBase::findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
+				EnemyBase::findPath(getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos(), currentRoom);
 				if (path.size() <= 12)
 				{
 					currentSs.freezeFrame(0, false);

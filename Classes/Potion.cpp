@@ -8,8 +8,8 @@ namespace Item
 	void Potion::init()
 	{
 		drawLocf = locf - currentRoom->getLocation();
-		sprite.SetFile(currentRoom->manager->potionPath[type], 12, 0);
-		currentSs.changeSpritesheet(currentRoom->manager->potionPath[type], 0, 12, 0, &sprite);
+		*sprite = *Sprites::get().potion[type];
+		currentSs.changeSpritesheet(currentRoom->manager->potionPath[type], 0, 12, 0, sprite);
 	}
 
 	void Potion::use()

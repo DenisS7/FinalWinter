@@ -18,7 +18,7 @@ public:
     {
         locf = newLocf;
         giftSprite = IRand(4);
-        sprite.SetFrame(giftSprite);
+        sprite->SetFrame(giftSprite);
         currentSs.freezeFrame(giftSprite, true);
         health = 30;
         potionType = IRand(5);

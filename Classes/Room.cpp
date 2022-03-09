@@ -172,8 +172,8 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 	int y = ((int)enemy->locf.y) / tilesize;
 	newmath::ivec2 initTile = newmath::make_ivec2(x, y);
 
-	x = ((int)enemy->locf.x + enemy->sprite.GetWidth()) / tilesize;
-	y = ((int)enemy->locf.y + enemy->sprite.GetHeight()) / tilesize;
+	x = ((int)enemy->locf.x + enemy->sprite->GetWidth()) / tilesize;
+	y = ((int)enemy->locf.y + enemy->sprite->GetHeight()) / tilesize;
 	newmath::ivec2 finTile = newmath::make_ivec2(x, y);
 
 	newmath::ivec2 dif = initTile - enemy->initOcupTile;
@@ -653,7 +653,7 @@ void Room::updateEnemies()
 {
 	for (int i = 0; i < enemiesInRoom.size(); i++)
 	{
-		enemiesInRoom[i]->findPath(enemiesInRoom[i]->getCurrentPos(newmath::make_ivec2(enemiesInRoom[i]->sprite.GetWidth() / 2, enemiesInRoom[i]->sprite.GetHeight() / 2)), player->getCurrentPos());
+		enemiesInRoom[i]->findPath(enemiesInRoom[i]->getCurrentPos(newmath::make_ivec2(enemiesInRoom[i]->sprite->GetWidth() / 2, enemiesInRoom[i]->sprite->GetHeight() / 2)), player->getCurrentPos(), this);
 		enemiesInRoom[i]->changeDrawLoc();
 	}
 }

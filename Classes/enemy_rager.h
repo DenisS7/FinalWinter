@@ -23,6 +23,7 @@ namespace Character
         }
 
         void init();
+        void changeActionSprite(int x, int newCurrentRow) override;
         void attack();
         void changeDirection(int newDirection) override;
         void triggerFollowPlayer() override;

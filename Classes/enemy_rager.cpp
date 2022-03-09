@@ -13,7 +13,13 @@ namespace Character
 		EnemyBase::changeActionSprite(0, 0);
 		currentState = 0;
 		drawLocf = locf - currentRoom->getLocation();
-		findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
+		findPath(getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos(), currentRoom);
+	}
+
+	void enemy_rager::changeActionSprite(int x, int newCurrentRow)
+	{
+		*sprite = *Sprites::get().rager[x];
+		EnemyBase::changeActionSprite(x, newCurrentRow);
 	}
 
 	void enemy_rager::attack()
@@ -36,7 +42,7 @@ namespace Character
 
 	void enemy_rager::addMovement(float deltaTime)
 	{
-		newmath::ivec2 currentPos = getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2));
+		newmath::ivec2 currentPos = getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2));
 		if (path.size())
 		{
 			const newmath::ivec2 nextPos = *path.begin();
@@ -119,7 +125,7 @@ namespace Character
 			}
 			else if ((isFollowingPlayer || path.size() <= 9) && !isAttacking)
 			{
-				findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
+				findPath(getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos(), currentRoom);
 				currentState = 1;
 				data.speed += (float)0.000001 * deltaTime;
 				triggerFollowPlayer();
@@ -134,7 +140,7 @@ namespace Character
 					currentState = 1;
 					changeActionSprite(1, directionFacing);
 					isAttacking = false;
-					findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
+					findPath(getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos(), currentRoom);
 
 				}
 				else if (currentSs.getCurrentFrame() % 12 > 7 && !dealDamage)
@@ -152,7 +158,7 @@ namespace Character
 			}
 			else
 			{
-				findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
+				findPath(getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos(), currentRoom);
 
 				drawLocf = locf - currentRoom->getLocation();
 			}

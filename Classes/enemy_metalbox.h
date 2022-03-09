@@ -28,9 +28,10 @@ public:
     }
 
     void init();
+    void changeActionSprite(int x, int newCurrentRow) override;
     void explode();
     void triggerFollowPlayer() override;
-    void findApath(newmath::ivec2 start, newmath::ivec2 finish) { EnemyBase::findPath(start, finish); };
+    void findApath(newmath::ivec2 start, newmath::ivec2 finish) { EnemyBase::findPath(start, finish, currentRoom); };
     void addMovement(float deltaTime) override;
     void update(float deltaTime) override;
 };

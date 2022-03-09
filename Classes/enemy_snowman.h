@@ -40,6 +40,7 @@ public:
     }
 
     void init();
+    void changeActionSprite(int x, int newCurrentRow) override;
     void changeDirection(int newDirection) override;
     void turnToPlayer();
     void removeSnowball(Weapon::Snowball* snowballToRemove);

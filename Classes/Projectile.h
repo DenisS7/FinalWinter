@@ -20,9 +20,9 @@ protected:
 	GameSpace::vec2 locf, drawLocf, initialPosf;
 	float speedf = 0.25f;
 	int direction, damage, speed;
-	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Weapons/arrow_down.png"), 1 };
+	GameSpace::Sprite* sprite = new GameSpace::Sprite{ new GameSpace::Surface("assets/Weapons/arrow_down.png"), 1 };
 
-	Spritesheet currentSs{ "assets/Weapons/snowball_attack-blue_down.png", 1, 4, &sprite };
+	Spritesheet currentSs{ "assets/Weapons/snowball_attack-blue_down.png", 1, 4, sprite };
 
 	bool isExploding = false;
 	float timeToExplode = 3000.0f;
