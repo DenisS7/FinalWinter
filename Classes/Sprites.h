@@ -36,6 +36,13 @@ private:
 	GameSpace::Surface* snowball_up = new GameSpace::Surface { "assets/Weapons/snowball_attack-blue_up.png" };
 	GameSpace::Surface* snowball_right = new GameSpace::Surface { "assets/Weapons/snowball_attack-blue_right.png" };
 
+	GameSpace::Surface* button_play = new GameSpace::Surface{ "assets/UI/play_full.png" };
+	GameSpace::Surface* button_exit = new GameSpace::Surface{ "assets/UI/exit_full.png" };
+	GameSpace::Surface* button_scores = new GameSpace::Surface{ "assets/UI/scores_full.png" };
+	GameSpace::Surface* button_replay = new GameSpace::Surface{ "assets/UI/replay.png" };
+
+	
+
 public:
 	Sprites(const Sprites&) = delete;
 	static	Sprites& get() { static Sprites instance; return instance; }

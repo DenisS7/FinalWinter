@@ -81,7 +81,7 @@ public:
 	const int gift = 0;
 	const int potion = 1;
 
-	float speed = 0.2f;
+	float speed = 0.3f;
 
 	
 
@@ -89,7 +89,7 @@ public:
 	{
 		locf.x = locf.y = 0;
 		offset.x = offset.y = 0;
-		speed = 0.2f;
+		speed = 0.3f;
 		enemies = 0;
 	}
 

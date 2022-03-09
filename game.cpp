@@ -1,12 +1,7 @@
 #include "game.h"
 #include "Classes/Room.h"
 #include <iostream>
-
-
-
 #include "Classes/Snowball.h"
-
-
 #include "../Classes/CollisionCheck.h"
 #include "../Classes/CollisionComponent.h"
 

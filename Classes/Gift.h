@@ -20,7 +20,7 @@ public:
         giftSprite = IRand(4);
         sprite.SetFrame(giftSprite);
         currentSs.freezeFrame(giftSprite, true);
-        health = 100;
+        health = 30;
         potionType = IRand(5);
         col.setCollisionBox(3 + (int)locf.x, 4 + (int)locf.y, 50, 56);
         col.setOffset(3, 4);

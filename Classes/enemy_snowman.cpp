@@ -144,7 +144,7 @@ namespace Character
 			if (!isFollowingPlayer)
 			{
 				EnemyBase::findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
-				if (path.size() <= 10)
+				if (path.size() <= 12)
 				{
 					currentSs.freezeFrame(0, false);
 					isFollowingPlayer = true;
@@ -158,7 +158,7 @@ namespace Character
 			}
 			if (currentState == 0)
 			{
-				if (GameSpace::vec2::dist(this->locf, currentRoom->getPlayer()->getLocation()) < 450 && !isAttacking)
+				if (GameSpace::vec2::dist(this->locf, currentRoom->getPlayer()->getLocation()) < 600 && !isAttacking)
 				{
 					isAttacking = true;
 					currentState = 2;

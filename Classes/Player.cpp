@@ -37,7 +37,7 @@ namespace Character
 		locf.x = drawLocf.x = (float)middleScreen.x - 50;
 		locf.y = drawLocf.y = (float)middleScreen.y - 50;
 		equipWeapon(0);
-		move.speed = currentRoom->speed = 0.25f;
+		move.speed = currentRoom->speed = 0.3f;
 		currentSs.changeVisiblity(true);
 	}
 
@@ -50,7 +50,7 @@ namespace Character
 		updateMapManager(newMapManager);
 		updateKeystate(newKeystate);
 
-		move.speed = currentRoom->speed = 0.25f;
+		move.speed = currentRoom->speed = 0.3f;
 		collisionBox.setOffset(14, 14);
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		
@@ -97,14 +97,14 @@ namespace Character
 
 	void Player::speedBoost()
 	{
-		move.speed = 0.4f;
-		currentRoom->speed = 0.4f;
+		move.speed = 0.45f;
+		currentRoom->speed = 0.45f;
 		potionTimers[speed] = 9000;
 	}
 
 	void Player::damageBoost()
 	{
-		weapon.setDamage(35);
+		weapon.setDamage(100);
 		potionTimers[damage] = 5000;
 	
 	}
@@ -134,13 +134,13 @@ namespace Character
 				potionTimers[speed] = 0;
 				if (isHoldingGun)
 				{
-					move.speed = 0.2f;
-					currentRoom->speed = 0.2f;
+					move.speed = 0.3f;
+					currentRoom->speed = 0.3f;
 				}
 				else
 				{
-					move.speed = 0.25f;
-					currentRoom->speed = 0.2f;
+					move.speed = 0.35f;
+					currentRoom->speed = 0.35f;
 				}
 			}
 		}

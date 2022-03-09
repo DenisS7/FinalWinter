@@ -372,6 +372,7 @@ void Surface::InitCharset()
 
 void Surface::SetFile(char* a_File)
 {
+	_aligned_free(m_Buffer);
 	FILE* f = fopen(a_File, "rb");
 	if (!f)
 	{

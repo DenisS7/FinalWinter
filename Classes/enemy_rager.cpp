@@ -117,7 +117,7 @@ namespace Character
 				isAttacking = true;
 				attack();
 			}
-			else if ((isFollowingPlayer || path.size() <= 7) && !isAttacking)
+			else if ((isFollowingPlayer || path.size() <= 9) && !isAttacking)
 			{
 				findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
 				currentState = 1;

@@ -18,7 +18,7 @@ protected:
 	Map::Room* currentRoom;
 	newmath::ivec2 move;
 	GameSpace::vec2 locf, drawLocf, initialPosf;
-	float speedf = 0.4f;
+	float speedf = 0.25f;
 	int direction, damage, speed;
 	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Weapons/arrow_down.png"), 1 };
 

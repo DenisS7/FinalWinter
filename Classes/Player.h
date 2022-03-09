@@ -51,11 +51,11 @@ public:
 	{
 		sspaths[1].path = "assets/Player/player_idle.png";
 		sspaths[1].columns = 6;
-		sspaths[1].frameTime = 100.0f;
+		sspaths[1].frameTime = 80.0f;
 
 		sspaths[2].path = "assets/Player/player_run.png";
 		sspaths[2].columns = 8;
-		sspaths[2].frameTime = 100.0f;
+		sspaths[2].frameTime = 75.0f;
 
 		sspaths[3].path = "assets/Player/player_dead.png";
 		sspaths[3].columns = 7;
@@ -63,7 +63,7 @@ public:
 
 		sspaths[4].path = "assets/Player/player_run_body.png";
 		sspaths[4].columns = 8;
-		sspaths[4].frameTime = 100.0f;
+		sspaths[4].frameTime = 75.0f;
 
 		sspaths[1].rows = sspaths[2].rows = sspaths[3].rows = sspaths[4].rows = 4;
 

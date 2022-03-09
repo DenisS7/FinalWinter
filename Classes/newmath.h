@@ -39,7 +39,7 @@ public:
 		bool direction[4] = { 0 };
 		bool down = false, left = false, up = false, right = false;
 		bool side[4] = { 0 };
-		float speed = 0.2f;
+		float speed = 0.3f;
 	};
 
 	struct Rect {

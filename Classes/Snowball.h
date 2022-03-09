@@ -24,7 +24,7 @@ public:
 		Projectile (newInitial, newCurrentRoom)
 	{
 		owner = newOwner;
-		timeToExplode = 1000;
+		timeToExplode = 1500;
 		destination = newDestination;
 		moveDirection = GameSpace::vec2::normalize(destination - locf);
 		collision.offset = newmath::make_ivec2(22, 22);
