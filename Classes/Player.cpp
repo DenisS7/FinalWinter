@@ -14,30 +14,39 @@ namespace Character
 	{
 		for (int i = 0; i < 5; i++)
 			potionTimers[i] = 0;
+
+		health = healthBase;
+		move.speed = speedBase;
 		
+		weapon.setDamage(arrowDamageBase);
+		weapon.setReloadTime(firerateBase);
+
+		//destroy shield if any
+		shieldSs.setDirection(0);
+		shieldSs.freezeFrame(0, true);
+		isShieldCreating = 0;
+
 		locf.x = drawLocf.x = (float)middleScreen.x - 50;
 		locf.y = drawLocf.y = (float)middleScreen.y - 50;
-		collisionBox.setOffset(14, 14);
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		won = false;
-		currentState = 1;
+		currentState = 0;
 		directionFacing = 0;
 		isHoldingGun = false;
-		health = 100;
+
 		isDead = false;
-		changeActionSprite(1);
+		changeActionSprite(idle);
 		currentSs.setFrame(0);
-		for (int i = 0; i < weapon.arrows.size(); i++)
+		for (int i = 0; i < weapon.arrows.size();)
 			weapon.deleteArrow(weapon.arrows[i]);
 		weapon.changeDirection(0);
 		mapManager->restart();
 		currentRoom = &mapManager->rooms[mapManager->getStart().x + mapManager->getRoomAm().x * mapManager->getStart().y];
 		points = 0;
-		///SDL_Delay(100);
 		locf.x = drawLocf.x = (float)middleScreen.x - 50;
 		locf.y = drawLocf.y = (float)middleScreen.y - 50;
 		equipWeapon(0);
-		move.speed = currentRoom->speed = 0.3f;
+		currentRoom->speed = move.speed;
 		currentSs.changeVisiblity(true);
 	}
 
@@ -50,8 +59,7 @@ namespace Character
 		updateMapManager(newMapManager);
 		updateKeystate(newKeystate);
 
-		move.speed = currentRoom->speed = 0.3f;
-		collisionBox.setOffset(14, 14);
+		currentRoom->speed = move.speed;
 		collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 		
 		weapon.Init(drawLocf, this);
@@ -97,21 +105,20 @@ namespace Character
 
 	void Player::speedBoost()
 	{
-		move.speed = 0.45f;
-		currentRoom->speed = 0.45f;
+		move.speed += speedAdd;
+		currentRoom->speed = move.speed;
 		potionTimers[speed] = 9000;
 	}
 
 	void Player::damageBoost()
 	{
-		weapon.setDamage(100);
+		weapon.setDamage(arrowDamageBase + damageAdd);
 		potionTimers[damage] = 5000;
-	
 	}
 
 	void Player::firerateBoost()
 	{
-		weapon.setReloadTime(100.0f);
+		weapon.setReloadTime(firerateBase - firerateAdd);
 		potionTimers[firerate] = 5000;
 	
 	}
@@ -134,13 +141,13 @@ namespace Character
 				potionTimers[speed] = 0;
 				if (isHoldingGun)
 				{
-					move.speed = 0.3f;
-					currentRoom->speed = 0.3f;
+					move.speed = speedBase;
+					currentRoom->speed = speedBase;
 				}
 				else
 				{
-					move.speed = 0.35f;
-					currentRoom->speed = 0.35f;
+					move.speed = speedBase + 0.05f;
+					currentRoom->speed = speedBase + 0.05f;
 				}
 			}
 		}
@@ -150,7 +157,7 @@ namespace Character
 			if (potionTimers[firerate] <= 0)
 			{
 				potionTimers[firerate] = 0;
-				weapon.setReloadTime(300.0f);
+				weapon.setReloadTime(firerateBase);
 			}
 		}
 		if (potionTimers[damage])
@@ -159,7 +166,7 @@ namespace Character
 			if (potionTimers[damage] <= 0)
 			{
 				potionTimers[damage] = 0;
-				weapon.setDamage(25);
+				weapon.setDamage(arrowDamageBase);
 			}
 		}
 
@@ -177,14 +184,14 @@ namespace Character
 		points += newPoints;
 	}
 
-	void Player::takeDamage(float damage)
+	void Player::takeDamage(int damage)
 	{
-		if (!potionTimers[shield])
+		if (!potionTimers[shield] || damage <= 0)
 		{
 			health -= damage;
 			if (health <= 0 && !isDead)
 				die();
-			health = newmath::clampf(health, 0, 100);
+			health = newmath::clamp(health, 0, 100);
 		}
 		else
 		{
@@ -202,11 +209,9 @@ namespace Character
 		{
 			if((move.side[n] && !move.side[directionFacing]) || weapon.isShooting)
 			{ 
-				
 				weapon.changeDirection(n);
 				currentSs.setDirection(n);
 				directionFacing = n;
-				weapon.reloading = weapon.reloadTime;
 			}
 		}
 	}
@@ -341,9 +346,9 @@ namespace Character
 	void Player::changeActionSprite(int x)
 	{
 		//sprite.SetFile(sspaths[x].path, sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
-		Sprites::get().player[x - 1]->SetFrame(directionFacing * sspaths[x].columns);
+		Sprites::get().player[x]->SetFrame(directionFacing * sspaths[x].columns);
 
-		*sprite = *Sprites::get().player[x - 1];
+		*sprite = *Sprites::get().player[x];
 		currentSs.changeSpritesheet(sspaths[x].path, sspaths[x].rows, sspaths[x].columns, directionFacing, sprite);
 		currentSs.setFrameTime(sspaths[x].frameTime);
 	}	

@@ -61,6 +61,9 @@ namespace Map
 		if (start.y == 6)
 			start.y = 5;
 
+		std::cout << start.x << " " << start.y << " " << finish.x << " " << finish.y << "\n";
+
+
 		rooms[0].readRoomLayout(collisionTiles, portalTiles);
 		rooms[0].initiateRoom(0, this, screen);
 		for (int i = 0; i < 49; i++)
@@ -69,11 +72,48 @@ namespace Map
 			rooms[i].initiateRoom(i, this, screen);
 		}
 		generateFirstRoom();
-		initiateEnemiesInRooms();
+		if (goodMap)
+			initiateEnemiesInRooms();
+		else restart();
 	}
 
 	void MapManager::initiate()
 	{
+
+		roomAm.x = 7;
+		roomAm.y = 7;
+
+		start.x = IRand(roomAm.x);
+		start.y = IRand(roomAm.y);
+
+		finish.x = IRand(roomAm.x);
+		finish.y = IRand(roomAm.y);
+
+		int dist = newmath::manhattanDist(start, finish);
+
+		if (dist <= 2)
+		{
+			int ax = newmath::getSign(start.x - finish.x);
+			int ay = newmath::getSign(start.y - finish.y);
+
+			start.x += ax * (abs(dist - 2));
+			start.y += ay * (abs(dist - 2));
+
+			finish.x -= ax * (abs(dist - 2));
+			finish.y -= ay * (abs(dist - 2));
+
+			start.x = newmath::clamp(start.x, 0, roomAm.x - 2);
+			start.y = newmath::clamp(start.y, 0, roomAm.y - 2);
+			finish.x = newmath::clamp(finish.x, 0, roomAm.x - 2);
+			finish.y = newmath::clamp(finish.y, 0, roomAm.y - 2);
+		}
+
+		if (start.y == 6)
+			start.y = 5;
+
+		std::cout << start.x << " " << start.y << " " << finish.x << " " << finish.y << "\n";
+
+		
 		
 		std::ifstream fin("ReadFiles/RoomLayout/Collisions.txt");
 		fin >> nrColTiles;
@@ -127,48 +167,24 @@ namespace Map
 		enemyTypes[2].epaths[3].path = "assets/Enemies/rager/rager_death.png";
 
 
-		roomAm.x = 7;
-		roomAm.y = 7;
-
-		start.x = IRand(roomAm.x);
-		start.y = IRand(roomAm.y);
-
-		finish.x = IRand(roomAm.x);
-		finish.y = IRand(roomAm.y);
-
-		
-
-		int dist = newmath::manhattanDist(start, finish);
-
-		if (dist <= 2)
-		{
-			int ax = newmath::getSign(start.x - finish.x);
-			int ay = newmath::getSign(start.y - finish.y);
-
-			start.x += ax * (abs(dist - 2));
-			start.y += ay * (abs(dist - 2));
-
-			finish.x -= ax * (abs(dist - 2));
-			finish.y -= ay * (abs(dist - 2));
-
-			start.x = newmath::clamp(start.x, 0, roomAm.x - 2);
-			start.y = newmath::clamp(start.y, 0, roomAm.y - 2);
-			finish.x = newmath::clamp(finish.x, 0, roomAm.x - 2);
-			finish.y = newmath::clamp(finish.y, 0, roomAm.y - 2);
-		}
-
-		if (start.y == 6)
-			start.y = 5;
+	
 
 		rooms[0].readRoomLayout(collisionTiles, portalTiles);
 		rooms[0].initiateRoom(0, this, screen);
+
 		
 		for (int i = 0; i < 49; i++)
 		{
 			rooms[i].setTileMap(rooms[0].getSize(), rooms[0].getTileMap());
 			rooms[i].initiateRoom(i, this, screen);
 		}
-			
+
+		generateFirstRoom();
+
+
+		if (goodMap)
+			initiateEnemiesInRooms();
+		else restart();
 	}
 
 	void MapManager::setPlayer(Character::Player* newPlayer)
@@ -276,6 +292,8 @@ namespace Map
 			j = t[j] - 1;
 			dist++;
 		}
+
+		length = dist;
 	}
 
 	void MapManager::generateFirstRoom()
@@ -378,7 +396,7 @@ namespace Map
 		{
 			goingBack = true;
 			if (goBack > 5)
-				restart();
+				goodMap = false;
 			else if (goBack > 1)
 			{
 				for (int i = aux[goBack - 2]; i < newRooms; i++)
@@ -409,9 +427,14 @@ namespace Map
 			}
 			else
 			{
-				restart();
+				goodMap = false;
 			}
 			
+		}
+		else
+		{
+			goodMap = true;
+			calculateRoute(start.x + start.y * roomAm.x);
 		}
 
 	}

@@ -15,19 +15,19 @@ bool Button::isButtonPressed(GameSpace::vec2 mouse)
 void Button::pressButton()
 {
 	isPressed = true;
-	sprite.SetFrame(1);
+	sprite->SetFrame(1);
 }
 
 
 void Button::releaseButton()
 {
 	isPressed = false;
-	sprite.SetFrame(0);
+	sprite->SetFrame(0);
 }
 
 void Button::drawButton()
 {
-	sprite.Draw(screen, (int)drawLocf.x, (int)drawLocf.y);
+	sprite->Draw(screen, (int)drawLocf.x, (int)drawLocf.y);
 }
 
 }

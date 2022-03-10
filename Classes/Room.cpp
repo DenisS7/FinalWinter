@@ -21,8 +21,11 @@ namespace Map
 		locf = 0;
 		level = 0;
 		
-		for (int i = 0; i < enemiesInRoom.size();)
-			enemiesInRoom[i]->die();
+		while (enemiesInRoom.size())
+		{
+			enemiesInRoom[0]->die();
+		}
+		enemiesInRoom.clear();
 		resetDoors();
 		enemies = 0;
 		tiles.clear();
@@ -124,7 +127,7 @@ namespace Map
 
 void Room::inititateEnemies()
 {
-	enemies = 100;
+	enemies = 1;
 	int enemyType = 0;
 	for (int i = 0; i < enemies; i++)
 	{

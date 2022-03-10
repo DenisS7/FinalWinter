@@ -36,7 +36,7 @@ int CollisionCheck::isOverlapping(CollisionComponent actorCollision, GameSpace::
 		
 		if (areColliding(actorCollision, currentRoom->getPlayer()->getCollision()))
 		{
-			currentRoom->getPlayer()->takeDamage((float)damage);
+			currentRoom->getPlayer()->takeDamage(damage);
 			return collide;
 		}
 	}

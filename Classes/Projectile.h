@@ -46,6 +46,8 @@ public:
 
 	virtual ~Projectile()
 	{
+		sprite = nullptr;
+		delete sprite;
 		//delete currentRoom;
 		//delete sprite.GetSurface();
 	}

@@ -16,7 +16,7 @@ namespace Item
 		delete this;
 	}
 
-	void Gift::takeDamage(float damage)
+	void Gift::takeDamage(int damage)
 	{
 		health -= damage;
 		if (health <= 0)

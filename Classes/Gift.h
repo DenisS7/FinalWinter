@@ -28,7 +28,7 @@ public:
 
     void init() override;
     void open();
-    void takeDamage(float damage) override;
+    void takeDamage(int damage) override;
     
 };
 

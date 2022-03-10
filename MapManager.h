@@ -38,6 +38,7 @@ private:
 
 	int aux[100] = { 0 };
 	bool goingBack = false;
+	bool goodMap = false;
 
 	const char* enemyPath[5] = {
 	"ReadFiles/Enemies/metalbox.txt",
@@ -58,9 +59,9 @@ private:
 	struct typeEn
 	{
 		int type = 0;
-		float health = 100;
-		float damagePerAttack = 0;
-		float damageOnCol = 0;
+		int health = 100;
+		int damagePerAttack = 0;
+		int damageOnCol = 0;
 		float speed = 0.2f;
 		int points = 0;
 		CollisionComponent col;
@@ -101,10 +102,12 @@ public:
 	Room rooms[50];
 
 	newmath::ivec2 getStart() { return start; };
+	int getLength() { return length; };
 	int getFinish() { return finish.x + finish.y * roomAm.x; };
 	newmath::ivec2 getRoomAm() { return roomAm; };
 	typeEn getEnemyType(int type) { return enemyTypes[type]; };
 	bool isLastRoom(int roomNumber) { return graph[roomNumber][finish.x + roomAm.x * finish.y]; };
+
 
 	void restart();
 

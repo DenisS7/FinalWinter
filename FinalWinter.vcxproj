@@ -239,6 +239,7 @@
     <ClCompile Include="Classes\PauseScreen.cpp" />
     <ClCompile Include="Classes\Player.cpp" />
     <ClCompile Include="Classes\Potion.cpp" />
+    <ClCompile Include="Classes\PrintNumber.cpp" />
     <ClCompile Include="Classes\Projectile.cpp" />
     <ClCompile Include="Classes\Room.cpp" />
     <ClCompile Include="Classes\Score.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="Classes\PauseScreen.h" />
     <ClInclude Include="Classes\Player.h" />
     <ClInclude Include="Classes\Potion.h" />
+    <ClInclude Include="Classes\PrintNumber.h" />
     <ClInclude Include="Classes\Projectile.h" />
     <ClInclude Include="Classes\Room.h" />
     <ClInclude Include="Classes\Score.h" />

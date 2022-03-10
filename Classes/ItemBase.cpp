@@ -17,7 +17,7 @@ namespace Item
 		drawLocf = locf - currentRoom->getLocation();
 	}
 
-	void ItemBase::takeDamage(float damage)
+	void ItemBase::takeDamage(int damage)
 	{
 	}
 

@@ -1,40 +1,24 @@
 #include "Score.h"
 #include <vector>
 #include <iostream>
+#include "PrintNumber.h"
 
 
 void Score::printScore(GameSpace::Surface* screen, int x, int y, int points)
 {
-	std::vector <int> nr;
-	int nr1 = 0, nrr = 0;
-	if (!points)
-		nr.push_back(0), nrr++;
-	while (points)
+	int aux = points, nrr = 0, nr1 = 0;
+	if (!aux)
+		nrr++;
+	while (aux)
 	{
-		if (points % 10 == 1)
+		if (aux % 10 == 1)
 			nr1++;
 		else nrr++;
-		nr.push_back(points % 10);
-		points /= 10;
+		aux /= 10;
 	}
 	x -= scoreUI.GetSurface()->GetPitch() + 10 + nr1 * number1.GetSurface()->GetPitch() + nrr * (numbers.GetSurface()->GetPitch() / numbers.Frames());
 	scoreUI.Draw(screen, x, y);
 	x += scoreUI.GetSurface()->GetPitch() + 10;
-	while (nr.size())
-	{
-		if (nr.back() == 1)
-		{
-			number1.Draw(screen, x, y);
-			x += number1.GetSurface()->GetPitch();
-		}
-		else
-		{
-			if ( nr.back() == 0)
-				numbers.SetFrame(0);
-			else numbers.SetFrame(nr.back() - 1);
-			numbers.Draw(screen, x, y);
-			x += (numbers.GetSurface()->GetPitch()) / numbers.Frames();
-		}
-		nr.pop_back();
-	}
+	PrintNumber::printNumber(screen, points, x, y);
+	
 }

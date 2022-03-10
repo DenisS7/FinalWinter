@@ -10,6 +10,7 @@
 #include "Healthbar.h"
 #include "Score.h"
 #include "Sprites.h"
+#include <fstream>
 
 namespace Character
 {
@@ -19,6 +20,8 @@ class Player
 {
 private:
 
+	int healthBase = 0, arrowDamageBase = 0;
+	float speedBase = 0, firerateBase = 0;
 	newmath::spriteData sspaths[5];
 	Healthbar healthbar;
 	Score score;
@@ -28,19 +31,24 @@ private:
 	CollisionComponent collisionBox;
 	bool isDead = false;
 	bool won = false;
-	float health = 100;
+	int health = 100;
+	float arrowFirerate = 0;
+	
 	newmath::chMove move;
 	Weapon::WeaponBase weapon;
-	GameSpace::Sprite* sprite = new GameSpace::Sprite(new GameSpace::Surface("assets/Player/player_idle.png"), 24);;
+	GameSpace::Sprite* sprite = new GameSpace::Sprite(new GameSpace::Surface("assets/Player/player_idle.png"), 24);
 	GameSpace::Sprite shieldSprite{ new GameSpace::Surface("assets/Weapons/IceShield.png"), 22 };
-	int currentState = 2;
+	int currentState = 0;
 	int directionFacing = 0;
 	const Uint8* keystate;
 	bool isHoldingGun = false;
+	int spritesheetsNr = 0;
 	Spritesheet currentSs{ "assets/Player/player_idle.png", 4, 6, sprite };
 	Spritesheet shieldSs{ "assets/Weapons/IceShield.png", 2, 11, &shieldSprite };
 
 	const int healing = 0, speed = 1, firerate = 2, shield = 3, damage = 4;
+	int healAdd = 0, damageAdd = 0;
+	float speedAdd = 0, firerateAdd = 0;
 	float potionTimers[5] = { 0 };
 	int isShieldCreating = 0;
 	
@@ -50,22 +58,29 @@ public:
 	Player()
 	{
 		//sspaths[1].path = "assets/Player/player_idle.png";
-		sspaths[1].columns = 6;
-		sspaths[1].frameTime = 80.0f;
 
-		//sspaths[2].path = "assets/Player/player_run.png";
-		sspaths[2].columns = 8;
-		sspaths[2].frameTime = 75.0f;
+		std::ifstream fin("ReadFiles/Player/player.txt");
 
-		//sspaths[3].path = "assets/Player/player_dead.png";
-		sspaths[3].columns = 7;
-		sspaths[3].frameTime = 100.0f;
+		fin >> healthBase >> arrowDamageBase >> speedBase >> firerateBase;
+		
+		health = healthBase;
+		move.speed = speedBase;
+		arrowFirerate = firerateBase;
 
-		//sspaths[4].path = "assets/Player/player_run_body.png";
-		sspaths[4].columns = 8;
-		sspaths[4].frameTime = 75.0f;
+		int x, y, h, w;
 
-		sspaths[1].rows = sspaths[2].rows = sspaths[3].rows = sspaths[4].rows = 4;
+		fin >> x >> y >> h >> w;
+
+		collisionBox.setOffset(x, y);
+		collisionBox.setCollisionBox(x, y, h, w);
+
+		fin >> spritesheetsNr;
+
+		for (int i = 0; i < spritesheetsNr; i++)
+			fin >> sspaths[i].rows >> sspaths[i].columns >> sspaths[i].frameTime;
+		
+		fin >> healAdd >> speedAdd >> firerateAdd >> damageAdd;
+
 		*sprite = *Sprites::get().player[0];
 
 		shieldSs.freezeFrame(0, true);
@@ -88,7 +103,7 @@ public:
 	const int portalInactive = 2;
 	const int portalActive = 3;
 
-	const int run = 2, idle = 1, dead = 3, runWithGun = 4;
+	const int idle = 0, run = 1, dead = 2, runWithGun = 3;
 	const int crossbow = 5, snowball = 6, snowman = 7;
 
 	Map::Room* currentRoom;
@@ -107,7 +122,7 @@ public:
 	bool isPotionUsed(int potion) { if (potionTimers[potion]) return true; return false; }
 	newmath::chMove getMove() { return move; };
 	newmath::ivec2 getSpriteSize() { return newmath::make_ivec2(sprite->GetWidth(), sprite->GetHeight()); };
-	float getHealth() { return health; };
+	int getHealth() { return health; };
 	
 	void restart();
 	void init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate);
@@ -121,7 +136,7 @@ public:
 	void die();
 	void modifyPoints(int newPoints);
 	int getPoints() { return points; };
-	void takeDamage(float damage);
+	void takeDamage(int damage);
 	void checkDirection(int n);
 	void updateMapManager(Map::MapManager* newMapManager);
 	void updateScreen(GameSpace::Surface* newScreen);

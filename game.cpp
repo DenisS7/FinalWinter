@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Classes/Snowball.h"
 #include "../Classes/CollisionCheck.h"
+#include "../Classes/PrintNumber.h"
 #include "../Classes/CollisionComponent.h"
 
 #include <fstream>
@@ -40,9 +41,9 @@ namespace GameSpace
 		manager->setPlayer(player);
 		manager->setScreen(screen);
 		manager->initiate();
-		manager->generateFirstRoom();
+		
 		player->init(screen, &manager->rooms[manager->getStart().x + manager->getStart().y * manager->getRoomAm().x], manager, keystate);
-		manager->initiateEnemiesInRooms();
+		
 		
 		//player->equipWeapon(5);
 	}
@@ -94,6 +95,8 @@ namespace GameSpace
 		}
 		if (currentScreenType != newScreenType)
 			isMouseDown = false, currentScreenType = newScreenType;
+		if (isPathOnScreen)
+			PrintNumber::printNumber(screen, manager->getLength(), screen->GetPitch() - screen->GetPitch() / 15, screen->GetHeight() / 10);
 		cursor.Draw(screen, mouse.x - 16, mouse.y - 16);
 	}
 
@@ -120,12 +123,13 @@ namespace GameSpace
 		int k = currentScreen->isButtonPressed(vec2((float)mouse.x, (float)mouse.y));
 		if (k != -1)
 		{
-			if (k == 0 && !isRunning && down)
+			if (k == startButton && !isRunning && down)
 				StartGame();
-			else if (k == 1 && down)
+			else if (k == quitButton && down)
 				Shutdown();
-			else if (k == 3 && down)
+			else if (k == replayButton && down)
 			{
+				isPathOnScreen = false;
 				isPaused = true;
 				isRunning = false;
 				player->restart();
@@ -134,6 +138,10 @@ namespace GameSpace
 				isPaused = false;
 				isRunning = true;
 				won = false;
+			}
+			else if (k == pathButton && down)
+			{
+				isPathOnScreen = !isPathOnScreen;
 			}
 		}
 	}

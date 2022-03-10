@@ -42,7 +42,7 @@ public:
 
 	void deleteItem();
 	virtual void init();
-	virtual void takeDamage(float damage);
+	virtual void takeDamage(int damage);
 	virtual void draw(float deltaTime);
 	virtual void update(float deltaTime);
 	virtual void use();

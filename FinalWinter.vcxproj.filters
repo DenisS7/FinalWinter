@@ -87,6 +87,7 @@
       <Filter>Items</Filter>
     </ClCompile>
     <ClCompile Include="Classes\Pathfinder.cpp" />
+    <ClCompile Include="Classes\PrintNumber.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Player.h">
@@ -175,6 +176,7 @@
       <Filter>Items</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Pathfinder.h" />
+    <ClInclude Include="Classes\PrintNumber.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />

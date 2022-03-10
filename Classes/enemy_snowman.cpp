@@ -112,7 +112,6 @@ namespace Character
 
 	void enemy_snowman::update(float deltaTime)
 	{
-		std::cout << data.col.offset.x << " " << data.col.offset.y << " " << data.col.collisionBox.width << " " << data.col.collisionBox.height << std::endl;
 		EnemyBase::update(deltaTime);
 		drawLocf = locf - currentRoom->getLocation();
 		for (int i = 0; i < snowballs.size(); i++)

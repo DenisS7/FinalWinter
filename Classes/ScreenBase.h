@@ -9,7 +9,7 @@ namespace UI
 class ScreenBase
 {
 protected:
-	const int start = 0, quit = 1, scores = 2, replay = 3;
+	const int start = 0, quit = 1, replay = 2, scores = 3, path = 4;
 	std::vector <Button*> buttons;
 	GameSpace::Sprite* title;
 	int screenType = 0;

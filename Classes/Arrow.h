@@ -25,7 +25,7 @@ public:
         *sprite = *Sprites::get().arrow[direction];
         collision.collisionBox = newmath::make_Rect((int)locf.x, (int)locf.y, 0, 0) + arrowCol;
         moveDirection = GameSpace::vec2::normalize(currentRoom->getLocation() + destination - locf - 32);
-        speedf = 0.3f;
+        speedf = 0.35f;
         damage = newDamage;
         
     }

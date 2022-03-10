@@ -22,9 +22,9 @@ protected:
 	struct typeEn
 	{
 		int type = 0;
-		float health = 100;
-		float damagePerAttack = 0;
-		float damageOnCol = 0;
+		int health = 100;
+		int damagePerAttack = 0;
+		int damageOnCol = 0;
 		float speed = 0.2f;
 		int points = 0;
 		CollisionComponent col;
@@ -85,6 +85,8 @@ public:
 
 	virtual ~EnemyBase()
 	{
+		sprite = nullptr;
+		delete sprite;
 		//delete currentRoom;
 		//delete sprite.GetSurface();
 		//delete screen;

@@ -13,6 +13,8 @@ class Surface;
 class Game
 {
 private:
+
+	const int startButton = 0, quitButton = 1, replayButton = 2, scoresButton = 3, pathButton = 4;
 	Surface* screen;
 	UI::StartScreen* startScreen;
 	UI::EndScreen* endScreen;
@@ -25,6 +27,7 @@ private:
 
 	const int start = 0, play = 1, pause = 2, end = 3;
 
+	bool isPathOnScreen = false;
 	bool isScreenFocus = true;
 	bool isRunning = false;
 	bool isPaused = false;

@@ -44,6 +44,15 @@ private:
 	GameSpace::Surface* s_potion_shield = new GameSpace::Surface("assets/Items/shield_potion.png");
 	GameSpace::Surface* s_potion_damage = new GameSpace::Surface("assets/Items/damage_potion.png");
 	
+	GameSpace::Surface* s_play_button = new GameSpace::Surface("assets/UI/play_full.png");
+	GameSpace::Surface* s_quit_button = new GameSpace::Surface("assets/UI/exit_full.png");
+	GameSpace::Surface* s_replay_button = new GameSpace::Surface("assets/UI/replay_full.png");
+	GameSpace::Surface* s_scores_button = new GameSpace::Surface("assets/UI/scores_full.png");
+	GameSpace::Surface* s_path_button = new GameSpace::Surface("assets/UI/path_full.png");
+	
+	GameSpace::Surface* s_number1 = new GameSpace::Surface("assets/Font/font_1.png");
+	GameSpace::Surface* s_numbers = new GameSpace::Surface("assets/Font/font_numbers.png");
+
 	/// <summary>
 	///
 	/// </summary>
@@ -85,6 +94,14 @@ private:
 	GameSpace::Sprite* potion_shield = new GameSpace::Sprite{ s_potion_shield, 12 };
 	GameSpace::Sprite* potion_damage = new GameSpace::Sprite{ s_potion_damage, 12 };
 
+	GameSpace::Sprite* play_button = new GameSpace::Sprite{ s_play_button, 2 };
+	GameSpace::Sprite* quit_button = new GameSpace::Sprite{ s_quit_button, 2 };
+	GameSpace::Sprite* replay_button = new GameSpace::Sprite{ s_replay_button, 2 };
+	GameSpace::Sprite* scores_button = new GameSpace::Sprite{ s_scores_button, 2 };
+	GameSpace::Sprite* path_button = new GameSpace::Sprite{ s_path_button, 2 };
+
+	GameSpace::Sprite* number1 = new GameSpace::Sprite{ s_number1, 1 };
+	GameSpace::Sprite* numbers = new GameSpace::Sprite{ s_numbers, 9 };
 
 public:
 	Sprites(const Sprites&) = delete;
@@ -139,6 +156,10 @@ public:
 
 	std::vector <GameSpace::Sprite*> gift = { gifts };
 	std::vector <GameSpace::Sprite*> potion = { potion_heal, potion_speed, potion_firerate, potion_shield, potion_damage };
+
+	std::vector <GameSpace::Sprite*> button = { play_button, quit_button, replay_button, scores_button, path_button };
+
+	std::vector <GameSpace::Sprite*> number = { number1, numbers };
 
 	GameSpace::Surface tilemap{ "assets/Map/all_map.png" };
 
