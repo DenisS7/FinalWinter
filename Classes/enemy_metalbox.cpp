@@ -9,8 +9,14 @@ namespace Character
 	{
 		EnemyBase::init(0);
 		
-		tilePos = EnemyBase::getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2));
-		findPath(tilePos, currentRoom->getPlayer()->getCurrentPos());
+		tilePos = EnemyBase::getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2));
+	}
+
+	void enemy_metalbox::changeActionSprite(int x, int newCurrentRow)
+	{
+		Sprites::get().metalgift[x]->SetFrame(directionFacing * data.epaths[x].columns);
+		*sprite = *Sprites::get().metalgift[x];
+		EnemyBase::changeActionSprite(x, newCurrentRow);
 	}
 
 	void enemy_metalbox::explode()
@@ -29,7 +35,7 @@ namespace Character
 
 	void enemy_metalbox::addMovement(float deltaTime)
 	{
-		newmath::ivec2 currentPos = getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2));
+		newmath::ivec2 currentPos = getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2));
 		if (path.size())
 		{
 			newmath::ivec2 nextPos = *path.begin();
@@ -107,7 +113,7 @@ namespace Character
 		}
 		else if ((isFollowingPlayer || path.size() <= 8) && !isAttacking)
 		{
-			findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
+			findPath(getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos(), currentRoom);
 			data.speed += (float)0.000002 * deltaTime;
 			triggerFollowPlayer();
 			addMovement(deltaTime);
@@ -115,7 +121,7 @@ namespace Character
 		}
 		else 
 		{
-			findPath(getCurrentPos(newmath::make_ivec2(sprite.GetWidth() / 2, sprite.GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos());
+			findPath(getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos(), currentRoom);
 			drawLocf = locf - currentRoom->getLocation();
 		}
 

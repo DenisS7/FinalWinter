@@ -89,8 +89,8 @@ namespace Character
 
 	newmath::ivec2 Player::getCurrentPos()
 	{
-		int x = ((int)locf.x + sprite.GetWidth() / 2) / 32;
-		int y = ((int)locf.y + sprite.GetHeight() / 2) / 32;
+		int x = ((int)locf.x + sprite->GetWidth() / 2) / 32;
+		int y = ((int)locf.y + sprite->GetHeight() / 2) / 32;
 		newmath::ivec2 pos = newmath::make_ivec2(x, y);
 		return pos;
 	}
@@ -219,8 +219,8 @@ namespace Character
 	void Player::updateScreen(GameSpace::Surface* newScreen)
 	{
 		screen = newScreen;
-		middleScreen.x = screen->GetWidth() / 2 - sprite.GetWidth() / 2;
-		middleScreen.y = screen->GetHeight() / 2 - sprite.GetHeight() / 2;
+		middleScreen.x = screen->GetWidth() / 2 - sprite->GetWidth() / 2;
+		middleScreen.y = screen->GetHeight() / 2 - sprite->GetHeight() / 2;
 	
 		locf.x = drawLocf.x = (float)middleScreen.x - 50;
 		locf.y = drawLocf.y = (float)middleScreen.y - 50;
@@ -340,8 +340,11 @@ namespace Character
 
 	void Player::changeActionSprite(int x)
 	{
-		sprite.SetFile(sspaths[x].path, sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
-		currentSs.changeSpritesheet(sspaths[x].path, sspaths[x].rows, sspaths[x].columns, directionFacing, &sprite);
+		//sprite.SetFile(sspaths[x].path, sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
+		Sprites::get().player[x - 1]->SetFrame(directionFacing * sspaths[x].columns);
+
+		*sprite = *Sprites::get().player[x - 1];
+		currentSs.changeSpritesheet(sspaths[x].path, sspaths[x].rows, sspaths[x].columns, directionFacing, sprite);
 		currentSs.setFrameTime(sspaths[x].frameTime);
 	}	
 
@@ -424,7 +427,7 @@ namespace Character
 
 				currentRoom->updateEnemies();
 
-				locf.x = (float) (currentRoom->tilesize - sprite.GetWidth() / 2 + currentRoom->tilesize / 2) + 10;
+				locf.x = (float) (currentRoom->tilesize - sprite->GetWidth() / 2 + currentRoom->tilesize / 2) + 10;
 				locf.y = (float) ((currentRoom->getSize().y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2); 
 
 				collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
@@ -445,7 +448,7 @@ namespace Character
 
 				currentRoom->updateEnemies();
 
-				locf.x = (float)((currentRoom->getSize().x - 1) * currentRoom->tilesize - sprite.GetWidth() / 2 - currentRoom->tilesize / 2);
+				locf.x = (float)((currentRoom->getSize().x - 1) * currentRoom->tilesize - sprite->GetWidth() / 2 - currentRoom->tilesize / 2);
 				locf.y = (float)((currentRoom->getSize().y / 2) * currentRoom->tilesize - currentRoom->tilesize / 2);
 
 				collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
@@ -466,7 +469,7 @@ namespace Character
 				currentRoom->updateEnemies();
 
 				locf.x = (float)((currentRoom->getSize().x / 2 - (currentRoom->getSize().x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2);
-				locf.y = (float)(2 * currentRoom->tilesize - sprite.GetHeight() / 2 + currentRoom->tilesize / 2) + 10;
+				locf.y = (float)(2 * currentRoom->tilesize - sprite->GetHeight() / 2 + currentRoom->tilesize / 2) + 10;
 
 				collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 
@@ -486,7 +489,7 @@ namespace Character
 				currentRoom->updateEnemies();
 
 				locf.x = (float)((currentRoom->getSize().x / 2 - (currentRoom->getSize().x + 1) % 2) * currentRoom->tilesize - currentRoom->tilesize / 2);
-				locf.y = (float)((currentRoom->getSize().y - 1) * currentRoom->tilesize - sprite.GetHeight() / 2 - currentRoom->tilesize / 2);
+				locf.y = (float)((currentRoom->getSize().y - 1) * currentRoom->tilesize - sprite->GetHeight() / 2 - currentRoom->tilesize / 2);
 
 				collisionBox.setCollisionBox((int)locf.x + collisionBox.offset.x, (int)locf.y + collisionBox.offset.y, 36, 36);
 

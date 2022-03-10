@@ -12,7 +12,7 @@ namespace Weapon
 
 	void Arrow::drawProjectile(GameSpace::Surface* screen, float deltaTime)
 	{
-		sprite.Draw(screen, (int)drawLocf.x, (int)drawLocf.y);
+		sprite->Draw(screen, (int)drawLocf.x, (int)drawLocf.y);
 	}
 
 	void Arrow::Init(WeaponBase* newCrossbow)
@@ -46,7 +46,7 @@ namespace Weapon
 				drawLocf.y = locf.y - currentRoom->getLocation().y;
 
 				collision.collisionBox = newmath::make_Rect((int)locf.x, (int)locf.y, 0, 0) + crossbow->arrowCol[direction];
-				sprite.Draw(crossbow->player->screen, (int)drawLocf.x, (int)drawLocf.y);
+				sprite->Draw(crossbow->player->screen, (int)drawLocf.x, (int)drawLocf.y);
 			}
 		}
 	}

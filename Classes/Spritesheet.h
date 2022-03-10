@@ -26,7 +26,7 @@ public:
 
     
 private:
-    GameSpace::Surface* image;
+    //GameSpace::Surface* image;
     GameSpace::Sprite* sprite;
     bool visible = true;
     int currentRow = 1;

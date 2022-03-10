@@ -6,8 +6,8 @@
 
 Spritesheet::Spritesheet(char* path, int row, int column, GameSpace::Sprite* newSprite)
 {
-    image = new GameSpace::Surface{ "assets/Player/player_idle.png" };
-    image->SetFile(path);
+    //image = new GameSpace::Surface{ "assets/Player/player_idle.png" };
+    //image->SetFile(path);
     rows = row;
     columns = column;
     currentFrame = (currentRow * column) % (row * column);
@@ -31,7 +31,7 @@ void Spritesheet::changeSpritesheet(char* path, int row, int column, int newCurr
     currentFrame = currentRow * column;
     columns = column;
     sprite = newSprite;
-    image->SetFile(path);
+   // image->SetFile(path);
 }
 
 void Spritesheet::setFrameTime(float newFrameTime)

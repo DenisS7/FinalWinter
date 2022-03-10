@@ -140,21 +140,21 @@ namespace Map
 
 		int dist = newmath::manhattanDist(start, finish);
 
-		if (dist <= 1)
+		if (dist <= 2)
 		{
 			int ax = newmath::getSign(start.x - finish.x);
 			int ay = newmath::getSign(start.y - finish.y);
 
-			start.x += ax * (abs(dist - 1));
-			start.y += ay * (abs(dist - 1));
+			start.x += ax * (abs(dist - 2));
+			start.y += ay * (abs(dist - 2));
 
-			finish.x -= ax * (abs(dist - 1));
-			finish.y -= ay * (abs(dist - 1));
+			finish.x -= ax * (abs(dist - 2));
+			finish.y -= ay * (abs(dist - 2));
 
-			start.x = newmath::clamp(start.x, 0, roomAm.x - 1);
-			start.y = newmath::clamp(start.y, 0, roomAm.y - 1);
-			finish.x = newmath::clamp(finish.x, 0, roomAm.x - 1);
-			finish.y = newmath::clamp(finish.y, 0, roomAm.y - 1);
+			start.x = newmath::clamp(start.x, 0, roomAm.x - 2);
+			start.y = newmath::clamp(start.y, 0, roomAm.y - 2);
+			finish.x = newmath::clamp(finish.x, 0, roomAm.x - 2);
+			finish.y = newmath::clamp(finish.y, 0, roomAm.y - 2);
 		}
 
 		if (start.y == 6)
@@ -162,6 +162,7 @@ namespace Map
 
 		rooms[0].readRoomLayout(collisionTiles, portalTiles);
 		rooms[0].initiateRoom(0, this, screen);
+		
 		for (int i = 0; i < 49; i++)
 		{
 			rooms[i].setTileMap(rooms[0].getSize(), rooms[0].getTileMap());
@@ -181,7 +182,7 @@ namespace Map
 		nextRooms[newRooms][1] = y;
 		nextRooms[newRooms][2] = startingDoor;
 		nextRooms[newRooms][3] = canClose;
-		exists[x + y * 7] = true;
+		exists[x + y * roomAm.x] = true;
 		newRooms++;
 	}
 
@@ -376,7 +377,7 @@ namespace Map
 		else if (!exists[finish.x + finish.y * roomAm.x])
 		{
 			goingBack = true;
-			if (goBack > 7)
+			if (goBack > 5)
 				restart();
 			else if (goBack > 1)
 			{

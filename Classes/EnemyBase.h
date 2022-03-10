@@ -6,6 +6,7 @@
 #include "../Classes/CollisionComponent.h"
 #include "../Classes/Room.h"
 #include "../surface.h"
+#include "../Classes/Pathfinder.h"
 
 namespace Map
 {
@@ -30,6 +31,7 @@ protected:
 		int spritesheetsNr = 0;
 		newmath::spriteData epaths[9];
 	} data;
+
 
 	struct Atile
 	{
@@ -62,10 +64,11 @@ protected:
 	bool isFollowingPlayer = false;
 	bool isAttacking = false;
 	bool isDead = false;
-	
+
 	std::vector <newmath::ivec2> path;
 	std::vector <Atile> nextTiles;
 	std::vector <Atile> passedTiles;
+
 
 private:
 
@@ -96,8 +99,8 @@ public:
 	int currentState = 0;
 	int directionFacing = 0;
 
-	GameSpace::Sprite sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_idle.png"), 1 };
-	Spritesheet currentSs{ "assets/Enemies/metalgift/metalgift_idle.png", 1, 1, &sprite };
+	GameSpace::Sprite* sprite = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_idle.png"), 1 };
+	Spritesheet currentSs{ "assets/Enemies/metalgift/metalgift_idle.png", 1, 1, sprite };
 	GameSpace::vec2 locf = 0, drawLocf = 0;
 	newmath::chMove move;
 	newmath::ivec2 tilePos;
@@ -106,16 +109,11 @@ public:
 
 	newmath::ivec2 getCurrentPos(newmath::ivec2 posToGet);
 	virtual void init(int type);
-	void changeActionSprite(int x, int newCurrentRow);
+	virtual void changeActionSprite(int x, int newCurrentRow);
 	virtual void triggerFollowPlayer();
 	void changeDrawLoc();
-	void resetAPath();
-	int getClosestTile();
-	int getIndex(const std::vector <Atile>& v, newmath::ivec2 pos);
-	bool isTileValid(const newmath::ivec2& tilePos);
-	void getAdjTile(const Atile& tile, const newmath::ivec2& nextTile);
-	void getNeighbours(const Atile& tile);
-	std::vector <newmath::ivec2> findPath(newmath::ivec2 start, newmath::ivec2 finish);
+	
+	void findPath(newmath::ivec2 start, newmath::ivec2 finish, Map::Room* currentRoom);
 	virtual void changeDirection(int newDirection);
 	void takeDamage(int damage);
 	void die();

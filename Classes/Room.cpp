@@ -124,7 +124,7 @@ namespace Map
 
 void Room::inititateEnemies()
 {
-	enemies = 8;
+	enemies = 100;
 	int enemyType = 0;
 	for (int i = 0; i < enemies; i++)
 	{
@@ -172,8 +172,8 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 	int y = ((int)enemy->locf.y) / tilesize;
 	newmath::ivec2 initTile = newmath::make_ivec2(x, y);
 
-	x = ((int)enemy->locf.x + enemy->sprite.GetWidth()) / tilesize;
-	y = ((int)enemy->locf.y + enemy->sprite.GetHeight()) / tilesize;
+	x = ((int)enemy->locf.x + enemy->sprite->GetWidth()) / tilesize;
+	y = ((int)enemy->locf.y + enemy->sprite->GetHeight()) / tilesize;
 	newmath::ivec2 finTile = newmath::make_ivec2(x, y);
 
 	newmath::ivec2 dif = initTile - enemy->initOcupTile;
@@ -250,8 +250,8 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 				newmath::clamp(removey, 0, size.y - 1);
 				newmath::clamp(addy, 0, size.y - 1);
 
-				const int tileRemNr = x + removey * 7;
-				const int tileAddNr = x + addy * 7;
+				const int tileRemNr = x + removey * size.x;
+				const int tileAddNr = x + addy * size.x;
 
 				removeEnemyFromTile(enemy, tileRemNr);
 				addEnemyToTile(enemy, tileAddNr);
@@ -628,21 +628,20 @@ void Room::drawMap()
 	{
 		for (int x = start.x; x <= screen->GetWidth() / tilesize + start.x && x < size.x; x++)
 		{
-			int tx = (tiles[y  * 44 + x].drawIndex - 1) % tilesPerRow;
-			int ty = (tiles[y  * 44 + x].drawIndex - 1) / tilesPerRow;
+			int tx = (tiles[y  * size.x + x].drawIndex - 1) % tilesPerRow;
+			int ty = (tiles[y  * size.x + x].drawIndex - 1) / tilesPerRow;
 
 			int xDrawLoc = (x - start.x) * tilesize;
 			int yDrawLoc = (y - start.y) * tilesize;
 
-			if (!tiles[y * 44 + x].rotate)
+			if (!tiles[y * size.x + x].rotate)
 			{
 				drawTile(tx, ty, xDrawLoc, yDrawLoc);
 			}
 			else 
 			{
-				drawRotatedTile(tx, ty, xDrawLoc, yDrawLoc, tiles[y * 44 + x].rotate);
+				drawRotatedTile(tx, ty, xDrawLoc, yDrawLoc, tiles[y * size.x + x].rotate);
 			}
-	
 		}
 	}
 
@@ -653,7 +652,7 @@ void Room::updateEnemies()
 {
 	for (int i = 0; i < enemiesInRoom.size(); i++)
 	{
-		enemiesInRoom[i]->findPath(enemiesInRoom[i]->getCurrentPos(newmath::make_ivec2(enemiesInRoom[i]->sprite.GetWidth() / 2, enemiesInRoom[i]->sprite.GetHeight() / 2)), player->getCurrentPos());
+		enemiesInRoom[i]->findPath(enemiesInRoom[i]->getCurrentPos(newmath::make_ivec2(enemiesInRoom[i]->sprite->GetWidth() / 2, enemiesInRoom[i]->sprite->GetHeight() / 2)), player->getCurrentPos(), this);
 		enemiesInRoom[i]->changeDrawLoc();
 	}
 }
@@ -682,8 +681,9 @@ void Room::updateMap(float deltaTime)
 {
 	changeDir();
 	drawMap();
-	drawEnemies(deltaTime);
 	drawItems(deltaTime);
+	drawEnemies(deltaTime);
+	
 	updateTiles();
 }
 
