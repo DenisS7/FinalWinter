@@ -1,6 +1,6 @@
 #pragma once
 #include "EnemyBase.h"
-
+#include "Sprites.h"
 
 namespace Character
 {
@@ -14,7 +14,7 @@ namespace Character
         enemy_rager(Map::Room* currentRoom, int entype)
             : EnemyBase(currentRoom, entype)
         {
-
+            *sprite = *Sprites::get().rager[0];
         }
 
         ~enemy_rager()

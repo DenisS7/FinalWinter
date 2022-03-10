@@ -377,7 +377,7 @@ namespace Map
 		else if (!exists[finish.x + finish.y * roomAm.x])
 		{
 			goingBack = true;
-			if (goBack > 2)
+			if (goBack > 5)
 				restart();
 			else if (goBack > 1)
 			{

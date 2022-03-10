@@ -124,11 +124,11 @@ namespace Map
 
 void Room::inititateEnemies()
 {
-	enemies = 20;
+	enemies = 100;
 	int enemyType = 0;
 	for (int i = 0; i < enemies; i++)
 	{
-		enemyType = 1;
+		enemyType = IRand(3);
 		if (enemyType == 0)
 		{
 			Character::enemy_metalbox* newEnemy = new Character::enemy_metalbox(this, 0);
@@ -681,8 +681,9 @@ void Room::updateMap(float deltaTime)
 {
 	changeDir();
 	drawMap();
-	drawEnemies(deltaTime);
 	drawItems(deltaTime);
+	drawEnemies(deltaTime);
+	
 	updateTiles();
 }
 
