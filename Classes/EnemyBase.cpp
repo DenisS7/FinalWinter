@@ -53,7 +53,6 @@ namespace Character
 		changeDrawLoc();
 
 		tilePos = getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2));
-
 		initOcupTile = getCurrentPos(newmath::make_ivec2(0, 0));
 		finOcupTile = getCurrentPos(newmath::make_ivec2(sprite->GetWidth(), sprite->GetHeight()));
 
@@ -65,22 +64,20 @@ namespace Character
 				currentRoom->addEnemyToTile(this, tileNr);
 			}
 		}
-
+		findPath(tilePos, currentRoom->getPlayer()->getCurrentPos(), currentRoom);
 		currentSs.setDirection(0);
 
 	}
 
 	void EnemyBase::changeActionSprite(int x, int newCurrentRow)
 	{
-		//sprite->SetFile(data.epaths[x].path, data.epaths[x].rows * data.epaths[x].columns, directionFacing * data.epaths[x].columns);
-		
 		currentSs.changeSpritesheet(data.epaths[x].path, data.epaths[x].rows, data.epaths[x].columns, newCurrentRow, sprite);
 		currentSs.setFrameTime(data.epaths[x].frameTime);
 	}
 
-	std::vector<newmath::ivec2> EnemyBase::findPath(newmath::ivec2 start, newmath::ivec2 newFinish, Map::Room* newRoom)
+	void EnemyBase::findPath(newmath::ivec2 start, newmath::ivec2 newFinish, Map::Room* newRoom)
 	{
-		return Pathfinder::get().findPath(start, newFinish, newRoom);
+		path = Pathfinder::get().findPath(start, newFinish, newRoom);
 	}
 
 	void EnemyBase::changeDirection(int newDirection)

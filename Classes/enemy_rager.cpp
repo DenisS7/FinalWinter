@@ -18,6 +18,7 @@ namespace Character
 
 	void enemy_rager::changeActionSprite(int x, int newCurrentRow)
 	{
+		Sprites::get().rager[x]->SetFrame(directionFacing * data.epaths[x].columns);
 		*sprite = *Sprites::get().rager[x];
 		EnemyBase::changeActionSprite(x, newCurrentRow);
 	}

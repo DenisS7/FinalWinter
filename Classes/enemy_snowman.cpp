@@ -9,7 +9,7 @@ namespace Character
 	{
 		EnemyBase::init(1);
 	
-		EnemyBase::changeActionSprite(1, 0);
+		changeActionSprite(1, 0);
 		currentState = 1;
 		currentSs.freezeFrame(0, true);
 		drawLocf = locf - currentRoom->getLocation();
@@ -17,7 +17,8 @@ namespace Character
 
 	void enemy_snowman::changeActionSprite(int x, int newCurrentRow)
 	{
-		*sprite = *Sprites::get().snowball[x];
+		Sprites::get().snowman[x]->SetFrame(directionFacing * data.epaths[x].columns);
+		*sprite = *Sprites::get().snowman[x];
 		EnemyBase::changeActionSprite(x, newCurrentRow);
 	}
 
@@ -111,6 +112,7 @@ namespace Character
 
 	void enemy_snowman::update(float deltaTime)
 	{
+		std::cout << data.col.offset.x << " " << data.col.offset.y << " " << data.col.collisionBox.width << " " << data.col.collisionBox.height << std::endl;
 		EnemyBase::update(deltaTime);
 		drawLocf = locf - currentRoom->getLocation();
 		for (int i = 0; i < snowballs.size(); i++)

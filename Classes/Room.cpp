@@ -124,11 +124,11 @@ namespace Map
 
 void Room::inititateEnemies()
 {
-	enemies = 8;
+	enemies = 20;
 	int enemyType = 0;
 	for (int i = 0; i < enemies; i++)
 	{
-		enemyType = IRand(3);
+		enemyType = 1;
 		if (enemyType == 0)
 		{
 			Character::enemy_metalbox* newEnemy = new Character::enemy_metalbox(this, 0);
@@ -250,8 +250,8 @@ void Room::enemyOnTiles(Character::EnemyBase* enemy)
 				newmath::clamp(removey, 0, size.y - 1);
 				newmath::clamp(addy, 0, size.y - 1);
 
-				const int tileRemNr = x + removey * 7;
-				const int tileAddNr = x + addy * 7;
+				const int tileRemNr = x + removey * size.x;
+				const int tileAddNr = x + addy * size.x;
 
 				removeEnemyFromTile(enemy, tileRemNr);
 				addEnemyToTile(enemy, tileAddNr);
@@ -628,21 +628,20 @@ void Room::drawMap()
 	{
 		for (int x = start.x; x <= screen->GetWidth() / tilesize + start.x && x < size.x; x++)
 		{
-			int tx = (tiles[y  * 44 + x].drawIndex - 1) % tilesPerRow;
-			int ty = (tiles[y  * 44 + x].drawIndex - 1) / tilesPerRow;
+			int tx = (tiles[y  * size.x + x].drawIndex - 1) % tilesPerRow;
+			int ty = (tiles[y  * size.x + x].drawIndex - 1) / tilesPerRow;
 
 			int xDrawLoc = (x - start.x) * tilesize;
 			int yDrawLoc = (y - start.y) * tilesize;
 
-			if (!tiles[y * 44 + x].rotate)
+			if (!tiles[y * size.x + x].rotate)
 			{
 				drawTile(tx, ty, xDrawLoc, yDrawLoc);
 			}
 			else 
 			{
-				drawRotatedTile(tx, ty, xDrawLoc, yDrawLoc, tiles[y * 44 + x].rotate);
+				drawRotatedTile(tx, ty, xDrawLoc, yDrawLoc, tiles[y * size.x + x].rotate);
 			}
-	
 		}
 	}
 

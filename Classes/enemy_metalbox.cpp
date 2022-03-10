@@ -10,11 +10,11 @@ namespace Character
 		EnemyBase::init(0);
 		
 		tilePos = EnemyBase::getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2));
-		findPath(tilePos, currentRoom->getPlayer()->getCurrentPos(), currentRoom);
 	}
 
 	void enemy_metalbox::changeActionSprite(int x, int newCurrentRow)
 	{
+		Sprites::get().metalgift[x]->SetFrame(directionFacing * data.epaths[x].columns);
 		*sprite = *Sprites::get().metalgift[x];
 		EnemyBase::changeActionSprite(x, newCurrentRow);
 	}

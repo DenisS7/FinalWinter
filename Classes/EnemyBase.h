@@ -32,6 +32,31 @@ protected:
 		newmath::spriteData epaths[9];
 	} data;
 
+
+	struct Atile
+	{
+		bool visited = false;
+
+		newmath::ivec2 position;
+		int g = INT_MAX;
+		int h = INT_MAX;
+		int f = INT_MAX;
+		Atile()
+		{
+			f = INT_MAX;
+			g = INT_MAX;
+			h = INT_MAX;
+		}
+		Atile(newmath::ivec2 newPosition, int ng)
+		{
+			position = newPosition;
+			g = ng;
+		}
+	};
+
+	Atile parents[1200];
+	bool visited[1200] = { false };
+
 	GameSpace::Surface* screen;
 	const float timeUntilPathRefresh = 1000.0f;
 	float currentTimePath = 0.0f;
@@ -39,8 +64,11 @@ protected:
 	bool isFollowingPlayer = false;
 	bool isAttacking = false;
 	bool isDead = false;
-	
+
 	std::vector <newmath::ivec2> path;
+	std::vector <Atile> nextTiles;
+	std::vector <Atile> passedTiles;
+
 
 private:
 
@@ -85,7 +113,7 @@ public:
 	virtual void triggerFollowPlayer();
 	void changeDrawLoc();
 	
-	std::vector <newmath::ivec2> findPath(newmath::ivec2 start, newmath::ivec2 finish, Map::Room* currentRoom);
+	void findPath(newmath::ivec2 start, newmath::ivec2 finish, Map::Room* currentRoom);
 	virtual void changeDirection(int newDirection);
 	void takeDamage(int damage);
 	void die();

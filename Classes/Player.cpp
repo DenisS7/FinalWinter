@@ -341,7 +341,9 @@ namespace Character
 	void Player::changeActionSprite(int x)
 	{
 		//sprite.SetFile(sspaths[x].path, sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
-		*sprite = *Sprites::get().player[x-1];
+		Sprites::get().player[x - 1]->SetFrame(directionFacing * sspaths[x].columns);
+
+		*sprite = *Sprites::get().player[x - 1];
 		currentSs.changeSpritesheet(sspaths[x].path, sspaths[x].rows, sspaths[x].columns, directionFacing, sprite);
 		currentSs.setFrameTime(sspaths[x].frameTime);
 	}	

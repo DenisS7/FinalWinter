@@ -7,42 +7,83 @@ class Sprites
 private:
 	Sprites() {}
 
-	GameSpace::Sprite* player_idle = new GameSpace::Sprite{ new GameSpace::Surface("assets/Player/player_idle.png"), 24 };
-	GameSpace::Sprite* player_run = new GameSpace::Sprite{ new GameSpace::Surface("assets/Player/player_run.png"), 32 };
-	GameSpace::Sprite* player_dead = new GameSpace::Sprite{ new GameSpace::Surface("assets/Player/player_dead.png"), 28 };
-	GameSpace::Sprite* player_run_body = new GameSpace::Sprite{ new GameSpace::Surface("assets/Player/player_run_body.png"), 32 };
-
-	GameSpace::Sprite* arrow_down = new GameSpace::Sprite{ new GameSpace::Surface("assets/Weapons/arrow_down.png"), 1};
-	GameSpace::Sprite* arrow_left = new GameSpace::Sprite{ new GameSpace::Surface("assets/Weapons/arrow_left.png"), 1 };
-	GameSpace::Sprite* arrow_up = new GameSpace::Sprite{ new GameSpace::Surface("assets/Weapons/arrow_up.png"), 1 };
-	GameSpace::Sprite* arrow_right = new GameSpace::Sprite{ new GameSpace::Surface("assets/Weapons/arrow_right.png"), 1 };
-
-	GameSpace::Sprite* snowball_down = new GameSpace::Sprite{ new GameSpace::Surface("assets/Weapons/snowball_attack-blue_down.png"), 4 };
-	GameSpace::Sprite* snowball_left = new GameSpace::Sprite{ new GameSpace::Surface("assets/Weapons/snowball_attack-blue_left.png"), 4 };
-	GameSpace::Sprite* snowball_up = new GameSpace::Sprite{ new GameSpace::Surface("assets/Weapons/snowball_attack-blue_up.png"), 4 };
-	GameSpace::Sprite* snowball_right = new GameSpace::Sprite{ new GameSpace::Surface("assets/Weapons/snowball_attack-blue_right.png"), 4 };
-
-	GameSpace::Sprite* metalgift_idle = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_idle.png"), 1 };
-	GameSpace::Sprite* metalgift_run = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_run.png"), 24 };
-	GameSpace::Sprite* metalgift_explosion = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_explosion.png"), 6 };
-
-	GameSpace::Sprite* snowman_turn = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/snowman/snowman_turn.png"), 8};
-	GameSpace::Sprite* snowman_spawn = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/snowman/snowman_spawn.png"), 10 };
-	GameSpace::Sprite* snowman_attack = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/snowman/snowman_attack.png"), 56 };
-	GameSpace::Sprite* snowman_dead = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/snowman/snowman_death.png"), 48 };
-
-	GameSpace::Sprite* rager_idle = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/rager/rager_idle.png"), 24 };
-	GameSpace::Sprite* rager_move = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/rager/rager_move.png"), 20 };
-	GameSpace::Sprite* rager_attack = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/rager/rager_attack.png"), 24 };
-	GameSpace::Sprite* rager_dead = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/rager/rager_death.png"), 16 };
-
-	GameSpace::Sprite* gifts = new GameSpace::Sprite{ new GameSpace::Surface("assets/Map/gifts.png"), 4 };
+	GameSpace::Surface* s_player_idle = new GameSpace::Surface("assets/Player/player_idle.png");
+	GameSpace::Surface* s_player_run = new GameSpace::Surface("assets/Player/player_run.png");
+	GameSpace::Surface* s_player_dead = new GameSpace::Surface("assets/Player/player_dead.png");
+	GameSpace::Surface* s_player_run_body = new GameSpace::Surface("assets/Player/player_run_body.png");
+				
+	GameSpace::Surface* s_arrow_down = new GameSpace::Surface("assets/Weapons/arrow_down.png");
+	GameSpace::Surface* s_arrow_left = new GameSpace::Surface("assets/Weapons/arrow_left.png");
+	GameSpace::Surface* s_arrow_up = new GameSpace::Surface("assets/Weapons/arrow_up.png");
+	GameSpace::Surface* s_arrow_right = new GameSpace::Surface("assets/Weapons/arrow_right.png");
+				
+	GameSpace::Surface* s_snowball_down = new GameSpace::Surface("assets/Weapons/snowball_attack-blue_down.png");
+	GameSpace::Surface* s_snowball_left = new GameSpace::Surface("assets/Weapons/snowball_attack-blue_left.png");
+	GameSpace::Surface* s_snowball_up = new GameSpace::Surface("assets/Weapons/snowball_attack-blue_up.png");
+	GameSpace::Surface* s_snowball_right = new GameSpace::Surface("assets/Weapons/snowball_attack-blue_right.png");
+					
+	GameSpace::Surface* s_metalgift_idle = new GameSpace::Surface("assets/Enemies/metalgift/metalgift_idle.png");
+	GameSpace::Surface* s_metalgift_run = new GameSpace::Surface("assets/Enemies/metalgift/metalgift_run.png");
+	GameSpace::Surface* s_metalgift_explosion = new GameSpace::Surface("assets/Enemies/metalgift/metalgift_explosion.png");
+						
+	GameSpace::Surface* s_snowman_turn = new GameSpace::Surface("assets/Enemies/snowman/snowman_turn.png");
+	GameSpace::Surface* s_snowman_spawn = new GameSpace::Surface("assets/Enemies/snowman/snowman_spawn.png");
+	GameSpace::Surface* s_snowman_attack = new GameSpace::Surface("assets/Enemies/snowman/snowman_attack.png");
+	GameSpace::Surface* s_snowman_dead = new GameSpace::Surface("assets/Enemies/snowman/snowman_death.png");
+						
+	GameSpace::Surface* s_rager_idle = new GameSpace::Surface("assets/Enemies/rager/rager_idle.png");
+	GameSpace::Surface* s_rager_move = new GameSpace::Surface("assets/Enemies/rager/rager_move.png");
+	GameSpace::Surface* s_rager_attack = new GameSpace::Surface("assets/Enemies/rager/rager_attack.png");
+	GameSpace::Surface* s_rager_dead = new GameSpace::Surface("assets/Enemies/rager/rager_death.png");
+						
+	GameSpace::Surface* s_gifts = new GameSpace::Surface("assets/Map/gifts.png");
+					
+	GameSpace::Surface* s_potion_heal = new GameSpace::Surface("assets/Items/heal_potion.png");
+	GameSpace::Surface* s_potion_speed = new GameSpace::Surface("assets/Items/speed_potion.png");
+	GameSpace::Surface* s_potion_firerate = new GameSpace::Surface("assets/Items/firerate_potion.png");
+	GameSpace::Surface* s_potion_shield = new GameSpace::Surface("assets/Items/shield_potion.png");
+	GameSpace::Surface* s_potion_damage = new GameSpace::Surface("assets/Items/damage_potion.png");
 	
-	GameSpace::Sprite* potion_heal = new GameSpace::Sprite{ new GameSpace::Surface("assets/Items/heal_potion.png"), 12 };
-	GameSpace::Sprite* potion_speed = new GameSpace::Sprite{ new GameSpace::Surface("assets/Items/speed_potion.png"), 12 };
-	GameSpace::Sprite* potion_firerate = new GameSpace::Sprite{ new GameSpace::Surface("assets/Items/firerate_potion.png"), 12 };
-	GameSpace::Sprite* potion_shield = new GameSpace::Sprite{ new GameSpace::Surface("assets/Items/shield_potion.png"), 12 };
-	GameSpace::Sprite* potion_damage = new GameSpace::Sprite{ new GameSpace::Surface("assets/Items/damage_potion.png"), 12 };
+	/// <summary>
+	///
+	/// </summary>
+
+	GameSpace::Sprite* player_idle = new GameSpace::Sprite{ s_player_idle , 24 };
+	GameSpace::Sprite* player_run = new GameSpace::Sprite{ s_player_run, 32 };
+	GameSpace::Sprite* player_dead = new GameSpace::Sprite{ s_player_dead, 28 };
+	GameSpace::Sprite* player_run_body = new GameSpace::Sprite{ s_player_run_body, 32 };
+
+	GameSpace::Sprite* arrow_down = new GameSpace::Sprite{ s_arrow_down, 1};
+	GameSpace::Sprite* arrow_left = new GameSpace::Sprite{ s_arrow_left, 1 };
+	GameSpace::Sprite* arrow_up = new GameSpace::Sprite{ s_arrow_up, 1 };
+	GameSpace::Sprite* arrow_right = new GameSpace::Sprite{ s_arrow_right, 1 };
+
+	GameSpace::Sprite* snowball_down = new GameSpace::Sprite{ s_snowball_down, 4 };
+	GameSpace::Sprite* snowball_left = new GameSpace::Sprite{ s_snowball_left, 4 };
+	GameSpace::Sprite* snowball_up = new GameSpace::Sprite{ s_snowball_up, 4 };
+	GameSpace::Sprite* snowball_right = new GameSpace::Sprite{ s_snowball_right, 4 };
+
+	GameSpace::Sprite* metalgift_idle = new GameSpace::Sprite{ s_metalgift_idle, 1 };
+	GameSpace::Sprite* metalgift_run = new GameSpace::Sprite{ s_metalgift_run, 24 };
+	GameSpace::Sprite* metalgift_explosion = new GameSpace::Sprite{ s_metalgift_explosion, 13 };
+
+	GameSpace::Sprite* snowman_turn = new GameSpace::Sprite{ s_snowman_turn, 8};
+	GameSpace::Sprite* snowman_spawn = new GameSpace::Sprite{ s_snowman_spawn, 10 };
+	GameSpace::Sprite* snowman_attack = new GameSpace::Sprite{ s_snowman_attack, 56 };
+	GameSpace::Sprite* snowman_dead = new GameSpace::Sprite{ s_snowman_dead, 48 };
+
+	GameSpace::Sprite* rager_idle = new GameSpace::Sprite{ s_rager_idle, 24 };
+	GameSpace::Sprite* rager_move = new GameSpace::Sprite{ s_rager_move, 20 };
+	GameSpace::Sprite* rager_attack = new GameSpace::Sprite{ s_rager_attack, 24 };
+	GameSpace::Sprite* rager_dead = new GameSpace::Sprite{ s_rager_dead, 16 };
+
+	GameSpace::Sprite* gifts = new GameSpace::Sprite{ s_gifts, 4 };
+	
+	GameSpace::Sprite* potion_heal = new GameSpace::Sprite{ s_potion_heal, 12 };
+	GameSpace::Sprite* potion_speed = new GameSpace::Sprite{ s_potion_speed, 12 };
+	GameSpace::Sprite* potion_firerate = new GameSpace::Sprite{ s_potion_firerate, 12 };
+	GameSpace::Sprite* potion_shield = new GameSpace::Sprite{ s_potion_shield, 12 };
+	GameSpace::Sprite* potion_damage = new GameSpace::Sprite{ s_potion_damage, 12 };
 
 
 public:

@@ -49,19 +49,19 @@ public:
 
 	Player()
 	{
-		sspaths[1].path = "assets/Player/player_idle.png";
+		//sspaths[1].path = "assets/Player/player_idle.png";
 		sspaths[1].columns = 6;
 		sspaths[1].frameTime = 80.0f;
 
-		sspaths[2].path = "assets/Player/player_run.png";
+		//sspaths[2].path = "assets/Player/player_run.png";
 		sspaths[2].columns = 8;
 		sspaths[2].frameTime = 75.0f;
 
-		sspaths[3].path = "assets/Player/player_dead.png";
+		//sspaths[3].path = "assets/Player/player_dead.png";
 		sspaths[3].columns = 7;
 		sspaths[3].frameTime = 100.0f;
 
-		sspaths[4].path = "assets/Player/player_run_body.png";
+		//sspaths[4].path = "assets/Player/player_run_body.png";
 		sspaths[4].columns = 8;
 		sspaths[4].frameTime = 75.0f;
 
