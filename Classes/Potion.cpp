@@ -9,7 +9,7 @@ namespace Item
 	{
 		drawLocf = locf - currentRoom->getLocation();
 		*sprite = *Sprites::get().potion[type];
-		currentSs.changeSpritesheet(currentRoom->manager->potionPath[type], 0, 12, 0, sprite);
+		currentSs.changeSpritesheet(0, 12, 0, sprite);
 	}
 
 	void Potion::use()

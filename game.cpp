@@ -97,8 +97,8 @@ namespace GameSpace
 			isMouseDown = false, currentScreenType = newScreenType;
 		if (isPathOnScreen)
 			PrintNumber::printNumber(screen, manager->getLength(), screen->GetPitch() - screen->GetPitch() / 15, screen->GetHeight() / 10);
-		cursor.Draw(screen, mouse.x - 16, mouse.y - 16);
-	}
+		cursor.Draw(screen, mouse.x - 8, mouse.y - 8);
+	 }
 
 	void Game::StartGame()
 	{
@@ -211,6 +211,9 @@ namespace GameSpace
 			else if (isRunning && !isPaused)
 				player->shootProjectile(5, mouse.x, mouse.y);
 			break;
+
+		case SDL_BUTTON_RIGHT:
+			player->iceExplosion(mouse.x, mouse.y);
 		}
 	}
 

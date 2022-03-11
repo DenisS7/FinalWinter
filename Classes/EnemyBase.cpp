@@ -33,6 +33,7 @@ namespace Character
 		data.damageOnCol = currentRoom->manager->getEnemyType(data.type).damageOnCol;
 		data.speed = currentRoom->manager->getEnemyType(data.type).speed;
 		data.points = currentRoom->manager->getEnemyType(data.type).points;
+		data.range = currentRoom->manager->getEnemyType(data.type).range;
 		data.col.offset.x = currentRoom->manager->getEnemyType(data.type).col.collisionBox.x;
 		data.col.offset.y = currentRoom->manager->getEnemyType(data.type).col.collisionBox.y;
 
@@ -71,7 +72,7 @@ namespace Character
 
 	void EnemyBase::changeActionSprite(int x, int newCurrentRow)
 	{
-		currentSs.changeSpritesheet(data.epaths[x].path, data.epaths[x].rows, data.epaths[x].columns, newCurrentRow, sprite);
+		currentSs.changeSpritesheet(data.epaths[x].rows, data.epaths[x].columns, newCurrentRow, sprite);
 		currentSs.setFrameTime(data.epaths[x].frameTime);
 	}
 

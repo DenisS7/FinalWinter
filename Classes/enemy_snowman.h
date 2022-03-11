@@ -31,7 +31,7 @@ public:
     enemy_snowman(Map::Room* currentRoom, int entype)
         : EnemyBase(currentRoom, entype)
     {
-
+        
     }
 
     ~enemy_snowman() 

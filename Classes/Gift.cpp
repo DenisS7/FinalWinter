@@ -11,7 +11,7 @@ namespace Item
 
 	void Gift::open()
 	{
-		currentRoom->addItem(potion, locf + 16);
+		currentRoom->addItem(potion, locf);
 		currentRoom->removeItem(this);
 		delete this;
 	}

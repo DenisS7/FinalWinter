@@ -16,6 +16,8 @@ private:
 	GameSpace::Surface* s_arrow_left = new GameSpace::Surface("assets/Weapons/arrow_left.png");
 	GameSpace::Surface* s_arrow_up = new GameSpace::Surface("assets/Weapons/arrow_up.png");
 	GameSpace::Surface* s_arrow_right = new GameSpace::Surface("assets/Weapons/arrow_right.png");
+
+	GameSpace::Surface* s_ice_explosion = new GameSpace::Surface("assets/Weapons/ice_explosion.png");
 				
 	GameSpace::Surface* s_snowball_down = new GameSpace::Surface("assets/Weapons/snowball_attack-blue_down.png");
 	GameSpace::Surface* s_snowball_left = new GameSpace::Surface("assets/Weapons/snowball_attack-blue_left.png");
@@ -66,6 +68,8 @@ private:
 	GameSpace::Sprite* arrow_left = new GameSpace::Sprite{ s_arrow_left, 1 };
 	GameSpace::Sprite* arrow_up = new GameSpace::Sprite{ s_arrow_up, 1 };
 	GameSpace::Sprite* arrow_right = new GameSpace::Sprite{ s_arrow_right, 1 };
+
+	GameSpace::Sprite* ice_explosion = new GameSpace::Sprite{ s_ice_explosion, 12 };
 
 	GameSpace::Sprite* snowball_down = new GameSpace::Sprite{ s_snowball_down, 4 };
 	GameSpace::Sprite* snowball_left = new GameSpace::Sprite{ s_snowball_left, 4 };
@@ -148,6 +152,8 @@ public:
 
 	std::vector <GameSpace::Sprite*> player = { player_idle, player_run, player_dead, player_run_body };
 	std::vector <GameSpace::Sprite*> arrow = { arrow_down, arrow_left, arrow_up, arrow_right };
+	std::vector <GameSpace::Sprite*> attack = { ice_explosion };
+
 	std::vector <GameSpace::Sprite*> snowball = { snowball_down, snowball_left, snowball_up, snowball_right };
 
 	std::vector <GameSpace::Sprite*> metalgift = { metalgift_idle, metalgift_run, metalgift_explosion };

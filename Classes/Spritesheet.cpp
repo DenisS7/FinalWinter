@@ -4,10 +4,8 @@
 #include "../template.h"
 
 
-Spritesheet::Spritesheet(char* path, int row, int column, GameSpace::Sprite* newSprite)
+Spritesheet::Spritesheet(int row, int column, GameSpace::Sprite* newSprite)
 {
-    //image = new GameSpace::Surface{ "assets/Player/player_idle.png" };
-    //image->SetFile(path);
     rows = row;
     columns = column;
     currentFrame = (currentRow * column) % (row * column);
@@ -23,7 +21,7 @@ Spritesheet::~Spritesheet()
     columns = 0;
 }
 
-void Spritesheet::changeSpritesheet(char* path, int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite)
+void Spritesheet::changeSpritesheet(int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite)
 {
     currentTime = 0;
     rows = row;
@@ -31,7 +29,6 @@ void Spritesheet::changeSpritesheet(char* path, int row, int column, int newCurr
     currentFrame = currentRow * column;
     columns = column;
     sprite = newSprite;
-   // image->SetFile(path);
 }
 
 void Spritesheet::setFrameTime(float newFrameTime)
@@ -55,7 +52,6 @@ void Spritesheet::freezeFrame(int frame, bool isFreezed)
     }
     else
     {
-        // currentTime = 0.0f;
         freezedColumn = 1;
     }
 }
@@ -74,15 +70,14 @@ void Spritesheet::changeVisiblity(bool newVisible)
 
 void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface* screen, GameSpace::vec2 drawLocf)
 {
-    if (visible)
+   
+    currentTime += deltaTime * freezedColumn;
+    if (currentTime >= frameTime)
     {
-        currentTime += deltaTime * freezedColumn;
-        if (currentTime >= frameTime)
-        {
-            calculateNextFrame();
-            currentTime -= frameTime;
-            sprite->SetFrame(currentFrame);
-        }
-        sprite->Draw(screen, (int)drawLocf.x, (int)drawLocf.y);
+        calculateNextFrame();
+        currentTime -= frameTime;
+        sprite->SetFrame(currentFrame);
     }
+    if (visible)
+        sprite->Draw(screen, (int)drawLocf.x, (int)drawLocf.y);
 }

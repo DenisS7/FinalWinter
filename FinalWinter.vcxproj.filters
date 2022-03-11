@@ -55,7 +55,6 @@
     <ClCompile Include="Classes\Healthbar.cpp">
       <Filter>Player</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Sprites.cpp" />
     <ClCompile Include="Classes\enemy_rager.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
@@ -86,8 +85,18 @@
     <ClCompile Include="Classes\Potion.cpp">
       <Filter>Items</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Pathfinder.cpp" />
-    <ClCompile Include="Classes\PrintNumber.cpp" />
+    <ClCompile Include="Classes\Pathfinder.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\PrintNumber.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Sprites.cpp">
+      <Filter>Spritesheet</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\IceExplosion.cpp">
+      <Filter>Weapons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Player.h">
@@ -144,7 +153,6 @@
     <ClInclude Include="Classes\Healthbar.h">
       <Filter>Player</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Sprites.h" />
     <ClInclude Include="Classes\enemy_rager.h">
       <Filter>Enemies</Filter>
     </ClInclude>
@@ -175,8 +183,18 @@
     <ClInclude Include="Classes\Potion.h">
       <Filter>Items</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Pathfinder.h" />
-    <ClInclude Include="Classes\PrintNumber.h" />
+    <ClInclude Include="Classes\Pathfinder.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\PrintNumber.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Sprites.h">
+      <Filter>Spritesheet</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\IceExplosion.h">
+      <Filter>Weapons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />

@@ -64,6 +64,7 @@ private:
 		int damageOnCol = 0;
 		float speed = 0.2f;
 		int points = 0;
+		int range = 0;
 		CollisionComponent col;
 		int spritesheetsNr = 0;
 		newmath::spriteData epaths[9];

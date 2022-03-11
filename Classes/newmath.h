@@ -73,6 +73,8 @@ public:
 	static int getSign(int n) { if (n < 0) return -1; if (n >= 0) return 1; return 0; };
 	static float getSign(float n) { if (n < 0) return -1; if (n > 0) return 1; return 0; };
 	static bool isNegative(int n) { if (n < 0) return true; return false; };
+	static bool isPositive(int n) { if (n > 0) return true; return false; };
+	static bool isPositivef(float n) { if (n > 0) return true; return false; };
 	static int manhattanDist(ivec2 start, ivec2 finish) { return (abs(start.x - finish.x) + abs(start.y - finish.y)); };
 };
 

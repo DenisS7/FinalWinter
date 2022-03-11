@@ -11,6 +11,7 @@
 #include "Score.h"
 #include "Sprites.h"
 #include <fstream>
+#include "IceExplosion.h"
 
 namespace Character
 {
@@ -36,22 +37,26 @@ private:
 	
 	newmath::chMove move;
 	Weapon::WeaponBase weapon;
+	std::vector <Weapon::IceExplosion*> attacks;
 	GameSpace::Sprite* sprite = new GameSpace::Sprite(new GameSpace::Surface("assets/Player/player_idle.png"), 24);
 	GameSpace::Sprite shieldSprite{ new GameSpace::Surface("assets/Weapons/IceShield.png"), 22 };
+	
 	int currentState = 0;
 	int directionFacing = 0;
 	const Uint8* keystate;
 	bool isHoldingGun = false;
 	int spritesheetsNr = 0;
-	Spritesheet currentSs{ "assets/Player/player_idle.png", 4, 6, sprite };
-	Spritesheet shieldSs{ "assets/Weapons/IceShield.png", 2, 11, &shieldSprite };
+	Spritesheet currentSs{ 4, 6, sprite };
+	Spritesheet shieldSs{ 2, 11, &shieldSprite };
 
 	const int healing = 0, speed = 1, firerate = 2, shield = 3, damage = 4;
 	int healAdd = 0, damageAdd = 0;
 	float speedAdd = 0, firerateAdd = 0;
 	float potionTimers[5] = { 0 };
 	int isShieldCreating = 0;
+	float explosionTimeElapsed = 0, explosionTimer = 500.0f;
 	
+	std::vector <Weapon::IceExplosion*> explosions;
 
 public:
 
@@ -152,6 +157,8 @@ public:
 	void addMovement(int x, int y, float deltaTime);
 	void equipWeapon(int type);
 	void shootProjectile(int type, int mousex, int mousey);
+	void deleteExplosion(Weapon::IceExplosion* attack);
+	void iceExplosion(int x, int y);
 	void drawUI();
 	void drawPausePlayer(float deltaTime);
 	void update(float deltaTime);

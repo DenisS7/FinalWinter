@@ -127,7 +127,7 @@ namespace Map
 
 void Room::inititateEnemies()
 {
-	enemies = 1;
+	enemies = 13;
 	int enemyType = 0;
 	for (int i = 0; i < enemies; i++)
 	{

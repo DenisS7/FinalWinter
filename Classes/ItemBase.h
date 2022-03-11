@@ -19,7 +19,7 @@ protected:
 	GameSpace::vec2 locf = 0, drawLocf = 0;
 	GameSpace::Sprite* sprite = new GameSpace::Sprite{ new GameSpace::Surface("assets/Map/gifts.png"), 4};
 	Map::Room* currentRoom;
-	Spritesheet currentSs{"assets/Map/gifts.png", 1, 4, sprite};
+	Spritesheet currentSs{1, 4, sprite};
 	int type;
 	const int gift = 0, potion = 1;
 	bool isColidable = false;

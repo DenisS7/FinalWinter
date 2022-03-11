@@ -14,6 +14,8 @@ namespace Character
 	{
 		for (int i = 0; i < 5; i++)
 			potionTimers[i] = 0;
+		for (int i = 0; i < explosions.size();)
+			explosions[i]->destroy();
 
 		health = healthBase;
 		move.speed = speedBase;
@@ -349,48 +351,75 @@ namespace Character
 		Sprites::get().player[x]->SetFrame(directionFacing * sspaths[x].columns);
 
 		*sprite = *Sprites::get().player[x];
-		currentSs.changeSpritesheet(sspaths[x].path, sspaths[x].rows, sspaths[x].columns, directionFacing, sprite);
+		currentSs.changeSpritesheet(sspaths[x].rows, sspaths[x].columns, directionFacing, sprite);
 		currentSs.setFrameTime(sspaths[x].frameTime);
 	}	
 
 	void Player::equipWeapon(int type) //type = 0 -> no weapon    5 - crossbow   6 - snowball  7 - snowman head
 	{
-		if (!type)
+		if (!isDead)
 		{
-			move.speed += 0.05f;
-			currentRoom->speed += 0.05f;
+			if (!type)
+			{
+				move.speed += 0.05f;
+				currentRoom->speed += 0.05f;
 
-			isHoldingGun = false;
-			
-			weapon.changeVisibility(false);
+				isHoldingGun = false;
 
-			checkIdle();
-		}
-		else if (type && !isHoldingGun)
-		{
-			move.speed -= 0.05f;
-			currentRoom->speed -= 0.05f;
-			isHoldingGun = true;
+				weapon.changeVisibility(false);
 
-			weapon.changeVisibility(true);
+				checkIdle();
+			}
+			else if (type && !isHoldingGun)
+			{
+				move.speed -= 0.05f;
+				currentRoom->speed -= 0.05f;
+				isHoldingGun = true;
 
-			checkIdle();
+				weapon.changeVisibility(true);
+
+				checkIdle();
+			}
 		}
 
 	}
 
 	void Player::shootProjectile(int type, int mousex, int mousey)
 	{
-		if (type)
+		if (!isDead)
 		{
-			equipWeapon(crossbow);
-			weapon.shootArrows();
+			if (type)
+			{
+				equipWeapon(crossbow);
+				weapon.shootArrows();
+			}
+			else
+			{
+				if (weapon.reloading < weapon.reloadTime / 2)
+					weapon.reloading = weapon.reloadTime / 2;
+				weapon.stopShooting();
+			}
 		}
-		else
+	}
+
+	void Player::deleteExplosion(Weapon::IceExplosion* attack)
+	{
+		std::vector<Weapon::IceExplosion*>::iterator position = std::find(explosions.begin(), explosions.end(), attack);
+		if (position != explosions.end())
+			explosions.erase(position);
+	}
+
+	void Player::iceExplosion(int x, int y)
+	{
+		if (!isDead)
 		{
-			if (weapon.reloading < weapon.reloadTime / 2)
-				weapon.reloading = weapon.reloadTime / 2;
-			weapon.stopShooting();
+			if (explosionTimeElapsed >= explosionTimer)
+			{
+				explosionTimeElapsed = 0;
+				Weapon::IceExplosion* newAttack = new Weapon::IceExplosion{ x, y, newmath::isPositivef(potionTimers[damage]) * damageAdd, this };
+				newAttack->init();
+				explosions.push_back(newAttack);
+			}
 		}
 	}
 
@@ -533,6 +562,8 @@ namespace Character
 				weapon.drawWeapon(0);
 			for (int i = 0; i < weapon.arrows.size(); i++)
 				weapon.arrows[i]->drawProjectile(screen, 0);
+			for (int i = 0; i < explosions.size(); i++)
+				explosions[i]->update(0);
 		}
 		else
 		{
@@ -540,13 +571,18 @@ namespace Character
 				weapon.drawWeapon(0);
 			for (int i = 0; i < weapon.arrows.size(); i++)
 				weapon.arrows[i]->drawProjectile(screen, 0);
+
 			currentSs.drawNextSprite(0, screen, drawLocf);
+			for (int i = 0; i < explosions.size(); i++)
+				explosions[i]->update(0);
+
 		}
 	}
 
 	void Player::update(float deltaTime)
 	{
 		checkPotions(deltaTime);
+		explosionTimeElapsed = newmath::clampf(explosionTimeElapsed + deltaTime, 0, explosionTimer + 1);
 		drawUI();
 		if (directionFacing == 0)
 		{
@@ -571,6 +607,8 @@ namespace Character
 				weapon.update(deltaTime);
 			for (int i = 0; i < weapon.arrows.size(); i++)
 				weapon.arrows[i]->UpdatePosition(deltaTime);
+			for (int i = 0; i < explosions.size(); i++)
+				explosions[i]->update(deltaTime);
 		}
 		else
 		{
@@ -595,6 +633,8 @@ namespace Character
 					potionTimers[shield] = 0;
 				}
 			}
+			for (int i = 0; i < explosions.size(); i++)
+				explosions[i]->update(deltaTime);
 		}
 	}
 	

@@ -26,6 +26,7 @@ protected:
 		int damagePerAttack = 0;
 		int damageOnCol = 0;
 		float speed = 0.2f;
+		int range = 0;
 		int points = 0;
 		CollisionComponent col;
 		int spritesheetsNr = 0;
@@ -54,6 +55,7 @@ protected:
 		}
 	};
 
+	
 	Atile parents[1200];
 	bool visited[1200] = { false };
 
@@ -102,7 +104,7 @@ public:
 	int directionFacing = 0;
 
 	GameSpace::Sprite* sprite = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_idle.png"), 1 };
-	Spritesheet currentSs{ "assets/Enemies/metalgift/metalgift_idle.png", 1, 1, sprite };
+	Spritesheet currentSs{ 1, 1, sprite };
 	GameSpace::vec2 locf = 0, drawLocf = 0;
 	newmath::chMove move;
 	newmath::ivec2 tilePos;

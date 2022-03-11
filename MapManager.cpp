@@ -61,9 +61,6 @@ namespace Map
 		if (start.y == 6)
 			start.y = 5;
 
-		std::cout << start.x << " " << start.y << " " << finish.x << " " << finish.y << "\n";
-
-
 		rooms[0].readRoomLayout(collisionTiles, portalTiles);
 		rooms[0].initiateRoom(0, this, screen);
 		for (int i = 0; i < 49; i++)
@@ -111,10 +108,6 @@ namespace Map
 		if (start.y == 6)
 			start.y = 5;
 
-		std::cout << start.x << " " << start.y << " " << finish.x << " " << finish.y << "\n";
-
-		
-		
 		std::ifstream fin("ReadFiles/RoomLayout/Collisions.txt");
 		fin >> nrColTiles;
 		for (int i = 0; i < nrColTiles; i++)
@@ -139,7 +132,7 @@ namespace Map
 		{
 			std::ifstream ein(enemyPath[i]);
 			ein >> enemyTypes[i].type >> enemyTypes[i].health;
-			ein >> enemyTypes[i].damagePerAttack >> enemyTypes[i].damageOnCol >> enemyTypes[i].speed >> enemyTypes[i].points;
+			ein >> enemyTypes[i].damagePerAttack >> enemyTypes[i].damageOnCol >> enemyTypes[i].speed >> enemyTypes[i].points >> enemyTypes[i].range;
 			int x, y, h, w;
 			ein >> x >> y >> h >> w;
 			enemyTypes[i].col.collisionBox = newmath::make_Rect(x, y, h, w);
@@ -151,23 +144,6 @@ namespace Map
 				ein >> enemyTypes[i].epaths[j].frameTime;
 			}
 		}
-
-		enemyTypes[0].epaths[0].path = "assets/Enemies/metalgift/metalgift_idle.png";
-		enemyTypes[0].epaths[1].path = "assets/Enemies/metalgift/metalgift_run.png";
-		enemyTypes[0].epaths[2].path = "assets/Enemies/metalgift/metalgift_explosion.png";
-
-		enemyTypes[1].epaths[0].path = "assets/Enemies/snowman/snowman_turn.png";
-		enemyTypes[1].epaths[1].path = "assets/Enemies/snowman/snowman_spawn.png";
-		enemyTypes[1].epaths[2].path = "assets/Enemies/snowman/snowman_attack.png";
-		enemyTypes[1].epaths[3].path = "assets/Enemies/snowman/snowman_death.png";
-
-		enemyTypes[2].epaths[0].path = "assets/Enemies/rager/rager_idle.png";
-		enemyTypes[2].epaths[1].path = "assets/Enemies/rager/rager_move.png";
-		enemyTypes[2].epaths[2].path = "assets/Enemies/rager/rager_attack.png";
-		enemyTypes[2].epaths[3].path = "assets/Enemies/rager/rager_death.png";
-
-
-	
 
 		rooms[0].readRoomLayout(collisionTiles, portalTiles);
 		rooms[0].initiateRoom(0, this, screen);
@@ -204,7 +180,7 @@ namespace Map
 
 	bool MapManager::canCreateNewRoom(int x, int y)
 	{
-		if (exists[x + y * roomAm.x]) //the room was already generated
+		if (exists[x + y * roomAm.x])
 		{
 			return false;
 		}
@@ -217,7 +193,6 @@ namespace Map
 
 	void MapManager::initiateEnemiesInRooms()
 	{
-		std::cout << newRooms << std::endl;
 		for (int i = 0; i < roomAm.x * roomAm.y; i++)
 			if (i != start.x + start.y * roomAm.x)
 				rooms[i].inititateEnemies();
@@ -230,13 +205,27 @@ namespace Map
 		{
 			if (canCreateNewRoom(x, y - i + 1))
 			{
-				k[newRooms] = x + y * roomAm.x;
+				/*if (exists[x + (y - i + 1) * roomAm.x]) //the room was already generated
+				{
+					if (!IRand(4) && rooms[x + (y - i + 1) * roomAm.x].nrdoors < 4)
+					{
+						rooms[x + (y - i + 1) * roomAm.x].nrdoors++;
+						rooms[x + (y - i + 1) * roomAm.x].doors[(i + 2) % 4] = true;
+						rooms[x + (y - i + 1) * roomAm.x].changeDoorLayout(false);
+						generated = true;
+						graph[x + y * roomAm.x][x + (y - i + 1) * roomAm.x] = graph[x + (y - i + 1) * roomAm.x][x + y * roomAm.x] = 1;
+					}
+				}*/
+				//else
+				{
+					k[newRooms] = x + y * roomAm.x;
 
-				graph[x + y * roomAm.x][x + (y - i + 1) * roomAm.x] = graph[x + (y - i + 1) * roomAm.x][x + y * roomAm.x] = 1;
-				
-				parentRoom[x + (y - i + 1) * roomAm.x] = x + y * roomAm.x;
-				addToNextRooms(x, y - i + 1, (i + 2) % 4, false);
-				generated = true;
+					graph[x + y * roomAm.x][x + (y - i + 1) * roomAm.x] = graph[x + (y - i + 1) * roomAm.x][x + y * roomAm.x] = 1;
+
+					parentRoom[x + (y - i + 1) * roomAm.x] = x + y * roomAm.x;
+					addToNextRooms(x, y - i + 1, (i + 2) % 4, false);
+					generated = true;
+				}
 			}
 			
 		}
@@ -244,13 +233,27 @@ namespace Map
 		{
 			if (canCreateNewRoom(x + i - 2, y))
 			{
-				k[newRooms] = x + y * roomAm.x;
+				/*if (exists[x + (y - i + 1) * roomAm.x]) //the room was already generated
+				{
+					if (!IRand(4) && rooms[x + i - 2 + y * roomAm.x].nrdoors < 4)
+					{
+						rooms[x + i - 2 + y * roomAm.x].nrdoors++;
+						rooms[x + i - 2 + y * roomAm.x].doors[(i + 2) % 4] = true;
+						rooms[x + i - 2 + y * roomAm.x].changeDoorLayout(false);
+						generated = true;
+						graph[x + y * roomAm.x][x + i - 2 + y * roomAm.x] = graph[x + i - 2 + y * roomAm.x][x + y * roomAm.x] = 1;
+					}
+				}*/
+				//else
+				{
+					k[newRooms] = x + y * roomAm.x;
 
-				graph[x + y * roomAm.x][x + i - 2 + y * roomAm.x] = graph[x + i - 2 + y * roomAm.x][x + y * roomAm.x] = 1;
+					graph[x + y * roomAm.x][x + i - 2 + y * roomAm.x] = graph[x + i - 2 + y * roomAm.x][x + y * roomAm.x] = 1;
 
-				parentRoom[x + i - 2 + y * roomAm.x] = x + y * roomAm.x;
-				addToNextRooms(x + i - 2, y, (i + 2) % 4, false);
-				generated = true;
+					parentRoom[x + i - 2 + y * roomAm.x] = x + y * roomAm.x;
+					addToNextRooms(x + i - 2, y, (i + 2) % 4, false);
+					generated = true;
+				}
 			}
 		}
 	}
@@ -339,7 +342,6 @@ namespace Map
 	void MapManager::generate(int x, int y, int StartDirection, bool CanClose, int kn)
 	{
 		exists[x + y * roomAm.x] = true;
-
 		rooms[x + y * roomAm.x].calculateDoors(StartDirection, CanClose, kn);
 		bool possible[4] = { true, true, true, true };
 		for (int i = 0; i < 4; i++)
@@ -348,6 +350,7 @@ namespace Map
 			if (rooms[x + y * roomAm.x].doors[i] && i != StartDirection)
 			{
 				calcNewRoom(i, x, y, CanClose, generated);
+
 				if (!generated)
 				{
 					rooms[x + y * roomAm.x].doors[i] = false;

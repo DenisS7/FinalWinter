@@ -233,6 +233,7 @@
     <ClCompile Include="Classes\enemy_snowman.cpp" />
     <ClCompile Include="Classes\Gift.cpp" />
     <ClCompile Include="Classes\Healthbar.cpp" />
+    <ClCompile Include="Classes\IceExplosion.cpp" />
     <ClCompile Include="Classes\ItemBase.cpp" />
     <ClCompile Include="Classes\newmath.cpp" />
     <ClCompile Include="Classes\Pathfinder.cpp" />
@@ -266,6 +267,7 @@
     <ClInclude Include="Classes\enemy_snowman.h" />
     <ClInclude Include="Classes\Gift.h" />
     <ClInclude Include="Classes\Healthbar.h" />
+    <ClInclude Include="Classes\IceExplosion.h" />
     <ClInclude Include="Classes\ItemBase.h" />
     <ClInclude Include="Classes\newmath.h" />
     <ClInclude Include="Classes\Pathfinder.h" />
