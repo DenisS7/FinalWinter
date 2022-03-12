@@ -41,7 +41,7 @@ namespace GameSpace
 		manager->setPlayer(player);
 		manager->setScreen(screen);
 		manager->initiate();
-		
+		scoreManager.readScores();
 		player->init(screen, &manager->rooms[manager->getStart().x + manager->getStart().y * manager->getRoomAm().x], manager, keystate);
 		
 		
@@ -53,6 +53,7 @@ namespace GameSpace
 	// -----------------------------------------------------------
 	void Game::Shutdown()
 	{
+		scoreManager.outputScores();
 		exit(1);
 	}
 
@@ -62,12 +63,18 @@ namespace GameSpace
 		screen->Clear(0);
 		if (isRunning)
 		{
-			if (isPaused)
+			if (isPaused && !isScoreScreen)
 			{	
 				newScreenType = pause;
 				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(0);
 				player->drawPausePlayer(0);
 				pauseScreen->displayScreen();
+			}
+			else if (isScoreScreen)
+			{
+				newScreenType = score;
+				screen->Clear(0);
+				scoreScreen->displayScreen();
 			}
 			else
 			{
@@ -79,11 +86,17 @@ namespace GameSpace
 		}
 		else
 		{
-			if (!isEndScreen)
+			if (!isEndScreen && !isScoreScreen)
 			{
 				newScreenType = start;
 				screen->Clear(0);
 				startScreen->displayScreen();
+			}
+			else if (isScoreScreen)
+			{
+				newScreenType = score;
+				screen->Clear(0);
+				scoreScreen->displayScreen();
 			}
 			else
 			{
@@ -123,25 +136,33 @@ namespace GameSpace
 		int k = currentScreen->isButtonPressed(vec2((float)mouse.x, (float)mouse.y));
 		if (k != -1)
 		{
-			if (k == startButton && !isRunning && down)
-				StartGame();
-			else if (k == quitButton && down)
-				Shutdown();
-			else if (k == replayButton && down)
+			if (down)
 			{
-				isPathOnScreen = false;
-				isPaused = true;
-				isRunning = false;
-				player->restart();
-				isScreenFocus = false;
-				isEndScreen = false;
-				isPaused = false;
-				isRunning = true;
-				won = false;
-			}
-			else if (k == pathButton && down)
-			{
-				isPathOnScreen = !isPathOnScreen;
+				if (k == startButton && !isRunning)
+					StartGame();
+				else if (k == quitButton)
+					Shutdown();
+				else if (k == replayButton)
+				{
+					outputScore = false;
+					isPathOnScreen = false;
+					isPaused = true;
+					isRunning = false;
+					player->restart();
+					isScreenFocus = false;
+					isEndScreen = false;
+					isPaused = false;
+					isRunning = true;
+					won = false;
+				}
+				else if (k == scoresButton)
+				{
+					isScoreScreen = true;
+				}
+				else if (k == pathButton)
+				{
+					isPathOnScreen = !isPathOnScreen;
+				}
 			}
 		}
 	}
@@ -221,8 +242,6 @@ namespace GameSpace
 	// Main application tick function
 	// -----------------------------------------------------------
 
-	std::ofstream fout("Scores/scores.txt");
-
 
 	void Game::Tick(float deltaTime)
 	{		
@@ -230,6 +249,8 @@ namespace GameSpace
 		DrawScreen(deltaTime);
 		if ((player->getDead() && player->getCurrentFrame() % 7 == 6) || player->getWon())
 		{
+			if (player->getWon() && !outputScore)
+				scoreManager.checkScore(player->getScore()), outputScore = true;
 			isEndScreen = true;
 			isScreenFocus = true;
 			currentScreen = endScreen;

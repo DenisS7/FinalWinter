@@ -54,6 +54,7 @@ private:
 	
 	GameSpace::Surface* s_number1 = new GameSpace::Surface("assets/Font/font_1.png");
 	GameSpace::Surface* s_numbers = new GameSpace::Surface("assets/Font/font_numbers.png");
+	GameSpace::Surface* s_dot = new GameSpace::Surface("assets/Font/dot.png");
 
 	/// <summary>
 	///
@@ -106,6 +107,7 @@ private:
 
 	GameSpace::Sprite* number1 = new GameSpace::Sprite{ s_number1, 1 };
 	GameSpace::Sprite* numbers = new GameSpace::Sprite{ s_numbers, 9 };
+	GameSpace::Sprite* dot = new GameSpace::Sprite{ s_dot, 1 };
 
 public:
 	Sprites(const Sprites&) = delete;
@@ -147,6 +149,16 @@ public:
 		delete potion_firerate;
 		delete potion_shield;
 		delete potion_damage;
+
+		delete play_button;
+		delete quit_button;
+		delete replay_button;
+		delete scores_button;
+		delete path_button;
+
+		delete number1;
+		delete numbers;
+		delete dot;
 	}
 	static	Sprites& get() { static Sprites instance; return instance; }
 
@@ -165,7 +177,7 @@ public:
 
 	std::vector <GameSpace::Sprite*> button = { play_button, quit_button, replay_button, scores_button, path_button };
 
-	std::vector <GameSpace::Sprite*> number = { number1, numbers };
+	std::vector <GameSpace::Sprite*> number = { number1, numbers, dot };
 
 	GameSpace::Surface tilemap{ "assets/Map/all_map.png" };
 

@@ -3,8 +3,10 @@
 #include "Classes/StartScreen.h"
 #include "Classes/PauseScreen.h"
 #include "Classes/EndScreen.h"
+#include "Classes/ScoreScreen.h"
 #include "MapManager.h"
 #include "Classes/Player.h"
+#include "Classes/ScoreManager.h"
 
 
 namespace GameSpace {
@@ -19,21 +21,26 @@ private:
 	UI::StartScreen* startScreen;
 	UI::EndScreen* endScreen;
 	UI::PauseScreen* pauseScreen;
+	UI::ScoreScreen* scoreScreen;
 	UI::ScreenBase* currentScreen;
+
+	ScoreManager scoreManager;
 	
 	Sprite cursor{ new Surface("assets/UI/cursor.png"), 1 };
 	Character::Player* player = new Character::Player();
 	Map::MapManager* manager = new Map::MapManager;
 
-	const int start = 0, play = 1, pause = 2, end = 3;
+	const int start = 0, play = 1, pause = 2, end = 3, score = 4;
 
 	bool isPathOnScreen = false;
 	bool isScreenFocus = true;
 	bool isRunning = false;
 	bool isPaused = false;
 	bool isEndScreen = false;
+	bool isScoreScreen = false;
 	bool won = false;
 	bool isMouseDown = false;
+	bool outputScore = false;
 	int currentScreenType = 0;
 
 	newmath::ivec2 mouse;
@@ -49,6 +56,7 @@ public:
 		startScreen = new UI::StartScreen(screen);
 		endScreen = new UI::EndScreen(screen);
 		pauseScreen = new UI::PauseScreen(screen);
+		scoreScreen = new UI::ScoreScreen(screen, &scoreManager);
 		currentScreen = startScreen;
 	}
 	void Init();

@@ -97,6 +97,10 @@
     <ClCompile Include="Classes\IceExplosion.cpp">
       <Filter>Weapons</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\ScoreManager.cpp" />
+    <ClCompile Include="Classes\ScoreScreen.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Player.h">
@@ -195,6 +199,10 @@
     <ClInclude Include="Classes\IceExplosion.h">
       <Filter>Weapons</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\ScoreManager.h" />
+    <ClInclude Include="Classes\ScoreScreen.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />
@@ -219,6 +227,7 @@
     <Text Include="Classes\Enemies\rager.txt">
       <Filter>Enemies\Data</Filter>
     </Text>
+    <Text Include="Scores\scores.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Enemies">

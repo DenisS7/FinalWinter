@@ -128,7 +128,8 @@ public:
 	newmath::chMove getMove() { return move; };
 	newmath::ivec2 getSpriteSize() { return newmath::make_ivec2(sprite->GetWidth(), sprite->GetHeight()); };
 	int getHealth() { return health; };
-	
+	int getScore() { return points; };
+
 	void restart();
 	void init(GameSpace::Surface* newScreen, Map::Room* newRoom, Map::MapManager* newMapManager, const Uint8* newKeystate);
 	void checkIdle();
@@ -140,7 +141,7 @@ public:
 	void checkPotions(float deltaTime);
 	void die();
 	void modifyPoints(int newPoints);
-	int getPoints() { return points; };
+	
 	void takeDamage(int damage);
 	void checkDirection(int n);
 	void updateMapManager(Map::MapManager* newMapManager);

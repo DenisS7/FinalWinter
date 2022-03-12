@@ -244,6 +244,8 @@
     <ClCompile Include="Classes\Projectile.cpp" />
     <ClCompile Include="Classes\Room.cpp" />
     <ClCompile Include="Classes\Score.cpp" />
+    <ClCompile Include="Classes\ScoreManager.cpp" />
+    <ClCompile Include="Classes\ScoreScreen.cpp" />
     <ClCompile Include="Classes\ScreenBase.cpp" />
     <ClCompile Include="Classes\Snowball.cpp" />
     <ClCompile Include="Classes\Sprites.cpp" />
@@ -278,6 +280,8 @@
     <ClInclude Include="Classes\Projectile.h" />
     <ClInclude Include="Classes\Room.h" />
     <ClInclude Include="Classes\Score.h" />
+    <ClInclude Include="Classes\ScoreManager.h" />
+    <ClInclude Include="Classes\ScoreScreen.h" />
     <ClInclude Include="Classes\ScreenBase.h" />
     <ClInclude Include="Classes\Snowball.h" />
     <ClInclude Include="Classes\Sprites.h" />
@@ -297,6 +301,7 @@
     <Text Include="Classes\RoomLayout\Collisions.txt" />
     <Text Include="Classes\RoomLayout\Portals.txt" />
     <Text Include="Classes\RoomLayout\Room2.txt" />
+    <Text Include="Scores\scores.txt" />
     <Text Include="_readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
