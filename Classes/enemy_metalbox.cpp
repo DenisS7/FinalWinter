@@ -107,7 +107,6 @@ namespace Character
 	
 		if ((path.size() <= 1 || isDead) && !isAttacking)
 		{
-			isFollowingPlayer = false;
 			isAttacking = true;
 			explode();
 		}

@@ -2,6 +2,7 @@
 #include "newmath.h"
 #include <vector>
 #include "EnemyBase.h"
+#include "Campfire.h"
 #include <iostream>
 #include "../surface.h"
 
@@ -96,6 +97,7 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 	const int portalInactive = 2;
 	const int portalActive = 3;
 
+	const int gift = 0, potion = 1, campfire = 2;
 	const int radius = 3;
 
 	newmath::ivec2 roomPos;
@@ -133,7 +135,6 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 				for (int i = 0; i < currentRoom->getTile(tilepos).enemiesOnTile.size(); i++)
 					if (areColliding(player->getCollision(), currentRoom->getTile(tilepos).enemiesOnTile[i]->getData().col))
 					{
-						//currentRoom->tiles[tilepos].enemiesOnTile[i]->takeDamage(damage);
 						if (currentRoom->getTile(tilepos).enemiesOnTile[i]->getData().type == 1)
 							isEnemy = true;
 					}
@@ -145,14 +146,14 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 	{
 		if (areColliding(player->getCollision(), currentRoom->getItems()[i]->getCollision()))
 		{
-			const int gift = 0, potion = 1;
-			if (currentRoom->getItems()[i]->getType() == gift)
+			if (currentRoom->getItems()[i]->getType() == gift || currentRoom->getItems()[i]->getType() == campfire)
 				collisionType = collide;
 			else if (currentRoom->getItems()[i]->getType() == potion)
 				currentRoom->getItems()[i]->use();
-		
 		}
 	}
+
+
 	/*if (areEnemies)
 	{
 		int damageTaken = 0;
@@ -172,6 +173,24 @@ int CollisionCheck::isPlayerOverlapping(Character::Player* player, Map::Room* cu
 	if (isEnemy)
 		collisionType = 1;
 	return collisionType;
+}
+
+void CollisionCheck::campfireHeal(Character::Player* player, Map::Room* currentRoom)
+{
+	const int campfire = 2;
+	if (currentRoom->getItems().size())
+	{
+		if (currentRoom->getItems()[0]->getType() == campfire)
+		{
+			Item::Campfire* campfireP = dynamic_cast <Item::Campfire*> (currentRoom->getItems()[0]);
+			if ( player->getHealth() < 70 && areColliding(player->getCollision(), campfireP->getHealBox()) && campfireP->heal())
+			{
+				player->takeDamage(-campfireP->getHealAmount());
+				if (player->getHealth() > 70)
+					player->takeDamage(player->getHealth() - 70);
+			}
+		}
+	}
 }
 
 bool CollisionCheck::areColliding(CollisionComponent actor1, CollisionComponent actor2)

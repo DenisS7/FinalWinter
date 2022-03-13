@@ -38,7 +38,7 @@ private:
 	newmath::chMove move;
 	Weapon::WeaponBase weapon;
 	std::vector <Weapon::IceExplosion*> attacks;
-	GameSpace::Sprite* sprite = new GameSpace::Sprite(new GameSpace::Surface("assets/Player/player_idle.png"), 24);
+	GameSpace::Sprite* sprite = new GameSpace::Sprite();
 	GameSpace::Sprite shieldSprite{ new GameSpace::Surface("assets/Weapons/IceShield.png"), 22 };
 	
 	int currentState = 0;

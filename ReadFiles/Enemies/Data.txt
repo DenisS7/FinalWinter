@@ -1,0 +1,6 @@
+enemyType (do not change) health, damage, damageOnCollision(does not matter), speed, points, range
+collisions(x offset, y offset, height, width)
+
+nrspritesheets(do not change)
+
+(do not change first 2 numbers) frameTime  

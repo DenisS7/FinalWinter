@@ -26,7 +26,7 @@ void ScoreManager::checkScore(int newScore)
 			{
 				while (scores.size() > 5)
 					scores.pop_back();
-				for (int j = scores.size() - 1; j > i; j--)
+				for (int j = (int)scores.size() - 1; j > i; j--)
 					scores[j] = scores[j - 1];
 				scores[i] = newScore;
 				break;

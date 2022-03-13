@@ -9,12 +9,12 @@ namespace UI
 class ScreenBase
 {
 protected:
-	const int start = 0, quit = 1, replay = 2, scores = 3, path = 4;
+	const int start = 0, quit = 1, replay = 2, scores = 3, path = 4, back = 5;
 	std::vector <Button*> buttons;
 	GameSpace::Sprite* title;
-	int screenType = 0;
-public:
 	
+public:
+	int screenType = 0;
 	ScreenBase(GameSpace::Surface* screen)
 	{
 		this->screen = screen;
@@ -22,8 +22,11 @@ public:
 	}
 	GameSpace::Surface* screen;
 	
+	std::vector <Button*> getButtons() { return buttons; };
+
 	virtual void displayScreen();
-	int isButtonPressed(GameSpace::vec2 mouse);
+	bool getButtonStatus(int buttonType);
+	int isButtonPressed(bool down, GameSpace::vec2 mouse);
 };
 
 }

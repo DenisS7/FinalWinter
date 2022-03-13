@@ -6,6 +6,8 @@
 #include "../Classes/ItemBase.h"
 #include "../Classes/Gift.h"
 #include "../Classes/Potion.h"
+#include "../Classes/Campfire.h"
+#include "../Classes/Sprites.h"
 #include <vector>
 
 
@@ -44,7 +46,7 @@ private:
 	int enemies = 0;
 	int level = 0;
 	int type = 0;
-	GameSpace::Surface tilemap{ "assets/Map/all_map-1.png" };
+	GameSpace::Surface* tilemap;
 	GameSpace::Surface* screen;
 	std::vector <tile> decorations;
 	int roomSize = 0;
@@ -57,7 +59,7 @@ private:
 	int tilesPerRow = 1;
 
 public:
-	int nrdoors = 1;
+	int nrdoors = 0;
 
 	std::vector <tile> tiles;
 	Map::MapManager* manager;
@@ -80,6 +82,7 @@ public:
 
 	const int gift = 0;
 	const int potion = 1;
+	const int campfire = 2;
 
 	float speed = 0.3f;
 
@@ -91,6 +94,7 @@ public:
 		offset.x = offset.y = 0;
 		speed = 0.3f;
 		enemies = 0;
+		//*tilemap = *Sprites::get().tilemap;
 	}
 
 	tile makeTile(int drawIndex, int type, int rotation, bool colidable) 
@@ -131,7 +135,6 @@ public:
 	void deleteEnemy(Character::EnemyBase* enemy);
 	void changeDir();
 	void moveMap(int x, int y, float deltaTime);
-	void changeDoorsToWalls();
 	void changeDoorLayout(bool isOpen);
 	void calculateDoors(int startDoor, bool CanClose, int beforeRoom);
 	void resetDoors();

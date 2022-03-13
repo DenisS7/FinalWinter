@@ -40,26 +40,33 @@ namespace Map
 		int dist = newmath::manhattanDist(start, finish);
 
 
-		if (dist <= 1)
+		if (dist <= 2)
 		{
 			int ax = newmath::getSign(start.x - finish.x);
 			int ay = newmath::getSign(start.y - finish.y);
 
-			start.x += ax * (abs(dist - 1));
-			start.y += ay * (abs(dist - 1));
+			start.x += ax * (abs(dist - 2));
+			start.y += ay * (abs(dist - 2));
 
-			finish.x -= ax * (abs(dist - 1));
-			finish.y -= ay * (abs(dist - 1));
+			finish.x -= ax * (abs(dist - 2));
+			finish.y -= ay * (abs(dist - 2));
 
-			start.x = newmath::clamp(start.x, 0, roomAm.x - 1);
-			start.y = newmath::clamp(start.y, 0, roomAm.y - 1);
-			finish.x = newmath::clamp(finish.x, 0, roomAm.x - 1);
-			finish.y = newmath::clamp(finish.y, 0, roomAm.y - 1);
+			start.x = newmath::clamp(start.x, 0, roomAm.x - 2);
+			start.y = newmath::clamp(start.y, 0, roomAm.y - 2);
+			
+			finish.x = newmath::clamp(finish.x, 0, roomAm.x - 2);
+			finish.y = newmath::clamp(finish.y, 0, roomAm.y - 2);
+
 		}
 
 
 		if (start.y == 6)
-			start.y = 5;
+		{
+			start.y = 5, finish.y--;
+			finish.y = newmath::clamp(finish.y, 0, roomAm.y - 2);
+		}
+		std::cout << std::endl << start.x + start.y * roomAm.x + 1 << std::endl;
+
 
 		rooms[0].readRoomLayout(collisionTiles, portalTiles);
 		rooms[0].initiateRoom(0, this, screen);
@@ -68,9 +75,17 @@ namespace Map
 			rooms[i].setTileMap(rooms[0].getSize(), rooms[0].getTileMap());
 			rooms[i].initiateRoom(i, this, screen);
 		}
+
 		generateFirstRoom();
 		if (goodMap)
+		{
 			initiateEnemiesInRooms();
+			//std::cout << start.x + start.y * roomAm.x << "\n \n \n";
+			for (int i = 0; i < 49; i++)
+			{
+				std::cout << i + 1 << " " << rooms[i].nrdoors << " " << rooms[i].doors[0] << " " << rooms[i].doors[1] << " " << rooms[i].doors[2] << " " << rooms[i].doors[3] << std::endl;
+			}
+		}
 		else restart();
 	}
 
@@ -144,11 +159,9 @@ namespace Map
 				ein >> enemyTypes[i].epaths[j].frameTime;
 			}
 		}
-
 		rooms[0].readRoomLayout(collisionTiles, portalTiles);
 		rooms[0].initiateRoom(0, this, screen);
 
-		
 		for (int i = 0; i < 49; i++)
 		{
 			rooms[i].setTileMap(rooms[0].getSize(), rooms[0].getTileMap());
@@ -157,9 +170,15 @@ namespace Map
 
 		generateFirstRoom();
 
-
 		if (goodMap)
+		{
 			initiateEnemiesInRooms();
+			std::cout << start.x + start.y * roomAm.x << "\n \n \n";
+			for (int i = 0; i < 49; i++)
+			{
+				std::cout << i + 1 << " " << exists[i] << " " << rooms[i].nrdoors << " " << rooms[i].doors[0] << " " << rooms[i].doors[1] << " " << rooms[i].doors[2] << " " << rooms[i].doors[3] << std::endl;
+			}
+		}
 		else restart();
 	}
 
@@ -180,10 +199,6 @@ namespace Map
 
 	bool MapManager::canCreateNewRoom(int x, int y)
 	{
-		if (exists[x + y * roomAm.x])
-		{
-			return false;
-		}
 		if (x < 0 || x >= roomAm.x || y < 0 || y >= roomAm.y) // not in map bounds
 		{
 			return false;
@@ -199,24 +214,27 @@ namespace Map
 		rooms[start.x + start.y * roomAm.x].openPortals();
 	}
 
-	void MapManager::calcNewRoom(int i, int x, int y, bool canClose, bool& generated)
+	void MapManager::calcNewRoom(int i, int x, int y, bool canClose, bool& generated, bool& usedExistingRoom)
 	{
+		const int useExistingChance = 2, generatedChance = 2;
 		if (i % 2 == 0)
 		{
 			if (canCreateNewRoom(x, y - i + 1))
 			{
-				/*if (exists[x + (y - i + 1) * roomAm.x]) //the room was already generated
+				if (exists[x + (y - i + 1) * roomAm.x]) //the room was already generated
 				{
-					if (!IRand(4) && rooms[x + (y - i + 1) * roomAm.x].nrdoors < 4)
+					if (!IRand(useExistingChance) && !graph[x + y * roomAm.x][x + (y - i + 1) * roomAm.x])
 					{
 						rooms[x + (y - i + 1) * roomAm.x].nrdoors++;
 						rooms[x + (y - i + 1) * roomAm.x].doors[(i + 2) % 4] = true;
 						rooms[x + (y - i + 1) * roomAm.x].changeDoorLayout(false);
-						generated = true;
+						if (!IRand(generatedChance))
+							generated = true;
 						graph[x + y * roomAm.x][x + (y - i + 1) * roomAm.x] = graph[x + (y - i + 1) * roomAm.x][x + y * roomAm.x] = 1;
+						usedExistingRoom = true;
 					}
-				}*/
-				//else
+				}
+				else
 				{
 					k[newRooms] = x + y * roomAm.x;
 
@@ -225,6 +243,7 @@ namespace Map
 					parentRoom[x + (y - i + 1) * roomAm.x] = x + y * roomAm.x;
 					addToNextRooms(x, y - i + 1, (i + 2) % 4, false);
 					generated = true;
+					usedExistingRoom = false;
 				}
 			}
 			
@@ -233,18 +252,20 @@ namespace Map
 		{
 			if (canCreateNewRoom(x + i - 2, y))
 			{
-				/*if (exists[x + (y - i + 1) * roomAm.x]) //the room was already generated
+				if (exists[x + i - 2 + y * roomAm.x]) //the room was already generated
 				{
-					if (!IRand(4) && rooms[x + i - 2 + y * roomAm.x].nrdoors < 4)
+					if (!IRand(useExistingChance) && !graph[x + y * roomAm.x][x + i - 2 + y * roomAm.x])
 					{
 						rooms[x + i - 2 + y * roomAm.x].nrdoors++;
 						rooms[x + i - 2 + y * roomAm.x].doors[(i + 2) % 4] = true;
 						rooms[x + i - 2 + y * roomAm.x].changeDoorLayout(false);
-						generated = true;
+						if(!IRand(generatedChance))
+							generated = true;
 						graph[x + y * roomAm.x][x + i - 2 + y * roomAm.x] = graph[x + i - 2 + y * roomAm.x][x + y * roomAm.x] = 1;
+						usedExistingRoom = true;
 					}
-				}*/
-				//else
+				}
+				else
 				{
 					k[newRooms] = x + y * roomAm.x;
 
@@ -253,11 +274,11 @@ namespace Map
 					parentRoom[x + i - 2 + y * roomAm.x] = x + y * roomAm.x;
 					addToNextRooms(x + i - 2, y, (i + 2) % 4, false);
 					generated = true;
+					usedExistingRoom = false;
 				}
 			}
 		}
 	}
-
 
 	void MapManager::calculateRoute(int room)
 	{
@@ -307,9 +328,10 @@ namespace Map
 		for (int i = 0; i < 4; i++)
 		{
 			bool generated = false;
+			bool usedExistingRoom = false; // will always be false for first room since no other rooms were generated yet
 			if (rooms[start.x + start.y * roomAm.x].doors[i])
 			{
-				calcNewRoom(i, start.x, start.y, false, generated);
+				calcNewRoom(i, start.x, start.y, false, generated, usedExistingRoom);
 				if (!generated)
 				{
 					rooms[start.x + start.y * roomAm.x].nrdoors--;
@@ -318,7 +340,7 @@ namespace Map
 					for (int j = 0; j < 4; j++)
 					{
 						if (!rooms[start.x + start.y * roomAm.x].doors[i] && possible[j])
-							calcNewRoom(j, start.x, start.y, false, generated);
+							calcNewRoom(j, start.x, start.y, false, generated, usedExistingRoom);
 						if (generated)
 						{
 							rooms[start.x + start.y * roomAm.x].nrdoors++;
@@ -341,27 +363,34 @@ namespace Map
 
 	void MapManager::generate(int x, int y, int StartDirection, bool CanClose, int kn)
 	{
+
 		exists[x + y * roomAm.x] = true;
 		rooms[x + y * roomAm.x].calculateDoors(StartDirection, CanClose, kn);
 		bool possible[4] = { true, true, true, true };
 		for (int i = 0; i < 4; i++)
 		{
 			bool generated = false;
+			bool usedExistingRoom = false;
 			if (rooms[x + y * roomAm.x].doors[i] && i != StartDirection)
 			{
-				calcNewRoom(i, x, y, CanClose, generated);
-
+				calcNewRoom(i, x, y, CanClose, generated, usedExistingRoom);
 				if (!generated)
 				{
-					rooms[x + y * roomAm.x].doors[i] = false;
+					if (!usedExistingRoom)
+					{
+						std::cout << "Did Not Use Existing Room " << x + y * roomAm.x + 1 << " " << i << "\n";
+						rooms[x + y * roomAm.x].doors[i] = false;
+					}
+					else std::cout << "USED Existing Room " << x + y * roomAm.x + 1 << " " << i << "\n";
 					possible[i] = false;
 					if (!k || !CanClose)
 					{
 						for (int j = 0; j < 4; j++)
 						{
+							usedExistingRoom = false;
 							if (!rooms[start.x + start.y * roomAm.x].doors[i] && possible[j])
-								calcNewRoom(j, x, y, CanClose, generated);
-							if (generated)
+								calcNewRoom(j, x, y, CanClose, generated, usedExistingRoom);
+							if (generated || usedExistingRoom)
 							{
 								rooms[x + y * roomAm.x].doors[j] = true;
 								break;
@@ -370,6 +399,8 @@ namespace Map
 						}
 					}
 				}
+				else if (usedExistingRoom)
+					std::cout << "GENERATED + USED Existing Room " << x + y * roomAm.x + 1<< " " << i << "\n";
 			}
 		}
 		rooms[x + y * roomAm.x].changeDoorLayout(false);
@@ -379,6 +410,7 @@ namespace Map
 
 	void MapManager::generateNextRooms()
 	{		
+		//std::cout << "GenerateNextRooms NewRooms: " << newRooms << std::endl;
 		aux[goBack] = newRooms;
 		
 		for (int i = currentGen; i < aux[goBack]; i++)
@@ -406,7 +438,6 @@ namespace Map
 				{
 					exists[nextRooms[i][0] + nextRooms[i][1] * roomAm.x] = false;
 					rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].resetDoors();
-					//rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].changeDoorsToWalls();
 					actualRooms--;
 				}
 				goBack--;
@@ -420,7 +451,6 @@ namespace Map
 				{
 					exists[nextRooms[i][0] + nextRooms[i][1] * roomAm.x] = false;
 					rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].resetDoors();
-					//rooms[nextRooms[i][0] + nextRooms[i][1] * roomAm.x].changeDoorsToWalls();
 					actualRooms--;
 				}
 				goBack--;
@@ -431,20 +461,21 @@ namespace Map
 			else
 			{
 				goodMap = false;
-			}
-			
+			}	
 		}
 		else
 		{
-			goodMap = true;
 			calculateRoute(start.x + start.y * roomAm.x);
+			goodMap = true;
 		}
-
 	}
 
 	Room* MapManager::switchRoom(int x, int y)
 	{
-		
+		std::cout << x + y * roomAm.x + 1 << std::endl;
+		if (player->currentRoom->getItems().size())
+			if (player->currentRoom->getItems()[0]->getType() == 2)
+				player->currentRoom->removeItem(player->currentRoom->getItems()[0]);
 		calculateRoute(x + y * roomAm.x);
 		return &rooms[x + y * roomAm.x];
 	}

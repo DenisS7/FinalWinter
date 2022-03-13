@@ -224,6 +224,7 @@
   <ItemGroup>
     <ClCompile Include="Classes\Arrow.cpp" />
     <ClCompile Include="Classes\Button.cpp" />
+    <ClCompile Include="Classes\Campfire.cpp" />
     <ClCompile Include="Classes\CollisionCheck.cpp" />
     <ClCompile Include="Classes\CollisionComponent.cpp" />
     <ClCompile Include="Classes\EndScreen.cpp" />
@@ -260,6 +261,7 @@
   <ItemGroup>
     <ClInclude Include="Classes\Arrow.h" />
     <ClInclude Include="Classes\Button.h" />
+    <ClInclude Include="Classes\Campfire.h" />
     <ClInclude Include="Classes\CollisionCheck.h" />
     <ClInclude Include="Classes\CollisionComponent.h" />
     <ClInclude Include="Classes\EndScreen.h" />

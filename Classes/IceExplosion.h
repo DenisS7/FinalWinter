@@ -18,7 +18,7 @@ namespace Weapon
 class IceExplosion
 {
 private:
-	GameSpace::Sprite* sprite = new GameSpace::Sprite(new GameSpace::Surface("assets/Weapons/ice_explosion.png"), 12);
+	GameSpace::Sprite* sprite = new GameSpace::Sprite();
 	Spritesheet currentSs{1, 12, sprite };
 	GameSpace::vec2 locf = 0, drawLocf = 0;
 	int damage = 15;

@@ -17,12 +17,13 @@ public:
         ItemBase(newRoom, newType, newScreen)
     {
         locf = newLocf;
+        *sprite = *Sprites::get().gift[0];
         giftSprite = IRand(4);
         sprite->SetFrame(giftSprite);
         currentSs.freezeFrame(giftSprite, true);
         health = 30;
         potionType = IRand(5);
-        col.setCollisionBox(3 + (int)locf.x, 4 + (int)locf.y, 50, 56);
+        col.setCollisionBox(10 + (int)locf.x, 10 + (int)locf.y, 30, 35);
         col.setOffset(3, 4);
     }
 

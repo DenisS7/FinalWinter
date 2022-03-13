@@ -16,9 +16,8 @@ void Score::printScore(GameSpace::Surface* screen, int x, int y, int points)
 		else nrr++;
 		aux /= 10;
 	}
-	x -= scoreUI.GetSurface()->GetPitch() + 10 + nr1 * number1.GetSurface()->GetPitch() + nrr * (numbers.GetSurface()->GetPitch() / numbers.Frames());
+	x -= scoreUI.GetSurface()->GetPitch() + 10 + nr1 * Sprites::get().number[0]->GetSurface()->GetPitch() + nrr * Sprites::get().number[1]->GetWidth();
 	scoreUI.Draw(screen, x, y);
 	x += scoreUI.GetSurface()->GetPitch() + 10;
 	PrintNumber::printNumber(screen, points, x, y);
-	
 }

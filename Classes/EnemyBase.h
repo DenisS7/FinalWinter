@@ -89,9 +89,6 @@ public:
 	{
 		sprite = nullptr;
 		delete sprite;
-		//delete currentRoom;
-		//delete sprite.GetSurface();
-		//delete screen;
 	}
 
 	
@@ -103,7 +100,7 @@ public:
 	int currentState = 0;
 	int directionFacing = 0;
 
-	GameSpace::Sprite* sprite = new GameSpace::Sprite{ new GameSpace::Surface("assets/Enemies/metalgift/metalgift_idle.png"), 1 };
+	GameSpace::Sprite* sprite = new GameSpace::Sprite();
 	Spritesheet currentSs{ 1, 1, sprite };
 	GameSpace::vec2 locf = 0, drawLocf = 0;
 	newmath::chMove move;

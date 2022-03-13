@@ -16,6 +16,7 @@ public:
     ScoreScreen(GameSpace::Surface* screen, ScoreManager* newScoreManager) :
         ScreenBase(screen)
     {
+        buttons.push_back(new Button(back, screen, 0));
         scoreManager = newScoreManager;
         screenType = 4;
     }

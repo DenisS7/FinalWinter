@@ -39,6 +39,7 @@ class Surface
 	enum { OWNER = 1 };
 public:
 	// constructor / destructor
+	Surface() {};
 	Surface( int a_Width, int a_Height, Pixel* a_Buffer, int a_Pitch );
 	Surface( int a_Width, int a_Height );
 	Surface( char* a_File );
@@ -100,6 +101,7 @@ public:
 	};
 	
 	// Structors
+	Sprite() {};
 	Sprite( Surface* a_Surface, unsigned int a_NumFrames );
 	~Sprite();
 	// Methods

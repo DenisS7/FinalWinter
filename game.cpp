@@ -98,8 +98,9 @@ namespace GameSpace
 				screen->Clear(0);
 				scoreScreen->displayScreen();
 			}
-			else
+			else if (isEndScreen)
 			{
+				screen->Clear(0);
 				newScreenType = end;
 				manager->rooms[player->currentRoom->getRoomNumber()].updateMap(deltaTime);
 				player->drawPausePlayer(0);
@@ -131,12 +132,13 @@ namespace GameSpace
 		player->input(deltaTime);
 	}
 
-	void Game::PressButton(bool down, UI::ScreenBase* currentScreen)
+	void Game::PressButton(bool down)
 	{
-		int k = currentScreen->isButtonPressed(vec2((float)mouse.x, (float)mouse.y));
+		int k = currentScreen->isButtonPressed(!down, vec2((float)mouse.x, (float)mouse.y));
 		if (k != -1)
 		{
-			if (down)
+			int isPressed = currentScreen->getButtonStatus(k);
+			if (down && !isPressed)
 			{
 				if (k == startButton && !isRunning)
 					StartGame();
@@ -157,14 +159,27 @@ namespace GameSpace
 				}
 				else if (k == scoresButton)
 				{
+					currentScreen = scoreScreen;
+					isScreenFocus = true;
+					isPathOnScreen = false;
 					isScoreScreen = true;
 				}
 				else if (k == pathButton)
 				{
 					isPathOnScreen = !isPathOnScreen;
 				}
+				else if (k == backButton)
+				{
+					if (isEndScreen)
+						currentScreen = endScreen;
+					else currentScreen = startScreen;
+					isScreenFocus = true;
+					isScoreScreen = false;
+				}
 			}
 		}
+		
+		//isButtonPressed = k + 1;
 	}
 
 	void Game::KeyDown(int key)
@@ -207,18 +222,17 @@ namespace GameSpace
 
 	void Game::MouseUp(int button)
 	{
-		
 		switch (button)
 		{
 		case SDL_BUTTON_LEFT:
 			if (isScreenFocus && isMouseDown)
-				PressButton(true, currentScreen);
+				PressButton(true);
 			else
 				player->shootProjectile(0, 0, 0);
-		
 			break;
 		}
 		isMouseDown = false;
+		
 	}
 
 	void Game::MouseDown(int button)
@@ -228,13 +242,14 @@ namespace GameSpace
 		{
 		case SDL_BUTTON_LEFT:
 			if (isScreenFocus)
-				PressButton(false, currentScreen);
+				PressButton(false);
 			else if (isRunning && !isPaused)
 				player->shootProjectile(5, mouse.x, mouse.y);
 			break;
 
 		case SDL_BUTTON_RIGHT:
 			player->iceExplosion(mouse.x, mouse.y);
+			break;
 		}
 	}
 
@@ -253,7 +268,8 @@ namespace GameSpace
 				scoreManager.checkScore(player->getScore()), outputScore = true;
 			isEndScreen = true;
 			isScreenFocus = true;
-			currentScreen = endScreen;
+			if (currentScreen->screenType != 4)
+				currentScreen = endScreen;
 			StopGame();
 		}
 		else if (isRunning && !isPaused)

@@ -97,9 +97,14 @@
     <ClCompile Include="Classes\IceExplosion.cpp">
       <Filter>Weapons</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\ScoreManager.cpp" />
     <ClCompile Include="Classes\ScoreScreen.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\ScoreManager.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Campfire.cpp">
+      <Filter>Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,9 +204,14 @@
     <ClInclude Include="Classes\IceExplosion.h">
       <Filter>Weapons</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\ScoreManager.h" />
     <ClInclude Include="Classes\ScoreScreen.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\ScoreManager.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Campfire.h">
+      <Filter>Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,7 +237,9 @@
     <Text Include="Classes\Enemies\rager.txt">
       <Filter>Enemies\Data</Filter>
     </Text>
-    <Text Include="Scores\scores.txt" />
+    <Text Include="Scores\scores.txt">
+      <Filter>UI</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Enemies">

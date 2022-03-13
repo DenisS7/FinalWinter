@@ -1,0 +1,8 @@
+health baseDamage baseSpeed baseFirerate
+collisions (x offset, y offset, height, width)
+
+nrSpritesheets (always 4)
+
+(always the first two numbers (rows, columns)) frameTime
+
+healPotionAmount speedPotionBoost fireratePotionBoost damagePotionBoost

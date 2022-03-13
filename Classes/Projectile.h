@@ -20,7 +20,7 @@ protected:
 	GameSpace::vec2 locf, drawLocf, initialPosf;
 	float speedf = 0.25f;
 	int direction, damage, speed;
-	GameSpace::Sprite* sprite = new GameSpace::Sprite{ new GameSpace::Surface("assets/Weapons/arrow_down.png"), 1 };
+	GameSpace::Sprite* sprite = new GameSpace::Sprite{};
 
 	Spritesheet currentSs{1, 4, sprite };
 

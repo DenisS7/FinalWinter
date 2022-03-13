@@ -11,10 +11,10 @@ namespace UI
 class Button
 {
 private:
-	const int start = 0, quit = 1, replay = 2, scores = 3, path = 4;
+	const int start = 0, quit = 1, replay = 2, scores = 3, path = 4, back = 5;
 	bool isPressed = false;
 	int buttonType = -1;
-	GameSpace::Sprite* sprite = new GameSpace::Sprite{new GameSpace::Surface("assets/UI/play_full.png"), 2};
+	GameSpace::Sprite* sprite = new GameSpace::Sprite();
 	GameSpace::Surface* screen;
 	newmath::ivec2 size;
 	GameSpace::vec2 drawLocf;
@@ -42,7 +42,7 @@ public:
 			if (!newDrawLocf.length())
 			{
 				drawLocf.x = (float)screen->GetWidth() / 11;
-				drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 7 - sprite->GetSurface()->GetHeight();
+				drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 5 + (float)screen->GetHeight() / 7 - sprite->GetSurface()->GetHeight();
 			}
 			else drawLocf = newDrawLocf;
 		}
@@ -64,7 +64,7 @@ public:
 			if (!newDrawLocf.length())
 			{
 				drawLocf.x = (float)screen->GetWidth() / 11;
-				drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 5 + (float)screen->GetHeight() / 7 - sprite->GetSurface()->GetHeight();
+				drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 7 - sprite->GetSurface()->GetHeight();
 			}
 			else drawLocf = newDrawLocf;
 		}
@@ -78,6 +78,18 @@ public:
 				drawLocf.y = (float)screen->GetHeight() / 2 + (float)screen->GetHeight() / 5 + (float)screen->GetHeight() / 7 - sprite->GetSurface()->GetHeight();
 			}
 			else drawLocf = newDrawLocf;
+		}
+		else if (type == back)
+		{
+			*sprite = *Sprites::get().button[back];
+			size = newmath::make_ivec2(sprite->GetSurface()->GetWidth() / 2, sprite->GetSurface()->GetHeight());
+			if (!newDrawLocf.length())
+			{
+				drawLocf.x = (float)screen->GetWidth() / 40;
+				drawLocf.y = (float)screen->GetHeight() / 40;
+			}
+			else drawLocf = newDrawLocf;
+
 		}
 	}
 

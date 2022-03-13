@@ -31,6 +31,7 @@ public:
 
 	void setCollisionBox(const int x, const int y, const int height, const int width);
 	void setOffset(const int x, const int y);
+	void setSize(const int x, const int y);
 	void extendCollision(const int x, const int y);
 	void moveCollision(const int x, const int y);
 };

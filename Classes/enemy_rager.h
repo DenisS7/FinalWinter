@@ -1,6 +1,7 @@
 #pragma once
 #include "EnemyBase.h"
 #include "Sprites.h"
+#include <iostream>
 
 namespace Character
 {

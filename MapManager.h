@@ -119,7 +119,7 @@ public:
 	bool canCreateNewRoom(int x, int y);
 	
 	void initiateEnemiesInRooms();
-	void calcNewRoom(int i, int x, int y, bool canClose, bool& generated);
+	void calcNewRoom(int i, int x, int y, bool canClose, bool& generated, bool& usedExistingRoom);
 	void calculateRoute(int room);
 	void generateFirstRoom();
 	void generate(int x, int y, int direction, bool CanClose, int kn);

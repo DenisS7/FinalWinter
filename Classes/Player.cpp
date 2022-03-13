@@ -582,6 +582,7 @@ namespace Character
 	void Player::update(float deltaTime)
 	{
 		checkPotions(deltaTime);
+		CollisionCheck::campfireHeal(this, currentRoom);
 		explosionTimeElapsed = newmath::clampf(explosionTimeElapsed + deltaTime, 0, explosionTimer + 1);
 		drawUI();
 		if (directionFacing == 0)

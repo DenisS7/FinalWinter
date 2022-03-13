@@ -2,6 +2,7 @@
 
 void CollisionComponent::setCollisionBox(const int x, const int y, const int height, const int width)
 {
+	setSize(width, height);
 	collisionBox = newmath::make_Rect(x, y, height, width);
 }
 
@@ -9,6 +10,12 @@ void CollisionComponent::setOffset(const int x, const int y)
 {
 	offset.x = x;
 	offset.y = y;
+}
+
+void CollisionComponent::setSize(const int x, const int y)
+{
+	size.x = x;
+	size.y = y;
 }
 
 void CollisionComponent::extendCollision(const int x, const int y)

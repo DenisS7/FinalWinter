@@ -13,7 +13,7 @@ namespace Character
 		EnemyBase::changeActionSprite(0, 0);
 		currentState = 0;
 		drawLocf = locf - currentRoom->getLocation();
-		findPath(getCurrentPos(newmath::make_ivec2(sprite->GetWidth() / 2, sprite->GetHeight() / 2)), currentRoom->getPlayer()->getCurrentPos(), currentRoom);
+		
 	}
 
 	void enemy_rager::changeActionSprite(int x, int newCurrentRow)

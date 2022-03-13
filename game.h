@@ -16,7 +16,7 @@ class Game
 {
 private:
 
-	const int startButton = 0, quitButton = 1, replayButton = 2, scoresButton = 3, pathButton = 4;
+	const int startButton = 0, quitButton = 1, replayButton = 2, scoresButton = 3, pathButton = 4, backButton = 5;
 	Surface* screen;
 	UI::StartScreen* startScreen;
 	UI::EndScreen* endScreen;
@@ -69,7 +69,7 @@ public:
 	void MouseDown(int button);
 	void MouseMove(int x, int y) { mouse.x = x, mouse.y = y; };
 	void Input(float deltaTime);
-	void PressButton(bool down, UI::ScreenBase* currentScreen);
+	void PressButton(bool down);
 	void KeyUp(int key);
 	void KeyDown(int key);
 

@@ -12,7 +12,6 @@ namespace UI
 		
 		for (int i = 0; i < 5; i++)
 		{
-			std::cout << xoffset;
 			bool isScore = false;
 			int score = 0;
 			if (i < scoreManager->getScores().size())
@@ -26,6 +25,7 @@ namespace UI
 				PrintNumber::printNumber(screen, score, screen->GetPitch() / 2 + dotOffset - 45, (i + 1) * screen->GetHeight() / 10 + topScores.GetHeight() + screen->GetHeight() / 40);
 			xoffset = Sprites::get().number[1]->GetWidth() + dotOffset;
 		}
+		ScreenBase::displayScreen();
 	}
 
 }

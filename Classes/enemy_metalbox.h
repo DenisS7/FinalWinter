@@ -19,12 +19,12 @@ public:
     enemy_metalbox(Map::Room* currentRoom, int entype)
         : EnemyBase(currentRoom, entype)
     {
-        
+        *sprite = *Sprites::get().metalgift[0];
     }
 
     ~enemy_metalbox()
     {
-
+          
     }
 
     void init();

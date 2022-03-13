@@ -65,7 +65,7 @@ namespace Character
 				currentRoom->addEnemyToTile(this, tileNr);
 			}
 		}
-		findPath(tilePos, currentRoom->getPlayer()->getCurrentPos(), currentRoom);
+		//findPath(tilePos, currentRoom->getPlayer()->getCurrentPos(), currentRoom);
 		currentSs.setDirection(0);
 
 	}
