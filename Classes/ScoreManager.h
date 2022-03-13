@@ -9,7 +9,6 @@ private:
 public:
 	
 	std::vector <int> getScores() { return scores; };
-	//int getNrScores() { return nrScores; };
 
 	void readScores();
 	void checkScore(int newScore);

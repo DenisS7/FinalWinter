@@ -48,8 +48,6 @@ public:
 	{
 		sprite = nullptr;
 		delete sprite;
-		//delete currentRoom;
-		//delete sprite.GetSurface();
 	}
 
 	virtual void drawProjectile(GameSpace::Surface* screen, float deltaTime);

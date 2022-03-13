@@ -107,7 +107,6 @@ namespace Character
 	{
 		currentSs.freezeFrame(0, false);
 		isFollowingPlayer = true;
-		//EnemyBase::changeActionSprite(0, 0);
 	}
 
 	void enemy_snowman::update(float deltaTime)
@@ -134,8 +133,6 @@ namespace Character
 					currentSs.freezeFrame(currentSs.getCurrentFrame(), true);
 					currentSs.changeVisiblity(false);
 					data.col.collisionBox.x = data.col.collisionBox.y = 0;
-					
-					//currentRoom->deleteEnemy(this);
 				}
 			}
 			else if (currentState != 3)

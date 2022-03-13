@@ -23,7 +23,6 @@ namespace Character
 		weapon.setDamage(arrowDamageBase);
 		weapon.setReloadTime(firerateBase);
 
-		//destroy shield if any
 		shieldSs.setDirection(0);
 		shieldSs.freezeFrame(0, true);
 		isShieldCreating = 0;
@@ -296,7 +295,6 @@ namespace Character
 		move.side[0] = down;
 		if (down)
 		{
-			//move.side[2] = false;
 			addMovement(0, 1, deltaTime);
 			if (!weapon.isShooting)
 				checkDirection(0);
@@ -310,7 +308,6 @@ namespace Character
 		move.side[1] = left;
 		if (left)
 		{
-			//move.side[3] = false;
 			addMovement(-1, 0, deltaTime);
 			if (!weapon.isShooting)
 				checkDirection(1);
@@ -323,7 +320,6 @@ namespace Character
 		move.side[2] = up;
 		if (up)
 		{
-			//move.side[0] = false;
 			addMovement(0, -1, deltaTime);
 			if (!weapon.isShooting)
 				checkDirection(2);
@@ -336,7 +332,6 @@ namespace Character
 		move.side[3] = right;
 		if (right)
 		{
-			//move.side[1] = false;
 			addMovement(1, 0, deltaTime);
 			if (!weapon.isShooting)
 				checkDirection(3);
@@ -347,7 +342,6 @@ namespace Character
 
 	void Player::changeActionSprite(int x)
 	{
-		//sprite.SetFile(sspaths[x].path, sspaths[x].rows * sspaths[x].columns, directionFacing * sspaths[x].columns);
 		Sprites::get().player[x]->SetFrame(directionFacing * sspaths[x].columns);
 
 		*sprite = *Sprites::get().player[x];

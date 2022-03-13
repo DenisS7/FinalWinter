@@ -61,9 +61,6 @@ private:
 	GameSpace::Surface* s_dot = new GameSpace::Surface("assets/Font/dot.png");
 	
 
-	/// <summary>
-	///
-	/// </summary>
 
 	GameSpace::Sprite* player_idle = new GameSpace::Sprite{ s_player_idle , 24 };
 	GameSpace::Sprite* player_run = new GameSpace::Sprite{ s_player_run, 32 };

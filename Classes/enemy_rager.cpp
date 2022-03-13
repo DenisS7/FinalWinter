@@ -149,7 +149,6 @@ namespace Character
 					CollisionComponent attackCollision = *attackCol;
 					attackCollision.collisionBox.x += data.col.collisionBox.x + directionFacing * 50;
 					attackCollision.collisionBox.y += data.col.collisionBox.y;
-					//screen->Box(attackCollision.collisionBox.x - currentRoom->getLocation().x, attackCollision.collisionBox.y - currentRoom->getLocation().y, attackCollision.collisionBox.x + attackCollision.collisionBox.width - currentRoom->getLocation().x, attackCollision.collisionBox.y + attackCollision.collisionBox.height - currentRoom->getLocation().y, 0xff0000);
 					if (CollisionCheck::areColliding(attackCollision, currentRoom->getPlayer()->getCollision()))
 					{
 						dealDamage = true;
@@ -164,6 +163,5 @@ namespace Character
 				drawLocf = locf - currentRoom->getLocation();
 			}
 		}
-		//screen->Box(drawLocf.x, drawLocf.y, drawLocf.x + data.col.collisionBox.width, drawLocf.y + data.col.collisionBox.height, 0xff0000);
 	}
 }

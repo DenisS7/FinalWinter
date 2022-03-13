@@ -78,7 +78,6 @@ int CollisionCheck::isOverlapping(CollisionComponent actorCollision, GameSpace::
 			}
 		}
 	}
-	//screen->Clear(0);
 	
 	if (isEnemy)
 		return enemy;

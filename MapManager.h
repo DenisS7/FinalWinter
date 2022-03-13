@@ -30,7 +30,6 @@ private:
 	
 
 	int isFirstRoom = 0;
-	//int nextRooms[50][4] = { 0 };
 	int newRooms = 0;
 
 	int goBack = 0;

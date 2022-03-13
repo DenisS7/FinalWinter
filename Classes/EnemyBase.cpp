@@ -65,7 +65,6 @@ namespace Character
 				currentRoom->addEnemyToTile(this, tileNr);
 			}
 		}
-		//findPath(tilePos, currentRoom->getPlayer()->getCurrentPos(), currentRoom);
 		currentSs.setDirection(0);
 
 	}
@@ -106,7 +105,6 @@ namespace Character
 
 	void EnemyBase::die()
 	{
-		//increase score
 		data.col.setCollisionBox(0, 0, 0, 0);
 		currentRoom->deleteEnemy(this);
 		delete this;

@@ -62,8 +62,6 @@ public:
 
 	Player()
 	{
-		//sspaths[1].path = "assets/Player/player_idle.png";
-
 		std::ifstream fin("ReadFiles/Player/player.txt");
 
 		fin >> healthBase >> arrowDamageBase >> speedBase >> firerateBase;

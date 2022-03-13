@@ -22,7 +22,6 @@ bool ScreenBase::getButtonStatus(int buttonType)
 
 int ScreenBase::isButtonPressed(bool down, GameSpace::vec2 mouse)
 {
-	//std::cout << "Size: " << buttons.size() << std::endl;
 	for (int i = 0; i < buttons.size(); i++)
 	{
 		if (buttons[i]->isButtonPressed(mouse))

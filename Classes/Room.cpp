@@ -277,7 +277,6 @@ namespace Map
 
 				tiles[size.x / 2 - 1 + (size.y - 1) * size.x].type = type;
 				tiles[size.x / 2 - 1 + (size.y - 1) * size.x].colidable = true;
-				//tiles[size.x / 2 - 1 + (size.y - 2) * size.x].type = portalActive;
 
 				tiles[size.x / 2 - 1 + (size.y - 1) * size.x].rotate = tiles[size.x / 2 - 1 + (size.y - 2) * size.x].rotate = 2;
 			}
@@ -288,7 +287,6 @@ namespace Map
 
 				tiles[(size.y / 2) * size.x].type = type;
 				tiles[(size.y / 2) * size.x].colidable = true;
-				//tiles[(size.y / 2) * size.x + 1].type = portalActive;
 
 				tiles[(size.y / 2) * size.x].rotate = tiles[(size.y / 2) * size.x + 1].rotate = 1;
 			}
@@ -299,7 +297,6 @@ namespace Map
 
 				tiles[size.x / 2 - 1 + size.x].type = type;
 				tiles[size.x / 2 - 1 + size.x].colidable = true;
-				//tiles[size.x / 2 - 1 + 2 * size.x].type = portalActive;
 			}
 			else if (roomNumber - manager->getFinish() == -1) //final room is right
 			{
@@ -308,7 +305,6 @@ namespace Map
 
 				tiles[(size.y / 2) * size.x + size.x - 1].type = type;
 				tiles[(size.y / 2) * size.x + size.x - 1].colidable = true;
-				//tiles[(size.y / 2) * size.x + size.x - 2].type = portalActive;
 
 				tiles[(size.y / 2) * size.x + size.x - 1].rotate = tiles[(size.y / 2) * size.x + size.x - 2].rotate = 3;
 			}
@@ -438,8 +434,6 @@ namespace Map
 		nrdoors += IRand(5 - nrdoors);
 		if (nrdoors == 1 && CanClose == false)
 			nrdoors = 2;
-		//if (nrdoors > 4)
-			//nrdoors = 4;
 		for (int i = 0; i < nrdoors; i++)
 		{
 			int k = 0;
@@ -535,7 +529,6 @@ namespace Map
 			rot.x += add.x;
 			rot.y += add.y;
 		
-			//src += Sprites::get().tilemap.GetPitch() * yAdd;
 			dst += screen->GetPitch();
 		}
 	}

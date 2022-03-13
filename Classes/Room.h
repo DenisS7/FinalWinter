@@ -94,7 +94,6 @@ public:
 		offset.x = offset.y = 0;
 		speed = 0.3f;
 		enemies = 0;
-		//*tilemap = *Sprites::get().tilemap;
 	}
 
 	tile makeTile(int drawIndex, int type, int rotation, bool colidable) 

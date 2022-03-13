@@ -7,7 +7,6 @@ namespace Weapon
 {
 	Arrow::~Arrow()
 	{
-		//delete crossbow;
 	}
 
 	void Arrow::drawProjectile(GameSpace::Surface* screen, float deltaTime)
