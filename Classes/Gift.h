@@ -21,7 +21,7 @@ public:
         giftSprite = IRand(4);
         sprite->SetFrame(giftSprite);
         currentSs.freezeFrame(giftSprite, true);
-        health = 30;
+        health = 1;
         potionType = IRand(5);
         col.setCollisionBox(10 + (int)locf.x, 10 + (int)locf.y, 30, 35);
         col.setOffset(3, 4);

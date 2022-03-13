@@ -32,20 +32,6 @@ namespace Map
 		nrdoors = 1;
 		for (int i = 0; i < itemsInRoom.size();)
 			itemsInRoom[i]->deleteItem();
-		//changeDoorsToWalls();
-	}
-
-	void Room::spawnDecorations(int nr, int type)
-	{
-
-	}
-
-
-	void Room::createDecorations()
-	{
-		int trees = IRand(3) + 2;
-		int rocks = IRand(2) + 2;
-		int bushes = IRand(4) + 1;
 	}
 
 	void Room::addItem(int type, GameSpace::vec2 locf)
@@ -130,7 +116,7 @@ namespace Map
 
 	void Room::inititateEnemies()
 	{
-		enemies = 1;
+		enemies = 13;
 		int enemyType = 0;
 		for (int i = 0; i < enemies; i++)
 		{
@@ -384,6 +370,7 @@ namespace Map
 	{
 		int door[2] = { 40, 67 };
 		int type = portalInactive;
+		isRoomOpen = isOpen;
 		if (isOpen)
 		{
 			door[0] = manager->openDoor[0];
@@ -396,6 +383,7 @@ namespace Map
 			door[1] = manager->closedDoor[1];
 			type = portalInactive;
 		}
+
 		if (doors[0]) //down
 		{	
 			tiles[size.x / 2 - 1 + (size.y - 1) * size.x].drawIndex = door[0];
@@ -440,15 +428,19 @@ namespace Map
 	
 	}	
 
-	void Room::calculateDoors(int startDoor, bool CanClose, int beforeRoom)
+	void Room::calculateDoors(int startDoor, bool CanClose)
 	{
-		nrdoors = 1;
-		doors[startDoor] = true;
-		nrdoors += IRand(4);
+		if (!doors[startDoor])
+		{
+			nrdoors++;
+			doors[startDoor] = true;
+		}
+		nrdoors += IRand(5 - nrdoors);
 		if (nrdoors == 1 && CanClose == false)
 			nrdoors = 2;
-		
-		for (int i = 0; i < nrdoors - 1; i++)
+		//if (nrdoors > 4)
+			//nrdoors = 4;
+		for (int i = 0; i < nrdoors; i++)
 		{
 			int k = 0;
 			int n = IRand(4);
@@ -665,6 +657,24 @@ namespace Map
 
 	void Room::updateMap(float deltaTime)
 	{
+		for (int i = 0; i < manager->getRoomAm().x * manager->getRoomAm().y; i++)
+		{
+			if (manager->rooms[i].getIsRoomOpen() && i != roomNumber)
+			{
+				for (int j = 0; j < manager->rooms[i].getEnemies().size(); j++)
+				{
+
+					if (manager->rooms[i].getEnemies()[j]->type == 1)
+					{
+						Character::enemy_snowman* snowman = dynamic_cast <Character::enemy_snowman*> (manager->rooms[i].getEnemies()[j]);
+						for (int e = 0; e < snowman->getSnowballs().size(); e++)
+						{
+							snowman->getSnowballs()[e]->Move(deltaTime);
+						}
+					}
+				}
+			}
+		}
 		changeDir();
 		drawMap();
 		drawItems(deltaTime);
@@ -673,4 +683,4 @@ namespace Map
 		updateTiles();
 	}
 
-	}
+}

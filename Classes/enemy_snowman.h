@@ -39,6 +39,8 @@ public:
       
     }
 
+    std::vector <Weapon::Snowball*> getSnowballs() { return snowballs; };
+
     void init();
     void changeActionSprite(int x, int newCurrentRow) override;
     void changeDirection(int newDirection) override;

@@ -30,7 +30,7 @@ private:
 	
 
 	int isFirstRoom = 0;
-	int nextRooms[50][4] = { 0 };
+	//int nextRooms[50][4] = { 0 };
 	int newRooms = 0;
 
 	int goBack = 0;
@@ -54,8 +54,16 @@ private:
 	int parentRoom[100] = { 0 };
 	int actualRooms = 0;
 
+	Room* pastRoom;
+
 	const int typesOfEnemies = 3;
 	newmath::ivec2 start, finish, roomAm;
+	
+	struct generatingRoom
+	{
+		int x = -1, y = -1, startingDoor = -1;
+		bool canClose = false;
+	} nextRooms[50];
 	struct typeEn
 	{
 		int type = 0;
@@ -122,7 +130,7 @@ public:
 	void calcNewRoom(int i, int x, int y, bool canClose, bool& generated, bool& usedExistingRoom);
 	void calculateRoute(int room);
 	void generateFirstRoom();
-	void generate(int x, int y, int direction, bool CanClose, int kn);
+	void generate(int x, int y, int direction, bool CanClose);
 	void generateNextRooms();
 	
 	Room* switchRoom(int x, int y);

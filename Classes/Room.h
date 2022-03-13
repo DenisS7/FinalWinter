@@ -55,7 +55,7 @@ private:
 	std::vector <Character::EnemyBase*> enemiesInRoom;
 	std::vector <Item::ItemBase*> itemsInRoom;
 	Character::Player* player;
-	
+	bool isRoomOpen = false;
 	int tilesPerRow = 1;
 
 public:
@@ -107,6 +107,8 @@ public:
 		return newTile;
 	}
 
+	std::vector <Character::EnemyBase*> getEnemies() { return enemiesInRoom; };
+	bool getIsRoomOpen() { return isRoomOpen; };
 	int getRoomNumber() { return roomNumber; };
 	newmath::ivec2 getSize() { return size; };
 	tile getTile(int tileNr) { return tiles[tileNr]; };
@@ -136,7 +138,7 @@ public:
 	void changeDir();
 	void moveMap(int x, int y, float deltaTime);
 	void changeDoorLayout(bool isOpen);
-	void calculateDoors(int startDoor, bool CanClose, int beforeRoom);
+	void calculateDoors(int startDoor, bool CanClose);
 	void resetDoors();
 	int doorNumber();
 	void getMap();

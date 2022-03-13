@@ -81,7 +81,7 @@ public:
 		currentRoom = newRoom;
 		data.type = entype;
 		finish = newmath::make_ivec2(0, 0);
-		
+		type = entype;
 		locf = drawLocf = 0;
 	}
 
