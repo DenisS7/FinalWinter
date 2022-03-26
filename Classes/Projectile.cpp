@@ -3,30 +3,26 @@
 
 namespace Weapon
 {
-	void Projectile::drawProjectile(GameSpace::Surface* screen,float deltaTime)
-	{
-		currentSs.drawNextSprite(deltaTime, screen, drawLocf);
-	}
+    void Projectile::drawProjectile(GameSpace::Surface* screen, float deltaTime)
+    {
+        currentSs.drawNextSprite(deltaTime, screen, drawLocf);
+    }
 
-	void Projectile::Init()
-	{
+    void Projectile::Init()
+    {
+    }
 
-	}
+    void Projectile::Spawn(newmath::ivec2 newLoc, newmath::ivec2 newDrawLoc, int newDirection)
+    {
+        direction = newDirection;
+        Init();
+    }
 
-	void Projectile::Spawn(newmath::ivec2 newLoc, newmath::ivec2 newDrawLoc, int newDirection)
-	{
-		direction = newDirection;
-		Init();
-	}
+    void Projectile::deleteProjectile()
+    {
+    }
 
-	void Projectile::deleteProjectile()
-	{
-	}
-
-	void Projectile::Move(float deltaTime)
-	{
-
-	}
-
-	
+    void Projectile::Move(float deltaTime)
+    {
+    }
 }

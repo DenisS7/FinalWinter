@@ -2,34 +2,32 @@
 
 void CollisionComponent::setCollisionBox(const int x, const int y, const int height, const int width)
 {
-	setSize(width, height);
-	collisionBox = newmath::make_Rect(x, y, height, width);
+    setSize(width, height);
+    collisionBox = newmath::make_Rect(x, y, height, width);
 }
 
 void CollisionComponent::setOffset(const int x, const int y)
 {
-	offset.x = x;
-	offset.y = y;
+    offset.x = x;
+    offset.y = y;
 }
 
 void CollisionComponent::setSize(const int x, const int y)
 {
-	size.x = x;
-	size.y = y;
+    size.x = x;
+    size.y = y;
 }
 
 void CollisionComponent::extendCollision(const int x, const int y)
 {
-	collisionBox.x -= x;
-	collisionBox.y -= y;
-	collisionBox.height += 2 * x;
-	collisionBox.width += 2 * y;
+    collisionBox.x -= x;
+    collisionBox.y -= y;
+    collisionBox.height += 2 * x;
+    collisionBox.width += 2 * y;
 }
 
 void CollisionComponent::moveCollision(const int x, const int y)
 {
-	collisionBox.x += x;
-	collisionBox.y += y;
+    collisionBox.x += x;
+    collisionBox.y += y;
 }
-
-

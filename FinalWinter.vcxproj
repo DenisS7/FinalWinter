@@ -1,312 +1,312 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-  </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <ProjectGuid>{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}</ProjectGuid>
-    <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>NotSet</CharacterSet>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
-    <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>NotSet</CharacterSet>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
-    <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
-    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <TargetName>$(ProjectName)_x64</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <TargetName>$(ProjectName)_x64_debug</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>$(ProjectName)_x86_debug</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <TargetName>$(ProjectName)_x86</TargetName>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>lib;lib\OpenGL;lib\SDL2-2.0.3\include;lib\freeimage\inc</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <StructMemberAlignment>Default</StructMemberAlignment>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;sdl2.lib;sdl2main.lib;opengl32.lib;freeimage.lib</AdditionalDependencies>
-      <OutputFile>$(TargetPath)</OutputFile>
-      <AdditionalLibraryDirectories>lib\SDL2-2.0.3\lib\x86;lib\freeimage\lib32</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>lib;lib\OpenGL;lib\SDL2-2.0.3\include;lib\freeimage\inc</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <StructMemberAlignment>Default</StructMemberAlignment>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;sdl2.lib;sdl2main.lib;opengl32.lib;freeimage.lib</AdditionalDependencies>
-      <OutputFile>$(TargetPath)</OutputFile>
-      <AdditionalLibraryDirectories>lib\SDL2-2.0.3\lib\x64;lib\freeimage\lib64</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <Optimization>Full</Optimization>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>lib;lib\OpenGL;lib\SDL2-2.0.3\include;lib\freeimage\inc</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <BrowseInformation>
-      </BrowseInformation>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;sdl2.lib;sdl2main.lib;opengl32.lib;freeimage.lib</AdditionalDependencies>
-      <OutputFile>$(TargetPath)</OutputFile>
-      <AdditionalLibraryDirectories>lib\SDL2-2.0.3\lib\x86;lib\freeimage\lib32</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <LinkTimeCodeGeneration>
-      </LinkTimeCodeGeneration>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <Optimization>Full</Optimization>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>lib;lib\OpenGL;lib\SDL2-2.0.3\include;lib\freeimage\inc</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <BrowseInformation>
-      </BrowseInformation>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;sdl2.lib;sdl2main.lib;opengl32.lib;freeimage.lib</AdditionalDependencies>
-      <OutputFile>$(TargetPath)</OutputFile>
-      <AdditionalLibraryDirectories>lib\SDL2-2.0.3\lib\x64;lib\freeimage\lib64</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <LinkTimeCodeGeneration>
-      </LinkTimeCodeGeneration>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Classes\Arrow.cpp" />
-    <ClCompile Include="Classes\Button.cpp" />
-    <ClCompile Include="Classes\Campfire.cpp" />
-    <ClCompile Include="Classes\CollisionCheck.cpp" />
-    <ClCompile Include="Classes\CollisionComponent.cpp" />
-    <ClCompile Include="Classes\EndScreen.cpp" />
-    <ClCompile Include="Classes\EnemyBase.cpp" />
-    <ClCompile Include="Classes\enemy_metalbox.cpp" />
-    <ClCompile Include="Classes\enemy_rager.cpp" />
-    <ClCompile Include="Classes\enemy_snowman.cpp" />
-    <ClCompile Include="Classes\Gift.cpp" />
-    <ClCompile Include="Classes\Healthbar.cpp" />
-    <ClCompile Include="Classes\IceExplosion.cpp" />
-    <ClCompile Include="Classes\ItemBase.cpp" />
-    <ClCompile Include="Classes\newmath.cpp" />
-    <ClCompile Include="Classes\Pathfinder.cpp" />
-    <ClCompile Include="Classes\PauseScreen.cpp" />
-    <ClCompile Include="Classes\Player.cpp" />
-    <ClCompile Include="Classes\Potion.cpp" />
-    <ClCompile Include="Classes\PrintNumber.cpp" />
-    <ClCompile Include="Classes\Projectile.cpp" />
-    <ClCompile Include="Classes\Room.cpp" />
-    <ClCompile Include="Classes\Score.cpp" />
-    <ClCompile Include="Classes\ScoreManager.cpp" />
-    <ClCompile Include="Classes\ScoreScreen.cpp" />
-    <ClCompile Include="Classes\ScreenBase.cpp" />
-    <ClCompile Include="Classes\Snowball.cpp" />
-    <ClCompile Include="Classes\Sprites.cpp" />
-    <ClCompile Include="Classes\Spritesheet.cpp" />
-    <ClCompile Include="Classes\StartScreen.cpp" />
-    <ClCompile Include="Classes\WeaponBase.cpp" />
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="MapManager.cpp" />
-    <ClCompile Include="surface.cpp" />
-    <ClCompile Include="template.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Classes\Arrow.h" />
-    <ClInclude Include="Classes\Button.h" />
-    <ClInclude Include="Classes\Campfire.h" />
-    <ClInclude Include="Classes\CollisionCheck.h" />
-    <ClInclude Include="Classes\CollisionComponent.h" />
-    <ClInclude Include="Classes\EndScreen.h" />
-    <ClInclude Include="Classes\EnemyBase.h" />
-    <ClInclude Include="Classes\enemy_metalbox.h" />
-    <ClInclude Include="Classes\enemy_rager.h" />
-    <ClInclude Include="Classes\enemy_snowman.h" />
-    <ClInclude Include="Classes\Gift.h" />
-    <ClInclude Include="Classes\Healthbar.h" />
-    <ClInclude Include="Classes\IceExplosion.h" />
-    <ClInclude Include="Classes\ItemBase.h" />
-    <ClInclude Include="Classes\newmath.h" />
-    <ClInclude Include="Classes\Pathfinder.h" />
-    <ClInclude Include="Classes\PauseScreen.h" />
-    <ClInclude Include="Classes\Player.h" />
-    <ClInclude Include="Classes\Potion.h" />
-    <ClInclude Include="Classes\PrintNumber.h" />
-    <ClInclude Include="Classes\Projectile.h" />
-    <ClInclude Include="Classes\Room.h" />
-    <ClInclude Include="Classes\Score.h" />
-    <ClInclude Include="Classes\ScoreManager.h" />
-    <ClInclude Include="Classes\ScoreScreen.h" />
-    <ClInclude Include="Classes\ScreenBase.h" />
-    <ClInclude Include="Classes\Snowball.h" />
-    <ClInclude Include="Classes\Sprites.h" />
-    <ClInclude Include="Classes\Spritesheet.h" />
-    <ClInclude Include="Classes\StartScreen.h" />
-    <ClInclude Include="Classes\WeaponBase.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="MapManager.h" />
-    <ClInclude Include="surface.h" />
-    <ClInclude Include="template.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Classes\Enemies\rager.txt" />
-    <Text Include="Classes\Enemies\reindeer.txt" />
-    <Text Include="Classes\Enemies\metalbox.txt" />
-    <Text Include="Classes\Enemies\snowman.txt" />
-    <Text Include="Classes\RoomLayout\Collisions.txt" />
-    <Text Include="Classes\RoomLayout\Portals.txt" />
-    <Text Include="Classes\RoomLayout\Room2.txt" />
-    <Text Include="Scores\scores.txt" />
-    <Text Include="_readme.txt" />
-  </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+    <ItemGroup Label="ProjectConfigurations">
+        <ProjectConfiguration Include="Debug|Win32">
+            <Configuration>Debug</Configuration>
+            <Platform>Win32</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Debug|x64">
+            <Configuration>Debug</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|Win32">
+            <Configuration>Release</Configuration>
+            <Platform>Win32</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|x64">
+            <Configuration>Release</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+    </ItemGroup>
+    <PropertyGroup Label="Globals">
+        <ProjectGuid>{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}</ProjectGuid>
+        <Keyword>Win32Proj</Keyword>
+        <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    </PropertyGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+        <ConfigurationType>Application</ConfigurationType>
+        <CharacterSet>NotSet</CharacterSet>
+        <WholeProgramOptimization>false</WholeProgramOptimization>
+        <PlatformToolset>v143</PlatformToolset>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+        <ConfigurationType>Application</ConfigurationType>
+        <CharacterSet>NotSet</CharacterSet>
+        <WholeProgramOptimization>false</WholeProgramOptimization>
+        <PlatformToolset>v143</PlatformToolset>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+        <ConfigurationType>Application</ConfigurationType>
+        <CharacterSet>NotSet</CharacterSet>
+        <PlatformToolset>v143</PlatformToolset>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+        <ConfigurationType>Application</ConfigurationType>
+        <CharacterSet>NotSet</CharacterSet>
+        <PlatformToolset>v143</PlatformToolset>
+    </PropertyGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
+    <ImportGroup Label="ExtensionSettings">
+    </ImportGroup>
+    <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+    </ImportGroup>
+    <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+    </ImportGroup>
+    <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+    </ImportGroup>
+    <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+    </ImportGroup>
+    <PropertyGroup Label="UserMacros"/>
+    <PropertyGroup>
+        <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+        <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)</OutDir>
+        <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+        <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+        <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
+        <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)</OutDir>
+        <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+        <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+        <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+        <OutDir>$(SolutionDir)</OutDir>
+        <IntDir>$(Configuration)\</IntDir>
+        <TargetName>$(ProjectName)_x64</TargetName>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+        <OutDir>$(SolutionDir)</OutDir>
+        <IntDir>$(Configuration)\</IntDir>
+        <TargetName>$(ProjectName)_x64_debug</TargetName>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+        <TargetName>$(ProjectName)_x86_debug</TargetName>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+        <TargetName>$(ProjectName)_x86</TargetName>
+    </PropertyGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+        <ClCompile>
+            <Optimization>Disabled</Optimization>
+            <AdditionalIncludeDirectories>lib;lib\OpenGL;lib\SDL2-2.0.3\include;lib\freeimage\inc</AdditionalIncludeDirectories>
+            <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <MinimalRebuild>false</MinimalRebuild>
+            <ExceptionHandling>Sync</ExceptionHandling>
+            <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+            <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+            <BufferSecurityCheck>true</BufferSecurityCheck>
+            <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+            <FloatingPointModel>Fast</FloatingPointModel>
+            <WarningLevel>Level3</WarningLevel>
+            <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+            <StructMemberAlignment>Default</StructMemberAlignment>
+        </ClCompile>
+        <Link>
+            <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;sdl2.lib;sdl2main.lib;opengl32.lib;freeimage.lib</AdditionalDependencies>
+            <OutputFile>$(TargetPath)</OutputFile>
+            <AdditionalLibraryDirectories>lib\SDL2-2.0.3\lib\x86;lib\freeimage\lib32</AdditionalLibraryDirectories>
+            <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <SubSystem>Windows</SubSystem>
+            <RandomizedBaseAddress>false</RandomizedBaseAddress>
+            <DataExecutionPrevention>
+            </DataExecutionPrevention>
+            <TargetMachine>MachineX86</TargetMachine>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <ClCompile>
+            <Optimization>Disabled</Optimization>
+            <AdditionalIncludeDirectories>lib;lib\OpenGL;lib\SDL2-2.0.3\include;lib\freeimage\inc</AdditionalIncludeDirectories>
+            <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <MinimalRebuild>false</MinimalRebuild>
+            <ExceptionHandling>Sync</ExceptionHandling>
+            <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+            <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+            <BufferSecurityCheck>true</BufferSecurityCheck>
+            <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+            <FloatingPointModel>Fast</FloatingPointModel>
+            <WarningLevel>Level3</WarningLevel>
+            <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+            <StructMemberAlignment>Default</StructMemberAlignment>
+        </ClCompile>
+        <Link>
+            <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;sdl2.lib;sdl2main.lib;opengl32.lib;freeimage.lib</AdditionalDependencies>
+            <OutputFile>$(TargetPath)</OutputFile>
+            <AdditionalLibraryDirectories>lib\SDL2-2.0.3\lib\x64;lib\freeimage\lib64</AdditionalLibraryDirectories>
+            <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <SubSystem>Windows</SubSystem>
+            <RandomizedBaseAddress>false</RandomizedBaseAddress>
+            <DataExecutionPrevention>
+            </DataExecutionPrevention>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+        <ClCompile>
+            <Optimization>Full</Optimization>
+            <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+            <IntrinsicFunctions>true</IntrinsicFunctions>
+            <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+            <WholeProgramOptimization>false</WholeProgramOptimization>
+            <AdditionalIncludeDirectories>lib;lib\OpenGL;lib\SDL2-2.0.3\include;lib\freeimage\inc</AdditionalIncludeDirectories>
+            <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <ExceptionHandling>Sync</ExceptionHandling>
+            <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+            <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+            <BufferSecurityCheck>false</BufferSecurityCheck>
+            <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+            <FloatingPointModel>Fast</FloatingPointModel>
+            <BrowseInformation>
+            </BrowseInformation>
+            <WarningLevel>Level3</WarningLevel>
+            <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+        </ClCompile>
+        <Link>
+            <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;sdl2.lib;sdl2main.lib;opengl32.lib;freeimage.lib</AdditionalDependencies>
+            <OutputFile>$(TargetPath)</OutputFile>
+            <AdditionalLibraryDirectories>lib\SDL2-2.0.3\lib\x86;lib\freeimage\lib32</AdditionalLibraryDirectories>
+            <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <SubSystem>Windows</SubSystem>
+            <OptimizeReferences>true</OptimizeReferences>
+            <EnableCOMDATFolding>true</EnableCOMDATFolding>
+            <LinkTimeCodeGeneration>
+            </LinkTimeCodeGeneration>
+            <RandomizedBaseAddress>false</RandomizedBaseAddress>
+            <DataExecutionPrevention>
+            </DataExecutionPrevention>
+            <TargetMachine>MachineX86</TargetMachine>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <ClCompile>
+            <Optimization>Full</Optimization>
+            <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+            <IntrinsicFunctions>true</IntrinsicFunctions>
+            <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+            <WholeProgramOptimization>false</WholeProgramOptimization>
+            <AdditionalIncludeDirectories>lib;lib\OpenGL;lib\SDL2-2.0.3\include;lib\freeimage\inc</AdditionalIncludeDirectories>
+            <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <ExceptionHandling>Sync</ExceptionHandling>
+            <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+            <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+            <BufferSecurityCheck>false</BufferSecurityCheck>
+            <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+            <FloatingPointModel>Fast</FloatingPointModel>
+            <BrowseInformation>
+            </BrowseInformation>
+            <WarningLevel>Level3</WarningLevel>
+            <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+        </ClCompile>
+        <Link>
+            <AdditionalDependencies>winmm.lib;advapi32.lib;user32.lib;sdl2.lib;sdl2main.lib;opengl32.lib;freeimage.lib</AdditionalDependencies>
+            <OutputFile>$(TargetPath)</OutputFile>
+            <AdditionalLibraryDirectories>lib\SDL2-2.0.3\lib\x64;lib\freeimage\lib64</AdditionalLibraryDirectories>
+            <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <SubSystem>Windows</SubSystem>
+            <OptimizeReferences>true</OptimizeReferences>
+            <EnableCOMDATFolding>true</EnableCOMDATFolding>
+            <LinkTimeCodeGeneration>
+            </LinkTimeCodeGeneration>
+            <RandomizedBaseAddress>false</RandomizedBaseAddress>
+            <DataExecutionPrevention>
+            </DataExecutionPrevention>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemGroup>
+        <ClCompile Include="Classes\Arrow.cpp"/>
+        <ClCompile Include="Classes\Button.cpp"/>
+        <ClCompile Include="Classes\Campfire.cpp"/>
+        <ClCompile Include="Classes\CollisionCheck.cpp"/>
+        <ClCompile Include="Classes\CollisionComponent.cpp"/>
+        <ClCompile Include="Classes\EndScreen.cpp"/>
+        <ClCompile Include="Classes\EnemyBase.cpp"/>
+        <ClCompile Include="Classes\enemy_metalbox.cpp"/>
+        <ClCompile Include="Classes\enemy_rager.cpp"/>
+        <ClCompile Include="Classes\enemy_snowman.cpp"/>
+        <ClCompile Include="Classes\Gift.cpp"/>
+        <ClCompile Include="Classes\Healthbar.cpp"/>
+        <ClCompile Include="Classes\IceExplosion.cpp"/>
+        <ClCompile Include="Classes\ItemBase.cpp"/>
+        <ClCompile Include="Classes\newmath.cpp"/>
+        <ClCompile Include="Classes\Pathfinder.cpp"/>
+        <ClCompile Include="Classes\PauseScreen.cpp"/>
+        <ClCompile Include="Classes\Player.cpp"/>
+        <ClCompile Include="Classes\Potion.cpp"/>
+        <ClCompile Include="Classes\PrintNumber.cpp"/>
+        <ClCompile Include="Classes\Projectile.cpp"/>
+        <ClCompile Include="Classes\Room.cpp"/>
+        <ClCompile Include="Classes\Score.cpp"/>
+        <ClCompile Include="Classes\ScoreManager.cpp"/>
+        <ClCompile Include="Classes\ScoreScreen.cpp"/>
+        <ClCompile Include="Classes\ScreenBase.cpp"/>
+        <ClCompile Include="Classes\Snowball.cpp"/>
+        <ClCompile Include="Classes\Sprites.cpp"/>
+        <ClCompile Include="Classes\Spritesheet.cpp"/>
+        <ClCompile Include="Classes\StartScreen.cpp"/>
+        <ClCompile Include="Classes\WeaponBase.cpp"/>
+        <ClCompile Include="game.cpp"/>
+        <ClCompile Include="MapManager.cpp"/>
+        <ClCompile Include="surface.cpp"/>
+        <ClCompile Include="template.cpp"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ClInclude Include="Classes\Arrow.h"/>
+        <ClInclude Include="Classes\Button.h"/>
+        <ClInclude Include="Classes\Campfire.h"/>
+        <ClInclude Include="Classes\CollisionCheck.h"/>
+        <ClInclude Include="Classes\CollisionComponent.h"/>
+        <ClInclude Include="Classes\EndScreen.h"/>
+        <ClInclude Include="Classes\EnemyBase.h"/>
+        <ClInclude Include="Classes\enemy_metalbox.h"/>
+        <ClInclude Include="Classes\enemy_rager.h"/>
+        <ClInclude Include="Classes\enemy_snowman.h"/>
+        <ClInclude Include="Classes\Gift.h"/>
+        <ClInclude Include="Classes\Healthbar.h"/>
+        <ClInclude Include="Classes\IceExplosion.h"/>
+        <ClInclude Include="Classes\ItemBase.h"/>
+        <ClInclude Include="Classes\newmath.h"/>
+        <ClInclude Include="Classes\Pathfinder.h"/>
+        <ClInclude Include="Classes\PauseScreen.h"/>
+        <ClInclude Include="Classes\Player.h"/>
+        <ClInclude Include="Classes\Potion.h"/>
+        <ClInclude Include="Classes\PrintNumber.h"/>
+        <ClInclude Include="Classes\Projectile.h"/>
+        <ClInclude Include="Classes\Room.h"/>
+        <ClInclude Include="Classes\Score.h"/>
+        <ClInclude Include="Classes\ScoreManager.h"/>
+        <ClInclude Include="Classes\ScoreScreen.h"/>
+        <ClInclude Include="Classes\ScreenBase.h"/>
+        <ClInclude Include="Classes\Snowball.h"/>
+        <ClInclude Include="Classes\Sprites.h"/>
+        <ClInclude Include="Classes\Spritesheet.h"/>
+        <ClInclude Include="Classes\StartScreen.h"/>
+        <ClInclude Include="Classes\WeaponBase.h"/>
+        <ClInclude Include="game.h"/>
+        <ClInclude Include="MapManager.h"/>
+        <ClInclude Include="surface.h"/>
+        <ClInclude Include="template.h"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Text Include="Classes\Enemies\rager.txt"/>
+        <Text Include="Classes\Enemies\reindeer.txt"/>
+        <Text Include="Classes\Enemies\metalbox.txt"/>
+        <Text Include="Classes\Enemies\snowman.txt"/>
+        <Text Include="Classes\RoomLayout\Collisions.txt"/>
+        <Text Include="Classes\RoomLayout\Portals.txt"/>
+        <Text Include="Classes\RoomLayout\Room2.txt"/>
+        <Text Include="Scores\scores.txt"/>
+        <Text Include="_readme.txt"/>
+    </ItemGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
+    <ImportGroup Label="ExtensionTargets">
+    </ImportGroup>
 </Project>

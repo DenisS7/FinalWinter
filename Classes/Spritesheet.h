@@ -12,7 +12,7 @@ class Spritesheet
 public:
     Spritesheet(int row, int column, GameSpace::Sprite* newSprite);
     ~Spritesheet();
-    
+
     void changeSpritesheet(int row, int column, int newCurrentRow, GameSpace::Sprite* newSprite);
     void setFrame(int frame) { if (frame < rows * columns) currentFrame = frame; }
     void setFrameTime(float newFrameTime);
@@ -24,7 +24,7 @@ public:
     bool getVisibility() { return visible; };
     int getCurrentFrame() { return currentFrame; };
 
-    
+
 private:
     GameSpace::Sprite* sprite;
     bool visible = true;

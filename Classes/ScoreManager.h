@@ -5,13 +5,11 @@
 class ScoreManager
 {
 private:
-	std::vector <int> scores;
+    std::vector<int> scores;
 public:
-	
-	std::vector <int> getScores() { return scores; };
+    std::vector<int> getScores() { return scores; };
 
-	void readScores();
-	void checkScore(int newScore);
-	void outputScores();
+    void readScores();
+    void checkScore(int newScore);
+    void outputScores();
 };
-

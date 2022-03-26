@@ -1,6 +1,6 @@
 #include "Spritesheet.h"
 #include "../surface.h"
-#include <iostream>
+
 #include "../template.h"
 
 
@@ -57,7 +57,6 @@ void Spritesheet::freezeFrame(int frame, bool isFreezed)
 }
 
 
-
 void Spritesheet::calculateNextFrame()
 {
     currentFrame = (currentFrame + 1 * freezedColumn) % columns + columns * currentRow;
@@ -70,7 +69,6 @@ void Spritesheet::changeVisiblity(bool newVisible)
 
 void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface* screen, GameSpace::vec2 drawLocf)
 {
-   
     currentTime += deltaTime * freezedColumn;
     if (currentTime >= frameTime)
     {
@@ -79,5 +77,5 @@ void Spritesheet::drawNextSprite(float deltaTime, GameSpace::Surface* screen, Ga
         sprite->SetFrame(currentFrame);
     }
     if (visible)
-        sprite->Draw(screen, (int)drawLocf.x, (int)drawLocf.y);
+        sprite->Draw(screen, static_cast<int>(drawLocf.x), static_cast<int>(drawLocf.y));
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "EnemyBase.h"
 #include "Sprites.h"
-#include <iostream>
+
 
 namespace Character
 {
@@ -18,7 +18,7 @@ namespace Character
             *sprite = *Sprites::get().rager[0];
         }
 
-        ~enemy_rager()
+        ~enemy_rager() override
         {
             delete attackCol;
         }
@@ -30,7 +30,5 @@ namespace Character
         void triggerFollowPlayer() override;
         void addMovement(float deltaTime) override;
         void update(float deltaTime) override;
-
     };
-
 }
